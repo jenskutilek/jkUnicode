@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import codecs
+from os.path import exists
 from string import strip
 
 aglfnFooter = """
@@ -46,32 +47,41 @@ def getUnicodeForGlyphname(name):
 """
 
 # Unicode names
-with codecs.open("../uniName.py", 'w', encoding='utf-8') as outfile:
-	outfile.write("# This is a generated file, use tools/generatePyUniData.py to edit and regenerate.\n\nuniName = {")
-	with codecs.open("UnicodeData.txt", encoding='utf-8') as f:
-		for line in f:
-			elements = line.split(';')
-			outfile.write("\n\t0x%s: '%s'," % (elements[0], elements[1]))
-			#print elements
-	outfile.write("\n}")
+if exists("UnicodeData.txt"):
+	with codecs.open("../uniName.py", 'w', encoding='utf-8') as outfile:
+		outfile.write("# This is a generated file, use tools/generatePyUniData.py to edit and regenerate.\n\nuniName = {")
+		with codecs.open("UnicodeData.txt", encoding='utf-8') as f:
+			for line in f:
+				elements = line.split(';')
+				outfile.write("\n\t0x%s: '%s'," % (elements[0], elements[1]))
+				#print elements
+		outfile.write("\n}")
+else:
+	print "WARNING: File UnicodeData.txt not found, Unicode name data not regenerated."
 
 # Unicode category names
-with codecs.open("../uniCat.py", 'w', encoding='utf-8') as outfile:
-	outfile.write("# This is a generated file, use tools/generatePyUniData.py to edit and regenerate.\n\nuniCat = {")
-	with codecs.open("UnicodeData.txt", encoding='utf-8') as f:
-		for line in f:
-			elements = line.split(';')
-			outfile.write("\n\t0x%s: '%s'," % (elements[0], elements[2]))
-			#print elements
-	outfile.write("\n}")
+if exists("UnicodeData.txt"):
+	with codecs.open("../uniCat.py", 'w', encoding='utf-8') as outfile:
+		outfile.write("# This is a generated file, use tools/generatePyUniData.py to edit and regenerate.\n\nuniCat = {")
+		with codecs.open("UnicodeData.txt", encoding='utf-8') as f:
+			for line in f:
+				elements = line.split(';')
+				outfile.write("\n\t0x%s: '%s'," % (elements[0], elements[2]))
+				#print elements
+		outfile.write("\n}")
+else:
+	print "WARNING: File UnicodeData.txt not found, Unicode category data not regenerated."
 
 # Adobe Glyph List for New Fonts
-with codecs.open("../aglfn.py", 'w', encoding='utf-8') as outfile:
-	outfile.write("# This is a generated file, use tools/generatePyUniData.py to edit and regenerate.\n\nfrom re import match, compile\n\nnameToUnicode = {")
-	with codecs.open("aglfn.txt", encoding='utf-8') as f:
-		for line in f:
-			if line[0] != "#":
-				elements = line.split(';')
-				outfile.write("\n\t'%s': 0x%s, # %s" % (elements[1], elements[0], strip(elements[2])))
-			#print elements
-	outfile.write(aglfnFooter)
+if exists("aglfn.txt"):
+	with codecs.open("../aglfn.py", 'w', encoding='utf-8') as outfile:
+		outfile.write("# This is a generated file, use tools/generatePyUniData.py to edit and regenerate.\n\nfrom re import match, compile\n\nnameToUnicode = {")
+		with codecs.open("aglfn.txt", encoding='utf-8') as f:
+			for line in f:
+				if line[0] != "#":
+					elements = line.split(';')
+					outfile.write("\n\t'%s': 0x%s, # %s" % (elements[1], elements[0], strip(elements[2])))
+				#print elements
+		outfile.write(aglfnFooter)
+else:
+	print "WARNING: File aglfn.txt not found, AGLFN data not regenerated."
