@@ -47,11 +47,14 @@ else:
 	
 	language_chars = {}
 	ignored_languages = copy.deepcopy(language_dict)
+	file_not_found = []
 	
 	for code in language_dict.keys():
 		char_dict = {}
 		lang_xml_path = os.path.join(xml_path, "%s.xml" % code)
-		if os.path.exists(lang_xml_path):
+		if not os.path.exists(lang_xml_path):
+			file_not_found.append(code)
+		else:
 			root = ET.parse(en_path).getroot()
 			ec = root.findall("characters/exemplarCharacters")
 			for c in ec:
@@ -59,11 +62,20 @@ else:
 					# Main entry
 					char_dict["main"] = c.text.strip("[]").split()
 				elif "type" in c.attrib:
-					char_dict[c.attrib["type"]] = c.text.strip("[]").split()
+					t = c.attrib["type"]
+					if t in ["auxiliary", "punctuation"]:
+						char_dict[c.attrib["type"]] = c.text.strip("[]").split()
 		if char_dict:
 			language_chars[code] = char_dict
-		else:
 			del ignored_languages[code]
+		else:
+			if code not in file_not_found:
+				print "XML file for %s (%s) contains no character information" % (language_dict[code], code)
 	
 	json_to_file(json_path, "language_characters", language_chars)
 	json_to_file(json_path, "ignored", ignored_languages)
+	sep_path = os.path.join(json_path, "languages")
+	for k, v in language_chars.items():
+		json_to_file(sep_path, k, v)
+	
+	print "File not found:", file_not_found
