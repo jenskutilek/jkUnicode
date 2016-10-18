@@ -1,0 +1,1 @@
+The files in this directory are just for testing. They are not used in the final language information module.

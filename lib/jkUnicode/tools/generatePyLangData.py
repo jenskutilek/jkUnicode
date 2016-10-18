@@ -48,8 +48,10 @@ else:
 	language_chars = {}
 	ignored_languages = copy.deepcopy(language_dict)
 	file_not_found = []
+	i = 0
 	
 	for code, name in language_dict.items():
+		i += 1
 		char_dict = {}
 		lang_xml_path = os.path.join(xml_path, "%s.xml" % code)
 		if not os.path.exists(lang_xml_path):
@@ -72,12 +74,25 @@ else:
 			del ignored_languages[code]
 		else:
 			if code not in file_not_found:
-				print "XML file for %s (%s) contains no character information" % (name, code)
+				pass
+				#print "XML file for %s (%s) contains no character information" % (name, code)
+		#if i % 50 == 0:
+		#	print i
+	
+	print "Parsed %i files." % i
 	
 	json_to_file(json_path, "language_characters", language_chars)
 	json_to_file(json_path, "ignored", ignored_languages)
 	sep_path = os.path.join(json_path, "languages")
+	
+	# Clean up the directory which contains the separate json files to avoid orphaned files
+	for code in sorted(ignored_languages.keys()):
+		try:
+			#print "Remove", os.path.join(sep_path, "%s.json" % code)
+			os.remove(os.path.join(sep_path, "%s.json" % code))
+		except:
+			pass
+	
 	for k, v in language_chars.items():
 		json_to_file(sep_path, k, v)
-	if file_not_found:
-		print "Files not found:", file_not_found
+	
