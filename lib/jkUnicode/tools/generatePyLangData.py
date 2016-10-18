@@ -53,9 +53,10 @@ else:
 		char_dict = {}
 		lang_xml_path = os.path.join(xml_path, "%s.xml" % code)
 		if not os.path.exists(lang_xml_path):
+			#print "Not found:", lang_xml_path
 			file_not_found.append(code)
 		else:
-			root = ET.parse(en_path).getroot()
+			root = ET.parse(lang_xml_path).getroot()
 			ec = root.findall("characters/exemplarCharacters")
 			for c in ec:
 				if c.attrib == {}:
@@ -77,5 +78,5 @@ else:
 	sep_path = os.path.join(json_path, "languages")
 	for k, v in language_chars.items():
 		json_to_file(sep_path, k, v)
-	
-	print "File not found:", file_not_found
+	if file_not_found:
+		print "Files not found:", file_not_found
