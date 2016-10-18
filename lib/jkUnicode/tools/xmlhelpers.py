@@ -6,7 +6,7 @@
 from re import compile
 from jkUnicode import getUnicodeChar
 
-ur = compile("^u([0-9A-F]+)$") # Regex to match unicode sequences, e.g. \u0302
+ur = compile("^u([0-9A-F]+)") # Regex to match unicode sequences, e.g. \u0302
 
 
 def split_all(l):
@@ -39,10 +39,17 @@ def filtered_char_list(xml_char_list, debug=False):
 	if debug: print "Step 2: %s" % xml_char_list
 	
 	for d in xml_char_list:
+		
+		#print "Analyze for {:", d
 		if d[0] == "{" and len(d) > 1:
 			d = d[1:]
-		if d[-1] == "}" and len(d) > 1:
+			#print "Cut off:", d
+		
+		if debug: print "Analyze for }:", d	
+		if d[-1] == "}" and (len(d) > 2 or d[0] != "\\"):
 			d = d[:-1]
+			if debug: print "Cut off:", d
+		
 		e = split_all(d)
 		if debug: print "e =", e
 		filtered1.extend(e)
@@ -62,18 +69,25 @@ def filtered_char_list(xml_char_list, debug=False):
 			c = getUnicodeChar(int(m.groups(0)[0], 16))
 		else:
 			if len(c) > 1:
+				if debug: print "** Split string:", c
 				c = [d for d in c]
 		filtered.extend(c)
-	if debug: print filtered
+	#if debug: print sorted(list(set(filtered)))
 	return sorted(list(set(filtered)))
 
 
 if __name__ == "__main__":
 	lists = [
-		#r"[\u200C\u200D \u200F A {A\u0301} {E \u0302} {ij} \]]"
-		u"[a á à â ǎ ā {a\\u1DC6}{a\\u1DC7} b ɓ c d e é è ê ě ē {e\\u1DC6}{e\\u1DC7} ɛ {ɛ\\u0301} {ɛ\\u0300} {ɛ\\u0302} {ɛ\\u030C} {ɛ\\u0304} {ɛ\\u1DC6}{ɛ\\u1DC7} f g h i í ì î ǐ ī {i\\u1DC6}{i\\u1DC7} j k l m n ń ǹ ŋ o ó ò ô ǒ ō {o\\u1DC6}{o\\u1DC7} ɔ {ɔ\\u0301} {ɔ\\u0300} {ɔ\\u0302} {ɔ\\u030C} {ɔ\\u0304} {ɔ\\u1DC6}{ɔ\\u1DC7} p r s t u ú ù û ǔ ū {u\\u1DC6}{u\\u1DC7} v w y z]"
+		(u"[\\u200C\\u200D \\u200F A {A\\u0301} {E \\u0302} {ij} {a b c} 未-札 \\]]", [u'-', u'A', u'E', u']', u'a', u'c', u'i', u'j', u'\u0301', u'\u0302', u'\u200c', u'\u200d', u'\u200f', u'\u672a', u'\u672b', u'\u672c', u'\u672d'])
+		#u"[a á à â ǎ ā {a\\u1DC6}{a\\u1DC7} b ɓ c d e é è ê ě ē {e\\u1DC6}{e\\u1DC7} ɛ {ɛ\\u0301} {ɛ\\u0300} {ɛ\\u0302} {ɛ\\u030C} {ɛ\\u0304} {ɛ\\u1DC6}{ɛ\\u1DC7} f g h i í ì î ǐ ī {i\\u1DC6}{i\\u1DC7} j k l m n ń ǹ ŋ o ó ò ô ǒ ō {o\\u1DC6}{o\\u1DC7} ɔ {ɔ\\u0301} {ɔ\\u0300} {ɔ\\u0302} {ɔ\\u030C} {ɔ\\u0304} {ɔ\\u1DC6}{ɔ\\u1DC7} p r s t u ú ù û ǔ ū {u\\u1DC6}{u\\u1DC7} v w y z]"
+		#u"[\\u0F7E ཿ ཀ {ཀ\\u0FB5} \\u0F90 {\\u0F90\\u0FB5} ཁ \\u0F91 ག {ག\\u0FB7} \\u0F92 {\\u0F92\\u0FB7} ང \\u0F94 ཅ \\u0F95 ཆ \\u0F96 ཇ \\u0F97 ཉ \\u0F99 ཊ \\u0F9A ཋ \\u0F9B ཌ {ཌ\\u0FB7} \\u0F9C {\\u0F9C\\u0FB7} ཎ \\u0F9E ཏ \\u0F9F ཐ \\u0FA0 ད {ད\\u0FB7} \\u0FA1 {\\u0FA1\\u0FB7} ན \\u0FA3 པ \\u0FA4 ཕ \\u0FA5 བ {བ\\u0FB7} \\u0FA6 {\\u0FA6\\u0FB7} མ \\u0FA8 ཙ \\u0FA9 ཚ \\u0FAA ཛ {ཛ\\u0FB7} \\u0FAB {\\u0FAB\\u0FB7} ཝ \\u0FAD \\u0FBA ཞ \\u0FAE ཟ \\u0FAF འ \\u0FB0 ཡ \\u0FB1 \\u0FBB ར ཪ \\u0FB2 \\u0FBC ལ \\u0FB3 ཤ \\u0FB4 ཥ \\u0FB5 ས \\u0FB6 ཧ \\u0FB7 ཨ \\u0FB8 \\u0F72 {\\u0F71\\u0F72} \\u0F80 {\\u0F71\\u0F80} \\,
+		#u"未-札"
 	]
 
-	for cl in lists:
+	for cl, r in lists:
 		ll = filtered_char_list(cl, True)
 		print "Result:", ll
+		if ll == r:
+			print "OK"
+		else:
+			print "ERROR"
