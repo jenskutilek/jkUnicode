@@ -24,28 +24,12 @@ class Buffer(object):
 		self.clear()
 		return v
 	
-	def __add__(self, value):
-		print "ADD"
-		self._str += value
-	
-	def __bool__(self):
-		print "BOOL"
-		if self._str:
-			return True
-		return False
-	
 	def __get__(self):
 		m = ur.search(self._str)
 		if m:
 			return getUnicodeChar(int(m.groups(0)[0], 16))
 		else:
 			return self._str
-	
-	def __len__(self):
-		return len(self._str)
-	
-	def __repr__(self):
-		return self._str
 
 
 def filtered_char_list(xml_char_list, debug=False):
