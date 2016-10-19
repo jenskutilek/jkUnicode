@@ -95,7 +95,7 @@ else:
 	
 	print "Parsed %i files." % i
 	
-	json_to_file(json_path, "language_characters", language_chars)
+	#json_to_file(json_path, "language_characters", language_chars)
 	json_to_file(json_path, "ignored", ignored_languages)
 	sep_path = os.path.join(json_path, "languages")
 	
