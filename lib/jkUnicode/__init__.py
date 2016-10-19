@@ -86,6 +86,10 @@ class UniInfo(object):
 		return self._category
 	
 	@property
+	def category_short(self):
+		return self._categoryShort
+	
+	@property
 	def char(self):
 		return getUnicodeChar(self.unicode)
 	
