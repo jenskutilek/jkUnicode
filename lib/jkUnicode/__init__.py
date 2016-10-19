@@ -73,14 +73,26 @@ class UniInfo(object):
 		self._lc_mapping = uniLowerCaseMapping.get(self._unicode, None)
 	
 	def __repr__(self):
-		s =    " Unicode: " + hex(self.unicode) + " (dec. " + str(self.unicode) + ")"
-		s += "\n    Name: " + self.name
-		s += "\nCategory: " + self._categoryShort + " (" + self.category + ")"
+		if self.unicode is None:
+			s =    " Unicode: None"
+		else:
+			s =    " Unicode: 0x%04X (dec. %s)" % (self.unicode, self.unicode)
+		s += "\n    Name: %s" % self.name
+		s += "\nCategory: %s (%s)" % (self._categoryShort, self.category)
 		return s
 	
 	@property
 	def category(self):
 		return self._category
+	
+	@property
+	def char(self):
+		return getUnicodeChar(self.unicode)
+	
+	@property
+	def glyphname(self):
+		from aglfn import getGlyphnameForUnicode
+		return getGlyphnameForUnicode(self.unicode)
 	
 	@property
 	def name(self):
@@ -97,22 +109,29 @@ class UniInfo(object):
 	# deprecated methods
 	
 	def getName(self):
+		print "DEPRECATED: jkUnicode.UniInfo.getName()"
 		return self._name
 	
 	def getCategory(self):
+		print "DEPRECATED: jkUnicode.UniInfo.getCategory()"
 		return self._category
 
 
 if __name__ == '__main__':
 	print "\n*** Test of jkUnicode.UniInfo ***"
-	j = jkUniInfo(9912)
-	print "Repr.:"
-	print j
-	print "\ngetName:"
-	print j.getName()
-	print "\ngetCategory:"
-	print j.getCategory()
-	lc = j.lc_mapping
-	k = UniInfo(lc)
-	print k
+	for u in [9912, 80]:
+		j = UniInfo(u)
+		print "Repr.:"
+		print j
+		print "- " * 20
+		print "             Name:", j.name
+		print "       Glyph Name:", j.glyphname
+		print "         Category:", j.category
+		print "        Character:", j.char
+		lc = j.lc_mapping
+		print "Lowercase Mapping:", lc
+		if lc is not None:
+			j.unicode = lc
+			print j
+		print "-" * 40
 	
