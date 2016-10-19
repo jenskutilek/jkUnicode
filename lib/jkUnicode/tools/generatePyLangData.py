@@ -4,6 +4,7 @@
 import codecs, copy, json, os
 import xml.etree.ElementTree as ET
 from xmlhelpers import filtered_char_list
+from jkUnicode.aglfn import getGlyphnameForUnicode
 
 
 xml_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "core", "common", "main")
@@ -25,6 +26,10 @@ def extract_char_dict(root, key):
 def json_to_file(path, file_name, obj):
 	with codecs.open(os.path.join(path, "%s.json" % file_name), "w", "utf-8") as f:
 		json.dump(obj, f, ensure_ascii=False, indent=4, sort_keys=True)
+
+
+def format_char_list(char_list):
+	return [u"0x%04X %s %s" % (ord(cc), cc, getGlyphnameForUnicode(ord(cc))) for cc in char_list]
 
 
 #def generate_language_data():
@@ -67,13 +72,19 @@ else:
 			for c in ec:
 				if c.attrib == {}:
 					# Main entry
-					char_dict["main"] = filtered_char_list(c.text)
+					u_list = format_char_list(filtered_char_list(c.text))
+					if u_list:
+						char_dict["base"] = u_list
 				elif "type" in c.attrib:
 					t = c.attrib["type"]
 					if t in ["auxiliary", "punctuation"]:
-						char_dict[c.attrib["type"]] = filtered_char_list(c.text)
+						if t == "auxiliary":
+							t = "optional"
+						u_list = format_char_list(filtered_char_list(c.text))
+						if u_list:
+							char_dict[t] = u_list
 		if char_dict:
-			language_chars[code] = {"name": name, "characters": char_dict}
+			language_chars[code] = {"name": name, "unicodes": char_dict}
 			del ignored_languages[code]
 		else:
 			if code not in file_not_found:
