@@ -2554,6 +2554,7 @@
                 "0x0079 y y", 
                 "0x007A z z", 
                 "0x00DF ß germandbls", 
+                "0x1E9E", 
                 "0x00E4 ä adieresis", 
                 "0x00F6 ö odieresis", 
                 "0x00FC ü udieresis"
