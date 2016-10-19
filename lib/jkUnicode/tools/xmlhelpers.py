@@ -30,6 +30,24 @@ class Buffer(object):
 			return getUnicodeChar(int(m.groups(0)[0], 16))
 		else:
 			return self._str
+	
+	def __repr__(self):
+		return self._str
+
+
+class FilteredList(object):
+	def __init__(self, value=[]):
+		self._value = []
+	
+	def add(self, value):
+		if value:
+			self._value.append(value)
+	
+	def get(self):
+		return self._value
+	
+	def __repr__(self):
+		return str(self._value)
 
 
 def filtered_char_list(xml_char_list, debug=False):
@@ -40,7 +58,7 @@ def filtered_char_list(xml_char_list, debug=False):
 		print "ERROR: Character list string from XML was not wrapped in []."
 		return []
 	
-	filtered = []
+	filtered = FilteredList()
 	in_escape = False
 	in_uniesc = False
 	buf = Buffer()
@@ -49,25 +67,25 @@ def filtered_char_list(xml_char_list, debug=False):
 		if debug: print "Chunk: '%s', buffer:'%s'" % (c, buf)
 		if c == "\\":
 			if in_escape:
-				if buf: filtered.append(buf.flush())
+				filtered.add(buf.flush())
 			else:
 				in_escape = True
 		elif c == "}":
 			if in_escape:
-				if buf: filtered.append(buf.flush())
-				filtered.append(c)
+				filtered.add(buf.flush())
+				filtered.add(c)
 				in_escape = False
 		elif c == "{":
 			if in_escape:
-				filtered.append(c)
+				filtered.add(c)
 				in_escape = False
 		elif c == " ":
-			if buf: filtered.append(buf.flush())
+			filtered.add(buf.flush())
 			in_escape = False
 		elif c == "-":
 			if in_escape:
-				if buf: filtered.append(buf.flush())
-				filtered.append(c)
+				filtered.add(buf.flush())
+				filtered.add(c)
 				in_escape = False
 			else:
 				#filtered.append("RANGE")
@@ -76,15 +94,15 @@ def filtered_char_list(xml_char_list, debug=False):
 			if in_escape:
 				buf.add(c)
 			else:
-				filtered.append(c)
+				filtered.add(c)
 				#buf.clear()
 		if debug: print "New buffer: '%s'" % buf
 	
-	if buf: filtered.append(buf.flush())
+	filtered.add(buf.flush())
 	
 	if debug: print filtered
 	#return filtered
-	return sorted(list(set(filtered)))
+	return sorted(list(set(filtered.get())))
 
 
 if __name__ == "__main__":
