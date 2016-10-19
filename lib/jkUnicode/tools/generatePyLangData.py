@@ -30,6 +30,12 @@ else:
 			language_char_dict = {}
 		#print language_char_dict
 		if language_char_dict:
+			# Remove all but codepoint information
+			for cat in ["base", "optional", "punctuation"]:
+				char_list = language_char_dict["unicodes"].get(cat, [])
+				char_list = [int(c.split()[0], 16) for c in char_list]
+				if char_list:
+					language_char_dict["unicodes"][cat] = char_list
 			language_characters[code] = language_char_dict
 	
 	json_to_file(json_path, "language_characters", language_characters)
