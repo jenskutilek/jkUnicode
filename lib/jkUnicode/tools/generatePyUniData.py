@@ -60,6 +60,35 @@ if exists("UnicodeData.txt"):
 else:
 	print "WARNING: File UnicodeData.txt not found, Unicode name data not regenerated."
 
+# Unicode names
+if exists("UnicodeData.txt"):
+	with codecs.open("../uniCase.py", 'w', encoding='utf-8') as outfile:
+		outfile.write("# This is a generated file, use tools/generatePyUniData.py to edit and regenerate.\n\nuniUpperCaseMapping = {")
+		uc = []
+		lc = []
+		with codecs.open("UnicodeData.txt", encoding='utf-8') as f:
+			for line in f:
+				elements = line.strip().split(';')
+				
+				# Uppercase mapping
+				ucm = elements[14]
+				if ucm:
+					uc.append((elements[0], ucm))
+				
+				# Lowercase mapping
+				lcm = elements[13]
+				if lcm:
+					lc.append((elements[0], lcm))
+				#print elements
+		for item in uc:
+			outfile.write("\n\t0x%s: 0x%s," % item)
+		outfile.write("\n}\n\nuniLowerCaseMapping = {")
+		for item in lc:
+			outfile.write("\n\t0x%s: 0x%s," % item)
+		outfile.write("\n}\n")
+else:
+	print "WARNING: File UnicodeData.txt not found, Unicode name data not regenerated."
+
 # Unicode category names
 if exists("UnicodeData.txt"):
 	with codecs.open("../uniCat.py", 'w', encoding='utf-8') as outfile:

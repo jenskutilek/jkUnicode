@@ -1,5 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from uniName import uniName
 from uniCat import uniCat
+from uniCase import uniUpperCaseMapping, uniLowerCaseMapping
 
 categoryName = {
 	'Lu':	'Letter, Uppercase',
@@ -43,38 +47,60 @@ def getUnicodeChar(code):
 class UniInfo(object):
 	def __init__(self, uni):
 		self.unicode = uni
-		if uniName.has_key(self.unicode):
-			self.name = uniName[self.unicode]
-		else:
-			if 0xE000 <= self.unicode < 0xF8FF:
-				self.name = "<Private Use #%i>" % (self.unicode - 0xe000)
-			elif 0xD800 <= self.unicode < 0xDB7F:
-				self.name = "<Non Private Use High Surrogate #%i>" % (self.unicode - 0xd8000)
-			elif 0xDB80 <= self.unicode < 0xDBFF:
-				self.name = "<Private Use High Surrogate #%i>" % (self.unicode - 0xdb80)
-			elif 0xDC00 <= self.unicode < 0xDFFF:
-				self.name = "<Low Surrogate #%i>" % (self.unicode - 0xdc00)
-			else:
-				self.name = "<undefined>"
-		if uniCat.has_key(self.unicode):
-			self.categoryShort = uniCat[self.unicode]
-			self.category = categoryName[self.categoryShort]
-		else:
-			self.categoryShort = "<undefined>"
-			self.category = "<undefined>"
 	
-	def __str__(self):
+	@property
+	def unicode(self):
+		return self._unicode
+	
+	@unicode.setter
+	def unicode(self, value):
+		self._unicode = value
+		self._name = uniName.get(self._unicode, None)
+		if self._name is None:
+			if 0xE000 <= self._unicode < 0xF8FF:
+				self._name = "<Private Use #%i>" % (self._unicode - 0xe000)
+			elif 0xD800 <= self._unicode < 0xDB7F:
+				self._name = "<Non Private Use High Surrogate #%i>" % (self._unicode - 0xd8000)
+			elif 0xDB80 <= self._unicode < 0xDBFF:
+				self._name = "<Private Use High Surrogate #%i>" % (self._unicode - 0xdb80)
+			elif 0xDC00 <= self._unicode < 0xDFFF:
+				self._name = "<Low Surrogate #%i>" % (self._unicode - 0xdc00)
+			else:
+				self._name = "<undefined>"
+		self._categoryShort = uniCat.get(self._unicode, "<undefined>")
+		self._category = categoryName.get(self._categoryShort, "<undefined>")
+		self._uc_mapping = uniUpperCaseMapping.get(self._unicode, None)
+		self._lc_mapping = uniLowerCaseMapping.get(self._unicode, None)
+	
+	def __repr__(self):
 		s =    " Unicode: " + hex(self.unicode) + " (dec. " + str(self.unicode) + ")"
 		s += "\n    Name: " + self.name
-		s += "\nCategory: " + self.categoryShort + " (" + self.category + ")"
+		s += "\nCategory: " + self._categoryShort + " (" + self.category + ")"
 		return s
 	
+	@property
+	def category(self):
+		return self._category
+	
+	@property
+	def name(self):
+		return self._name
+	
+	@property
+	def lc_mapping(self):
+		return self._lc_mapping
+	
+	@property
+	def uc_mapping(self):
+		return self._uc_mapping
+	
+	# deprecated methods
+	
 	def getName(self):
-		return self.name
+		return self._name
 	
 	def getCategory(self):
-		return self.category
-	
+		return self._category
 
 
 if __name__ == '__main__':
@@ -86,3 +112,7 @@ if __name__ == '__main__':
 	print j.getName()
 	print "\ngetCategory:"
 	print j.getCategory()
+	lc = j.lc_mapping
+	k = UniInfo(lc)
+	print k
+	
