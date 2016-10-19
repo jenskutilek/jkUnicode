@@ -90,7 +90,13 @@ else:
 	
 	#json_to_file(json_path, "language_characters", language_chars)
 	for code in ignored_languages:
-		del language_dict[code]
+		if not "_" in code:
+			del language_dict[code]
+	
+	for code in ignored_languages:
+		if "_" in code and not code.split("_", 1)[0] in language_dict:
+			del language_dict[code]
+	
 	json_to_file(json_path, "languages", language_dict)
 	json_to_file(json_path, "ignored", ignored_languages)
 	sep_path = os.path.join(json_path, "languages")
