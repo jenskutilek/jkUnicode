@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import codecs, copy, json, os
+import copy, os
 import xml.etree.ElementTree as ET
 from xmlhelpers import filtered_char_list
 from jkUnicode.aglfn import getGlyphnameForUnicode
+from jsonhelpers import json_path, json_to_file
 
 
 xml_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "core", "common", "main")
@@ -21,11 +22,6 @@ def extract_char_dict(root, key):
 	elements = root.findall(key)
 	d = {e.attrib["type"]: e.text for e in elements}
 	return d
-
-
-def json_to_file(path, file_name, obj):
-	with codecs.open(os.path.join(path, "%s.json" % file_name), "w", "utf-8") as f:
-		json.dump(obj, f, ensure_ascii=False, indent=4, sort_keys=True)
 
 
 def format_char_list(char_list):
@@ -45,8 +41,6 @@ else:
 
 	script_dict = extract_dict(root, "localeDisplayNames/scripts/script")
 	print "OK: Read %i script names." % len(script_dict)
-
-	json_path = os.path.join(os.path.split(os.path.dirname(os.path.realpath(__file__)))[0], "json")
 
 	json_to_file(json_path, "languages", language_dict)
 	json_to_file(json_path, "scripts", script_dict)
