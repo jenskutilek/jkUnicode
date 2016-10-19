@@ -42,7 +42,6 @@ else:
 	script_dict = extract_dict(root, "localeDisplayNames/scripts/script")
 	print "OK: Read %i script names." % len(script_dict)
 
-	json_to_file(json_path, "languages", language_dict)
 	json_to_file(json_path, "scripts", script_dict)
 
 	print "Parsing language character data ..."
@@ -90,6 +89,9 @@ else:
 	print "Parsed %i files." % i
 	
 	#json_to_file(json_path, "language_characters", language_chars)
+	for code in ignored_languages:
+		del language_dict[code]
+	json_to_file(json_path, "languages", language_dict)
 	json_to_file(json_path, "ignored", ignored_languages)
 	sep_path = os.path.join(json_path, "languages")
 	
