@@ -32,7 +32,15 @@ class Orthography(object):
 	def support_basic(self, cmap):
 		if not self.scan_ok:
 			self.scan_cmap(cmap)
-		if self.num_missing_base == 0 and self.num_missing_punctuation == 0:
+		if self.num_missing_base == 0 and self.num_missing_optional != 0 and self.num_missing_punctuation == 0:
+			return True
+		return False
+	
+	
+	def support_minimal(self, cmap):
+		if not self.scan_ok:
+			self.scan_cmap(cmap)
+		if self.num_missing_base == 0 and self.num_missing_optional != 0 and self.num_missing_punctuation != 0:
 			return True
 		return False
 	
@@ -84,6 +92,13 @@ class OrthographyInfo(object):
 					result.append(o.name)
 		return result
 	
+	def list_supported_orthographies_minimum(self, cmap):
+		result = []
+		for c, o in self.orthographies.items():
+			if o.support_minimal(cmap):
+				result.append(o.name)
+		return result
+	
 	def __len__(self):
 		return len(self.orthographies)
 	
@@ -100,12 +115,16 @@ def test_scan():
 	o = OrthographyInfo()
 	full = o.list_supported_orthographies(cmap, full_only=True)
 	base = o.list_supported_orthographies(cmap, full_only=False)
+	mini = o.list_supported_orthographies_minimum(cmap)
 	stop = time()
 	print "\nFull support:", len(full), "orthography" if len(base) == 1 else "orthographies"
 	print ", ".join(sorted(full))
 	base = [r for r in base if not r in full]
 	print "\nBasic support:", len(base), "orthography" if len(base) == 1 else "orthographies"
 	print ", ".join(sorted(base))
+	mini = [r for r in mini if not r in full]
+	print "\nMinimal support (no punctuation):", len(mini), "orthography" if len(mini) == 1 else "orthographies"
+	print ", ".join(sorted(mini))
 	print stop - start
 
 
