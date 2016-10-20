@@ -1,0 +1,81 @@
+{
+    "name": "Tachelhit", 
+    "variants": {
+        "DFLT dflt": {
+            "base": [
+                "0x2D30 ⴰ uni2D30", 
+                "0x2D31 ⴱ uni2D31", 
+                "0x2D33 ⴳ uni2D33", 
+                "0x2D37 ⴷ uni2D37", 
+                "0x2D39 ⴹ uni2D39", 
+                "0x2D3B ⴻ uni2D3B", 
+                "0x2D3C ⴼ uni2D3C", 
+                "0x2D3D ⴽ uni2D3D", 
+                "0x2D40 ⵀ uni2D40", 
+                "0x2D43 ⵃ uni2D43", 
+                "0x2D44 ⵄ uni2D44", 
+                "0x2D45 ⵅ uni2D45", 
+                "0x2D47 ⵇ uni2D47", 
+                "0x2D49 ⵉ uni2D49", 
+                "0x2D4A ⵊ uni2D4A", 
+                "0x2D4D ⵍ uni2D4D", 
+                "0x2D4E ⵎ uni2D4E", 
+                "0x2D4F ⵏ uni2D4F", 
+                "0x2D53 ⵓ uni2D53", 
+                "0x2D54 ⵔ uni2D54", 
+                "0x2D55 ⵕ uni2D55", 
+                "0x2D56 ⵖ uni2D56", 
+                "0x2D59 ⵙ uni2D59", 
+                "0x2D5A ⵚ uni2D5A", 
+                "0x2D5B ⵛ uni2D5B", 
+                "0x2D5C ⵜ uni2D5C", 
+                "0x2D5F ⵟ uni2D5F", 
+                "0x2D61 ⵡ uni2D61", 
+                "0x2D62 ⵢ uni2D62", 
+                "0x2D63 ⵣ uni2D63", 
+                "0x2D65 ⵥ uni2D65", 
+                "0x2D6F ⵯ uni2D6F"
+            ]
+        }, 
+        "Latn dflt": {
+            "base": [
+                "0x0061 a a", 
+                "0x0062 b b", 
+                "0x0063 c c", 
+                "0x0064 d d", 
+                "0x0065 e e", 
+                "0x0066 f f", 
+                "0x0067 g g", 
+                "0x0068 h h", 
+                "0x0069 i i", 
+                "0x006A j j", 
+                "0x006B k k", 
+                "0x006C l l", 
+                "0x006D m m", 
+                "0x006E n n", 
+                "0x0071 q q", 
+                "0x0072 r r", 
+                "0x0073 s s", 
+                "0x0074 t t", 
+                "0x0075 u u", 
+                "0x0077 w w", 
+                "0x0078 x x", 
+                "0x0079 y y", 
+                "0x007A z z", 
+                "0x025B ɛ uni025B", 
+                "0x0263 ɣ uni0263", 
+                "0x02B7 ʷ uni02B7", 
+                "0x1E0D ḍ uni1E0D", 
+                "0x1E25 ḥ uni1E25", 
+                "0x1E5B ṛ uni1E5B", 
+                "0x1E63 ṣ uni1E63", 
+                "0x1E6D ṭ uni1E6D"
+            ], 
+            "optional": [
+                "0x006F o o", 
+                "0x0070 p p", 
+                "0x0076 v v"
+            ]
+        }
+    }
+}

@@ -1,0 +1,41 @@
+{
+    "name": "Standard Moroccan Tamazight", 
+    "variants": {
+        "DFLT dflt": {
+            "base": [
+                "0x2D30 ⴰ uni2D30", 
+                "0x2D31 ⴱ uni2D31", 
+                "0x2D33 ⴳ uni2D33", 
+                "0x2D37 ⴷ uni2D37", 
+                "0x2D39 ⴹ uni2D39", 
+                "0x2D3B ⴻ uni2D3B", 
+                "0x2D3C ⴼ uni2D3C", 
+                "0x2D3D ⴽ uni2D3D", 
+                "0x2D40 ⵀ uni2D40", 
+                "0x2D43 ⵃ uni2D43", 
+                "0x2D44 ⵄ uni2D44", 
+                "0x2D45 ⵅ uni2D45", 
+                "0x2D47 ⵇ uni2D47", 
+                "0x2D49 ⵉ uni2D49", 
+                "0x2D4A ⵊ uni2D4A", 
+                "0x2D4D ⵍ uni2D4D", 
+                "0x2D4E ⵎ uni2D4E", 
+                "0x2D4F ⵏ uni2D4F", 
+                "0x2D53 ⵓ uni2D53", 
+                "0x2D54 ⵔ uni2D54", 
+                "0x2D55 ⵕ uni2D55", 
+                "0x2D56 ⵖ uni2D56", 
+                "0x2D59 ⵙ uni2D59", 
+                "0x2D5A ⵚ uni2D5A", 
+                "0x2D5B ⵛ uni2D5B", 
+                "0x2D5C ⵜ uni2D5C", 
+                "0x2D5F ⵟ uni2D5F", 
+                "0x2D61 ⵡ uni2D61", 
+                "0x2D62 ⵢ uni2D62", 
+                "0x2D63 ⵣ uni2D63", 
+                "0x2D65 ⵥ uni2D65", 
+                "0x2D6F ⵯ uni2D6F"
+            ]
+        }
+    }
+}

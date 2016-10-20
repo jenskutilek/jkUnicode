@@ -53,19 +53,62 @@ else:
 
 	language_chars = {}
 	ignored_languages = copy.deepcopy(language_dict)
-	file_not_found = []
+	
+	sep_path = os.path.join(json_path, "languages")
+	
+	# Clean up the directory which contains the separate json files to avoid orphaned files
+	for name in os.listdir(sep_path):
+		if not name[0] == "." and name.lower().endswith(".json"):
+			try:
+				#print "Remove", os.path.join(sep_path, name)
+				os.remove(os.path.join(sep_path, name))
+			except:
+				print "WARNING: Could not remove file before regenerating it:", os.path.join(sep_path, name)
+	
 	i = 0
 
-	for code, name in language_dict.items():
-		char_dict = {}
-		lang_xml_path = os.path.join(xml_path, "%s.xml" % code)
-		if not os.path.exists(lang_xml_path):
-			#print "Not found:", lang_xml_path
-			file_not_found.append(code)
-		else:
+	for filename in os.listdir(xml_path):
+		if not filename[0] == "." and filename.lower().endswith(".xml"):
+			char_dict = {}
+			lang_xml_path = os.path.join(xml_path, filename)
 			i += 1
 			#print code, name
 			root = ET.parse(lang_xml_path).getroot()
+			
+			# Extract code
+			code = root.findall("identity/language")
+			if len(code) == 0:
+				print "ERROR: Language code not found in file '%s'" % lang_xml_path
+				code = None
+			elif len(code) == 1:
+				code = code[0].attrib["type"]
+			else:
+				print "ERROR: Language code ambiguous in file '%s'" % lang_xml_path
+				code = None
+			
+			# Extract script
+			script = root.findall("identity/script")
+			if len(script) == 0:
+				#print "WARNING: Script not found in file '%s'" % lang_xml_path
+				script = "DFLT"
+			elif len(script) == 1:
+				script = script[0].attrib["type"]
+			else:
+				print "ERROR: Script ambiguous in file '%s'" % lang_xml_path
+				script = None
+			
+			# Extract territory
+			territory = root.findall("identity/territory")
+			if len(territory) == 0:
+				#print "WARNING: Territory not found in file '%s'" % lang_xml_path
+				territory = "dflt"
+			elif len(territory) == 1:
+				territory = territory[0].attrib["type"]
+			else:
+				print "ERROR: Territory ambiguous in file '%s'" % lang_xml_path
+				territory = None
+			
+			# Extract characters
 			ec = root.findall("characters/exemplarCharacters")
 			for c in ec:
 				if c.attrib == {}:
@@ -81,40 +124,38 @@ else:
 						u_list = format_char_list(filtered_char_list(c.text))
 						if u_list:
 							char_dict[t] = u_list
-		if char_dict:
-			language_chars[code] = {"name": name, "unicodes": char_dict}
-			del ignored_languages[code]
-		else:
-			if code not in file_not_found:
-				pass
-				#print "XML file for %s (%s) contains no character information" % (name, code)
-		#if i % 50 == 0:
-		#	print i
+			if char_dict:
+				if code in language_dict:
+					print "Add information for", code
+					if not code in language_chars:
+						language_chars[code] = {"name": language_dict[code], "variants": {}}
+					language_chars[code]["variants"]["%s %s" % (script, territory)] = char_dict
+				else:
+					print "Language is not in master list:", code
+				try:
+					del ignored_languages[code]
+				except:
+					pass
+				#print language_chars[code]
+			else:
+				print "    XML for %s (%s-%s-%s) contains no character information" % (language_dict[code], script, code, territory)
+			#if i % 50 == 0:
+			#	print i
 	
 	print "Parsed %i files." % i
 	
 	#json_to_file(json_path, "language_characters", language_chars)
-	for code in ignored_languages:
-		if not "_" in code:
-			del language_dict[code]
+	#for code in ignored_languages:
+	#	if not "_" in code:
+	#		del language_dict[code]
 	
-	for code in ignored_languages:
-		if "_" in code and not code.split("_", 1)[0] in language_dict:
-			del language_dict[code]
+	#for code in ignored_languages:
+	#	if "_" in code and not code.split("_", 1)[0] in language_dict:
+	#		del language_dict[code]
 	
 	json_to_file(json_path, "languages", language_dict)
 	json_to_file(json_path, "ignored", ignored_languages)
-	sep_path = os.path.join(json_path, "languages")
-	
-	# Clean up the directory which contains the separate json files to avoid orphaned files
-	for name in os.listdir(sep_path):
-		if name.lower().endswith(".json"):
-			try:
-				#print "Remove", os.path.join(sep_path, name)
-				os.remove(os.path.join(sep_path, name))
-			except:
-				print "WARNING: Could not remove file before regenerating it:", os.path.join(sep_path, name)
-	
 	for k, v in language_chars.items():
-		json_to_file(sep_path, k, v)
+		print "json_to_file:", "%s" % k
+		json_to_file(sep_path, "%s" % k, v)
 	
