@@ -110,6 +110,7 @@ def filtered_char_list(xml_char_list, debug=False):
 				else:
 					filtered.add(c)
 			else:
+				if c == u"\u2010": c = "-" # Replace proper hyphen by hyphen-minus
 				if in_escape:
 					in_escape = False
 				filtered.add(c)

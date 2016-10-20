@@ -60,7 +60,6 @@
             "0x005D ] bracketright", 
             "0x007B { braceleft", 
             "0x007D } braceright", 
-            "0x2010 ‐ uni2010", 
             "0x2013 – endash", 
             "0x2018 ‘ quoteleft", 
             "0x201A ‚ quotesinglbase", 

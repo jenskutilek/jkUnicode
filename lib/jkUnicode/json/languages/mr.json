@@ -94,7 +94,6 @@
             "0x0040 @ at", 
             "0x005B [ bracketleft", 
             "0x005D ] bracketright", 
-            "0x2010 ‐ uni2010", 
             "0x2013 – endash", 
             "0x2014 — emdash", 
             "0x2018 ‘ quoteleft", 
