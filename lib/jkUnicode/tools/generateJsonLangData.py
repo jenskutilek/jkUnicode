@@ -37,6 +37,11 @@ else:
 	root = ET.parse(en_path).getroot()
 
 	language_dict = extract_dict(root, "localeDisplayNames/languages/language")
+	try:
+		# Root is not a language, but the template file
+		del language_dict["root"]
+	except:
+		pass
 	print "OK: Read %i language names." % len(language_dict)
 
 	script_dict = extract_dict(root, "localeDisplayNames/scripts/script")
@@ -102,12 +107,13 @@ else:
 	sep_path = os.path.join(json_path, "languages")
 	
 	# Clean up the directory which contains the separate json files to avoid orphaned files
-	for code in sorted(ignored_languages.keys()):
-		try:
-			#print "Remove", os.path.join(sep_path, "%s.json" % code)
-			os.remove(os.path.join(sep_path, "%s.json" % code))
-		except:
-			pass
+	for name in os.listdir(sep_path):
+		if name.lower().endswith(".json"):
+			try:
+				#print "Remove", os.path.join(sep_path, name)
+				os.remove(os.path.join(sep_path, name))
+			except:
+				print "WARNING: Could not remove file before regenerating it:", os.path.join(sep_path, name)
 	
 	for k, v in language_chars.items():
 		json_to_file(sep_path, k, v)
