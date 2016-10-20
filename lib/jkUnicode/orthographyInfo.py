@@ -16,7 +16,7 @@ class Orthography(object):
 		self.name = info_dict.get("name", None)
 		uni_info = info_dict.get("unicodes", {})
 		self.unicodes_base        = set(uni_info.get("base", []))
-		self.unicodes_optional    = set(uni_info.get("optional", []))
+		self.unicodes_optional    = set(uni_info.get("optional", [])) - self.unicodes_base
 		self.unicodes_punctuation = set(uni_info.get("punctuation", []))
 		self.scan_ok = False
 	
@@ -98,6 +98,9 @@ class OrthographyInfo(object):
 			if o.support_minimal(cmap):
 				result.append(o.name)
 		return result
+	
+	def __getitem__(self, key):
+		return self.orthographies[key]
 	
 	def __len__(self):
 		return len(self.orthographies)
