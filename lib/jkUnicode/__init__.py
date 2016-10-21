@@ -38,11 +38,28 @@ categoryName = {
 	'Cn':	'Other, Not Assigned',
 }
 
+
+def get_expanded_glyph_list(unicodes):
+	glyphs = []
+	ui = UniInfo(0)
+	for ch in unicodes:
+		ui.unicode = ch
+		glyphs.append((ch, ui.glyphname))
+		if ui.lc_mapping is not None:
+			ui.unicode = ui.lc_mapping
+			glyphs.append((ui.unicode, ui.glyphname))
+		elif ui.uc_mapping is not None:
+			ui.unicode = ui.uc_mapping
+			glyphs.append((ui.unicode, ui.glyphname))
+	return sorted(list(set(glyphs)))
+
+
 def getUnicodeChar(code):
 	if code < 0x10000:
 		return unichr(code)
 	else:
 		return eval("u'\U%08X'" % code)
+
 
 class UniInfo(object):
 	def __init__(self, uni):

@@ -5,6 +5,7 @@ import os, weakref
 from jkUnicode.tools.jsonhelpers import json_path, json_to_file, dict_from_file
 
 
+
 class Orthography(object):
 	
 	def __init__(self, info_obj, code, script, territory, info_dict):
@@ -68,16 +69,26 @@ class Orthography(object):
 		return False
 	
 	
+	def almost_supported(self, cmap, max_missing = 5):
+		if not self.scan_ok:
+			self.scan_cmap(cmap)
+		if 0 < self.num_missing_all <= max_missing:
+			return True
+		return False
+	
+	
 	def scan_cmap(self, cmap):
 		cmap_set = set(cmap)
 		# Check for missing chars
 		self.missing_base        = self.unicodes_base        - cmap_set
 		self.missing_optional    = self.unicodes_optional    - cmap_set
 		self.missing_punctuation = self.unicodes_punctuation - cmap_set
+		self.missing_all = self.missing_base or self.missing_optional or self.missing_punctuation
 		
 		self.num_missing_base        = len(self.missing_base)
 		self.num_missing_optional    = len(self.missing_optional)
 		self.num_missing_punctuation = len(self.missing_punctuation)
+		self.num_missing_all = len(self.missing_all)
 		
 		# Calculate percentage
 		self.base_pc        = 1 - self.num_missing_base / len(self.unicodes_base) if self.unicodes_base else 0
@@ -141,6 +152,13 @@ class OrthographyInfo(object):
 				result.append(o.name)
 		return sorted(result)
 	
+	def report_almost_supported_orthographies(self, cmap, max_missing=5):
+		result = {}
+		for o in self.orthographies:
+			if o.almost_supported(cmap, max_missing):
+				result[o.name] = o.missing_all
+		return result
+	
 	#def __getitem__(self, key):
 	#	return self.orthographies[key]
 	
@@ -155,7 +173,9 @@ def test_scan():
 	from time import time
 	from fontTools.ttLib import TTFont
 	from htmlGenerator.fonttools.sfnt import get_cmap
-	cmap = get_cmap(TTFont("/Users/jens/Code/HTMLGenerator/Lib/testdata/consola.ttf"))
+	from jkUnicode import get_expanded_glyph_list
+	
+	cmap = get_cmap(TTFont("/Users/jens/Documents/Schriften/Hertz/Hertz-Book.ttf"))
 	start = time()
 	o = OrthographyInfo()
 	print o
@@ -176,6 +196,15 @@ def test_scan():
 	print stop - start
 	
 	print o.orthography("en", "DFLT", "ZA").unicodes_base
+	
+	n = 2
+	almost = o.report_almost_supported_orthographies(cmap, n)
+	print "\nAlmost supported (max. %i missing)):" % n, len(almost), "orthography" if len(almost) == 1 else "orthographies"
+	for name in sorted(almost.keys()):
+		print name
+		glyphs = get_expanded_glyph_list(almost[name])
+		print "   ", " ".join([g[1] for g in glyphs])
+	
 
 
 if __name__ == "__main__":
