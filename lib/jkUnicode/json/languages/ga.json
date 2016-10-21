@@ -1,52 +1,54 @@
 {
-    "name": "Irish", 
-    "variants": {
-        "DFLT dflt": {
-            "base": [
-                "0x0061 a a", 
-                "0x0062 b b", 
-                "0x0063 c c", 
-                "0x0064 d d", 
-                "0x0065 e e", 
-                "0x0066 f f", 
-                "0x0067 g g", 
-                "0x0068 h h", 
-                "0x0069 i i", 
-                "0x006C l l", 
-                "0x006D m m", 
-                "0x006E n n", 
-                "0x006F o o", 
-                "0x0070 p p", 
-                "0x0072 r r", 
-                "0x0073 s s", 
-                "0x0074 t t", 
-                "0x0075 u u", 
-                "0x00E1 á aacute", 
-                "0x00E9 é eacute", 
-                "0x00ED í iacute", 
-                "0x00F3 ó oacute", 
-                "0x00FA ú uacute"
-            ], 
-            "optional": [
-                "0x006A j j", 
-                "0x006B k k", 
-                "0x0071 q q", 
-                "0x0076 v v", 
-                "0x0077 w w", 
-                "0x0078 x x", 
-                "0x0079 y y", 
-                "0x007A z z", 
-                "0x00E5 å aring", 
-                "0x010B ċ cdotaccent", 
-                "0x0121 ġ gdotaccent", 
-                "0x1E03 ḃ uni1E03", 
-                "0x1E0B ḋ uni1E0B", 
-                "0x1E1F ḟ uni1E1F", 
-                "0x1E41 ṁ uni1E41", 
-                "0x1E57 ṗ uni1E57", 
-                "0x1E61 ṡ uni1E61", 
-                "0x1E6B ṫ uni1E6B"
-            ]
+    "DFLT": {
+        "dflt": {
+            "name": "Irish", 
+            "unicodes": {
+                "base": [
+                    "0x0061 a a", 
+                    "0x0062 b b", 
+                    "0x0063 c c", 
+                    "0x0064 d d", 
+                    "0x0065 e e", 
+                    "0x0066 f f", 
+                    "0x0067 g g", 
+                    "0x0068 h h", 
+                    "0x0069 i i", 
+                    "0x006C l l", 
+                    "0x006D m m", 
+                    "0x006E n n", 
+                    "0x006F o o", 
+                    "0x0070 p p", 
+                    "0x0072 r r", 
+                    "0x0073 s s", 
+                    "0x0074 t t", 
+                    "0x0075 u u", 
+                    "0x00E1 á aacute", 
+                    "0x00E9 é eacute", 
+                    "0x00ED í iacute", 
+                    "0x00F3 ó oacute", 
+                    "0x00FA ú uacute"
+                ], 
+                "optional": [
+                    "0x006A j j", 
+                    "0x006B k k", 
+                    "0x0071 q q", 
+                    "0x0076 v v", 
+                    "0x0077 w w", 
+                    "0x0078 x x", 
+                    "0x0079 y y", 
+                    "0x007A z z", 
+                    "0x00E5 å aring", 
+                    "0x010B ċ cdotaccent", 
+                    "0x0121 ġ gdotaccent", 
+                    "0x1E03 ḃ uni1E03", 
+                    "0x1E0B ḋ uni1E0B", 
+                    "0x1E1F ḟ uni1E1F", 
+                    "0x1E41 ṁ uni1E41", 
+                    "0x1E57 ṗ uni1E57", 
+                    "0x1E61 ṡ uni1E61", 
+                    "0x1E6B ṫ uni1E6B"
+                ]
+            }
         }
     }
 }

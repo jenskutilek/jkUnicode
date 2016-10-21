@@ -1,40 +1,42 @@
 {
-    "name": "Romansh", 
-    "variants": {
-        "DFLT dflt": {
-            "optional": [
-                "0x00E1 á aacute", 
-                "0x00E2 â acircumflex", 
-                "0x00E4 ä adieresis", 
-                "0x00E5 å aring", 
-                "0x00E6 æ ae", 
-                "0x00E7 ç ccedilla", 
-                "0x00EA ê ecircumflex", 
-                "0x00EB ë edieresis", 
-                "0x00ED í iacute", 
-                "0x00EE î icircumflex", 
-                "0x00EF ï idieresis", 
-                "0x00F1 ñ ntilde", 
-                "0x00F3 ó oacute", 
-                "0x00F4 ô ocircumflex", 
-                "0x00F6 ö odieresis", 
-                "0x00F8 ø oslash", 
-                "0x00FA ú uacute", 
-                "0x00FB û ucircumflex", 
-                "0x00FC ü udieresis", 
-                "0x00FF ÿ ydieresis", 
-                "0x0101 ā amacron", 
-                "0x0103 ă abreve", 
-                "0x0113 ē emacron", 
-                "0x0115 ĕ ebreve", 
-                "0x012B ī imacron", 
-                "0x012D ĭ ibreve", 
-                "0x014D ō omacron", 
-                "0x014F ŏ obreve", 
-                "0x0153 œ oe", 
-                "0x016B ū umacron", 
-                "0x016D ŭ ubreve"
-            ]
+    "DFLT": {
+        "dflt": {
+            "name": "Romansh", 
+            "unicodes": {
+                "optional": [
+                    "0x00E1 á aacute", 
+                    "0x00E2 â acircumflex", 
+                    "0x00E4 ä adieresis", 
+                    "0x00E5 å aring", 
+                    "0x00E6 æ ae", 
+                    "0x00E7 ç ccedilla", 
+                    "0x00EA ê ecircumflex", 
+                    "0x00EB ë edieresis", 
+                    "0x00ED í iacute", 
+                    "0x00EE î icircumflex", 
+                    "0x00EF ï idieresis", 
+                    "0x00F1 ñ ntilde", 
+                    "0x00F3 ó oacute", 
+                    "0x00F4 ô ocircumflex", 
+                    "0x00F6 ö odieresis", 
+                    "0x00F8 ø oslash", 
+                    "0x00FA ú uacute", 
+                    "0x00FB û ucircumflex", 
+                    "0x00FC ü udieresis", 
+                    "0x00FF ÿ ydieresis", 
+                    "0x0101 ā amacron", 
+                    "0x0103 ă abreve", 
+                    "0x0113 ē emacron", 
+                    "0x0115 ĕ ebreve", 
+                    "0x012B ī imacron", 
+                    "0x012D ĭ ibreve", 
+                    "0x014D ō omacron", 
+                    "0x014F ŏ obreve", 
+                    "0x0153 œ oe", 
+                    "0x016B ū umacron", 
+                    "0x016D ŭ ubreve"
+                ]
+            }
         }
     }
 }

@@ -5,7 +5,7 @@ import copy, os
 import xml.etree.ElementTree as ET
 from xmlhelpers import filtered_char_list
 from jkUnicode.aglfn import getGlyphnameForUnicode
-from jsonhelpers import json_path, json_to_file
+from jsonhelpers import json_path, json_to_file, clean_json_dir
 
 
 xml_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "core", "common", "main")
@@ -56,24 +56,16 @@ else:
 	
 	sep_path = os.path.join(json_path, "languages")
 	
-	# Clean up the directory which contains the separate json files to avoid orphaned files
-	for name in os.listdir(sep_path):
-		if not name[0] == "." and name.lower().endswith(".json"):
-			try:
-				#print "Remove", os.path.join(sep_path, name)
-				os.remove(os.path.join(sep_path, name))
-			except:
-				print "WARNING: Could not remove file before regenerating it:", os.path.join(sep_path, name)
-	
 	i = 0
 
 	for filename in os.listdir(xml_path):
-		if not filename[0] == "." and filename.lower().endswith(".xml"):
+		if not filename[0] == "." and filename.lower().endswith(".xml"): #and filename.startswith("sr")
 			char_dict = {}
 			lang_xml_path = os.path.join(xml_path, filename)
 			i += 1
 			#print code, name
 			root = ET.parse(lang_xml_path).getroot()
+			#print "\nFile:", lang_xml_path
 			
 			# Extract code
 			code = root.findall("identity/language")
@@ -85,6 +77,7 @@ else:
 			else:
 				print "ERROR: Language code ambiguous in file '%s'" % lang_xml_path
 				code = None
+			#print "    Code:", code
 			
 			# Extract script
 			script = root.findall("identity/script")
@@ -96,6 +89,7 @@ else:
 			else:
 				print "ERROR: Script ambiguous in file '%s'" % lang_xml_path
 				script = None
+			#print "    Script:", script
 			
 			# Extract territory
 			territory = root.findall("identity/territory")
@@ -107,6 +101,7 @@ else:
 			else:
 				print "ERROR: Territory ambiguous in file '%s'" % lang_xml_path
 				territory = None
+			#print "    Territory:", territory
 			
 			# Extract characters
 			ec = root.findall("characters/exemplarCharacters")
@@ -128,34 +123,44 @@ else:
 				if code in language_dict:
 					print "Add information for", code
 					if not code in language_chars:
-						language_chars[code] = {"name": language_dict[code], "variants": {}}
-					language_chars[code]["variants"]["%s %s" % (script, territory)] = char_dict
+						#print "    Add entry for code to master dict:", code
+						language_chars[code] = {}
+					if not script in language_chars[code]:
+						#print "    Add entry for script/code to master dict:", script
+						language_chars[code][script] = {}
+					key = "%s_%s" % (code, territory)
+					skey = "%s_%s" % (code, script)
+					if key in language_dict:
+						name = language_dict[key]
+						try: del ignored_languages[key]
+						except: pass
+					elif code in language_dict:
+						name = language_dict[code]
+						try: del ignored_languages[code]
+						except: pass
+					elif skey in language_dict:
+						name = language_dict[skey]
+						try: del ignored_languages[skey]
+						except: pass
+					else:
+						name = "Unknown"
+					
+					language_chars[code][script][territory] = {"name": name, "unicodes": char_dict}
 				else:
 					print "Language is not in master list:", code
-				try:
-					del ignored_languages[code]
-				except:
-					pass
-				#print language_chars[code]
 			else:
-				print "    XML for %s (%s-%s-%s) contains no character information" % (language_dict[code], script, code, territory)
-			#if i % 50 == 0:
-			#	print i
+				pass
+				#print "    XML for %s (%s/%s/%s) contains no character information" % (language_dict[code], script, code, territory)
 	
 	print "Parsed %i files." % i
 	
-	#json_to_file(json_path, "language_characters", language_chars)
-	#for code in ignored_languages:
-	#	if not "_" in code:
-	#		del language_dict[code]
-	
-	#for code in ignored_languages:
-	#	if "_" in code and not code.split("_", 1)[0] in language_dict:
-	#		del language_dict[code]
+	for code in ignored_languages:
+		del language_dict[code]
+	clean_json_dir(sep_path)
 	
 	json_to_file(json_path, "languages", language_dict)
 	json_to_file(json_path, "ignored", ignored_languages)
-	for k, v in language_chars.items():
-		print "json_to_file:", "%s" % k
-		json_to_file(sep_path, "%s" % k, v)
+	for code, v in language_chars.items():
+		#print "json_to_file:", "%s" % code
+		json_to_file(sep_path, "%s" % code, v)
 	
