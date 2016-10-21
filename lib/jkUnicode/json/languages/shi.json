@@ -42,7 +42,7 @@
     }, 
     "Latn": {
         "dflt": {
-            "name": "Tachelhit", 
+            "name": "Tachelhit (Latin)", 
             "unicodes": {
                 "base": [
                     "0x0061 a a", 

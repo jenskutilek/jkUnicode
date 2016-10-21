@@ -24,6 +24,7 @@ else:
 			language_dict = dict_from_file(languages_path, code)
 			if os.path.exists(os.path.join(overrides_path, file_name)):
 				print "INFO: Using override JSON file for '%s'" % code
+				# TODO: Better updating of dicts to allow more granular overrides
 				language_dict.update(dict_from_file(overrides_path, code))
 		else:
 			print "WARNING: Language '%s' requested, but JSON file not found." % code

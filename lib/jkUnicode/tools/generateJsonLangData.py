@@ -143,6 +143,8 @@ else:
 					if not found:
 						print "Could not determine name for %s/%s/%s" % (script, code, territory)
 						name = "Unknown"
+					if script != "DFLT":
+						name += " (%s)" % script_dict[script] if script in script_dict else script
 					
 					language_chars[code][script][territory] = {"name": name, "unicodes": char_dict}
 				else:

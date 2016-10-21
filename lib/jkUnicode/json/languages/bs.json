@@ -1,7 +1,7 @@
 {
     "Cyrl": {
         "dflt": {
-            "name": "Bosnian", 
+            "name": "Bosnian (Cyrillic)", 
             "unicodes": {
                 "base": [
                     "0x0430 а uni0430", 

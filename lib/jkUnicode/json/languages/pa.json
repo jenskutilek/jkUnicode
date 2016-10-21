@@ -1,7 +1,7 @@
 {
     "Arab": {
         "dflt": {
-            "name": "Punjabi", 
+            "name": "Punjabi (Perso-Arabic)", 
             "unicodes": {
                 "base": [
                     "0x0621 ء uni0621", 

@@ -299,7 +299,7 @@
     }, 
     "Latn": {
         "dflt": {
-            "name": "Vai", 
+            "name": "Vai (Latin)", 
             "unicodes": {
                 "base": [
                     "0x0061 a a", 

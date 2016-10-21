@@ -871,7 +871,7 @@
     "az": {
         "Cyrl": {
             "dflt": {
-                "name": "Azeri", 
+                "name": "Azeri (Cyrillic)", 
                 "unicodes": {
                     "base": [
                         1072, 
@@ -1711,7 +1711,7 @@
     "bs": {
         "Cyrl": {
             "dflt": {
-                "name": "Bosnian", 
+                "name": "Bosnian (Cyrillic)", 
                 "unicodes": {
                     "base": [
                         1072, 
@@ -26458,7 +26458,7 @@
     "pa": {
         "Arab": {
             "dflt": {
-                "name": "Punjabi", 
+                "name": "Punjabi (Perso-Arabic)", 
                 "unicodes": {
                     "base": [
                         1569, 
@@ -27864,7 +27864,7 @@
         }, 
         "Latn": {
             "dflt": {
-                "name": "Tachelhit", 
+                "name": "Tachelhit (Latin)", 
                 "unicodes": {
                     "base": [
                         97, 
@@ -28516,7 +28516,7 @@
         }, 
         "Latn": {
             "dflt": {
-                "name": "Serbian", 
+                "name": "Serbian (Latin)", 
                 "unicodes": {
                     "base": [
                         97, 
@@ -30293,7 +30293,7 @@
     "uz": {
         "Arab": {
             "dflt": {
-                "name": "Uzbek", 
+                "name": "Uzbek (Perso-Arabic)", 
                 "unicodes": {
                     "base": [
                         1569, 
@@ -30370,7 +30370,7 @@
         }, 
         "Cyrl": {
             "dflt": {
-                "name": "Uzbek", 
+                "name": "Uzbek (Cyrillic)", 
                 "unicodes": {
                     "base": [
                         1072, 
@@ -30793,7 +30793,7 @@
         }, 
         "Latn": {
             "dflt": {
-                "name": "Vai", 
+                "name": "Vai (Latin)", 
                 "unicodes": {
                     "base": [
                         97, 
@@ -36244,7 +36244,7 @@
         }, 
         "Hant": {
             "dflt": {
-                "name": "Traditional Chinese", 
+                "name": "Traditional Chinese (Traditional Han)", 
                 "unicodes": {
                     "base": [
                         19968, 

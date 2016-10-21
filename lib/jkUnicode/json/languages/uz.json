@@ -1,7 +1,7 @@
 {
     "Arab": {
         "dflt": {
-            "name": "Uzbek", 
+            "name": "Uzbek (Perso-Arabic)", 
             "unicodes": {
                 "base": [
                     "0x0621 ء uni0621", 
@@ -78,7 +78,7 @@
     }, 
     "Cyrl": {
         "dflt": {
-            "name": "Uzbek", 
+            "name": "Uzbek (Cyrillic)", 
             "unicodes": {
                 "base": [
                     "0x0430 а uni0430", 
