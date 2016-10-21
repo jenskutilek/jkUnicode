@@ -7,12 +7,14 @@ from jkUnicode.tools.jsonhelpers import json_path, json_to_file, dict_from_file
 
 class Orthography(object):
 	
-	def __init__(self, info_dict):
+	def __init__(self, code, script, territory, info_dict):
+		self.code = code
+		self.script = script
+		self.territory = territory
 		self.from_dict(info_dict)
 	
 	
 	def from_dict(self, info_dict):
-		#self.code = info_dict.get("code", None)
 		self.name = info_dict.get("name", None)
 		uni_info = info_dict.get("unicodes", {})
 		self.unicodes_base        = set(uni_info.get("base", []))
@@ -60,6 +62,8 @@ class Orthography(object):
 		self.base_pc        = 1 - self.num_missing_base / len(self.unicodes_base) if self.unicodes_base else 0
 		self.optional_pc    = 1 - self.num_missing_optional / len(self.unicodes_optional) if self.unicodes_optional else 0
 		self.punctuation_pc = 1 - self.num_missing_punctuation / len(self.unicodes_punctuation) if self.unicodes_punctuation else 0
+		
+		self.scan_ok = True
 	
 	
 	def forget_cmap(self):
@@ -71,42 +75,50 @@ class Orthography(object):
 class OrthographyInfo(object):
 	def __init__(self):
 		data_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "json")
-		language_chars_dict = dict_from_file(data_path, "language_characters")
-		self.orthographies = {code: Orthography(info) for code, info in language_chars_dict.items()}
+		master = dict_from_file(data_path, "language_characters")
+		
+		self.orthographies = []
+		for code, script_dict in master.items():
+			#print code, script_dict
+			for script, territory_dict in script_dict.items():
+				#print script, territory_dict
+				for territory, info in territory_dict.items():
+					#print territory, info
+					self.orthographies.append(Orthography(code, script, territory, info))
 	
-	def orthography(self, code):
-		return self.orthographies[code]
+	#def orthography(self, code):
+	#	return self.orthographies[code]
 	
 	def scan_cmap(self, cmap):
-		result = {c: o.scan_cmap(cmap) for c, o in self.orthographies.items()}
-		return result
+		for o in self.orthographies:
+			o.scan_cmap(cmap)
 	
 	def list_supported_orthographies(self, cmap, full_only=True):
 		result = []
-		for c, o in self.orthographies.items():
+		for o in self.orthographies:
 			if full_only:
 				if o.support_full(cmap):
 					result.append(o.name)
 			else:
 				if o.support_basic(cmap):
 					result.append(o.name)
-		return result
+		return sorted(result)
 	
 	def list_supported_orthographies_minimum(self, cmap):
 		result = []
-		for c, o in self.orthographies.items():
+		for o in self.orthographies:
 			if o.support_minimal(cmap):
 				result.append(o.name)
-		return result
+		return sorted(result)
 	
-	def __getitem__(self, key):
-		return self.orthographies[key]
+	#def __getitem__(self, key):
+	#	return self.orthographies[key]
 	
 	def __len__(self):
 		return len(self.orthographies)
 	
 	def __repr__(self):
-		return u"<OrthographyInfo with %i orthographies>\n" % len(self)
+		return u"<OrthographyInfo with %i orthographies>" % len(self)
 
 
 def test_scan():
@@ -116,6 +128,9 @@ def test_scan():
 	cmap = get_cmap(TTFont("/Users/jens/Code/HTMLGenerator/Lib/testdata/consola.ttf"))
 	start = time()
 	o = OrthographyInfo()
+	print o
+	#for ot in o.orthographies:
+	#	print ot.name
 	full = o.list_supported_orthographies(cmap, full_only=True)
 	base = o.list_supported_orthographies(cmap, full_only=False)
 	mini = o.list_supported_orthographies_minimum(cmap)
