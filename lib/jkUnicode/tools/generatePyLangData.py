@@ -14,28 +14,30 @@ if not(os.path.exists(os.path.join(json_path, "languages.json"))):
 else:
 	language_dict = dict_from_file(json_path, "languages")
 	print "OK: Read %i language names." % len(language_dict)
-	print language_dict
+	print [name for name in sorted(language_dict.keys())]
 	
-	language_characters = {}
+	master = {}
 	
 	for code in sorted(language_dict.keys()):
 		file_name = "%s.json" % code
-		if os.path.exists(os.path.join(overrides_path, file_name)):
-			print "INFO: Using override JSON file for '%s'" % code
-			language_char_dict = dict_from_file(overrides_path, code)
-		elif os.path.exists(os.path.join(languages_path, file_name)):
-			language_char_dict = dict_from_file(languages_path, code)
+		if os.path.exists(os.path.join(languages_path, file_name)):
+			language_dict = dict_from_file(languages_path, code)
+			if os.path.exists(os.path.join(overrides_path, file_name)):
+				print "INFO: Using override JSON file for '%s'" % code
+				language_dict.update(dict_from_file(overrides_path, code))
 		else:
 			print "WARNING: Language '%s' requested, but JSON file not found." % code
-			language_char_dict = {}
-		#print language_char_dict
-		if language_char_dict:
-			# Remove all but codepoint information
-			for cat in ["base", "optional", "punctuation"]:
-				char_list = language_char_dict["unicodes"].get(cat, [])
-				char_list = [int(c.split()[0], 16) for c in char_list]
-				if char_list:
-					language_char_dict["unicodes"][cat] = char_list
-			language_characters[code] = language_char_dict
+			language_dict = {}
+		#print language_dict
+		if language_dict:
+			for script, territory_dict in language_dict.items():
+				for territory, char_dict in territory_dict.items():
+					# Remove all but codepoint information
+					for cat in ["base", "optional", "punctuation"]:
+						char_list = char_dict["unicodes"].get(cat, [])
+						char_list = [int(c.split()[0], 16) for c in char_list]
+						if char_list:
+							char_dict["unicodes"][cat] = char_list
+			master[code] = language_dict
 	
-	json_to_file(json_path, "language_characters", language_characters)
+	json_to_file(json_path, "language_characters", master)
