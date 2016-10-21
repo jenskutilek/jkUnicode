@@ -59,11 +59,10 @@ else:
 	i = 0
 
 	for filename in os.listdir(xml_path):
-		if not filename[0] == "." and filename.lower().endswith(".xml"): #and filename.startswith("sr")
+		if not filename[0] == "." and filename.lower().endswith(".xml"): # and filename.startswith("zh"):
 			char_dict = {}
 			lang_xml_path = os.path.join(xml_path, filename)
 			i += 1
-			#print code, name
 			root = ET.parse(lang_xml_path).getroot()
 			#print "\nFile:", lang_xml_path
 			
@@ -121,28 +120,28 @@ else:
 							char_dict[t] = u_list
 			if char_dict:
 				if code in language_dict:
-					print "Add information for", code
+					#print "Add information for", code
 					if not code in language_chars:
 						#print "    Add entry for code to master dict:", code
 						language_chars[code] = {}
 					if not script in language_chars[code]:
 						#print "    Add entry for script/code to master dict:", script
 						language_chars[code][script] = {}
-					key = "%s_%s" % (code, territory)
-					skey = "%s_%s" % (code, script)
-					if key in language_dict:
-						name = language_dict[key]
-						try: del ignored_languages[key]
-						except: pass
-					elif code in language_dict:
-						name = language_dict[code]
-						try: del ignored_languages[code]
-						except: pass
-					elif skey in language_dict:
-						name = language_dict[skey]
-						try: del ignored_languages[skey]
-						except: pass
-					else:
+					
+					# Found best matching entry from language_dict
+					c_t_key = "%s_%s" % (code, territory)
+					c_s_key = "%s_%s" % (code, script)
+					all_key = "%s_%s_%s" % (code, script, territory)
+					found = False
+					for key in [all_key, c_t_key, c_s_key, code]:
+						if key in language_dict:
+							found = True
+							name = language_dict[key]
+							try: del ignored_languages[key]
+							except: pass
+							break
+					if not found:
+						print "Could not determine name for %s/%s/%s" % (script, code, territory)
 						name = "Unknown"
 					
 					language_chars[code][script][territory] = {"name": name, "unicodes": char_dict}

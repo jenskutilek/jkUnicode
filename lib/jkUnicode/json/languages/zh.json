@@ -2384,7 +2384,7 @@
     }, 
     "Hant": {
         "dflt": {
-            "name": "Mandarin Chinese", 
+            "name": "Traditional Chinese", 
             "unicodes": {
                 "base": [
                     "0x4E00 一 uni4E00", 
