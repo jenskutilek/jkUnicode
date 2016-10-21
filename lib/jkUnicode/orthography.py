@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import division
-import os
+import os, weakref
 from jkUnicode.tools.jsonhelpers import json_path, json_to_file, dict_from_file
 
 
 class Orthography(object):
 	
-	def __init__(self, code, script, territory, info_dict):
+	def __init__(self, info_obj, code, script, territory, info_dict):
+		self._info = weakref.ref(info_obj)
 		self.code = code
 		self.script = script
 		self.territory = territory
@@ -21,6 +22,26 @@ class Orthography(object):
 		self.unicodes_optional    = set(uni_info.get("optional", [])) - self.unicodes_base
 		self.unicodes_punctuation = set(uni_info.get("punctuation", []))
 		self.scan_ok = False
+	
+	
+	def fill_from_default_orthography(self):
+		# Sometimes the base unicodes are empty for a variant.
+		# Try to fill them in from the default variant.
+		# Call this only after the whole list of orthographies is present, or it will fail.
+		if self.territory != "dflt":
+			#print self.code, self.script, self.territory
+			parent = self._info().orthography(self.code, self.script)
+			if parent is None:
+				print "WARNING: No parent orthography found for %s/%s/%s" % (self.code, self.script, self.territory)
+			else:
+				#print "    Parent:", parent.code, parent.script, parent.territory
+				# Set attributes from parent (there may be empty attributes remaining ...?)
+				for attr in ["unicodes_base", "unicodes_optional", "unicodes_punctuation"]:
+					if getattr(self, attr) == set():
+						parent_set = getattr(parent, attr)
+						if parent_set:
+							#print "    Filled from parent:", attr
+							setattr(self, attr, parent_set)
 	
 	
 	def support_full(self, cmap):
@@ -78,16 +99,25 @@ class OrthographyInfo(object):
 		master = dict_from_file(data_path, "language_characters")
 		
 		self.orthographies = []
+		self._index = {}
+		i = 0
 		for code, script_dict in master.items():
 			#print code, script_dict
 			for script, territory_dict in script_dict.items():
 				#print script, territory_dict
 				for territory, info in territory_dict.items():
 					#print territory, info
-					self.orthographies.append(Orthography(code, script, territory, info))
+					self.orthographies.append(Orthography(self, code, script, territory, info))
+					self._index[(code, script, territory)] = i
+					i += 1
+		for o in self.orthographies:
+			o.fill_from_default_orthography()
 	
-	#def orthography(self, code):
-	#	return self.orthographies[code]
+	def orthography(self, code, script="DFLT", territory="dflt"):
+		i = self._index.get((code, script, territory), None)
+		if i is None:
+			return None
+		return self.orthographies[i]
 	
 	def scan_cmap(self, cmap):
 		for o in self.orthographies:
@@ -144,6 +174,8 @@ def test_scan():
 	print "\nMinimal support (no punctuation):", len(mini), "orthography" if len(mini) == 1 else "orthographies"
 	print ", ".join(sorted(mini))
 	print stop - start
+	
+	print o.orthography("en", "DFLT", "ZA").unicodes_base
 
 
 if __name__ == "__main__":
