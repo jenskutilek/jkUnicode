@@ -55,7 +55,7 @@ class Orthography(object):
 	def support_basic(self, cmap):
 		if not self.scan_ok:
 			self.scan_cmap(cmap)
-		if self.num_missing_base == 0 and self.num_missing_optional != 0 and self.num_missing_punctuation == 0:
+		if self.num_missing_base == 0 and self.num_missing_punctuation == 0:
 			return True
 		return False
 	
@@ -166,13 +166,13 @@ def test_scan():
 	mini = o.list_supported_orthographies_minimum(cmap)
 	stop = time()
 	print "\nFull support:", len(full), "orthography" if len(base) == 1 else "orthographies"
-	print ", ".join(sorted(full))
+	print ", ".join(full)
 	base = [r for r in base if not r in full]
 	print "\nBasic support:", len(base), "orthography" if len(base) == 1 else "orthographies"
-	print ", ".join(sorted(base))
+	print ", ".join(base)
 	mini = [r for r in mini if not r in full]
 	print "\nMinimal support (no punctuation):", len(mini), "orthography" if len(mini) == 1 else "orthographies"
-	print ", ".join(sorted(mini))
+	print ", ".join(mini)
 	print stop - start
 	
 	print o.orthography("en", "DFLT", "ZA").unicodes_base
