@@ -335,17 +335,21 @@ def test_scan():
 	from htmlGenerator.fonttools.sfnt import get_cmap
 	from jkUnicode import get_expanded_glyph_list
 	
+	font_path = "/Users/jens/Documents/Schriften/Hertz/Hertz-Book.ttf"
+	
+	print "Scanning font for orthographic support:"
+	print font_path
 	
 	# Get a character map from a font to scan.
-	cmap = get_cmap(TTFont("/Users/jens/Documents/Schriften/Hertz/Hertz-Book.ttf"))
+	cmap = get_cmap(TTFont(font_path))
 	start = time()
 	o = OrthographyInfo()
 	print o
 	
 	
 	# List known orthographies
-	for ot in o.orthographies:
-		print ot.name
+	for ot in sorted(o.orthographies):
+		print ot.name, ot.code
 	
 	
 	# Scan for full, base and minimal support of the font's cmap
