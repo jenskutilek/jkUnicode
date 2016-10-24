@@ -355,15 +355,15 @@ def test_scan():
 	stop = time()
 	
 	print "\nFull support:", len(full), "orthography" if len(base) == 1 else "orthographies"
-	print ", ".join(full)
+	print ", ".join([x.name for x in full])
 	
 	base = [r for r in base if not r in full]
 	print "\nBasic support:", len(base), "orthography" if len(base) == 1 else "orthographies"
-	print ", ".join(base)
+	print ", ".join([x.name for x in base])
 	
 	mini = [r for r in mini if not r in full]
 	print "\nMinimal support (no punctuation):", len(mini), "orthography" if len(mini) == 1 else "orthographies"
-	print ", ".join(mini)
+	print ", ".join([x.name for x in mini])
 	
 	# Timing information
 	print stop - start
@@ -404,24 +404,24 @@ def test_reverse():
 	u = ord(c)
 	
 	start = time()
-	result = o.get_orthographies_for_unicode(u)
+	result1 = o.get_orthographies_for_unicode(u)
 	stop = time()
 	d = (stop - start) * 1000
 	print "Use cached lookup:  %0.2f ms" % d
 	
 	start = time()
-	result = o.get_orthographies_for_unicode_any(u)
+	result2 = o.get_orthographies_for_unicode_any(u)
 	stop = time()
 	d = (stop - start) * 1000
 	print "Use uncached lookup: %0.2f ms" % d
 	
 	
 	print u"'%s' is used in:" % c
-	for ot in sorted(result):
+	for ot in sorted(result1):
 		print "   ", ot.name
 
 
 
 if __name__ == "__main__":
-	#test_scan()
+	test_scan()
 	test_reverse()
