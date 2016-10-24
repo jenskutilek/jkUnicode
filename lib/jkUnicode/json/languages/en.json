@@ -1,8 +1,7 @@
 {
     "DFLT": {
         "ZA": {
-            "name": "English", 
-            "territory": "South Africa", 
+            "name": "English (South Africa)", 
             "unicodes": {
                 "optional": [
                     "0x00E0 à agrave", 

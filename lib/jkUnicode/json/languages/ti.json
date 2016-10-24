@@ -1,8 +1,7 @@
 {
     "DFLT": {
         "ER": {
-            "name": "Tigrinya", 
-            "territory": "Eritrea", 
+            "name": "Tigrinya (Eritrea)", 
             "unicodes": {
                 "optional": [
                     "0x1207 ሇ uni1207", 

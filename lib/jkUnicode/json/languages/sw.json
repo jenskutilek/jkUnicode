@@ -1,8 +1,7 @@
 {
     "DFLT": {
         "CD": {
-            "name": "Congo Swahili", 
-            "territory": "Congo (DRC)", 
+            "name": "Congo Swahili (Congo (DRC))", 
             "unicodes": {
                 "base": [
                     "0x0061 a a", 

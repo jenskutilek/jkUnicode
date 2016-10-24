@@ -161,15 +161,30 @@ else:
 					if not found:
 						print "Could not determine name for %s/%s/%s" % (script, code, territory)
 						name = "Unknown"
-					if script != "DFLT":
-						name += " (%s)" % script_dict[script] if script in script_dict else script
+					
+					# Build name including script or territory
+					if script == "DFLT":
+						if territory != "dflt":
+							name += " (%s)" % (
+								territory_dict[territory] if territory in territory_dict else territory,
+							)
+					else:
+						if territory == "dflt":
+							name += " (%s)" % (
+								script_dict[script] if script in script_dict else script,
+							)
+						else:
+							name += " (%s, %s)" % (
+								script_dict[script] if script in script_dict else script,
+								territory_dict[territory] if territory in territory_dict else territory,
+							)
 					
 					language_chars[code][script][territory] = {
 						"name": name,
 						"unicodes": char_dict,
 					}
-					if territory in territory_dict:
-						language_chars[code][script][territory]["territory"] = territory_dict[territory]
+					#if territory in territory_dict:
+					#	language_chars[code][script][territory]["territory"] = territory_dict[territory]
 				else:
 					print "Language is not in master list:", code
 			else:
