@@ -103,7 +103,7 @@
                     "0x2019 ’ quoteright", 
                     "0x201D ” quotedblright", 
                     "0x201E „ quotedblbase", 
-                    "0x2026 … ellipsis", 
+                    "0x2026 … ellipsis"
                 ]
             }
         }
