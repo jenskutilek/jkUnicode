@@ -40,6 +40,10 @@ categoryName = {
 
 
 def get_expanded_glyph_list(unicodes):
+	# "Expand" or annotate a list of unicodes.
+	# For unicodes that have a case mapping (UC or LC), the target unicode will be added to the list.
+	# AGLFN glyph names are added to the list too, so the returned list contains tuples of (unicode, glyphname),
+	# sorted by unicode value.
 	glyphs = []
 	ui = UniInfo(0)
 	for ch in unicodes:
