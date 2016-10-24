@@ -521,8 +521,7 @@
     "ar": {
         "DFLT": {
             "MA": {
-                "name": "Arabic", 
-                "territory": "Morocco", 
+                "name": "Arabic (Morocco)", 
                 "unicodes": {
                     "optional": [
                         1647, 
@@ -2752,8 +2751,7 @@
     "de": {
         "DFLT": {
             "CH": {
-                "name": "German, Swiss High", 
-                "territory": "Switzerland", 
+                "name": "German (Switzerland)", 
                 "unicodes": {
                     "base": [
                         97, 
@@ -3670,7 +3668,6 @@
         "DFLT": {
             "ZA": {
                 "name": "English (South Africa)", 
-                "territory": "South Africa", 
                 "unicodes": {
                     "optional": [
                         224, 
@@ -4268,8 +4265,7 @@
     "fa": {
         "DFLT": {
             "AF": {
-                "name": "Dari", 
-                "territory": "Afghanistan", 
+                "name": "Dari (Afghanistan)", 
                 "unicodes": {
                     "optional": [
                         1573, 
@@ -25620,8 +25616,7 @@
     "nds": {
         "DFLT": {
             "NL": {
-                "name": "Low Saxon", 
-                "territory": "Netherlands", 
+                "name": "Low Saxon (Netherlands)", 
                 "unicodes": {
                     "base": [
                         97, 
@@ -26888,8 +26883,7 @@
     "pt": {
         "DFLT": {
             "PT": {
-                "name": "European Portuguese", 
-                "territory": "Portugal", 
+                "name": "European Portuguese (Portugal)", 
                 "unicodes": {
                     "punctuation": [
                         33, 
@@ -28680,8 +28674,7 @@
     "sw": {
         "DFLT": {
             "CD": {
-                "name": "Congo Swahili", 
-                "territory": "Congo (DRC)", 
+                "name": "Congo Swahili (Congo (DRC))", 
                 "unicodes": {
                     "base": [
                         97, 
@@ -29118,8 +29111,7 @@
     "ti": {
         "DFLT": {
             "ER": {
-                "name": "Tigrinya", 
-                "territory": "Eritrea", 
+                "name": "Tigrinya (Eritrea)", 
                 "unicodes": {
                     "optional": [
                         4615, 
@@ -31356,8 +31348,7 @@
     "yo": {
         "DFLT": {
             "BJ": {
-                "name": "Yoruba", 
-                "territory": "Benin", 
+                "name": "Yoruba (Benin)", 
                 "unicodes": {
                     "base": [
                         97, 

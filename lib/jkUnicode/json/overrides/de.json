@@ -1,7 +1,7 @@
 {
     "DFLT": {
         "CH": {
-            "name": "German, Swiss High", 
+            "name": "German (Switzerland)", 
             "unicodes": {
                 "optional": [
                     "0x00DF ß germandbls", 

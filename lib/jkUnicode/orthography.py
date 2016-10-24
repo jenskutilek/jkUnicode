@@ -101,6 +101,38 @@ class Orthography(object):
 	def forget_cmap(self):
 		self.scan_ok = False
 	
+	@property
+	def info(self):
+		return self._info()
+	
+	@property
+	def name(self):
+		return self._name
+		#if self.territory == "dflt":
+		#	if self.script == "DFLT":
+		#		return self._name
+		#	else:
+		#		return "%s (%s)" % (
+		#			self._name,
+		#			self.info.get_script_name(self.script),
+		#		)
+		#else:
+		#	if self.script == "DFLT":
+		#		return "%s (%s)" % (
+		#			self._name,
+		#			self.info.get_territory_name(self.territory),
+		#		)
+		#	else:
+		#		return "%s (%s, %s)" % (
+		#			self._name,
+		#			self.info.get_script_name(self.script),
+		#			self.info.get_territory_name(self.territory),
+		#		)
+	
+	@name.setter
+	def name(self, value):
+		self._name = value
+	
 	def __repr__(self):
 		return u'<Orthography "%s">' % self.name
 
@@ -123,12 +155,31 @@ class OrthographyInfo(object):
 					i += 1
 		for o in self.orthographies:
 			o.fill_from_default_orthography()
+		
+		self._language_names  = dict_from_file(data_path, "languages")
+		self._script_names    = dict_from_file(data_path, "scripts")
+		self._territory_names = dict_from_file(data_path, "territories")
 	
 	def orthography(self, code, script="DFLT", territory="dflt"):
 		i = self._index.get((code, script, territory), None)
 		if i is None:
 			return None
 		return self.orthographies[i]
+	
+	def get_language_name(self, code):
+		return self._language_names.get(code, code)
+	
+	def get_script_name(self, code):
+		if code == "DFLT":
+			return "Default"
+		else:
+			return self._script_names.get(code, code)
+	
+	def get_territory_name(self, code):
+		if code == "dflt":
+			return "Default"
+		else:
+			return self._territory_names.get(code, code)
 	
 	def scan_cmap(self, cmap):
 		for o in self.orthographies:
@@ -179,8 +230,8 @@ def test_scan():
 	start = time()
 	o = OrthographyInfo()
 	print o
-	#for ot in o.orthographies:
-	#	print ot.name
+	for ot in o.orthographies:
+		print ot.name
 	full = o.list_supported_orthographies(cmap, full_only=True)
 	base = o.list_supported_orthographies(cmap, full_only=False)
 	mini = o.list_supported_orthographies_minimum(cmap)
