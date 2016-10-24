@@ -32,10 +32,14 @@ def format_char_list(char_list):
 if not(os.path.exists(en_path)):
 	print "XML language data not found.\nPlease use the shell script 'updateLangData.sh' to download it."
 else:
-	# Extract language names from the English data file
+	
+	# Extract language, script and territory names from the English data file
 
 	root = ET.parse(en_path).getroot()
-
+	
+	
+	# Language names
+	
 	language_dict = extract_dict(root, "localeDisplayNames/languages/language")
 	try:
 		# Root is not a language, but the template file
@@ -43,12 +47,26 @@ else:
 	except:
 		pass
 	print "OK: Read %i language names." % len(language_dict)
-
+	
+	
+	# Script names
+	
 	script_dict = extract_dict(root, "localeDisplayNames/scripts/script")
 	print "OK: Read %i script names." % len(script_dict)
 
 	json_to_file(json_path, "scripts", script_dict)
+	
+	
+	# Territory names
+	
+	territory_dict = extract_dict(root, "localeDisplayNames/territories/territory")
+	print "OK: Read %i territory names." % len(territory_dict)
 
+	json_to_file(json_path, "territories", territory_dict)
+	
+	
+	# Now parse all the separate language XML files
+	
 	print "Parsing language character data ..."
 
 	language_chars = {}
@@ -146,7 +164,12 @@ else:
 					if script != "DFLT":
 						name += " (%s)" % script_dict[script] if script in script_dict else script
 					
-					language_chars[code][script][territory] = {"name": name, "unicodes": char_dict}
+					language_chars[code][script][territory] = {
+						"name": name,
+						"unicodes": char_dict,
+					}
+					if territory in territory_dict:
+						language_chars[code][script][territory]["territory"] = territory_dict[territory]
 				else:
 					print "Language is not in master list:", code
 			else:

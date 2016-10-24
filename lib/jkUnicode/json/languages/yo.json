@@ -2,6 +2,7 @@
     "DFLT": {
         "BJ": {
             "name": "Yoruba", 
+            "territory": "Benin", 
             "unicodes": {
                 "base": [
                     "0x0061 a a", 

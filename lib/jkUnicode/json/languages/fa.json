@@ -2,6 +2,7 @@
     "DFLT": {
         "AF": {
             "name": "Dari", 
+            "territory": "Afghanistan", 
             "unicodes": {
                 "optional": [
                     "0x0625 إ uni0625", 

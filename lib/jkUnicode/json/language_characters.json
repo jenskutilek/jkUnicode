@@ -522,6 +522,7 @@
         "DFLT": {
             "MA": {
                 "name": "Arabic", 
+                "territory": "Morocco", 
                 "unicodes": {
                     "optional": [
                         1647, 
@@ -2751,7 +2752,8 @@
     "de": {
         "DFLT": {
             "CH": {
-                "name": "German (Swiss High ~)", 
+                "name": "German, Swiss High", 
+                "territory": "Switzerland", 
                 "unicodes": {
                     "base": [
                         97, 
@@ -3667,7 +3669,8 @@
     "en": {
         "DFLT": {
             "ZA": {
-                "name": "English (Zaire)", 
+                "name": "English (South Africa)", 
+                "territory": "South Africa", 
                 "unicodes": {
                     "optional": [
                         224, 
@@ -4266,6 +4269,7 @@
         "DFLT": {
             "AF": {
                 "name": "Dari", 
+                "territory": "Afghanistan", 
                 "unicodes": {
                     "optional": [
                         1573, 
@@ -25617,6 +25621,7 @@
         "DFLT": {
             "NL": {
                 "name": "Low Saxon", 
+                "territory": "Netherlands", 
                 "unicodes": {
                     "base": [
                         97, 
@@ -26884,6 +26889,7 @@
         "DFLT": {
             "PT": {
                 "name": "European Portuguese", 
+                "territory": "Portugal", 
                 "unicodes": {
                     "punctuation": [
                         33, 
@@ -28675,6 +28681,7 @@
         "DFLT": {
             "CD": {
                 "name": "Congo Swahili", 
+                "territory": "Congo (DRC)", 
                 "unicodes": {
                     "base": [
                         97, 
@@ -29112,6 +29119,7 @@
         "DFLT": {
             "ER": {
                 "name": "Tigrinya", 
+                "territory": "Eritrea", 
                 "unicodes": {
                     "optional": [
                         4615, 
@@ -31349,6 +31357,7 @@
         "DFLT": {
             "BJ": {
                 "name": "Yoruba", 
+                "territory": "Benin", 
                 "unicodes": {
                     "base": [
                         97, 

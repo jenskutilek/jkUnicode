@@ -2,6 +2,7 @@
     "DFLT": {
         "NL": {
             "name": "Low Saxon", 
+            "territory": "Netherlands", 
             "unicodes": {
                 "base": [
                     "0x0061 a a", 

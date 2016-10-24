@@ -2,6 +2,7 @@
     "DFLT": {
         "CH": {
             "name": "Swiss High German", 
+            "territory": "Switzerland", 
             "unicodes": {
                 "base": [
                     "0x0061 a a", 

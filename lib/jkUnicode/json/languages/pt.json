@@ -2,6 +2,7 @@
     "DFLT": {
         "PT": {
             "name": "European Portuguese", 
+            "territory": "Portugal", 
             "unicodes": {
                 "punctuation": [
                     "0x0021 ! exclam", 

@@ -2,6 +2,7 @@
     "DFLT": {
         "MA": {
             "name": "Arabic", 
+            "territory": "Morocco", 
             "unicodes": {
                 "optional": [
                     "0x066F ٯ uni066F", 
