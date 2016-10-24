@@ -2751,7 +2751,7 @@
     "de": {
         "DFLT": {
             "CH": {
-                "name": "Swiss High German", 
+                "name": "German (Swiss High ~)", 
                 "unicodes": {
                     "base": [
                         97, 
@@ -3667,7 +3667,7 @@
     "en": {
         "DFLT": {
             "ZA": {
-                "name": "English", 
+                "name": "English (Zaire)", 
                 "unicodes": {
                     "optional": [
                         224, 
