@@ -22,6 +22,11 @@ class Orthography(object):
 		self.unicodes_base        = set(uni_info.get("base", []))
 		self.unicodes_optional    = set(uni_info.get("optional", [])) - self.unicodes_base
 		self.unicodes_punctuation = set(uni_info.get("punctuation", []))
+		
+		# Additional sets to speed up later calculations
+		self.unicodes_base_punctuation = self.unicodes_base | self.unicodes_punctuation
+		self.unicodes_any = self.unicodes_base | self.unicodes_optional | self.unicodes_punctuation
+		
 		self.scan_ok = False
 	
 	
@@ -73,6 +78,22 @@ class Orthography(object):
 		if not self.scan_ok:
 			self.scan_cmap(cmap)
 		if 0 < self.num_missing_all <= max_missing:
+			return True
+		return False
+	
+	
+	def uses_unicode_base(self, u):
+		# Is the unicode used by this orthography in the base set?
+		# This is relatively slow. Use OrthographyInfo.build_reverse_cmap if you need to access it more often.
+		if u in self.unicodes_base_punctuation:
+			return True
+		return False
+	
+	
+	def uses_unicode_any(self, u):
+		# Is the unicode used by this orthography in any set?
+		# This is relatively slow. Use OrthographyInfo.build_reverse_cmap if you need to access it more often.
+		if u in self.unicodes_any:
 			return True
 		return False
 	
@@ -137,8 +158,30 @@ class Orthography(object):
 		self._name = value
 	
 	
+	def __cmp__(self, other):
+		# For sorting
+		if self.name > other.name:
+			return 1
+		elif self.name == other.name:
+			return 0
+		else:
+			return -1
+	
+	
+	def __eq__(self, other):
+		if self.name == other.name:
+			return True
+		return False
+	
+	
+	def __ne__(self, other):
+		if self.name == other.name:
+			return False
+		return True
+	
+	
 	def __repr__(self):
-		return u'<Orthography "%s">' % self.name
+		return u'<Orthography "%s">' % self.name.encode("ascii", errors="ignore")
 
 
 
@@ -165,6 +208,19 @@ class OrthographyInfo(object):
 		self._language_names  = dict_from_file(data_path, "languages")
 		self._script_names    = dict_from_file(data_path, "scripts")
 		self._territory_names = dict_from_file(data_path, "territories")
+		
+		self._reverse_cmap = {}
+	
+	
+	def build_reverse_cmap(self):
+		# Build a map from a unicode to all orthographies using it.
+		self._reverse_cmap = {}
+		for i, o in enumerate(self.orthographies):
+			for u in o.unicodes_base_punctuation:
+				if u in self._reverse_cmap:
+					self._reverse_cmap[u].append(i)
+				else:
+					self._reverse_cmap[u] = [i]
 	
 	
 	def orthography(self, code, script="DFLT", territory="dflt"):
@@ -176,6 +232,25 @@ class OrthographyInfo(object):
 	
 	def get_language_name(self, code):
 		return self._language_names.get(code, code)
+	
+	
+	def get_orthographies_for_char(self, char):
+		if not self._reverse_cmap:
+			self.build_reverse_cmap()
+		ol = self._reverse_cmap.get(ord(char), [])
+		return [self.orthographies[i] for i in ol]
+	
+	
+	def get_orthographies_for_unicode(self, u):
+		if not self._reverse_cmap:
+			self.build_reverse_cmap()
+		ol = self._reverse_cmap.get(u, [])
+		return [self.orthographies[i] for i in ol]
+	
+	
+	def get_orthographies_for_unicode2(self, u):
+		#ol = self._reverse_cmap.get(u, [])
+		return [o for o in self.orthographies if o.uses_unicode_base(u)]
 	
 	
 	def get_script_name(self, code):
@@ -280,11 +355,11 @@ def test_scan():
 	# Output info about one orthography
 	ot = o.orthography("en", "DFLT", "ZA")
 	print "\nOrthography:", ot.name
-	print ot.unicodes_base
+	print list(ot.unicodes_base)
 	
 	
 	# Scan the font again, but allow for a number of missing characters
-	n = 2
+	n = 3
 	almost = o.report_almost_supported_orthographies(cmap, n)
 	print "\nAlmost supported (max. %i missing)):" % n, len(almost), "orthography" if len(almost) == 1 else "orthographies"
 	for name in sorted(almost.keys()):
@@ -294,6 +369,37 @@ def test_scan():
 		print "   ", " ".join([g[1] for g in glyphs])
 
 
+def test_reverse():
+	from time import time
+	
+	c = u"ö"
+	o = OrthographyInfo()
+	
+	print "Build reverse CMAP:"
+	start = time()
+	o.build_reverse_cmap()
+	stop = time()
+	print (stop - start) * 1000, "ms"
+	
+	u = ord(c)
+	
+	start = time()
+	result = o.get_orthographies_for_unicode(u)
+	stop = time()
+	print (stop - start) * 1000, "ms"
+	
+	start = time()
+	result = o.get_orthographies_for_unicode2(u)
+	stop = time()
+	print (stop - start) * 1000, "ms"
+	
+	
+	print u"'%s' is used in:" % c
+	for ot in sorted(result):
+		print "   ", ot.name
+
+
 
 if __name__ == "__main__":
-	test_scan()
+	#test_scan()
+	test_reverse()
