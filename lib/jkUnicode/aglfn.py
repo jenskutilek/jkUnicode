@@ -589,27 +589,12 @@ nameToUnicode = {
 	'zdotaccent': 0x017C, # LATIN SMALL LETTER Z WITH DOT ABOVE
 	'zero': 0x0030, # DIGIT ZERO
 	'zeta': 0x03B6, # GREEK SMALL LETTER ZETA
-	# special FSI
+	# custom additions
 	'NULL': 0x0000,
 	'CR': 0xd,
 	'twosuperior': 0x00B2,
 	'threesuperior': 0x00B3,
 	'onesuperior': 0x00B9,
-	#'Gcommaaccent': 0x122,
-	#'gcommaaccent': 0x123,
-	#'Kcommaaccent': 0x136,
-	#'kcommaaccent': 0x137,
-	#'Lcommaaccent': 0x13b,
-	#'lcommaaccent': 0x13c,
-	#'Ncommaaccent': 0x145,
-	#'ncommaaccent': 0x146,
-	#'Rcommaaccent': 0x156,
-	#'rcommaaccent': 0x157,
-	#'Scommaaccent': 0x218,
-	#'scommaaccent': 0x219,
-	#'Tcommaaccent': 0x162,
-	#'tcommaaccent': 0x163,
-	#'afii61352': 0x2116,
 	'fi': 0xfb01,
 	'fl': 0xfb02,
 	}
@@ -628,7 +613,7 @@ def getUnicodeForGlyphname(name):
 		try:
 			return int(name[1:], 16)
 		except:
-			print "INFO: You found an easter egg: %s, please notify developer." % name
+			#print "INFO: You found an easter egg: %s, please notify developer." % name
 			return None
 	elif ornName.match(name):
 		return 0xea00 + int(name[3:6])
