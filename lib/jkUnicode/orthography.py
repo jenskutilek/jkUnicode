@@ -101,9 +101,11 @@ class Orthography(object):
 	def forget_cmap(self):
 		self.scan_ok = False
 	
+	
 	@property
 	def info(self):
 		return self._info()
+	
 	
 	@property
 	def name(self):
@@ -129,12 +131,16 @@ class Orthography(object):
 		#			self.info.get_territory_name(self.territory),
 		#		)
 	
+	
 	@name.setter
 	def name(self, value):
 		self._name = value
 	
+	
 	def __repr__(self):
 		return u'<Orthography "%s">' % self.name
+
+
 
 class OrthographyInfo(object):
 	def __init__(self):
@@ -160,14 +166,17 @@ class OrthographyInfo(object):
 		self._script_names    = dict_from_file(data_path, "scripts")
 		self._territory_names = dict_from_file(data_path, "territories")
 	
+	
 	def orthography(self, code, script="DFLT", territory="dflt"):
 		i = self._index.get((code, script, territory), None)
 		if i is None:
 			return None
 		return self.orthographies[i]
 	
+	
 	def get_language_name(self, code):
 		return self._language_names.get(code, code)
+	
 	
 	def get_script_name(self, code):
 		if code == "DFLT":
@@ -175,15 +184,18 @@ class OrthographyInfo(object):
 		else:
 			return self._script_names.get(code, code)
 	
+	
 	def get_territory_name(self, code):
 		if code == "dflt":
 			return "Default"
 		else:
 			return self._territory_names.get(code, code)
 	
+	
 	def scan_cmap(self, cmap):
 		for o in self.orthographies:
 			o.scan_cmap(cmap)
+	
 	
 	def list_supported_orthographies(self, cmap, full_only=True):
 		result = []
@@ -196,12 +208,14 @@ class OrthographyInfo(object):
 					result.append(o.name)
 		return sorted(result)
 	
+	
 	def list_supported_orthographies_minimum(self, cmap):
 		result = []
 		for o in self.orthographies:
 			if o.support_minimal(cmap):
 				result.append(o.name)
 		return sorted(result)
+	
 	
 	def report_almost_supported_orthographies(self, cmap, max_missing=5):
 		result = {}
@@ -210,11 +224,14 @@ class OrthographyInfo(object):
 				result[o.name] = o.missing_all
 		return result
 	
+	
 	#def __getitem__(self, key):
 	#	return self.orthographies[key]
 	
+	
 	def __len__(self):
 		return len(self.orthographies)
+	
 	
 	def __repr__(self):
 		return u"<OrthographyInfo with %i orthographies>" % len(self)
@@ -226,39 +243,57 @@ def test_scan():
 	from htmlGenerator.fonttools.sfnt import get_cmap
 	from jkUnicode import get_expanded_glyph_list
 	
+	
+	# Get a character map from a font to scan.
 	cmap = get_cmap(TTFont("/Users/jens/Documents/Schriften/Hertz/Hertz-Book.ttf"))
 	start = time()
 	o = OrthographyInfo()
 	print o
+	
+	
+	# List known orthographies
 	for ot in o.orthographies:
 		print ot.name
+	
+	
+	# Scan for full, base and minimal support of the font's cmap
 	full = o.list_supported_orthographies(cmap, full_only=True)
 	base = o.list_supported_orthographies(cmap, full_only=False)
 	mini = o.list_supported_orthographies_minimum(cmap)
 	stop = time()
+	
 	print "\nFull support:", len(full), "orthography" if len(base) == 1 else "orthographies"
 	print ", ".join(full)
+	
 	base = [r for r in base if not r in full]
 	print "\nBasic support:", len(base), "orthography" if len(base) == 1 else "orthographies"
 	print ", ".join(base)
+	
 	mini = [r for r in mini if not r in full]
 	print "\nMinimal support (no punctuation):", len(mini), "orthography" if len(mini) == 1 else "orthographies"
 	print ", ".join(mini)
+	
+	# Timing information
 	print stop - start
 	
-	print o.orthography("en", "DFLT", "ZA").unicodes_base
 	
+	# Output info about one orthography
+	ot = o.orthography("en", "DFLT", "ZA")
+	print "\nOrthography:", ot.name
+	print ot.unicodes_base
+	
+	
+	# Scan the font again, but allow for a number of missing characters
 	n = 2
 	almost = o.report_almost_supported_orthographies(cmap, n)
 	print "\nAlmost supported (max. %i missing)):" % n, len(almost), "orthography" if len(almost) == 1 else "orthographies"
 	for name in sorted(almost.keys()):
 		print name
+		# get_expanded_glyph_list adds case mapping entries and AGLFN glyph names to the list
 		glyphs = get_expanded_glyph_list(almost[name])
 		print "   ", " ".join([g[1] for g in glyphs])
-	
+
 
 
 if __name__ == "__main__":
-	#o = OrthographyInfo()
-	#print o
 	test_scan()
