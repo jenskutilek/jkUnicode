@@ -2751,7 +2751,7 @@
     "de": {
         "DFLT": {
             "CH": {
-                "name": "German (Switzerland)", 
+                "name": "Swiss High German (Switzerland)", 
                 "unicodes": {
                     "base": [
                         97, 
@@ -2860,7 +2860,6 @@
                         121, 
                         122, 
                         223, 
-                        7838, 
                         228, 
                         246, 
                         252
@@ -25901,8 +25900,7 @@
                         243, 
                         246, 
                         250, 
-                        252, 
-                        769
+                        252
                     ], 
                     "optional": [
                         224, 
@@ -26883,7 +26881,7 @@
     "pt": {
         "DFLT": {
             "PT": {
-                "name": "Portuguese (Portugal))", 
+                "name": "Portuguese (European)", 
                 "unicodes": {
                     "punctuation": [
                         33, 
@@ -28674,7 +28672,7 @@
     "sw": {
         "DFLT": {
             "CD": {
-                "name": "Congo Swahili (Congo (DRC))", 
+                "name": "Swahili (Congo)", 
                 "unicodes": {
                     "base": [
                         97, 

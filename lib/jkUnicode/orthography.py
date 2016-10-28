@@ -5,6 +5,12 @@ import os, weakref
 from jkUnicode.tools.jsonhelpers import json_path, json_to_file, dict_from_file
 
 
+# These unicode points are ignored when scanning for orthography support
+IGNORED_UNICODES = [
+    0x2032, # minute: Minute and second appear in lots of language definitions in CLDR, but are not in most fonts.
+    0x2033, # second
+]
+
 
 class Orthography(object):
 	
@@ -19,9 +25,9 @@ class Orthography(object):
 	def from_dict(self, info_dict):
 		self.name = info_dict.get("name", None)
 		uni_info = info_dict.get("unicodes", {})
-		self.unicodes_base        = set(uni_info.get("base", []))
-		self.unicodes_optional    = set(uni_info.get("optional", [])) - self.unicodes_base
-		self.unicodes_punctuation = set(uni_info.get("punctuation", []))
+		self.unicodes_base        = set(uni_info.get("base", [])) - self.info.ignored_unicodes
+		self.unicodes_optional    = set(uni_info.get("optional", [])) - self.unicodes_base - self.info.ignored_unicodes
+		self.unicodes_punctuation = set(uni_info.get("punctuation", [])) - self.info.ignored_unicodes
 		
 		# Additional sets to speed up later calculations
 		self.unicodes_base_punctuation = self.unicodes_base | self.unicodes_punctuation
@@ -190,6 +196,7 @@ class OrthographyInfo(object):
 		data_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "json")
 		master = dict_from_file(data_path, "language_characters")
 		
+		self.ignored_unicodes = set(IGNORED_UNICODES)
 		self.orthographies = []
 		self._index = {}
 		i = 0
