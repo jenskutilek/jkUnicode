@@ -14,9 +14,9 @@ class OrthoCmdLine(object):
 		self.u = UniInfo(0)
 		self.o.cmap = self.get_cmap(font_path)
 		if args.punctuation:
-			self.report_missing_punctuation()
+			self.o.report_missing_punctuation()
 		elif args.near_miss:
-			self.report_near_misses(args.near_miss[0])
+			self.o.report_near_misses(args.near_miss[0])
 	
 	
 	def get_cmap(self, f):
@@ -25,25 +25,6 @@ class OrthoCmdLine(object):
 		cmap = get_cmap(f)
 		f.close()
 		return cmap
-	
-	
-	def print_report(self, otlist, attr):
-		otlist.sort()
-		for ot in otlist:
-			print ot.name
-			for u in sorted(list(getattr(ot, attr))):
-				self.u.unicode = u
-				print "    0x%04X   %s   %s" % (u, self.u.glyphname, self.u.name)
-	
-	
-	def report_missing_punctuation(self):
-		m = self.o.get_almost_supported_punctuation()
-		self.print_report(m, "missing_punctuation")
-	
-	
-	def report_near_misses(self, n):
-		m = self.o.get_almost_supported(n)
-		self.print_report(m, "missing_base")
 
 
 if __name__ == "__main__":
