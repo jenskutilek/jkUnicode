@@ -5,6 +5,8 @@ import os, weakref
 from jkUnicode.tools.jsonhelpers import json_path, json_to_file, dict_from_file
 
 
+# TODO: Add uppercase right to the language definitions? Or to the Orthography info object?
+
 # These unicode points are ignored when scanning for orthography support
 IGNORED_UNICODES = [
     0x2032, # minute: Minute and second appear in lots of language definitions in CLDR, but are not in most fonts.
@@ -56,34 +58,38 @@ class Orthography(object):
 							setattr(self, attr, parent_set)
 	
 	
-	def support_full(self, cmap):
-		if not self.scan_ok:
-			self.scan_cmap(cmap)
+	def support_full(self):
 		if self.num_missing_base == 0 and self.num_missing_optional == 0 and self.num_missing_punctuation == 0:
 			return True
 		return False
 	
 	
-	def support_basic(self, cmap):
-		if not self.scan_ok:
-			self.scan_cmap(cmap)
+	def support_basic(self):
 		if self.num_missing_base == 0 and self.num_missing_punctuation == 0:
 			return True
 		return False
 	
 	
-	def support_minimal(self, cmap):
-		if not self.scan_ok:
-			self.scan_cmap(cmap)
+	def support_minimal(self):
 		if self.num_missing_base == 0 and self.num_missing_optional != 0 and self.num_missing_punctuation != 0:
 			return True
 		return False
 	
 	
-	def almost_supported(self, cmap, max_missing = 5):
-		if not self.scan_ok:
-			self.scan_cmap(cmap)
+	def almost_supported_full(self, max_missing = 5):
 		if 0 < self.num_missing_all <= max_missing:
+			return True
+		return False
+	
+	
+	def almost_supported_basic(self, max_missing = 5):
+		if 0 < self.num_missing_base <= max_missing:
+			return True
+		return False
+	
+	
+	def almost_supported_punctuation(self, max_missing = 5):
+		if self.num_missing_base == 0 and 0 < self.num_missing_punctuation <= max_missing:
 			return True
 		return False
 	
@@ -104,8 +110,8 @@ class Orthography(object):
 		return False
 	
 	
-	def scan_cmap(self, cmap):
-		cmap_set = set(cmap)
+	def scan_cmap(self):
+		cmap_set = set(self.info.cmap)
 		# Check for missing chars
 		self.missing_base        = self.unicodes_base        - cmap_set
 		self.missing_optional    = self.unicodes_optional    - cmap_set
@@ -216,7 +222,27 @@ class OrthographyInfo(object):
 		self._script_names    = dict_from_file(data_path, "scripts")
 		self._territory_names = dict_from_file(data_path, "territories")
 		
-		self._reverse_cmap = {}
+		self._cmap = None
+		self._reverse_cmap = None
+	
+	
+	@property
+	def cmap(self):
+		if self._cmap is None:
+			return {}
+		return self._cmap
+	
+	
+	@cmap.setter
+	def cmap(self, value=None):
+		if value is None:
+			self._cmap = None
+			for o in self.orthographies:
+				o.forget_cmap()
+		else:
+			self._cmap = value
+			for o in self.orthographies:
+				o.scan_cmap()
 	
 	
 	def build_reverse_cmap(self):
@@ -285,40 +311,34 @@ class OrthographyInfo(object):
 	
 	# Convenience functions
 	
-	def scan_cmap(self, cmap):
-		# Check the supplied cmap with all orthographies. This speeds up later operations.
-		for o in self.orthographies:
-			o.scan_cmap(cmap)
-	
-	
-	def list_supported_orthographies(self, cmap, full_only=True):
+	def get_supported_orthographies(self, full_only=True):
 		# Get a list of supported orthographies for a character list.
 		result = []
 		for o in self.orthographies:
 			if full_only:
-				if o.support_full(cmap):
+				if o.support_full():
 					result.append(o)
 			else:
-				if o.support_basic(cmap):
+				if o.support_basic():
 					result.append(o)
 		return result
 	
 	
-	def list_supported_orthographies_minimum(self, cmap):
+	def get_supported_orthographies_minimum(self):
 		# Get a list of minimally supported orthographies for a character list.
 		result = []
 		for o in self.orthographies:
-			if o.support_minimal(cmap):
+			if o.support_minimal():
 				result.append(o)
 		return result
 	
 	
-	def report_almost_supported_orthographies(self, cmap, max_missing=5):
-		result = {}
-		for o in self.orthographies:
-			if o.almost_supported(cmap, max_missing):
-				result[o.name] = o.missing_all
-		return result
+	def get_almost_supported(self, max_missing=5):
+		return [o for o in self.orthographies if o.almost_supported_basic(max_missing)]
+	
+	
+	def get_almost_supported_punctuation(self):
+		return [o for o in self.orthographies if o.almost_supported_punctuation()]
 	
 	
 	#def __getitem__(self, key):
@@ -358,11 +378,12 @@ def test_scan():
 	for ot in sorted(o.orthographies):
 		print ot.name, ot.code
 	
+	o.cmap = cmap
 	
 	# Scan for full, base and minimal support of the font's cmap
-	full = o.list_supported_orthographies(cmap, full_only=True)
-	base = o.list_supported_orthographies(cmap, full_only=False)
-	mini = o.list_supported_orthographies_minimum(cmap)
+	full = o.list_supported_orthographies(full_only=True)
+	base = o.list_supported_orthographies(full_only=False)
+	mini = o.list_supported_orthographies_minimum()
 	stop = time()
 	
 	print "\nFull support:", len(full), "orthography" if len(base) == 1 else "orthographies"
@@ -388,7 +409,7 @@ def test_scan():
 	
 	# Scan the font again, but allow for a number of missing characters
 	n = 3
-	almost = o.report_almost_supported_orthographies(cmap, n)
+	almost = o.report_almost_supported_orthographies(n)
 	print "\nAlmost supported (max. %i missing)):" % n, len(almost), "orthography" if len(almost) == 1 else "orthographies"
 	for name in sorted(almost.keys()):
 		print name
