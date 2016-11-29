@@ -4,6 +4,7 @@
 from uniName import uniName
 from uniCat import uniCat
 from uniCase import uniUpperCaseMapping, uniLowerCaseMapping
+from uniDecomposition import uniDecompositionMapping
 
 categoryName = {
 	'Lu':	'Letter, Uppercase',
@@ -92,6 +93,7 @@ class UniInfo(object):
 		self._category = categoryName.get(self._categoryShort, "<undefined>")
 		self._uc_mapping = uniUpperCaseMapping.get(self._unicode, None)
 		self._lc_mapping = uniLowerCaseMapping.get(self._unicode, None)
+		self._dc_mapping = uniDecompositionMapping.get(self._unicode, [])
 	
 	def __repr__(self):
 		if self.unicode is None:
@@ -124,6 +126,10 @@ class UniInfo(object):
 		return self._name
 	
 	@property
+	def decomposition_mapping(self):
+		return self._dc_mapping
+	
+	@property
 	def lc_mapping(self):
 		return self._lc_mapping
 	
@@ -144,7 +150,7 @@ class UniInfo(object):
 
 if __name__ == '__main__':
 	print "\n*** Test of jkUnicode.UniInfo ***"
-	for u in [9912, 80]:
+	for u in [9912, 80, 0x1E40]:
 		j = UniInfo(u)
 		print "Repr.:"
 		print j
@@ -152,6 +158,7 @@ if __name__ == '__main__':
 		print "             Name:", j.name
 		print "       Glyph Name:", j.glyphname
 		print "         Category:", j.category
+		print "    Decomposition:", [hex(n) for n in j.decomposition_mapping]
 		print "        Character:", j.char
 		lc = j.lc_mapping
 		print "Lowercase Mapping:", lc

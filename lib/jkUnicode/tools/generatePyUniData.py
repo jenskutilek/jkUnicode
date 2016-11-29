@@ -109,6 +109,31 @@ if exists("UnicodeData.txt"):
 else:
 	print "WARNING: File UnicodeData.txt not found, Unicode category data not regenerated."
 
+# Unicode decomposition
+print "Unicode Decomposition Mappings ..."
+if exists("UnicodeData.txt"):
+	with codecs.open("../uniDecomposition.py", 'w', encoding='utf-8') as outfile:
+		outfile.write("# This is a generated file, use tools/generatePyUniData.py to edit and regenerate.\n\nuniDecompositionMapping = {")
+		dc = []
+		with codecs.open("UnicodeData.txt", encoding='utf-8') as f:
+			for line in f:
+				elements = line.strip().split(';')
+				
+				# Decomposition mapping
+				dcm = elements[5]
+				#print elements[0], dcm
+				if dcm:
+					codes = dcm.split(" ")
+					if not codes[0].startswith("<"):
+						dc.append((elements[0], codes))
+				
+		for code, decomp_sequence in dc:
+			outfile.write("\n\t0x%s: [%s]," % (code, ", ".join(["0x%s" % d for d in decomp_sequence])))
+		outfile.write("\n}\n")
+	print "OK."
+else:
+	print "WARNING: File UnicodeData.txt not found, Unicode name data not regenerated."
+
 # Adobe Glyph List for New Fonts
 print "AGLFN ..."
 if exists("aglfn.txt"):
