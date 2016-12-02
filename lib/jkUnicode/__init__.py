@@ -97,11 +97,16 @@ class UniInfo(object):
 	
 	def __repr__(self):
 		if self.unicode is None:
-			s =    " Unicode: None"
+			s =    "      Unicode: None"
 		else:
-			s =    " Unicode: 0x%04X (dec. %s)" % (self.unicode, self.unicode)
-		s += "\n    Name: %s" % self.name
-		s += "\nCategory: %s (%s)" % (self._categoryShort, self.category)
+			s =    "      Unicode: 0x%04X (dec. %s)" % (self.unicode, self.unicode)
+		s += "\n         Name: %s" % self.name
+		s += "\n     Category: %s (%s)" % (self._categoryShort, self.category)
+		if self._uc_mapping:
+			s += "\n    Uppercase: 0x%04X" % self._uc_mapping
+			s += "\n    Lowercase: 0x%04X" % self._lc_mapping
+		if self._dc_mapping:
+			s += "\nDecomposition: %s" % (" ".join(["0x%04X" % m for m in self._dc_mapping]))
 		return s
 	
 	@property
