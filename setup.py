@@ -25,4 +25,7 @@ setup(
 	requires = [
 		"fontTools",
 	],
+	scripts = [
+		"scripts/ortho",
+	],
 )
