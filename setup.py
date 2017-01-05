@@ -22,7 +22,7 @@ setup(
 		#"json/tags.json",
 		"json/territories.json",
 	]},
-	requires = [
+	install_requires = [
 		"fontTools",
 	],
 	scripts = [
