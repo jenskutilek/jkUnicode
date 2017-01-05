@@ -28,4 +28,9 @@ setup(
 	scripts = [
 		"scripts/ortho",
 	],
+	#entry_points = {
+	#	"console_scripts": [
+	#		"ortho_scan="
+	#	],
+	#},
 )
