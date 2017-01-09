@@ -8,11 +8,15 @@ Usage:
 
 `ortho ortho [-h] [-f] [-p] [-n NEAR_MISS] font [font ...]`
 
+### Options
+
+#### -f
+
 `-f | --full-only`
 
 When called without any options, `ortho` will determine the orthographic support of the supplied font(s) by looking at the required characters for each orthography. The `-f` option only lists orthographies for which all required _and_ optional characters are present in the font.
 
-### Example
+#### Example
 
 ```
 $ ortho ComicJens-Italic.otf 
@@ -44,11 +48,13 @@ Catalan
 Zulu
 ```
 
+#### -p
+
 `-p | --punctuation`
 
 Prints a list of orthographies for which all letter category characters are present in the font, but have missing punctuation category characters.
 
-### Example
+#### Example
 
 ```
 $ ortho -p ComicJens-Italic.ttf
@@ -58,11 +64,13 @@ Scottish Gaelic
     0x204A	uni204A	Tironian Sign Et
 ```
 
+#### -n
+
 `-n NEAR_MISS | --near-miss NEAR_MISS`
 
 Prints a list of orthographies which are missing up to a number of NEAR_MISS characters to be supported.
 
-### Example
+#### Example
 
 ```
 $ ortho -n 1 ComicJens-Italic.ttf
