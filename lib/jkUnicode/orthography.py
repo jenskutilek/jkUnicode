@@ -355,6 +355,12 @@ class OrthographyInfo(object):
 			for u in sorted(list(getattr(ot, attr))):
 				ui.unicode = u
 				print "    0x%04X\t%s\t%s" % (u, ui.glyphname, ui.name.title())
+
+	def report_supported(self, full_only=False):
+		m = self.get_supported_orthographies(full_only)
+		print "The font supports %i orthographies:" % len(m)
+		m.sort()
+		for ot in m: print ot.name
 	
 	
 	def report_missing_punctuation(self):

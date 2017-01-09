@@ -17,6 +17,10 @@ class OrthoCmdLine(object):
 			self.o.report_missing_punctuation()
 		elif args.near_miss:
 			self.o.report_near_misses(args.near_miss[0])
+		elif args.full_only:
+			self.o.report_supported(full_only=True)
+		else:
+			self.o.report_supported(full_only=False)
 	
 	
 	def get_cmap(self, f):
@@ -29,6 +33,7 @@ class OrthoCmdLine(object):
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Query fonts about orthographic support.")
+	parser.add_argument('-f', '--full-only', action="store_true", default=False, help='Report only orthographies that are supported with all optional characters')
 	parser.add_argument('-p', '--punctuation', action="store_true", default=False, help='Report missing punctuation for otherwise supported orthographies')
 	parser.add_argument('-n', '--near-miss', type=int, nargs=1, help='Report almost supported orthographies with maximum number of missing characters')
 	#parser.add_argument('-2', '--woff2',  action="store_true", default=False, help='Include WOFF2')
