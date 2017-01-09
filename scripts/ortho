@@ -36,11 +36,6 @@ if __name__ == "__main__":
 	parser.add_argument('-f', '--full-only', action="store_true", default=False, help='Report only orthographies that are supported with all optional characters')
 	parser.add_argument('-p', '--punctuation', action="store_true", default=False, help='Report missing punctuation for otherwise supported orthographies')
 	parser.add_argument('-n', '--near-miss', type=int, nargs=1, help='Report almost supported orthographies with maximum number of missing characters')
-	#parser.add_argument('-2', '--woff2',  action="store_true", default=False, help='Include WOFF2')
-	#parser.add_argument('-t', '--ttf',    action="store_true", default=False, help='Include TTF')
-	#parser.add_argument('-s', '--svg',    action="store_true", default=False, help='Include SVG')
-	#parser.add_argument('-i', '--inline', action="store_true", default=False, help='Store fonts inside the HTML file (except EOT and SVG)')
-	#parser.add_argument('--html', nargs=1, default=["main"], help='Use the speficied HTML template')
 	parser.add_argument('font', type=str, nargs="+", help='One or more fonts')
 	
 	args = parser.parse_args()
