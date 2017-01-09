@@ -17,6 +17,7 @@ IGNORED_UNICODES = [
 ui = UniInfo(0)
 
 def cased(codepoint_list):
+	"""Return a list with its Unicode case mapping toggled. If a codepoint has no lowercase or uppercase mapping, it is dropped from the list."""
 	result = []
 	for c in codepoint_list:
 		ui.unicode = c
@@ -29,6 +30,23 @@ def cased(codepoint_list):
 
 
 class Orthography(object):
+	"""The Orthography object represents an orthography. You usually don't deal with this
+object directly, it is used internally by the :py:class:`jkUnicode.orthography.OrthographyInfo` object.
+
+info_obj
+   The parent :py:class:`jkUnicode.orthography.OrthographyInfo` object.
+
+code
+   The orthography code.
+
+script
+   The script code of the orthography.
+
+territory
+   The territory code of the orthography.
+
+info_dict
+   The dictionary which contains the rest of the information about the orthography."""
 	
 	def __init__(self, info_obj, code, script, territory, info_dict):
 		self._info = weakref.ref(info_obj)
@@ -39,6 +57,7 @@ class Orthography(object):
 	
 	
 	def from_dict(self, info_dict):
+		"""Read information for the current orthography from a dictionary."""
 		self.name = info_dict.get("name", None)
 		uni_info = info_dict.get("unicodes", {})
 		
@@ -60,9 +79,9 @@ class Orthography(object):
 	
 	
 	def fill_from_default_orthography(self):
-		# Sometimes the base unicodes are empty for a variant.
-		# Try to fill them in from the default variant.
-		# Call this only after the whole list of orthographies is present, or it will fail.
+		"""Sometimes the base unicodes are empty for a variant of an orthography. Try to fill them in from the default variant.
+Call this only after the whole list of orthographies is present, or it will fail, because the default orthography
+may not be present until the whole list has been built."""
 		if self.territory != "dflt":
 			#print self.code, self.script, self.territory
 			parent = self.info.orthography(self.code, self.script)
@@ -80,36 +99,42 @@ class Orthography(object):
 	
 	
 	def support_full(self):
+		"""Is the orthography supported (base, optional and punctuation characters) for the current parent cmap?"""
 		if self.num_missing_base == 0 and self.num_missing_optional == 0 and self.num_missing_punctuation == 0:
 			return True
 		return False
 	
 	
 	def support_basic(self):
+		"""Is the orthography supported (base and punctuation characters) for the current parent cmap?"""
 		if self.num_missing_base == 0 and self.num_missing_punctuation == 0:
 			return True
 		return False
 	
 	
 	def support_minimal(self):
+		"""Is the orthography supported (base characters) for the current parent cmap?"""
 		if self.num_missing_base == 0 and self.num_missing_optional != 0 and self.num_missing_punctuation != 0:
 			return True
 		return False
 	
 	
 	def almost_supported_full(self, max_missing = 5):
+		"""Is the orthography supported with a maximum of max_missing characters (base, optional and punctuation characters) for the current parent cmap?"""
 		if 0 < self.num_missing_all <= max_missing:
 			return True
 		return False
 	
 	
 	def almost_supported_basic(self, max_missing = 5):
+		"""Is the orthography supported with a maximum of max_missing base characters for the current parent cmap?"""
 		if 0 < self.num_missing_base <= max_missing:
 			return True
 		return False
 	
 	
 	def almost_supported_punctuation(self, max_missing = 5):
+		"""Is the orthography supported with a maximum of max_missing punctuation characters for the current parent cmap?"""
 		if self.num_missing_base == 0 and 0 < self.num_missing_punctuation <= max_missing:
 			return True
 		return False
@@ -124,14 +149,14 @@ class Orthography(object):
 	
 	
 	def uses_unicode_any(self, u):
-		# Is the unicode used by this orthography in any set?
-		# This is relatively slow. Use OrthographyInfo.build_reverse_cmap if you need to access it more often.
+		""" Is the unicode used by this orthography in any set? This is relatively slow. Use :py:func:`jkUnicode.orthography.OrthographyInfo.build_reverse_cmap` if you need to access this information more often."""
 		if u in self.unicodes_any:
 			return True
 		return False
 	
 	
 	def scan_cmap(self):
+		"""Scan the orthography against the current parent cmap."""
 		cmap_set = set(self.info.cmap)
 		# Check for missing chars
 		self.missing_base        = self.unicodes_base        - cmap_set
@@ -153,17 +178,20 @@ class Orthography(object):
 	
 	
 	def forget_cmap(self):
+		"""Forget the results of the last cmap scan."""
 		self.scan_ok = False
 	
 	
 	@property
 	def info(self):
+		"""The parent OrthographyInfo object (read-only)."""
 		# self._info is a weakref, call it to return its object
 		return self._info()
 	
 	
 	@property
 	def name(self):
+		"""The name of the orthography (read-only)."""
 		return self._name
 	
 	
@@ -200,6 +228,7 @@ class Orthography(object):
 
 
 class OrthographyInfo(object):
+	"""The main Orthography Info object. It reads the information for each orthography from the files in the `json` subfolder. The JSON data is generated from the Unicode CLDR data via included Python scripts."""
 	def __init__(self):
 		data_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "json")
 		master = dict_from_file(data_path, "language_characters")
@@ -230,6 +259,7 @@ class OrthographyInfo(object):
 	
 	@property
 	def cmap(self):
+		"""The unicode to glyph name mapping, a dictionary. When you set the cmap, it is scanned against all orthographies belonging to the Orthography Info object."""
 		if self._cmap is None:
 			return {}
 		return self._cmap
@@ -248,7 +278,7 @@ class OrthographyInfo(object):
 	
 	
 	def build_reverse_cmap(self):
-		# Build a map from a unicode to all orthographies (index) using it.
+		"""Build a map from each unicode to a list of indices into the orthographies list for all orthographies that are using it as base or punctuation character."""
 		self._reverse_cmap = {}
 		for i, o in enumerate(self.orthographies):
 			for u in o.unicodes_base_punctuation:
@@ -259,7 +289,7 @@ class OrthographyInfo(object):
 	
 	
 	def orthography(self, code, script="DFLT", territory="dflt"):
-		# Access an orthography by its language, script and territory code.
+		"""Access an orthography by its language, script and territory code."""
 		i = self._index.get((code, script, territory), None)
 		if i is None:
 			return None
@@ -267,7 +297,7 @@ class OrthographyInfo(object):
 	
 	
 	def get_orthographies_for_char(self, char):
-		# Get a list of orthographies which use a supplied character at base level.
+		"""Get a list of orthographies which use a supplied character at base level."""
 		if not self._reverse_cmap:
 			self.build_reverse_cmap()
 		ol = self._reverse_cmap.get(ord(char), [])
@@ -275,7 +305,7 @@ class OrthographyInfo(object):
 	
 	
 	def get_orthographies_for_unicode(self, u):
-		# Get a list of orthographies which use a supplied codepoint at base level.
+		"""Get a list of orthographies which use a supplied codepoint at base level."""
 		if not self._reverse_cmap:
 			self.build_reverse_cmap()
 		ol = self._reverse_cmap.get(u, [])
@@ -283,20 +313,19 @@ class OrthographyInfo(object):
 	
 	
 	def get_orthographies_for_unicode_any(self, u):
-		# Get a list of orthographies which use a supplied codepoint at any level.
-		#ol = self._reverse_cmap.get(u, [])
+		"""Get a list of orthographies which use a supplied codepoint at any level."""
 		return [o for o in self.orthographies if o.uses_unicode_any(u)]
 	
 	
 	# Nice names for language, script, territory
 	
 	def get_language_name(self, code):
-		# Return the nice name for a language by code
+		"""Return the nice name for a language by its script code."""
 		return self._language_names.get(code, code)
 	
 	
 	def get_script_name(self, code):
-		# Return the nice name for a script by code
+		"""Return the nice name for a script by its language code."""
 		if code == "DFLT":
 			return "Default"
 		else:
@@ -304,7 +333,7 @@ class OrthographyInfo(object):
 	
 	
 	def get_territory_name(self, code):
-		# Return the nice name for a territory by code
+		"""Return the nice name for a territory by its territory code."""
 		if code == "dflt":
 			return "Default"
 		else:
@@ -314,19 +343,25 @@ class OrthographyInfo(object):
 	# Convenience functions
 	
 	def get_supported_orthographies(self, full_only=False):
-		# Get a list of supported orthographies for a character list.
-		# full_only: Return only orthographies which have also all optional characters present.
+		"""Get a list of supported orthographies for a character list.
+
+full_only
+   Return only orthographies which have both basic and optional characters present for the current cmap."""
 		if full_only:
 			return [o for o in self.orthographies if o.support_full()]
 		return [o for o in self.orthographies if o.support_basic()]
 	
 	
 	def get_supported_orthographies_minimum(self):
-		# Get a list of minimally supported orthographies for a character list.
+		"""Get a list of minimally supported orthographies for the current cmap."""
 		return [o for o in self.orthographies if o.support_minimal()]
 	
 	
 	def get_almost_supported(self, max_missing=5):
+		"""Return a list of almost supported orthographies for the current cmap.
+
+max_missing
+   The maximum allowed number of missing characters."""
 		return [o for o in self.orthographies if o.almost_supported_basic(max_missing)]
 	
 	
@@ -334,11 +369,8 @@ class OrthographyInfo(object):
 		return [o for o in self.orthographies if o.almost_supported_punctuation()]
 	
 	
-	#def __getitem__(self, key):
-	#	return self.orthographies[key]
-	
-	
 	def __len__(self):
+		"""Return the number of known orthographies."""
 		return len(self.orthographies)
 	
 	
@@ -349,6 +381,13 @@ class OrthographyInfo(object):
 	# Very convenient convenience functions
 	
 	def print_report(self, otlist, attr):
+		"""Print a formatted report for a given list of orthographies.
+
+otlist
+   The list of orthographies.
+
+attr
+   The name of the attribute that will be shown in the report (e.g. "missing_base", "missing_punctuation", ..."""
 		otlist.sort()
 		for ot in otlist:
 			print "\n%s" % ot.name
@@ -357,6 +396,10 @@ class OrthographyInfo(object):
 				print "    0x%04X\t%s\t%s" % (u, ui.glyphname, ui.name.title())
 
 	def report_supported(self, full_only=False):
+		"""Print a report of supported orthographies for the current cmap.
+
+full_only
+   Only report orthographies which have both basic and optional characters present"""
 		m = self.get_supported_orthographies(full_only)
 		print "The font supports %i orthographies:" % len(m)
 		m.sort()
@@ -364,12 +407,14 @@ class OrthographyInfo(object):
 	
 	
 	def report_missing_punctuation(self):
+		"""Print a report of orthographies which have all basic letters present, but are missing puncuation characters."""
 		m = self.get_almost_supported_punctuation()
 		print "Orthographies which can be supported by adding punctuation characters:"
 		self.print_report(m, "missing_punctuation")
 	
 	
-	def report_near_misses(self, n):
+	def report_near_misses(self, n=5):
+		"""Print a report of orthographies which a maximum number of n characters missing."""
 		m = self.get_almost_supported(n)
 		print "Orthographies which can be supported with max. %i additional %s:" % (n, "character" if n == 1 else "characters")
 		self.print_report(m, "missing_base")

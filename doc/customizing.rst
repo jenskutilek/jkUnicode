@@ -1,0 +1,38 @@
+Customizing Module Data
+=======================
+
+The jkUnicode modules read their data from Python, text, and JSON files generated from the official data sources. You can update, customize, and partially override this data in order to adapt the module to your needs.
+
+Glyph Name and Unicode Character Data
+-------------------------------------
+
+To download the current version of the glyph name and Unicode character data from their original sources (unicode.org and Adobe's GitHub repository), run the shell script `updateUniData.sh` in the `tools` folder included in the source distribution of jkUnicode.
+
+The raw downloads must then be converted into Python modules using the script `generatePyUniData.py`.
+
+Orthography Data
+----------------
+
+The orthography submodule is derived from the Unicode Common Locale Data Repository (CLDR). To download a zip file of the core data, you can use the shell script `updateLangData.sh` in the `tools` subfolder. As there seems to be no stable URL for the latest version of this data, you have to check on http://unicode.org/Public/cldr/ if the URL in the script is pointing to the desired version before running the script.
+
+After downloading, the data is extracted into the `tools/core` subfolder.
+
+This data must then be converted from XML into an initial JSON representation by running the script `generateJsonLangData.py`. This will fill the `json/languages` subfolder with language-specific files as well as generate some files in the `tools` folder:
+
+`tools/ignored.json`
+   A list of language codes for which no orthography data is available
+
+`tools/languages.json`
+   Mapping from language codes to language names
+
+`tools/scripts.json`
+   Mapping from script codes to script names
+
+`tools/territories.json`
+   Mapping from territoy codes to territory names
+
+If you want to override any of the orthography definitions, place a modified copy of any file from the `json/languages` subfolder in the `json/overrides` subfolder. You can omit any key/value pairs which would be identical in the override folder, in order to have as little data duplication as possible. The character representation and the Unicode name of the character are included just for easier reading, they can be omitted from the override files and are not part of the final data.
+
+When you have customized the definitions to your liking, run the script `generatePyLangData.py` to convert the data from the initial JSON representation to the final JSON representation. This will update the file `tools/language_characters.json`, which is directly used by the :py:class:`jkUnicode.orthography` module.
+
+Some characters are ignored by default in all orthography definitions. 
