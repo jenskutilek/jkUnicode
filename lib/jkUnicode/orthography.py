@@ -57,7 +57,23 @@ info_dict
 	
 	
 	def from_dict(self, info_dict):
-		"""Read information for the current orthography from a dictionary."""
+		"""Read information for the current orthography from a dictionary. This method is called during initialization of the object and fills in a number of class attributes:
+
+name
+   The orthography name.
+
+unicodes_base
+   The set of base characters for the orthography.
+
+unicodes_optional
+   The set of optional characters for the orthography.
+
+unicodes_punctuation
+   The set of punctuation characters for the orthography.
+
+unicodes_any
+   The previous three sets combined.
+"""
 		self.name = info_dict.get("name", None)
 		uni_info = info_dict.get("unicodes", {})
 		
@@ -141,22 +157,42 @@ may not be present until the whole list has been built."""
 	
 	
 	def uses_unicode_base(self, u):
-		# Is the unicode used by this orthography in the base set?
-		# This is relatively slow. Use OrthographyInfo.build_reverse_cmap if you need to access it more often.
+		"""Is the unicode used by this orthography in the base set? This is relatively slow. Use :py:func:`jkUnicode.orthography.OrthographyInfo.build_reverse_cmap` if you need to access this information more often."""
 		if u in self.unicodes_base_punctuation:
 			return True
 		return False
 	
 	
 	def uses_unicode_any(self, u):
-		""" Is the unicode used by this orthography in any set? This is relatively slow. Use :py:func:`jkUnicode.orthography.OrthographyInfo.build_reverse_cmap` if you need to access this information more often."""
+		"""Is the unicode used by this orthography in any set? This is relatively slow. Use :py:func:`jkUnicode.orthography.OrthographyInfo.build_reverse_cmap` if you need to access this information more often."""
 		if u in self.unicodes_any:
 			return True
 		return False
 	
 	
 	def scan_cmap(self):
-		"""Scan the orthography against the current parent cmap."""
+		"""Scan the orthography against the current parent cmap. This fills in a number of class attributes:
+
+missing_base
+   A set of unicode values that are missing from the basic characters of the orthography.
+
+missing_optional
+   A set of unicode values that are missing from the optional characters of the orthography.
+
+missing_punctuation
+   A set of unicode values that are missing from the punctuation characters of the orthography.
+
+missing_all
+   A set of all the previous combined.
+
+num_missing_base, num_missing_optional, num_missing_punctuation, num_missing_all
+   The number of missing characters for the previous attributes
+
+base_pc, optional_pc, punctuation_pc
+   The percentage values of support for the categories basic, optional, and punctuation characters.
+
+The names of these attributes can be used in :py:class:`jkUnicode.orthography.OrthographyInfo.print_report`.
+"""
 		cmap_set = set(self.info.cmap)
 		# Check for missing chars
 		self.missing_base        = self.unicodes_base        - cmap_set
@@ -387,7 +423,7 @@ otlist
    The list of orthographies.
 
 attr
-   The name of the attribute that will be shown in the report (e.g. "missing_base", "missing_punctuation", ..."""
+   The name of the attribute of the orthography object that will be shown in the report (missing_base, missing_optional, missing_punctuation, missing_all, num_missing_base, num_missing_optional, num_missing_punctuation, base_pc, optional_pc, punctuation_pc, unicodes_base, unicodes_optional, unicodes_punctuation)."""
 		otlist.sort()
 		for ot in otlist:
 			print "\n%s" % ot.name

@@ -6,7 +6,7 @@ The jkUnicode modules read their data from Python, text, and JSON files generate
 Glyph Name and Unicode Character Data
 -------------------------------------
 
-To download the current version of the glyph name and Unicode character data from their original sources (unicode.org and Adobe's GitHub repository), run the shell script `updateUniData.sh` in the `tools` folder included in the source distribution of jkUnicode.
+To download the current version of the glyph name and Unicode character data from their original sources (unicode.org and Adobe's GitHub repository), run the shell script `updateUniData.sh` in the `tools` folder included in the source distribution of jkUnicode. This will download the text files `aglfn.txt`, `Blocks.txt`, and `UnicodeData.txt`.
 
 The raw downloads must then be converted into Python modules using the script `generatePyUniData.py`.
 
@@ -35,4 +35,4 @@ If you want to override any of the orthography definitions, place a modified cop
 
 When you have customized the definitions to your liking, run the script `generatePyLangData.py` to convert the data from the initial JSON representation to the final JSON representation. This will update the file `tools/language_characters.json`, which is directly used by the :py:class:`jkUnicode.orthography` module.
 
-Some characters are ignored by default in all orthography definitions. 
+Some characters are ignored by default in all orthography definitions. There is currently no way to edit these, other than to directly change the list IGNORED_UNICODES in :py:class:`jkUnicode.orthography`. The list currently contains the minute and second characters (U+2032, U+2033), which appear in many language definitions in the CLDR, but are not contained in a lot of standard font glyph sets.
