@@ -25,6 +25,8 @@ def getUnicodeForGlyphname(name):
 	ornName = compile("^orn[0-9]{3}$")
 	if "_" in name:
 		return None
+	elif "." in name[1:]:
+		return None
 	elif name in nameToUnicode.keys():
 		return nameToUnicode[name]
 	elif name[0:3] == "uni" and len(name) == 7:
@@ -33,7 +35,6 @@ def getUnicodeForGlyphname(name):
 		try:
 			return int(name[1:], 16)
 		except:
-			#print "INFO: You found an easter egg: %s, please notify developer." % name
 			return None
 	elif ornName.match(name):
 		return 0xea00 + int(name[3:6])
