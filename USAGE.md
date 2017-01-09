@@ -4,7 +4,7 @@
 
 `ortho` – Query fonts about orthographic support.
 
-Usage:
+### Usage
 
 `ortho ortho [-h] [-f] [-p] [-n NEAR_MISS] font [font ...]`
 
@@ -19,7 +19,7 @@ When called without any options, `ortho` will determine the orthographic support
 #### Example
 
 ```
-$ ortho ComicJens-Italic.otf 
+$ ortho ComicJens.ttf 
 The font supports 104 orthographies:
 Afrikaans
 Albanian
@@ -33,7 +33,7 @@ Catalan
 [...]
 Zulu
 
-$ ortho -f ComicJens-Italic.ttf
+$ ortho -f ComicJens.ttf
 The font supports 98 orthographies:
 Afrikaans
 Albanian
@@ -52,12 +52,12 @@ Zulu
 
 `-p | --punctuation`
 
-Prints a list of orthographies for which all letter category characters are present in the font, but have missing punctuation category characters.
+Prints a list of orthographies for which all letter category characters are present in the font, but have missing punctuation category characters. For the missing characters, Unicode, glyph name, and Unicode name are reported.
 
 #### Example
 
 ```
-$ ortho -p ComicJens-Italic.ttf
+$ ortho -p ComicJens.ttf
 Orthographies which can be supported by adding punctuation characters:
 
 Scottish Gaelic
@@ -68,12 +68,12 @@ Scottish Gaelic
 
 `-n NEAR_MISS | --near-miss NEAR_MISS`
 
-Prints a list of orthographies which are missing up to a number of NEAR_MISS characters to be supported.
+Prints a list of orthographies which are lacking up to a number of NEAR_MISS characters to be supported. For the missing characters, Unicode, glyph name, and Unicode name are reported.
 
 #### Example
 
 ```
-$ ortho -n 1 ComicJens-Italic.ttf
+$ ortho -n 1 ComicJens.ttf
 Orthographies which can be supported with max. 1 additional character:
 
 Breton
