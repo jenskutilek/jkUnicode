@@ -41,6 +41,13 @@ else:
 	language_names = dict_from_file(json_path, "languages")
 	print "OK: Read %i language names." % len(language_names)
 	#print [name for name in sorted(language_names.keys())]
+
+	if os.path.exists(os.path.join(json_path, "languages_additional.json")):
+		# Read additional languages which are only added via override file
+		add_language_names = dict_from_file(json_path, "languages_additional")
+		print "OK: Read %i additional language names." % len(add_language_names)
+		for key, value in add_language_names.items():
+			language_names[key] = value
 	
 	master = {}
 	
