@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Command Line Scripts &#8212; jkUnicode 1.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Customizing Module Data" href="customizing.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="command-line-scripts">
+<h1>Command Line Scripts<a class="headerlink" href="#command-line-scripts" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="ortho">
+<h2>ortho<a class="headerlink" href="#ortho" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">ortho</span></code> – Query fonts about orthographic support.</p>
+<div class="section" id="usage">
+<h3>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">ortho</span> <span class="pre">[-h]</span> <span class="pre">[-f]</span> <span class="pre">[-p]</span> <span class="pre">[-n</span> <span class="pre">NEAR_MISS]</span> <span class="pre">font</span> <span class="pre">[font</span> <span class="pre">...]</span></code></p>
+<p>When called without any options, <cite>ortho</cite> will determine the orthographic support of the supplied font(s) by looking at the required characters for each orthography.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ ortho ComicJens.ttf
+The font supports <span class="m">104</span> orthographies:
+Afrikaans
+Albanian
+Asu <span class="o">(</span>Tanzania<span class="o">)</span>
+Azeri
+Basque
+Bemba
+Bena
+Bosnian
+Catalan
+<span class="o">[</span>...<span class="o">]</span>
+Zulu
+</pre></div>
+</div>
+</div>
+<div class="section" id="options">
+<h3>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">-f</span> <span class="pre">|</span> <span class="pre">--full-only</span></code></p>
+<blockquote>
+<div><p>The <cite>-f</cite> option only lists orthographies for which all required <em>and</em> optional characters are present in the font.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ ortho -f ComicJens.ttf
+The font supports <span class="m">98</span> orthographies:
+Afrikaans
+Albanian
+Asu <span class="o">(</span>Tanzania<span class="o">)</span>
+Azeri
+Basque
+Bemba
+Bena
+Bosnian
+Catalan
+<span class="o">[</span>...<span class="o">]</span>
+Zulu
+</pre></div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">-p</span> <span class="pre">|</span> <span class="pre">--punctuation</span></code></p>
+<blockquote>
+<div><p>Prints a list of orthographies for which all letter category characters are present in the font, but have missing punctuation category characters. For the missing characters, Unicode, glyph name, and Unicode name are reported.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ ortho -p ComicJens.ttf
+Orthographies which can be supported by adding punctuation characters:
+
+Scottish Gaelic
+    0x204A        uni204A Tironian Sign Et
+</pre></div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">-n</span> <span class="pre">N</span> <span class="pre">|</span> <span class="pre">--near-miss</span> <span class="pre">N</span></code></p>
+<blockquote>
+<div><p>Prints a list of orthographies which are lacking up to a number of N characters to be supported.    For the missing characters, Unicode, glyph name, and Unicode name are reported.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ ortho -n <span class="m">1</span> ComicJens.ttf
+Orthographies which can be supported with max. <span class="m">1</span> additional character:
+
+Breton
+    0x02BC        uni02BC Modifier Letter Apostrophe
+
+Hawaiian
+    0x02BB        uni02BB Modifier Letter Turned Comma
+
+Quechua
+    0x02BC        uni02BC Modifier Letter Apostrophe
+
+Tongan
+    0x02BB        uni02BB Modifier Letter Turned Comma
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Command Line Scripts</a><ul>
+<li><a class="reference internal" href="#ortho">ortho</a><ul>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#options">Options</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="customizing.html" title="previous chapter">Customizing Module Data</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/scripts.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jens Kutilek.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/scripts.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,610 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>jkUnicode.orthography &#8212; jkUnicode 1.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for jkUnicode.orthography</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">weakref</span>
+<span class="kn">from</span> <span class="nn">jkUnicode</span> <span class="k">import</span> <span class="n">UniInfo</span>
+<span class="kn">from</span> <span class="nn">jkUnicode.tools.jsonhelpers</span> <span class="k">import</span> <span class="n">json_path</span><span class="p">,</span> <span class="n">json_to_file</span><span class="p">,</span> <span class="n">dict_from_file</span>
+
+
+<span class="c1"># These unicode points are ignored when scanning for orthography support</span>
+<span class="n">IGNORED_UNICODES</span> <span class="o">=</span> <span class="p">[</span>
+	<span class="c1"># Minute and second appear in lots of language definitions in CLDR, but are not in very many fonts.</span>
+	<span class="mh">0x2032</span><span class="p">,</span> <span class="c1"># minute</span>
+	<span class="mh">0x2033</span><span class="p">,</span> <span class="c1"># second</span>
+<span class="p">]</span>
+
+
+<span class="n">ui</span> <span class="o">=</span> <span class="n">UniInfo</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<div class="viewcode-block" id="cased"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.cased">[docs]</a><span class="k">def</span> <span class="nf">cased</span><span class="p">(</span><span class="n">codepoint_list</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Return a list with its Unicode case mapping toggled. If a codepoint has no lowercase or uppercase mapping, it is dropped from the list.&quot;&quot;&quot;</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">codepoint_list</span><span class="p">:</span>
+		<span class="n">ui</span><span class="o">.</span><span class="n">unicode</span> <span class="o">=</span> <span class="n">c</span>
+		<span class="k">if</span> <span class="n">ui</span><span class="o">.</span><span class="n">lc_mapping</span><span class="p">:</span>
+			<span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ui</span><span class="o">.</span><span class="n">lc_mapping</span><span class="p">)</span>
+		<span class="k">elif</span> <span class="n">ui</span><span class="o">.</span><span class="n">uc_mapping</span><span class="p">:</span>
+			<span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ui</span><span class="o">.</span><span class="n">uc_mapping</span><span class="p">)</span>
+	<span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">result</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="Orthography"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.Orthography">[docs]</a><span class="k">class</span> <span class="nc">Orthography</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;The Orthography object represents an orthography. You usually don&#39;t deal with this</span>
+<span class="sd">object directly, it is used internally by the :py:class:`jkUnicode.orthography.OrthographyInfo` object.</span>
+
+<span class="sd">info_obj</span>
+<span class="sd">   The parent :py:class:`jkUnicode.orthography.OrthographyInfo` object.</span>
+
+<span class="sd">code</span>
+<span class="sd">   The orthography code.</span>
+
+<span class="sd">script</span>
+<span class="sd">   The script code of the orthography.</span>
+
+<span class="sd">territory</span>
+<span class="sd">   The territory code of the orthography.</span>
+
+<span class="sd">info_dict</span>
+<span class="sd">   The dictionary which contains the rest of the information about the orthography.&quot;&quot;&quot;</span>
+	
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info_obj</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">script</span><span class="p">,</span> <span class="n">territory</span><span class="p">,</span> <span class="n">info_dict</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_info</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">info_obj</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">script</span> <span class="o">=</span> <span class="n">script</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">territory</span> <span class="o">=</span> <span class="n">territory</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">info_dict</span><span class="p">)</span>
+	
+	
+<div class="viewcode-block" id="Orthography.from_dict"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.Orthography.from_dict">[docs]</a>	<span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info_dict</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Read information for the current orthography from a dictionary.&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">info_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+		<span class="n">uni_info</span> <span class="o">=</span> <span class="n">info_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;unicodes&quot;</span><span class="p">,</span> <span class="p">{})</span>
+		
+		<span class="c1"># Add the unicode points, and also the cased variants of the unicode points of each category.</span>
+		<span class="n">u_list</span> <span class="o">=</span> <span class="n">uni_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;base&quot;</span><span class="p">,</span> <span class="p">[])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">unicodes_base</span>        <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">u_list</span> <span class="o">+</span> <span class="n">cased</span><span class="p">(</span><span class="n">u_list</span><span class="p">))</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">ignored_unicodes</span>
+		
+		<span class="n">u_list</span> <span class="o">=</span> <span class="n">uni_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;optional&quot;</span><span class="p">,</span> <span class="p">[])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">unicodes_optional</span>    <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">u_list</span> <span class="o">+</span> <span class="n">cased</span><span class="p">(</span><span class="n">u_list</span><span class="p">))</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">unicodes_base</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">ignored_unicodes</span>
+		
+		<span class="n">u_list</span> <span class="o">=</span> <span class="n">uni_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;punctuation&quot;</span><span class="p">,</span> <span class="p">[])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">unicodes_punctuation</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">u_list</span> <span class="o">+</span> <span class="n">cased</span><span class="p">(</span><span class="n">u_list</span><span class="p">))</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">ignored_unicodes</span>
+		
+		<span class="c1"># Additional sets to speed up later calculations</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">unicodes_base_punctuation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unicodes_base</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">unicodes_punctuation</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">unicodes_any</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unicodes_base</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">unicodes_optional</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">unicodes_punctuation</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">scan_ok</span> <span class="o">=</span> <span class="kc">False</span></div>
+	
+	
+<div class="viewcode-block" id="Orthography.fill_from_default_orthography"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.Orthography.fill_from_default_orthography">[docs]</a>	<span class="k">def</span> <span class="nf">fill_from_default_orthography</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Sometimes the base unicodes are empty for a variant of an orthography. Try to fill them in from the default variant.</span>
+<span class="sd">Call this only after the whole list of orthographies is present, or it will fail, because the default orthography</span>
+<span class="sd">may not be present until the whole list has been built.&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">territory</span> <span class="o">!=</span> <span class="s2">&quot;dflt&quot;</span><span class="p">:</span>
+			<span class="c1">#print self.code, self.script, self.territory</span>
+			<span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">orthography</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">script</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+				<span class="nb">print</span> <span class="s2">&quot;WARNING: No parent orthography found for </span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">script</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">territory</span><span class="p">)</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="c1">#print &quot;    Parent:&quot;, parent.code, parent.script, parent.territory</span>
+				<span class="c1"># Set attributes from parent (there may be empty attributes remaining ...?)</span>
+				<span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;unicodes_base&quot;</span><span class="p">,</span> <span class="s2">&quot;unicodes_optional&quot;</span><span class="p">,</span> <span class="s2">&quot;unicodes_punctuation&quot;</span><span class="p">]:</span>
+					<span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="o">==</span> <span class="nb">set</span><span class="p">():</span>
+						<span class="n">parent_set</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+						<span class="k">if</span> <span class="n">parent_set</span><span class="p">:</span>
+							<span class="c1">#print &quot;    Filled from parent:&quot;, attr</span>
+							<span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">parent_set</span><span class="p">)</span></div>
+	
+	
+<div class="viewcode-block" id="Orthography.support_full"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.Orthography.support_full">[docs]</a>	<span class="k">def</span> <span class="nf">support_full</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Is the orthography supported (base, optional and punctuation characters) for the current parent cmap?&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_missing_base</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_missing_optional</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_missing_punctuation</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">return</span> <span class="kc">True</span>
+		<span class="k">return</span> <span class="kc">False</span></div>
+	
+	
+<div class="viewcode-block" id="Orthography.support_basic"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.Orthography.support_basic">[docs]</a>	<span class="k">def</span> <span class="nf">support_basic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Is the orthography supported (base and punctuation characters) for the current parent cmap?&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_missing_base</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_missing_punctuation</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">return</span> <span class="kc">True</span>
+		<span class="k">return</span> <span class="kc">False</span></div>
+	
+	
+<div class="viewcode-block" id="Orthography.support_minimal"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.Orthography.support_minimal">[docs]</a>	<span class="k">def</span> <span class="nf">support_minimal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Is the orthography supported (base characters) for the current parent cmap?&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_missing_base</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_missing_optional</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_missing_punctuation</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">return</span> <span class="kc">True</span>
+		<span class="k">return</span> <span class="kc">False</span></div>
+	
+	
+<div class="viewcode-block" id="Orthography.almost_supported_full"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.Orthography.almost_supported_full">[docs]</a>	<span class="k">def</span> <span class="nf">almost_supported_full</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_missing</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Is the orthography supported with a maximum of max_missing characters (base, optional and punctuation characters) for the current parent cmap?&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_missing_all</span> <span class="o">&lt;=</span> <span class="n">max_missing</span><span class="p">:</span>
+			<span class="k">return</span> <span class="kc">True</span>
+		<span class="k">return</span> <span class="kc">False</span></div>
+	
+	
+<div class="viewcode-block" id="Orthography.almost_supported_basic"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.Orthography.almost_supported_basic">[docs]</a>	<span class="k">def</span> <span class="nf">almost_supported_basic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_missing</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Is the orthography supported with a maximum of max_missing base characters for the current parent cmap?&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_missing_base</span> <span class="o">&lt;=</span> <span class="n">max_missing</span><span class="p">:</span>
+			<span class="k">return</span> <span class="kc">True</span>
+		<span class="k">return</span> <span class="kc">False</span></div>
+	
+	
+<div class="viewcode-block" id="Orthography.almost_supported_punctuation"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.Orthography.almost_supported_punctuation">[docs]</a>	<span class="k">def</span> <span class="nf">almost_supported_punctuation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_missing</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Is the orthography supported with a maximum of max_missing punctuation characters for the current parent cmap?&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_missing_base</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_missing_punctuation</span> <span class="o">&lt;=</span> <span class="n">max_missing</span><span class="p">:</span>
+			<span class="k">return</span> <span class="kc">True</span>
+		<span class="k">return</span> <span class="kc">False</span></div>
+	
+	
+	<span class="k">def</span> <span class="nf">uses_unicode_base</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+		<span class="c1"># Is the unicode used by this orthography in the base set?</span>
+		<span class="c1"># This is relatively slow. Use OrthographyInfo.build_reverse_cmap if you need to access it more often.</span>
+		<span class="k">if</span> <span class="n">u</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">unicodes_base_punctuation</span><span class="p">:</span>
+			<span class="k">return</span> <span class="kc">True</span>
+		<span class="k">return</span> <span class="kc">False</span>
+	
+	
+<div class="viewcode-block" id="Orthography.uses_unicode_any"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.Orthography.uses_unicode_any">[docs]</a>	<span class="k">def</span> <span class="nf">uses_unicode_any</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot; Is the unicode used by this orthography in any set? This is relatively slow. Use :py:func:`jkUnicode.orthography.OrthographyInfo.build_reverse_cmap` if you need to access this information more often.&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="n">u</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">unicodes_any</span><span class="p">:</span>
+			<span class="k">return</span> <span class="kc">True</span>
+		<span class="k">return</span> <span class="kc">False</span></div>
+	
+	
+<div class="viewcode-block" id="Orthography.scan_cmap"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.Orthography.scan_cmap">[docs]</a>	<span class="k">def</span> <span class="nf">scan_cmap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Scan the orthography against the current parent cmap.&quot;&quot;&quot;</span>
+		<span class="n">cmap_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">cmap</span><span class="p">)</span>
+		<span class="c1"># Check for missing chars</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">missing_base</span>        <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unicodes_base</span>        <span class="o">-</span> <span class="n">cmap_set</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">missing_optional</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unicodes_optional</span>    <span class="o">-</span> <span class="n">cmap_set</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">missing_punctuation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unicodes_punctuation</span> <span class="o">-</span> <span class="n">cmap_set</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">missing_all</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">missing_base</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">missing_optional</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">missing_punctuation</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">num_missing_base</span>        <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">missing_base</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">num_missing_optional</span>    <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">missing_optional</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">num_missing_punctuation</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">missing_punctuation</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">num_missing_all</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">missing_all</span><span class="p">)</span>
+		
+		<span class="c1"># Calculate percentage</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">base_pc</span>        <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_missing_base</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unicodes_base</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">unicodes_base</span> <span class="k">else</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">optional_pc</span>    <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_missing_optional</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unicodes_optional</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">unicodes_optional</span> <span class="k">else</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">punctuation_pc</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_missing_punctuation</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unicodes_punctuation</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">unicodes_punctuation</span> <span class="k">else</span> <span class="mi">0</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">scan_ok</span> <span class="o">=</span> <span class="kc">True</span></div>
+	
+	
+<div class="viewcode-block" id="Orthography.forget_cmap"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.Orthography.forget_cmap">[docs]</a>	<span class="k">def</span> <span class="nf">forget_cmap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Forget the results of the last cmap scan.&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">scan_ok</span> <span class="o">=</span> <span class="kc">False</span></div>
+	
+	
+	<span class="nd">@property</span>
+	<span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;The parent OrthographyInfo object (read-only).&quot;&quot;&quot;</span>
+		<span class="c1"># self._info is a weakref, call it to return its object</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">()</span>
+	
+	
+	<span class="nd">@property</span>
+	<span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;The name of the orthography (read-only).&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+	
+	
+	<span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
+	<span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">value</span>
+	
+	
+	<span class="k">def</span> <span class="nf">__cmp__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+		<span class="c1"># For sorting</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+			<span class="k">return</span> <span class="mi">1</span>
+		<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+			<span class="k">return</span> <span class="mi">0</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+	
+	
+	<span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+			<span class="k">return</span> <span class="kc">True</span>
+		<span class="k">return</span> <span class="kc">False</span>
+	
+	
+	<span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+			<span class="k">return</span> <span class="kc">False</span>
+		<span class="k">return</span> <span class="kc">True</span>
+	
+	
+	<span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="s1">u&#39;&lt;Orthography &quot;</span><span class="si">%s</span><span class="s1">&quot;&gt;&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="OrthographyInfo"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.OrthographyInfo">[docs]</a><span class="k">class</span> <span class="nc">OrthographyInfo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;The main Orthography Info object. It reads the information for each orthography from the files in the `json` subfolder. The JSON data is generated from the Unicode CLDR data via included Python scripts.&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">data_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)),</span> <span class="s2">&quot;json&quot;</span><span class="p">)</span>
+		<span class="n">master</span> <span class="o">=</span> <span class="n">dict_from_file</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="s2">&quot;language_characters&quot;</span><span class="p">)</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">ignored_unicodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">IGNORED_UNICODES</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">orthographies</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="k">for</span> <span class="n">code</span><span class="p">,</span> <span class="n">script_dict</span> <span class="ow">in</span> <span class="n">master</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+			<span class="c1">#print code, script_dict</span>
+			<span class="k">for</span> <span class="n">script</span><span class="p">,</span> <span class="n">territory_dict</span> <span class="ow">in</span> <span class="n">script_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+				<span class="c1">#print script, territory_dict</span>
+				<span class="k">for</span> <span class="n">territory</span><span class="p">,</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">territory_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+					<span class="c1">#print territory, info</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">orthographies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Orthography</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">script</span><span class="p">,</span> <span class="n">territory</span><span class="p">,</span> <span class="n">info</span><span class="p">))</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">[(</span><span class="n">code</span><span class="p">,</span> <span class="n">script</span><span class="p">,</span> <span class="n">territory</span><span class="p">)]</span> <span class="o">=</span> <span class="n">i</span>
+					<span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+		<span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">orthographies</span><span class="p">:</span>
+			<span class="n">o</span><span class="o">.</span><span class="n">fill_from_default_orthography</span><span class="p">()</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">_language_names</span>  <span class="o">=</span> <span class="n">dict_from_file</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="s2">&quot;languages&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_script_names</span>    <span class="o">=</span> <span class="n">dict_from_file</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="s2">&quot;scripts&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_territory_names</span> <span class="o">=</span> <span class="n">dict_from_file</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="s2">&quot;territories&quot;</span><span class="p">)</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_reverse_cmap</span> <span class="o">=</span> <span class="kc">None</span>
+	
+	
+	<span class="nd">@property</span>
+	<span class="k">def</span> <span class="nf">cmap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;The unicode to glyph name mapping, a dictionary. When you set the cmap, it is scanned against all orthographies belonging to the Orthography Info object.&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="k">return</span> <span class="p">{}</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span>
+	
+	
+	<span class="nd">@cmap</span><span class="o">.</span><span class="n">setter</span>
+	<span class="k">def</span> <span class="nf">cmap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+		<span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span> <span class="o">=</span> <span class="kc">None</span>
+			<span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">orthographies</span><span class="p">:</span>
+				<span class="n">o</span><span class="o">.</span><span class="n">forget_cmap</span><span class="p">()</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span> <span class="o">=</span> <span class="n">value</span>
+			<span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">orthographies</span><span class="p">:</span>
+				<span class="n">o</span><span class="o">.</span><span class="n">scan_cmap</span><span class="p">()</span>
+	
+	
+<div class="viewcode-block" id="OrthographyInfo.build_reverse_cmap"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.OrthographyInfo.build_reverse_cmap">[docs]</a>	<span class="k">def</span> <span class="nf">build_reverse_cmap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Build a map from each unicode to a list of indices into the orthographies list for all orthographies that are using it as base or punctuation character.&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_reverse_cmap</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orthographies</span><span class="p">):</span>
+			<span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">o</span><span class="o">.</span><span class="n">unicodes_base_punctuation</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">u</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reverse_cmap</span><span class="p">:</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">_reverse_cmap</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+				<span class="k">else</span><span class="p">:</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">_reverse_cmap</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">]</span></div>
+	
+	
+<div class="viewcode-block" id="OrthographyInfo.orthography"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.OrthographyInfo.orthography">[docs]</a>	<span class="k">def</span> <span class="nf">orthography</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">script</span><span class="o">=</span><span class="s2">&quot;DFLT&quot;</span><span class="p">,</span> <span class="n">territory</span><span class="o">=</span><span class="s2">&quot;dflt&quot;</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Access an orthography by its language, script and territory code.&quot;&quot;&quot;</span>
+		<span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">code</span><span class="p">,</span> <span class="n">script</span><span class="p">,</span> <span class="n">territory</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">i</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="k">return</span> <span class="kc">None</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">orthographies</span><span class="p">[</span><span class="n">i</span><span class="p">]</span></div>
+	
+	
+<div class="viewcode-block" id="OrthographyInfo.get_orthographies_for_char"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.OrthographyInfo.get_orthographies_for_char">[docs]</a>	<span class="k">def</span> <span class="nf">get_orthographies_for_char</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">char</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Get a list of orthographies which use a supplied character at base level.&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reverse_cmap</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">build_reverse_cmap</span><span class="p">()</span>
+		<span class="n">ol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reverse_cmap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">char</span><span class="p">),</span> <span class="p">[])</span>
+		<span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">orthographies</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ol</span><span class="p">]</span></div>
+	
+	
+<div class="viewcode-block" id="OrthographyInfo.get_orthographies_for_unicode"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.OrthographyInfo.get_orthographies_for_unicode">[docs]</a>	<span class="k">def</span> <span class="nf">get_orthographies_for_unicode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Get a list of orthographies which use a supplied codepoint at base level.&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reverse_cmap</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">build_reverse_cmap</span><span class="p">()</span>
+		<span class="n">ol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reverse_cmap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="p">[])</span>
+		<span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">orthographies</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ol</span><span class="p">]</span></div>
+	
+	
+<div class="viewcode-block" id="OrthographyInfo.get_orthographies_for_unicode_any"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.OrthographyInfo.get_orthographies_for_unicode_any">[docs]</a>	<span class="k">def</span> <span class="nf">get_orthographies_for_unicode_any</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Get a list of orthographies which use a supplied codepoint at any level.&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="p">[</span><span class="n">o</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">orthographies</span> <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">uses_unicode_any</span><span class="p">(</span><span class="n">u</span><span class="p">)]</span></div>
+	
+	
+	<span class="c1"># Nice names for language, script, territory</span>
+	
+<div class="viewcode-block" id="OrthographyInfo.get_language_name"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.OrthographyInfo.get_language_name">[docs]</a>	<span class="k">def</span> <span class="nf">get_language_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Return the nice name for a language by its script code.&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_language_names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">code</span><span class="p">)</span></div>
+	
+	
+<div class="viewcode-block" id="OrthographyInfo.get_script_name"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.OrthographyInfo.get_script_name">[docs]</a>	<span class="k">def</span> <span class="nf">get_script_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Return the nice name for a script by its language code.&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="s2">&quot;DFLT&quot;</span><span class="p">:</span>
+			<span class="k">return</span> <span class="s2">&quot;Default&quot;</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_script_names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">code</span><span class="p">)</span></div>
+	
+	
+<div class="viewcode-block" id="OrthographyInfo.get_territory_name"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.OrthographyInfo.get_territory_name">[docs]</a>	<span class="k">def</span> <span class="nf">get_territory_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Return the nice name for a territory by its territory code.&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="s2">&quot;dflt&quot;</span><span class="p">:</span>
+			<span class="k">return</span> <span class="s2">&quot;Default&quot;</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_territory_names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">code</span><span class="p">)</span></div>
+	
+	
+	<span class="c1"># Convenience functions</span>
+	
+<div class="viewcode-block" id="OrthographyInfo.get_supported_orthographies"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.OrthographyInfo.get_supported_orthographies">[docs]</a>	<span class="k">def</span> <span class="nf">get_supported_orthographies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">full_only</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Get a list of supported orthographies for a character list.</span>
+
+<span class="sd">full_only</span>
+<span class="sd">   Return only orthographies which have both basic and optional characters present for the current cmap.&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="n">full_only</span><span class="p">:</span>
+			<span class="k">return</span> <span class="p">[</span><span class="n">o</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">orthographies</span> <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">support_full</span><span class="p">()]</span>
+		<span class="k">return</span> <span class="p">[</span><span class="n">o</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">orthographies</span> <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">support_basic</span><span class="p">()]</span></div>
+	
+	
+<div class="viewcode-block" id="OrthographyInfo.get_supported_orthographies_minimum"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.OrthographyInfo.get_supported_orthographies_minimum">[docs]</a>	<span class="k">def</span> <span class="nf">get_supported_orthographies_minimum</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Get a list of minimally supported orthographies for the current cmap.&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="p">[</span><span class="n">o</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">orthographies</span> <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">support_minimal</span><span class="p">()]</span></div>
+	
+	
+<div class="viewcode-block" id="OrthographyInfo.get_almost_supported"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.OrthographyInfo.get_almost_supported">[docs]</a>	<span class="k">def</span> <span class="nf">get_almost_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_missing</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Return a list of almost supported orthographies for the current cmap.</span>
+
+<span class="sd">max_missing</span>
+<span class="sd">   The maximum allowed number of missing characters.&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="p">[</span><span class="n">o</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">orthographies</span> <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">almost_supported_basic</span><span class="p">(</span><span class="n">max_missing</span><span class="p">)]</span></div>
+	
+	
+	<span class="k">def</span> <span class="nf">get_almost_supported_punctuation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="p">[</span><span class="n">o</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">orthographies</span> <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">almost_supported_punctuation</span><span class="p">()]</span>
+	
+	
+	<span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Return the number of known orthographies.&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orthographies</span><span class="p">)</span>
+	
+	
+	<span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="s2">u&quot;&lt;OrthographyInfo with </span><span class="si">%i</span><span class="s2"> orthographies&gt;&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+	
+	
+	<span class="c1"># Very convenient convenience functions</span>
+	
+<div class="viewcode-block" id="OrthographyInfo.print_report"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.OrthographyInfo.print_report">[docs]</a>	<span class="k">def</span> <span class="nf">print_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">otlist</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Print a formatted report for a given list of orthographies.</span>
+
+<span class="sd">otlist</span>
+<span class="sd">   The list of orthographies.</span>
+
+<span class="sd">attr</span>
+<span class="sd">   The name of the attribute that will be shown in the report (e.g. &quot;missing_base&quot;, &quot;missing_punctuation&quot;, ...&quot;&quot;&quot;</span>
+		<span class="n">otlist</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+		<span class="k">for</span> <span class="n">ot</span> <span class="ow">in</span> <span class="n">otlist</span><span class="p">:</span>
+			<span class="nb">print</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">ot</span><span class="o">.</span><span class="n">name</span>
+			<span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">ot</span><span class="p">,</span> <span class="n">attr</span><span class="p">))):</span>
+				<span class="n">ui</span><span class="o">.</span><span class="n">unicode</span> <span class="o">=</span> <span class="n">u</span>
+				<span class="nb">print</span> <span class="s2">&quot;    0x</span><span class="si">%04X</span><span class="se">\t</span><span class="si">%s</span><span class="se">\t</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">ui</span><span class="o">.</span><span class="n">glyphname</span><span class="p">,</span> <span class="n">ui</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">title</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="OrthographyInfo.report_supported"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.OrthographyInfo.report_supported">[docs]</a>	<span class="k">def</span> <span class="nf">report_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">full_only</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Print a report of supported orthographies for the current cmap.</span>
+
+<span class="sd">full_only</span>
+<span class="sd">   Only report orthographies which have both basic and optional characters present&quot;&quot;&quot;</span>
+		<span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_supported_orthographies</span><span class="p">(</span><span class="n">full_only</span><span class="p">)</span>
+		<span class="nb">print</span> <span class="s2">&quot;The font supports </span><span class="si">%i</span><span class="s2"> orthographies:&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+		<span class="n">m</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+		<span class="k">for</span> <span class="n">ot</span> <span class="ow">in</span> <span class="n">m</span><span class="p">:</span> <span class="nb">print</span> <span class="n">ot</span><span class="o">.</span><span class="n">name</span></div>
+	
+	
+<div class="viewcode-block" id="OrthographyInfo.report_missing_punctuation"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.OrthographyInfo.report_missing_punctuation">[docs]</a>	<span class="k">def</span> <span class="nf">report_missing_punctuation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Print a report of orthographies which have all basic letters present, but are missing puncuation characters.&quot;&quot;&quot;</span>
+		<span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_almost_supported_punctuation</span><span class="p">()</span>
+		<span class="nb">print</span> <span class="s2">&quot;Orthographies which can be supported by adding punctuation characters:&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">print_report</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;missing_punctuation&quot;</span><span class="p">)</span></div>
+	
+	
+<div class="viewcode-block" id="OrthographyInfo.report_near_misses"><a class="viewcode-back" href="../../orthography.html#jkUnicode.orthography.OrthographyInfo.report_near_misses">[docs]</a>	<span class="k">def</span> <span class="nf">report_near_misses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Print a report of orthographies which a maximum number of n characters missing.&quot;&quot;&quot;</span>
+		<span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_almost_supported</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+		<span class="nb">print</span> <span class="s2">&quot;Orthographies which can be supported with max. </span><span class="si">%i</span><span class="s2"> additional </span><span class="si">%s</span><span class="s2">:&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;character&quot;</span> <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;characters&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">print_report</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;missing_base&quot;</span><span class="p">)</span></div></div>
+
+
+
+<span class="c1"># Test functions</span>
+
+<span class="k">def</span> <span class="nf">test_scan</span><span class="p">():</span>
+	<span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">time</span>
+	<span class="kn">from</span> <span class="nn">fontTools.ttLib</span> <span class="k">import</span> <span class="n">TTFont</span>
+	<span class="kn">from</span> <span class="nn">htmlGenerator.fonttools.sfnt</span> <span class="k">import</span> <span class="n">get_cmap</span>
+	<span class="kn">from</span> <span class="nn">jkUnicode</span> <span class="k">import</span> <span class="n">get_expanded_glyph_list</span>
+	
+	<span class="n">font_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/jens/Documents/Schriften/Hertz/Hertz-Book.ttf&quot;</span>
+	
+	<span class="nb">print</span> <span class="s2">&quot;Scanning font for orthographic support:&quot;</span>
+	<span class="nb">print</span> <span class="n">font_path</span>
+	
+	<span class="c1"># Get a character map from a font to scan.</span>
+	<span class="n">cmap</span> <span class="o">=</span> <span class="n">get_cmap</span><span class="p">(</span><span class="n">TTFont</span><span class="p">(</span><span class="n">font_path</span><span class="p">))</span>
+	<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+	<span class="n">o</span> <span class="o">=</span> <span class="n">OrthographyInfo</span><span class="p">()</span>
+	<span class="nb">print</span> <span class="n">o</span>
+	
+	
+	<span class="c1"># List known orthographies</span>
+	<span class="k">for</span> <span class="n">ot</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">orthographies</span><span class="p">):</span>
+		<span class="nb">print</span> <span class="n">ot</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">ot</span><span class="o">.</span><span class="n">code</span>
+	
+	<span class="n">o</span><span class="o">.</span><span class="n">cmap</span> <span class="o">=</span> <span class="n">cmap</span>
+	
+	<span class="c1"># Scan for full, base and minimal support of the font&#39;s cmap</span>
+	<span class="n">full</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">get_supported_orthographies</span><span class="p">(</span><span class="n">full_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+	<span class="n">base</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">get_supported_orthographies</span><span class="p">(</span><span class="n">full_only</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+	<span class="n">mini</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">get_supported_orthographies_minimum</span><span class="p">()</span>
+	<span class="n">stop</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+	
+	<span class="nb">print</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Full support:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">full</span><span class="p">),</span> <span class="s2">&quot;orthography&quot;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;orthographies&quot;</span>
+	<span class="nb">print</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">full</span><span class="p">])</span>
+	
+	<span class="n">base</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">base</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">full</span><span class="p">]</span>
+	<span class="nb">print</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Basic support:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">base</span><span class="p">),</span> <span class="s2">&quot;orthography&quot;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;orthographies&quot;</span>
+	<span class="nb">print</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">base</span><span class="p">])</span>
+	
+	<span class="n">mini</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">mini</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">full</span><span class="p">]</span>
+	<span class="nb">print</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Minimal support (no punctuation):&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">mini</span><span class="p">),</span> <span class="s2">&quot;orthography&quot;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mini</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;orthographies&quot;</span>
+	<span class="nb">print</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">mini</span><span class="p">])</span>
+	
+	<span class="c1"># Timing information</span>
+	<span class="nb">print</span> <span class="n">stop</span> <span class="o">-</span> <span class="n">start</span>
+	
+	
+	<span class="c1"># Output info about one orthography</span>
+	<span class="n">ot</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">orthography</span><span class="p">(</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;DFLT&quot;</span><span class="p">,</span> <span class="s2">&quot;ZA&quot;</span><span class="p">)</span>
+	<span class="nb">print</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Orthography:&quot;</span><span class="p">,</span> <span class="n">ot</span><span class="o">.</span><span class="n">name</span>
+	<span class="nb">print</span> <span class="nb">list</span><span class="p">(</span><span class="n">ot</span><span class="o">.</span><span class="n">unicodes_base</span><span class="p">)</span>
+	
+	
+	<span class="c1"># Scan the font again, but allow for a number of missing characters</span>
+	<span class="nb">print</span>
+	<span class="n">n</span> <span class="o">=</span> <span class="mi">3</span>
+	<span class="n">o</span><span class="o">.</span><span class="n">report_near_misses</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+	
+
+<span class="k">def</span> <span class="nf">test_reverse</span><span class="p">():</span>
+	<span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">time</span>
+	
+	<span class="nb">print</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Test of the Reverse CMAP functions&quot;</span>
+	
+	<span class="n">c</span> <span class="o">=</span> <span class="s2">u&quot;ö&quot;</span>
+	<span class="n">o</span> <span class="o">=</span> <span class="n">OrthographyInfo</span><span class="p">()</span>
+	
+	<span class="nb">print</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Build reverse CMAP:&quot;</span><span class="p">,</span> 
+	<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+	<span class="n">o</span><span class="o">.</span><span class="n">build_reverse_cmap</span><span class="p">()</span>
+	<span class="n">stop</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+	<span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">stop</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+	<span class="nb">print</span> <span class="s2">&quot;</span><span class="si">%0.2f</span><span class="s2"> ms&quot;</span> <span class="o">%</span> <span class="n">d</span>
+	
+	<span class="n">u</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+	
+	<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+	<span class="n">result1</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">get_orthographies_for_unicode</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+	<span class="n">stop</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+	<span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">stop</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+	<span class="nb">print</span> <span class="s2">&quot;Use cached lookup:  </span><span class="si">%0.2f</span><span class="s2"> ms&quot;</span> <span class="o">%</span> <span class="n">d</span>
+	
+	<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+	<span class="n">result2</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">get_orthographies_for_unicode_any</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+	<span class="n">stop</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+	<span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">stop</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+	<span class="nb">print</span> <span class="s2">&quot;Use uncached lookup: </span><span class="si">%0.2f</span><span class="s2"> ms&quot;</span> <span class="o">%</span> <span class="n">d</span>
+	
+	
+	<span class="nb">print</span> <span class="s2">u&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; is used in:&quot;</span> <span class="o">%</span> <span class="n">c</span>
+	<span class="k">for</span> <span class="n">ot</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">result1</span><span class="p">):</span>
+		<span class="nb">print</span> <span class="s2">&quot;   &quot;</span><span class="p">,</span> <span class="n">ot</span><span class="o">.</span><span class="n">name</span>
+
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="n">test_scan</span><span class="p">()</span>
+	<span class="n">test_reverse</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  <li><a href="../jkUnicode.html">jkUnicode</a><ul>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jens Kutilek.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

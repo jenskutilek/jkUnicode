@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>jkUnicode.uniRangesBits &#8212; jkUnicode 1.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for jkUnicode.uniRangesBits</h1><div class="highlight"><pre>
+<span></span><span class="c1"># OS/2 table Unicode Range bits with corresponding Names and Ranges</span>
+<span class="c1"># 2011-01-30</span>
+
+<span class="n">unicodeRanges</span> <span class="o">=</span> <span class="p">{</span>
+	  <span class="mi">0</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Basic Latin&quot;</span><span class="p">,</span>								<span class="mh">0x00000</span><span class="p">,</span> <span class="mh">0x0007f</span><span class="p">)],</span>
+	  <span class="mi">1</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Latin-1 Supplement&quot;</span><span class="p">,</span>						<span class="mh">0x00080</span><span class="p">,</span> <span class="mh">0x000ff</span><span class="p">)],</span>
+	  <span class="mi">2</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Latin Extended-A&quot;</span><span class="p">,</span>							<span class="mh">0x00100</span><span class="p">,</span> <span class="mh">0x0017F</span><span class="p">)],</span>
+	  <span class="mi">3</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Latin Extended-B&quot;</span><span class="p">,</span>							<span class="mh">0x00180</span><span class="p">,</span> <span class="mh">0x0024f</span><span class="p">)],</span>
+	  <span class="mi">4</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;IPA Extensions&quot;</span><span class="p">,</span>							<span class="mh">0x00250</span><span class="p">,</span> <span class="mh">0x002af</span><span class="p">)],</span>
+	  <span class="mi">3</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Latin Extended-B&quot;</span><span class="p">,</span>							<span class="mh">0x00180</span><span class="p">,</span> <span class="mh">0x0024f</span><span class="p">)],</span>
+	  <span class="mi">4</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;IPA Extensions&quot;</span><span class="p">,</span>							<span class="mh">0x00250</span><span class="p">,</span> <span class="mh">0x002af</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Phonetic Extensions&quot;</span><span class="p">,</span>						<span class="mh">0x01d00</span><span class="p">,</span> <span class="mh">0x01d7f</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Phonetic Extensions Supplement&quot;</span><span class="p">,</span>			<span class="mh">0x01D80</span><span class="p">,</span> <span class="mh">0x01DBF</span><span class="p">)],</span>
+	  <span class="mi">5</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Spacing Modifier Letters&quot;</span><span class="p">,</span>					<span class="mh">0x002B0</span><span class="p">,</span> <span class="mh">0x002FF</span><span class="p">),</span>
+		  <span class="p">(</span><span class="s2">&quot;Modifier Tone Letters&quot;</span><span class="p">,</span>						<span class="mh">0x0A700</span><span class="p">,</span> <span class="mh">0x0A71F</span><span class="p">)],</span>
+	  <span class="mi">6</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Combining Diacritical Marks&quot;</span><span class="p">,</span>				<span class="mh">0x00300</span><span class="p">,</span> <span class="mh">0x0036F</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Combining Diacritical Marks Supplement&quot;</span><span class="p">,</span>	<span class="mh">0x01DC0</span><span class="p">,</span> <span class="mh">0x01DFF</span><span class="p">)],</span>
+	  <span class="mi">7</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Greek and Coptic&quot;</span><span class="p">,</span>							<span class="mh">0x00370</span><span class="p">,</span> <span class="mh">0x003FF</span><span class="p">)],</span>
+	  <span class="mi">8</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Coptic&quot;</span><span class="p">,</span>									<span class="mh">0x02C80</span><span class="p">,</span> <span class="mh">0x02CFF</span><span class="p">)],</span>
+	  <span class="mi">9</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Cyrillic&quot;</span><span class="p">,</span>									<span class="mh">0x00400</span><span class="p">,</span> <span class="mh">0x004FF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Cyrillic Supplement&quot;</span><span class="p">,</span>						<span class="mh">0x00500</span><span class="p">,</span> <span class="mh">0x0052F</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Cyrillic Extended-A&quot;</span><span class="p">,</span>						<span class="mh">0x02DE0</span><span class="p">,</span> <span class="mh">0x02DFF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Cyrillic Extended-B&quot;</span><span class="p">,</span>						<span class="mh">0x0A640</span><span class="p">,</span> <span class="mh">0x0A69F</span><span class="p">)],</span>
+	 <span class="mi">10</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Armenian&quot;</span><span class="p">,</span>									<span class="mh">0x00530</span><span class="p">,</span> <span class="mh">0x0058F</span><span class="p">)],</span>
+	 <span class="mi">11</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Hebrew&quot;</span><span class="p">,</span>									<span class="mh">0x00590</span><span class="p">,</span> <span class="mh">0x005FF</span><span class="p">)],</span>
+	 <span class="mi">12</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Vai&quot;</span><span class="p">,</span>										<span class="mh">0x0A500</span><span class="p">,</span> <span class="mh">0x0A63F</span><span class="p">)],</span>
+	 <span class="mi">13</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Arabic&quot;</span><span class="p">,</span>									<span class="mh">0x00600</span><span class="p">,</span> <span class="mh">0x006FF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Arabic Supplement&quot;</span><span class="p">,</span>							<span class="mh">0x00750</span><span class="p">,</span> <span class="mh">0x0077F</span><span class="p">)],</span>
+	 <span class="mi">14</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;NKo&quot;</span><span class="p">,</span>										<span class="mh">0x007C0</span><span class="p">,</span> <span class="mh">0x007FF</span><span class="p">)],</span>
+	 <span class="mi">15</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Devanagari&quot;</span><span class="p">,</span>								<span class="mh">0x00900</span><span class="p">,</span> <span class="mh">0x0097F</span><span class="p">)],</span>
+	 <span class="mi">16</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Bengali&quot;</span><span class="p">,</span>									<span class="mh">0x00980</span><span class="p">,</span> <span class="mh">0x009FF</span><span class="p">)],</span>
+	 <span class="mi">17</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Gurmukhi&quot;</span><span class="p">,</span>									<span class="mh">0x00A00</span><span class="p">,</span> <span class="mh">0x00A7F</span><span class="p">)],</span>
+	 <span class="mi">18</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Gujarati&quot;</span><span class="p">,</span>									<span class="mh">0x00A80</span><span class="p">,</span> <span class="mh">0x00AFF</span><span class="p">)],</span>
+	 <span class="mi">19</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Oriya&quot;</span><span class="p">,</span>										<span class="mh">0x00B00</span><span class="p">,</span> <span class="mh">0x00B7F</span><span class="p">)],</span>
+	 <span class="mi">20</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Tamil&quot;</span><span class="p">,</span>										<span class="mh">0x00B80</span><span class="p">,</span> <span class="mh">0x00BFF</span><span class="p">)],</span>
+	 <span class="mi">21</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Telugu&quot;</span><span class="p">,</span>									<span class="mh">0x00C00</span><span class="p">,</span> <span class="mh">0x00C7F</span><span class="p">)],</span>
+	 <span class="mi">22</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Kannada&quot;</span><span class="p">,</span>									<span class="mh">0x00C80</span><span class="p">,</span> <span class="mh">0x00CFF</span><span class="p">)],</span>
+	 <span class="mi">23</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Malayalam&quot;</span><span class="p">,</span>									<span class="mh">0x00D00</span><span class="p">,</span> <span class="mh">0x00D7F</span><span class="p">)],</span>
+	 <span class="mi">24</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Thai&quot;</span><span class="p">,</span>										<span class="mh">0x00E00</span><span class="p">,</span> <span class="mh">0x00E7F</span><span class="p">)],</span>
+	 <span class="mi">25</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Lao&quot;</span><span class="p">,</span>										<span class="mh">0x00E80</span><span class="p">,</span> <span class="mh">0x00EFF</span><span class="p">)],</span>
+	 <span class="mi">26</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Georgian&quot;</span><span class="p">,</span>									<span class="mh">0x010A0</span><span class="p">,</span> <span class="mh">0x010FF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Georgian Supplement&quot;</span><span class="p">,</span>						<span class="mh">0x02D00</span><span class="p">,</span> <span class="mh">0x02D2F</span><span class="p">)],</span>
+	 <span class="mi">27</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Balinese&quot;</span><span class="p">,</span>									<span class="mh">0x01B00</span><span class="p">,</span> <span class="mh">0x01B7F</span><span class="p">)],</span>
+	 <span class="mi">28</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Hangul Jamo&quot;</span><span class="p">,</span>								<span class="mh">0x01100</span><span class="p">,</span> <span class="mh">0x011FF</span><span class="p">)],</span>
+	 <span class="mi">29</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Latin Extended Additional&quot;</span><span class="p">,</span>					<span class="mh">0x01E00</span><span class="p">,</span> <span class="mh">0x01EFF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Latin Extended-C&quot;</span><span class="p">,</span>							<span class="mh">0x02C60</span><span class="p">,</span> <span class="mh">0x02C7F</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Latin Extended-D&quot;</span><span class="p">,</span>							<span class="mh">0x0A720</span><span class="p">,</span> <span class="mh">0x0A7FF</span><span class="p">)],</span>
+	 <span class="mi">30</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Greek Extended&quot;</span><span class="p">,</span>							<span class="mh">0x01F00</span><span class="p">,</span> <span class="mh">0x01FFF</span><span class="p">)],</span>
+	 <span class="mi">31</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;General Punctuation&quot;</span><span class="p">,</span>						<span class="mh">0x02000</span><span class="p">,</span> <span class="mh">0x0206F</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Supplemental Punctuation&quot;</span><span class="p">,</span>					<span class="mh">0x02E00</span><span class="p">,</span> <span class="mh">0x02E7F</span><span class="p">)],</span>
+	 <span class="mi">32</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Superscripts And Subscripts&quot;</span><span class="p">,</span>				<span class="mh">0x02070</span><span class="p">,</span> <span class="mh">0x0209F</span><span class="p">)],</span>
+	 <span class="mi">33</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Currency Symbols&quot;</span><span class="p">,</span>							<span class="mh">0x020A0</span><span class="p">,</span> <span class="mh">0x020CF</span><span class="p">)],</span>
+	 <span class="mi">34</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Combining Diacritical Marks For Symbols&quot;</span><span class="p">,</span>	<span class="mh">0x020D0</span><span class="p">,</span> <span class="mh">0x020FF</span><span class="p">)],</span>
+	 <span class="mi">35</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Letterlike Symbols&quot;</span><span class="p">,</span>						<span class="mh">0x02100</span><span class="p">,</span> <span class="mh">0x0214F</span><span class="p">)],</span>
+	 <span class="mi">36</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Number Forms&quot;</span><span class="p">,</span>								<span class="mh">0x02150</span><span class="p">,</span> <span class="mh">0x0218F</span><span class="p">)],</span>
+	 <span class="mi">37</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Arrows&quot;</span><span class="p">,</span>									<span class="mh">0x02190</span><span class="p">,</span> <span class="mh">0x021FF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Supplemental Arrows-A&quot;</span><span class="p">,</span>						<span class="mh">0x027F0</span><span class="p">,</span> <span class="mh">0x027FF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Supplemental Arrows-B&quot;</span><span class="p">,</span>						<span class="mh">0x02900</span><span class="p">,</span> <span class="mh">0x0297F</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Miscellaneous Symbols and Arrows&quot;</span><span class="p">,</span>			<span class="mh">0x02B00</span><span class="p">,</span> <span class="mh">0x02BFF</span><span class="p">)],</span>
+	 <span class="mi">38</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Mathematical Operators&quot;</span><span class="p">,</span>					<span class="mh">0x02200</span><span class="p">,</span> <span class="mh">0x022FF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Supplemental Mathematical Operators&quot;</span><span class="p">,</span>		<span class="mh">0x02A00</span><span class="p">,</span> <span class="mh">0x02AFF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Miscellaneous Mathematical Symbols-A&quot;</span><span class="p">,</span>		<span class="mh">0x027C0</span><span class="p">,</span> <span class="mh">0x027EF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Miscellaneous Mathematical Symbols-B&quot;</span><span class="p">,</span>		<span class="mh">0x02980</span><span class="p">,</span> <span class="mh">0x029FF</span><span class="p">)],</span>
+	 <span class="mi">39</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Miscellaneous Technical&quot;</span><span class="p">,</span>					<span class="mh">0x02300</span><span class="p">,</span> <span class="mh">0x023FF</span><span class="p">)],</span>
+	 <span class="mi">40</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Control Pictures&quot;</span><span class="p">,</span>							<span class="mh">0x02400</span><span class="p">,</span> <span class="mh">0x0243F</span><span class="p">)],</span>
+	 <span class="mi">41</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Optical Character Recognition&quot;</span><span class="p">,</span>				<span class="mh">0x02440</span><span class="p">,</span> <span class="mh">0x0245F</span><span class="p">)],</span>
+	 <span class="mi">42</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Enclosed Alphanumerics&quot;</span><span class="p">,</span>					<span class="mh">0x02460</span><span class="p">,</span> <span class="mh">0x024FF</span><span class="p">)],</span>
+	 <span class="mi">43</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Box Drawing&quot;</span><span class="p">,</span>								<span class="mh">0x02500</span><span class="p">,</span> <span class="mh">0x0257F</span><span class="p">)],</span>
+	 <span class="mi">44</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Block Elements&quot;</span><span class="p">,</span>							<span class="mh">0x02580</span><span class="p">,</span> <span class="mh">0x0259F</span><span class="p">)],</span>
+	 <span class="mi">45</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Geometric Shapes&quot;</span><span class="p">,</span>							<span class="mh">0x025A0</span><span class="p">,</span> <span class="mh">0x025FF</span><span class="p">)],</span>
+	 <span class="mi">46</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Miscellaneous Symbols&quot;</span><span class="p">,</span>						<span class="mh">0x02600</span><span class="p">,</span> <span class="mh">0x026FF</span><span class="p">)],</span>
+	 <span class="mi">47</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Dingbats&quot;</span><span class="p">,</span>									<span class="mh">0x02700</span><span class="p">,</span> <span class="mh">0x027BF</span><span class="p">)],</span>
+	 <span class="mi">48</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;CJK Symbols And Punctuation&quot;</span><span class="p">,</span>				<span class="mh">0x03000</span><span class="p">,</span> <span class="mh">0x0303F</span><span class="p">)],</span>
+	 <span class="mi">49</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Hiragana&quot;</span><span class="p">,</span>									<span class="mh">0x03040</span><span class="p">,</span> <span class="mh">0x0309F</span><span class="p">)],</span>
+	 <span class="mi">50</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Katakana&quot;</span><span class="p">,</span>									<span class="mh">0x030A0</span><span class="p">,</span> <span class="mh">0x030FF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Katakana Phonetic Extensions&quot;</span><span class="p">,</span>				<span class="mh">0x031F0</span><span class="p">,</span> <span class="mh">0x031FF</span><span class="p">)],</span>
+	 <span class="mi">51</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Bopomofo&quot;</span><span class="p">,</span>									<span class="mh">0x03100</span><span class="p">,</span> <span class="mh">0x0312F</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Bopomofo Extended&quot;</span><span class="p">,</span>							<span class="mh">0x031A0</span><span class="p">,</span> <span class="mh">0x031BF</span><span class="p">)],</span>
+	 <span class="mi">52</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Hangul Compatibility Jamo&quot;</span><span class="p">,</span>					<span class="mh">0x03130</span><span class="p">,</span> <span class="mh">0x0318F</span><span class="p">)],</span>
+	 <span class="mi">53</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Phags-pa&quot;</span><span class="p">,</span>									<span class="mh">0x0A840</span><span class="p">,</span> <span class="mh">0x0A87F</span><span class="p">)],</span>
+	 <span class="mi">54</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Enclosed CJK Letters And Months&quot;</span><span class="p">,</span>			<span class="mh">0x03200</span><span class="p">,</span> <span class="mh">0x032FF</span><span class="p">)],</span>
+	 <span class="mi">55</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;CJK Compatibility&quot;</span><span class="p">,</span>							<span class="mh">0x03300</span><span class="p">,</span> <span class="mh">0x033FF</span><span class="p">)],</span>
+	 <span class="mi">56</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Hangul Syllables&quot;</span><span class="p">,</span>							<span class="mh">0x0AC00</span><span class="p">,</span> <span class="mh">0x0D7AF</span><span class="p">)],</span>
+	 <span class="mi">57</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Non-Plane 0 *&quot;</span><span class="p">,</span>								<span class="mh">0x0D800</span><span class="p">,</span> <span class="mh">0x0DFFF</span><span class="p">)],</span>
+	 <span class="mi">58</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Phoenician&quot;</span><span class="p">,</span>								<span class="mh">0x10900</span><span class="p">,</span> <span class="mh">0x1091F</span><span class="p">)],</span>
+	 <span class="mi">59</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;CJK Unified Ideographs&quot;</span><span class="p">,</span>					<span class="mh">0x04E00</span><span class="p">,</span> <span class="mh">0x09FFF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;CJK Radicals Supplement&quot;</span><span class="p">,</span>					<span class="mh">0x02E80</span><span class="p">,</span> <span class="mh">0x02EFF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Kangxi Radicals&quot;</span><span class="p">,</span>							<span class="mh">0x02F00</span><span class="p">,</span> <span class="mh">0x02FDF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Ideographic Description Characters&quot;</span><span class="p">,</span>		<span class="mh">0x02FF0</span><span class="p">,</span> <span class="mh">0x02FFF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;CJK Unified Ideographs Extension A&quot;</span><span class="p">,</span>		<span class="mh">0x03400</span><span class="p">,</span> <span class="mh">0x04DBF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;CJK Unified Ideographs Extension B&quot;</span><span class="p">,</span>		<span class="mh">0x20000</span><span class="p">,</span> <span class="mh">0x2A6DF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Kanbun&quot;</span><span class="p">,</span>									<span class="mh">0x03190</span><span class="p">,</span> <span class="mh">0x0319F</span><span class="p">)],</span>
+	 <span class="mi">60</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Private Use Area (plane 0)&quot;</span><span class="p">,</span>				<span class="mh">0x0E000</span><span class="p">,</span> <span class="mh">0x0F8FF</span><span class="p">)],</span>
+	 <span class="mi">61</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;CJK Strokes&quot;</span><span class="p">,</span>								<span class="mh">0x031C0</span><span class="p">,</span> <span class="mh">0x031EF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;CJK Compatibility Ideographs&quot;</span><span class="p">,</span>				<span class="mh">0x0F900</span><span class="p">,</span> <span class="mh">0x0FAFF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;CJK Compatibility Ideographs Supplement&quot;</span><span class="p">,</span>	<span class="mh">0x2F800</span><span class="p">,</span> <span class="mh">0x2FA1F</span><span class="p">)],</span>
+	 <span class="mi">62</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Alphabetic Presentation Forms&quot;</span><span class="p">,</span>				<span class="mh">0x0FB00</span><span class="p">,</span> <span class="mh">0x0FB4F</span><span class="p">)],</span>
+	 <span class="mi">63</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Arabic Presentation Forms-A&quot;</span><span class="p">,</span>				<span class="mh">0x0FB50</span><span class="p">,</span> <span class="mh">0x0FDFF</span><span class="p">)],</span>
+	 <span class="mi">64</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Combining Half Marks&quot;</span><span class="p">,</span>						<span class="mh">0x0FE20</span><span class="p">,</span> <span class="mh">0x0FE2F</span><span class="p">)],</span>
+	 <span class="mi">65</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Vertical Forms&quot;</span><span class="p">,</span>							<span class="mh">0x0FE10</span><span class="p">,</span> <span class="mh">0x0FE1F</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;CJK Compatibility Forms&quot;</span><span class="p">,</span>					<span class="mh">0x0FE30</span><span class="p">,</span> <span class="mh">0x0FE4F</span><span class="p">)],</span>
+	 <span class="mi">66</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Small Form Variants&quot;</span><span class="p">,</span>						<span class="mh">0x0FE50</span><span class="p">,</span> <span class="mh">0x0FE6F</span><span class="p">)],</span>
+	 <span class="mi">67</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Arabic Presentation Forms-B&quot;</span><span class="p">,</span>				<span class="mh">0x0FE70</span><span class="p">,</span> <span class="mh">0x0FEFF</span><span class="p">)],</span>
+	 <span class="mi">68</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Halfwidth And Fullwidth Forms&quot;</span><span class="p">,</span>				<span class="mh">0x0FF00</span><span class="p">,</span> <span class="mh">0x0FFEF</span><span class="p">)],</span>
+	 <span class="mi">69</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Specials&quot;</span><span class="p">,</span>									<span class="mh">0x0FFF0</span><span class="p">,</span> <span class="mh">0x0FFFF</span><span class="p">)],</span>
+	 <span class="mi">70</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Tibetan&quot;</span><span class="p">,</span>									<span class="mh">0x00F00</span><span class="p">,</span> <span class="mh">0x00FFF</span><span class="p">)],</span>
+	 <span class="mi">71</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Syriac&quot;</span><span class="p">,</span>									<span class="mh">0x00700</span><span class="p">,</span> <span class="mh">0x0074F</span><span class="p">)],</span>
+	 <span class="mi">72</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Thaana&quot;</span><span class="p">,</span>									<span class="mh">0x00780</span><span class="p">,</span> <span class="mh">0x007BF</span><span class="p">)],</span>
+	 <span class="mi">73</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Sinhala&quot;</span><span class="p">,</span>									<span class="mh">0x00D80</span><span class="p">,</span> <span class="mh">0x00DFF</span><span class="p">)],</span>
+	 <span class="mi">74</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Myanmar&quot;</span><span class="p">,</span>									<span class="mh">0x01000</span><span class="p">,</span> <span class="mh">0x0109F</span><span class="p">)],</span>
+	 <span class="mi">75</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Ethiopic&quot;</span><span class="p">,</span>									<span class="mh">0x01200</span><span class="p">,</span> <span class="mh">0x0137F</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Ethiopic Supplement&quot;</span><span class="p">,</span>						<span class="mh">0x01380</span><span class="p">,</span> <span class="mh">0x0139F</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Ethiopic Extended&quot;</span><span class="p">,</span>							<span class="mh">0x02D80</span><span class="p">,</span> <span class="mh">0x02DDF</span><span class="p">)],</span>
+	 <span class="mi">76</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Cherokee&quot;</span><span class="p">,</span>									<span class="mh">0x013A0</span><span class="p">,</span> <span class="mh">0x013FF</span><span class="p">)],</span>
+	 <span class="mi">77</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Unified Canadian Aboriginal Syllabics&quot;</span><span class="p">,</span>		<span class="mh">0x01400</span><span class="p">,</span> <span class="mh">0x0167F</span><span class="p">)],</span>
+	 <span class="mi">78</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Ogham&quot;</span><span class="p">,</span>										<span class="mh">0x01680</span><span class="p">,</span> <span class="mh">0x0169F</span><span class="p">)],</span>
+	 <span class="mi">79</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Runic&quot;</span><span class="p">,</span>										<span class="mh">0x016A0</span><span class="p">,</span> <span class="mh">0x016FF</span><span class="p">)],</span>
+	 <span class="mi">80</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Khmer&quot;</span><span class="p">,</span>										<span class="mh">0x01780</span><span class="p">,</span> <span class="mh">0x017FF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Khmer Symbols&quot;</span><span class="p">,</span>								<span class="mh">0x019E0</span><span class="p">,</span> <span class="mh">0x019FF</span><span class="p">)],</span>
+	 <span class="mi">81</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Mongolian&quot;</span><span class="p">,</span>									<span class="mh">0x01800</span><span class="p">,</span> <span class="mh">0x018AF</span><span class="p">)],</span>
+	 <span class="mi">82</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Braille Patterns&quot;</span><span class="p">,</span>							<span class="mh">0x02800</span><span class="p">,</span> <span class="mh">0x028FF</span><span class="p">)],</span>
+	 <span class="mi">83</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Yi Syllables&quot;</span><span class="p">,</span>								<span class="mh">0x0A000</span><span class="p">,</span> <span class="mh">0x0A48F</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Yi Radicals&quot;</span><span class="p">,</span>								<span class="mh">0x0A490</span><span class="p">,</span> <span class="mh">0x0A4CF</span><span class="p">)],</span>
+	 <span class="mi">84</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Tagalog&quot;</span><span class="p">,</span>									<span class="mh">0x01700</span><span class="p">,</span> <span class="mh">0x0171F</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Hanunoo&quot;</span><span class="p">,</span>									<span class="mh">0x01720</span><span class="p">,</span> <span class="mh">0x0173F</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Buhid&quot;</span><span class="p">,</span>										<span class="mh">0x01740</span><span class="p">,</span> <span class="mh">0x0175F</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Tagbanwa&quot;</span><span class="p">,</span>									<span class="mh">0x01760</span><span class="p">,</span> <span class="mh">0x0177F</span><span class="p">)],</span>
+	 <span class="mi">85</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Old Italic&quot;</span><span class="p">,</span>								<span class="mh">0x10300</span><span class="p">,</span> <span class="mh">0x1032F</span><span class="p">)],</span>
+	 <span class="mi">86</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Gothic&quot;</span><span class="p">,</span>									<span class="mh">0x10330</span><span class="p">,</span> <span class="mh">0x1034F</span><span class="p">)],</span>
+	 <span class="mi">87</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Deseret&quot;</span><span class="p">,</span>									<span class="mh">0x10400</span><span class="p">,</span> <span class="mh">0x1044F</span><span class="p">)],</span>
+	 <span class="mi">88</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Byzantine Musical Symbols&quot;</span><span class="p">,</span>					<span class="mh">0x1D000</span><span class="p">,</span> <span class="mh">0x1D0FF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Musical Symbols&quot;</span><span class="p">,</span>							<span class="mh">0x1D100</span><span class="p">,</span> <span class="mh">0x1D1FF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Ancient Greek Musical Notation&quot;</span><span class="p">,</span>			<span class="mh">0x1D200</span><span class="p">,</span> <span class="mh">0x1D24F</span><span class="p">)],</span>
+	 <span class="mi">89</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Mathematical Alphanumeric Symbols&quot;</span><span class="p">,</span>			<span class="mh">0x1D400</span><span class="p">,</span> <span class="mh">0x1D7FF</span><span class="p">)],</span>
+	 <span class="mi">90</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Private Use (plane 15)&quot;</span><span class="p">,</span>					<span class="mh">0xFF000</span><span class="p">,</span> <span class="mh">0xFFFFD</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Private Use (plane 16)&quot;</span><span class="p">,</span>					<span class="mh">0x100000</span><span class="p">,</span><span class="mh">0x10FFFD</span><span class="p">)],</span>
+	 <span class="mi">91</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Variation Selectors&quot;</span><span class="p">,</span>						<span class="mh">0x0FE00</span><span class="p">,</span> <span class="mh">0x0FE0F</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Variation Selectors Supplement&quot;</span><span class="p">,</span>			<span class="mh">0xE0100</span><span class="p">,</span> <span class="mh">0xE01EF</span><span class="p">)],</span>
+	 <span class="mi">92</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Tags&quot;</span><span class="p">,</span>										<span class="mh">0xE0000</span><span class="p">,</span> <span class="mh">0xE007F</span><span class="p">)],</span>
+	 <span class="mi">93</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Limbu&quot;</span><span class="p">,</span>										<span class="mh">0x01900</span><span class="p">,</span> <span class="mh">0x0194F</span><span class="p">)],</span>
+	 <span class="mi">94</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Tai Le&quot;</span><span class="p">,</span>									<span class="mh">0x01950</span><span class="p">,</span> <span class="mh">0x0197F</span><span class="p">)],</span>
+	 <span class="mi">95</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;New Tai Lue&quot;</span><span class="p">,</span>								<span class="mh">0x01980</span><span class="p">,</span> <span class="mh">0x019DF</span><span class="p">)],</span>
+	 <span class="mi">96</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Buginese&quot;</span><span class="p">,</span>									<span class="mh">0x01A00</span><span class="p">,</span> <span class="mh">0x01A1F</span><span class="p">)],</span>
+	 <span class="mi">97</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Glagolitic&quot;</span><span class="p">,</span>								<span class="mh">0x02C00</span><span class="p">,</span> <span class="mh">0x02C5F</span><span class="p">)],</span>
+	 <span class="mi">98</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Tifinagh&quot;</span><span class="p">,</span>									<span class="mh">0x02D30</span><span class="p">,</span> <span class="mh">0x02D7F</span><span class="p">)],</span>
+	 <span class="mi">99</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Yijing Hexagram Symbols&quot;</span><span class="p">,</span>					<span class="mh">0x04DC0</span><span class="p">,</span> <span class="mh">0x04DFF</span><span class="p">)],</span>
+	<span class="mi">100</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Syloti Nagri&quot;</span><span class="p">,</span>								<span class="mh">0x0A800</span><span class="p">,</span> <span class="mh">0x0A82F</span><span class="p">)],</span>
+	<span class="mi">101</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Linear B Syllabary&quot;</span><span class="p">,</span>						<span class="mh">0x10000</span><span class="p">,</span> <span class="mh">0x1007F</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Linear B Ideograms&quot;</span><span class="p">,</span>						<span class="mh">0x10080</span><span class="p">,</span> <span class="mh">0x100FF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Aegean Numbers&quot;</span><span class="p">,</span>							<span class="mh">0x10100</span><span class="p">,</span> <span class="mh">0x1013F</span><span class="p">)],</span>
+	<span class="mi">102</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Ancient Greek Numbers&quot;</span><span class="p">,</span>						<span class="mh">0x10140</span><span class="p">,</span> <span class="mh">0x1018F</span><span class="p">)],</span>
+	<span class="mi">103</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Ugaritic&quot;</span><span class="p">,</span>									<span class="mh">0x10380</span><span class="p">,</span> <span class="mh">0x1039F</span><span class="p">)],</span>
+	<span class="mi">104</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Old Persian&quot;</span><span class="p">,</span>								<span class="mh">0x103A0</span><span class="p">,</span> <span class="mh">0x103DF</span><span class="p">)],</span>
+	<span class="mi">105</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Shavian&quot;</span><span class="p">,</span>									<span class="mh">0x10450</span><span class="p">,</span> <span class="mh">0x1047F</span><span class="p">)],</span>
+	<span class="mi">106</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Osmanya&quot;</span><span class="p">,</span>									<span class="mh">0x10480</span><span class="p">,</span> <span class="mh">0x104AF</span><span class="p">)],</span>
+	<span class="mi">107</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Cypriot Syllabary&quot;</span><span class="p">,</span>							<span class="mh">0x10800</span><span class="p">,</span> <span class="mh">0x1083F</span><span class="p">)],</span>
+	<span class="mi">108</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Kharoshthi&quot;</span><span class="p">,</span>								<span class="mh">0x10A00</span><span class="p">,</span> <span class="mh">0x10A5F</span><span class="p">)],</span>
+	<span class="mi">109</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Tai Xuan Jing Symbols&quot;</span><span class="p">,</span>						<span class="mh">0x1D300</span><span class="p">,</span> <span class="mh">0x1D35F</span><span class="p">)],</span>
+	<span class="mi">110</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Cuneiform&quot;</span><span class="p">,</span>									<span class="mh">0x12000</span><span class="p">,</span> <span class="mh">0x123FF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Cuneiform Numbers and Punctuation&quot;</span><span class="p">,</span>			<span class="mh">0x12400</span><span class="p">,</span> <span class="mh">0x1247F</span><span class="p">)],</span>
+	<span class="mi">111</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Counting Rod Numerals&quot;</span><span class="p">,</span>						<span class="mh">0x1D360</span><span class="p">,</span> <span class="mh">0x1D37F</span><span class="p">)],</span>
+	<span class="mi">112</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Sundanese&quot;</span><span class="p">,</span>									<span class="mh">0x01B80</span><span class="p">,</span> <span class="mh">0x01BBF</span><span class="p">)],</span>
+	<span class="mi">113</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Lepcha&quot;</span><span class="p">,</span>									<span class="mh">0x01C00</span><span class="p">,</span> <span class="mh">0x01C4F</span><span class="p">)],</span>
+	<span class="mi">114</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Ol Chiki&quot;</span><span class="p">,</span>									<span class="mh">0x01C50</span><span class="p">,</span> <span class="mh">0x01C7F</span><span class="p">)],</span>
+	<span class="mi">115</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Saurashtra&quot;</span><span class="p">,</span>								<span class="mh">0x0A880</span><span class="p">,</span> <span class="mh">0x0A8DF</span><span class="p">)],</span>
+	<span class="mi">116</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Kayah Li&quot;</span><span class="p">,</span>									<span class="mh">0x0A900</span><span class="p">,</span> <span class="mh">0x0A92F</span><span class="p">)],</span>
+	<span class="mi">117</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Rejang&quot;</span><span class="p">,</span>									<span class="mh">0x0A930</span><span class="p">,</span> <span class="mh">0x0A95F</span><span class="p">)],</span>
+	<span class="mi">118</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Cham&quot;</span><span class="p">,</span>										<span class="mh">0x0AA00</span><span class="p">,</span> <span class="mh">0x0AA5F</span><span class="p">)],</span>
+	<span class="mi">119</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Ancient Symbols&quot;</span><span class="p">,</span>							<span class="mh">0x10190</span><span class="p">,</span> <span class="mh">0x101CF</span><span class="p">)],</span>
+	<span class="mi">120</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Phaistos Disc&quot;</span><span class="p">,</span>								<span class="mh">0x101D0</span><span class="p">,</span> <span class="mh">0x101FF</span><span class="p">)],</span>
+	<span class="mi">121</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Carian&quot;</span><span class="p">,</span>									<span class="mh">0x102A0</span><span class="p">,</span> <span class="mh">0x102DF</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Lycian&quot;</span><span class="p">,</span>									<span class="mh">0x10280</span><span class="p">,</span> <span class="mh">0x1029F</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Lydian&quot;</span><span class="p">,</span>									<span class="mh">0x10920</span><span class="p">,</span> <span class="mh">0x1093F</span><span class="p">)],</span>
+	<span class="mi">122</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Domino Tiles&quot;</span><span class="p">,</span>								<span class="mh">0x1F030</span><span class="p">,</span> <span class="mh">0x1F09F</span><span class="p">),</span>
+	      <span class="p">(</span><span class="s2">&quot;Mahjong Tiles&quot;</span><span class="p">,</span>								<span class="mh">0x1F000</span><span class="p">,</span> <span class="mh">0x1F02F</span><span class="p">)],</span>
+	<span class="mi">123</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Reserved&quot;</span><span class="p">,</span>			<span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)],</span>
+	<span class="mi">124</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Reserved&quot;</span><span class="p">,</span>			<span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)],</span>
+	<span class="mi">125</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Reserved&quot;</span><span class="p">,</span>			<span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)],</span>
+	<span class="mi">126</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Reserved&quot;</span><span class="p">,</span>			<span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)],</span>
+	<span class="mi">127</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;Reserved&quot;</span><span class="p">,</span>			<span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)],</span>
+<span class="p">}</span>
+
+<div class="viewcode-block" id="getUnicodesForRangeBit"><a class="viewcode-back" href="../../uniRangesBits.html#jkUnicode.uniRangesBits.getUnicodesForRangeBit">[docs]</a><span class="k">def</span> <span class="nf">getUnicodesForRangeBit</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Get a list of unicodes for the bit b. The meanings of the bits are</span>
+<span class="sd">	specified in the OpenType specification for the OS/2 table ulUnicodeRange[1..4] entries.&quot;&quot;&quot;</span>
+	<span class="n">records</span> <span class="o">=</span> <span class="n">unicodeRanges</span><span class="p">[</span><span class="n">b</span><span class="p">]</span>
+	<span class="n">codes</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">records</span><span class="p">)):</span>
+		<span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="p">(</span><span class="n">records</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">records</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+		<span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+			<span class="n">codes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">codes</span></div>
+
+<div class="viewcode-block" id="getNameForRangeBit"><a class="viewcode-back" href="../../uniRangesBits.html#jkUnicode.uniRangesBits.getNameForRangeBit">[docs]</a><span class="k">def</span> <span class="nf">getNameForRangeBit</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Get the name for the bit b. The meanings of the bits are</span>
+<span class="sd">	specified in the OpenType specification for the OS/2 table ulUnicodeRange[1..4] entries.&quot;&quot;&quot;</span>
+	<span class="n">records</span> <span class="o">=</span> <span class="n">unicodeRanges</span><span class="p">[</span><span class="n">b</span><span class="p">]</span>
+	<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">records</span><span class="p">)):</span>
+		<span class="n">name</span> <span class="o">+=</span> <span class="n">records</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span>
+	<span class="k">return</span> <span class="n">name</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span></div>
+
+<span class="k">def</span> <span class="nf">__test__</span><span class="p">():</span>
+	<span class="n">myRangeBits</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+	<span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">myRangeBits</span><span class="p">:</span>
+		<span class="nb">print</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Bit </span><span class="si">%3i</span><span class="s2">:&quot;</span> <span class="o">%</span> <span class="n">b</span>
+		<span class="n">codes</span> <span class="o">=</span> <span class="n">getRangeUnicodesForBit</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+		<span class="nb">print</span> <span class="s2">&quot;Codes:&quot;</span><span class="p">,</span>
+		<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">codes</span><span class="p">:</span>
+			<span class="nb">print</span> <span class="nb">hex</span><span class="p">(</span><span class="n">c</span><span class="p">),</span>
+		
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="n">__test__</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  <li><a href="../jkUnicode.html">jkUnicode</a><ul>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jens Kutilek.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
