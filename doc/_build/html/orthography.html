@@ -50,19 +50,23 @@
 <dt id="jkUnicode.orthography.Orthography">
 <em class="property">class </em><code class="descclassname">jkUnicode.orthography.</code><code class="descname">Orthography</code><span class="sig-paren">(</span><em>info_obj</em>, <em>code</em>, <em>script</em>, <em>territory</em>, <em>info_dict</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.Orthography" title="Permalink to this definition">¶</a></dt>
 <dd><p>The Orthography object represents an orthography. You usually don&#8217;t deal with this
-object directly, it is used internally by the <a class="reference internal" href="#jkUnicode.orthography.OrthographyInfo" title="jkUnicode.orthography.OrthographyInfo"><code class="xref py py-class docutils literal"><span class="pre">jkUnicode.orthography.OrthographyInfo</span></code></a> object.</p>
-<dl class="docutils">
-<dt>info_obj</dt>
-<dd>The parent <a class="reference internal" href="#jkUnicode.orthography.OrthographyInfo" title="jkUnicode.orthography.OrthographyInfo"><code class="xref py py-class docutils literal"><span class="pre">jkUnicode.orthography.OrthographyInfo</span></code></a> object.</dd>
-<dt>code</dt>
-<dd>The orthography code.</dd>
-<dt>script</dt>
-<dd>The script code of the orthography.</dd>
-<dt>territory</dt>
-<dd>The territory code of the orthography.</dd>
-<dt>info_dict</dt>
-<dd>The dictionary which contains the rest of the information about the orthography.</dd>
-</dl>
+object directly, it is used internally by the <a class="reference internal" href="#jkUnicode.orthography.OrthographyInfo" title="jkUnicode.orthography.OrthographyInfo"><code class="xref py py-class docutils literal"><span class="pre">jkUnicode.orthography.OrthographyInfo</span></code></a>
+object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>info_obj</strong> (<a class="reference internal" href="#jkUnicode.orthography.OrthographyInfo" title="jkUnicode.orthography.OrthographyInfo"><code class="xref py py-class docutils literal"><span class="pre">jkUnicode.orthography.OrthographyInfo</span></code></a>) &#8211; The parent info object.</li>
+<li><strong>code</strong> (<em>str</em>) &#8211; The orthography code.</li>
+<li><strong>script</strong> (<em>str</em>) &#8211; The script code of the orthography.</li>
+<li><strong>territory</strong> (<em>str</em>) &#8211; The territory code of the orthography.</li>
+<li><strong>info_dict</strong> (<em>dict</em>) &#8211; The dictionary which contains the rest of the information about the orthography.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="jkUnicode.orthography.Orthography.almost_supported_basic">
 <code class="descname">almost_supported_basic</code><span class="sig-paren">(</span><em>max_missing=5</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.Orthography.almost_supported_basic" title="Permalink to this definition">¶</a></dt>
@@ -84,9 +88,10 @@ object directly, it is used internally by the <a class="reference internal" href
 <dl class="method">
 <dt id="jkUnicode.orthography.Orthography.fill_from_default_orthography">
 <code class="descname">fill_from_default_orthography</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.Orthography.fill_from_default_orthography" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sometimes the base unicodes are empty for a variant of an orthography. Try to fill them in from the default variant.
-Call this only after the whole list of orthographies is present, or it will fail, because the default orthography
-may not be present until the whole list has been built.</p>
+<dd><p>Sometimes the base unicodes are empty for a variant of an orthography. Try to fill
+them in from the default variant.</p>
+<p>Call this only after the whole list of orthographies is present, or it will fail,
+because the default orthography may not be present until the whole list has been built.</p>
 </dd></dl>
 
 <dl class="method">
@@ -98,7 +103,7 @@ may not be present until the whole list has been built.</p>
 <dl class="method">
 <dt id="jkUnicode.orthography.Orthography.from_dict">
 <code class="descname">from_dict</code><span class="sig-paren">(</span><em>info_dict</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.Orthography.from_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read information for the current orthography from a dictionary. This method is called during initialization of the object and fills in a number of class attributes:</p>
+<dd><p>Read information for the current orthography from a dictionary. This method is called during initialization of the object and fills in a number of instance attributes:</p>
 <dl class="docutils">
 <dt>name</dt>
 <dd>The orthography name.</dd>
@@ -128,7 +133,7 @@ may not be present until the whole list has been built.</p>
 <dl class="method">
 <dt id="jkUnicode.orthography.Orthography.scan_cmap">
 <code class="descname">scan_cmap</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.Orthography.scan_cmap" title="Permalink to this definition">¶</a></dt>
-<dd><p>Scan the orthography against the current parent cmap. This fills in a number of class attributes:</p>
+<dd><p>Scan the orthography against the current parent cmap. This fills in a number of instance attributes:</p>
 <dl class="docutils">
 <dt>missing_base</dt>
 <dd>A set of unicode values that are missing from the basic characters of the orthography.</dd>
@@ -168,12 +173,28 @@ may not be present until the whole list has been built.</p>
 <dt id="jkUnicode.orthography.Orthography.uses_unicode_any">
 <code class="descname">uses_unicode_any</code><span class="sig-paren">(</span><em>u</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.Orthography.uses_unicode_any" title="Permalink to this definition">¶</a></dt>
 <dd><p>Is the unicode used by this orthography in any set? This is relatively slow. Use <a class="reference internal" href="#jkUnicode.orthography.OrthographyInfo.build_reverse_cmap" title="jkUnicode.orthography.OrthographyInfo.build_reverse_cmap"><code class="xref py py-func docutils literal"><span class="pre">jkUnicode.orthography.OrthographyInfo.build_reverse_cmap()</span></code></a> if you need to access this information more often.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>u</strong> (<em>int</em>) &#8211; The codepoint.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="jkUnicode.orthography.Orthography.uses_unicode_base">
 <code class="descname">uses_unicode_base</code><span class="sig-paren">(</span><em>u</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.Orthography.uses_unicode_base" title="Permalink to this definition">¶</a></dt>
 <dd><p>Is the unicode used by this orthography in the base set? This is relatively slow. Use <a class="reference internal" href="#jkUnicode.orthography.OrthographyInfo.build_reverse_cmap" title="jkUnicode.orthography.OrthographyInfo.build_reverse_cmap"><code class="xref py py-func docutils literal"><span class="pre">jkUnicode.orthography.OrthographyInfo.build_reverse_cmap()</span></code></a> if you need to access this information more often.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>u</strong> (<em>int</em>) &#8211; The codepoint.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -182,6 +203,7 @@ may not be present until the whole list has been built.</p>
 <dt id="jkUnicode.orthography.OrthographyInfo">
 <em class="property">class </em><code class="descclassname">jkUnicode.orthography.</code><code class="descname">OrthographyInfo</code><a class="headerlink" href="#jkUnicode.orthography.OrthographyInfo" title="Permalink to this definition">¶</a></dt>
 <dd><p>The main Orthography Info object. It reads the information for each orthography from the files in the <cite>json</cite> subfolder. The JSON data is generated from the Unicode CLDR data via included Python scripts.</p>
+<p>This object is expensive to instantiate due to disk access, so it is recommended to instantiate it once and then reuse it.</p>
 <dl class="method">
 <dt id="jkUnicode.orthography.OrthographyInfo.build_reverse_cmap">
 <code class="descname">build_reverse_cmap</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.OrthographyInfo.build_reverse_cmap" title="Permalink to this definition">¶</a></dt>
@@ -198,50 +220,98 @@ may not be present until the whole list has been built.</p>
 <dt id="jkUnicode.orthography.OrthographyInfo.get_almost_supported">
 <code class="descname">get_almost_supported</code><span class="sig-paren">(</span><em>max_missing=5</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.OrthographyInfo.get_almost_supported" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of almost supported orthographies for the current cmap.</p>
-<dl class="docutils">
-<dt>max_missing</dt>
-<dd>The maximum allowed number of missing characters.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>max_missing</strong> (<em>int</em>) &#8211; The maximum allowed number of missing characters.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="jkUnicode.orthography.OrthographyInfo.get_language_name">
 <code class="descname">get_language_name</code><span class="sig-paren">(</span><em>code</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.OrthographyInfo.get_language_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the nice name for a language by its script code.</p>
+<dd><p>Return the nice name for a language by its code.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code</strong> (<em>str</em>) &#8211; The language code.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="jkUnicode.orthography.OrthographyInfo.get_orthographies_for_char">
 <code class="descname">get_orthographies_for_char</code><span class="sig-paren">(</span><em>char</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.OrthographyInfo.get_orthographies_for_char" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a list of orthographies which use a supplied character at base level.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>char</strong> (<a class="reference internal" href="uniinfo.html#jkUnicode.UniInfo.char" title="jkUnicode.UniInfo.char"><em>char</em></a>) &#8211; The character.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="jkUnicode.orthography.OrthographyInfo.get_orthographies_for_unicode">
 <code class="descname">get_orthographies_for_unicode</code><span class="sig-paren">(</span><em>u</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.OrthographyInfo.get_orthographies_for_unicode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a list of orthographies which use a supplied codepoint at base level.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>u</strong> (<em>int</em>) &#8211; The codepoint.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="jkUnicode.orthography.OrthographyInfo.get_orthographies_for_unicode_any">
 <code class="descname">get_orthographies_for_unicode_any</code><span class="sig-paren">(</span><em>u</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.OrthographyInfo.get_orthographies_for_unicode_any" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a list of orthographies which use a supplied codepoint at any level.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>u</strong> (<em>int</em>) &#8211; The codepoint.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="jkUnicode.orthography.OrthographyInfo.get_script_name">
-<code class="descname">get_script_name</code><span class="sig-paren">(</span><em>code</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.OrthographyInfo.get_script_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the nice name for a script by its language code.</p>
+<code class="descname">get_script_name</code><span class="sig-paren">(</span><em>code='DFLT'</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.OrthographyInfo.get_script_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the nice name for a script by its code.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code</strong> (<em>str</em>) &#8211; The script code.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="jkUnicode.orthography.OrthographyInfo.get_supported_orthographies">
 <code class="descname">get_supported_orthographies</code><span class="sig-paren">(</span><em>full_only=False</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.OrthographyInfo.get_supported_orthographies" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a list of supported orthographies for a character list.</p>
-<dl class="docutils">
-<dt>full_only</dt>
-<dd>Return only orthographies which have both basic and optional characters present for the current cmap.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>full_only</strong> (<em>bool</em>) &#8211; Return only orthographies which have both basic and optional characters present for the current cmap.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -252,26 +322,53 @@ may not be present until the whole list has been built.</p>
 
 <dl class="method">
 <dt id="jkUnicode.orthography.OrthographyInfo.get_territory_name">
-<code class="descname">get_territory_name</code><span class="sig-paren">(</span><em>code</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.OrthographyInfo.get_territory_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the nice name for a territory by its territory code.</p>
+<code class="descname">get_territory_name</code><span class="sig-paren">(</span><em>code='dflt'</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.OrthographyInfo.get_territory_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the nice name for a territory by its code.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code</strong> (<em>str</em>) &#8211; The territory code.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="jkUnicode.orthography.OrthographyInfo.orthography">
 <code class="descname">orthography</code><span class="sig-paren">(</span><em>code</em>, <em>script='DFLT'</em>, <em>territory='dflt'</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.OrthographyInfo.orthography" title="Permalink to this definition">¶</a></dt>
-<dd><p>Access an orthography by its language, script and territory code.</p>
+<dd><p>Access a particular orthography by its language, script and territory code.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>code</strong> (<em>str</em>) &#8211; The language code.</li>
+<li><strong>script</strong> (<em>str</em>) &#8211; The script code.</li>
+<li><strong>territory</strong> (<em>str</em>) &#8211; The territory code.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="jkUnicode.orthography.OrthographyInfo.print_report">
 <code class="descname">print_report</code><span class="sig-paren">(</span><em>otlist</em>, <em>attr</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.OrthographyInfo.print_report" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print a formatted report for a given list of orthographies.</p>
-<dl class="docutils">
-<dt>otlist</dt>
-<dd>The list of orthographies.</dd>
-<dt>attr</dt>
-<dd>The name of the attribute of the orthography object that will be shown in the report (missing_base, missing_optional, missing_punctuation, missing_all, num_missing_base, num_missing_optional, num_missing_punctuation, base_pc, optional_pc, punctuation_pc, unicodes_base, unicodes_optional, unicodes_punctuation).</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>otlist</strong> (<em>list</em>) &#8211; The list of orthographies.</li>
+<li><strong>attr</strong> (<em>str</em>) &#8211; The name of the attribute of the orthography object that will be shown in the report (missing_base, missing_optional, missing_punctuation, missing_all, num_missing_base, num_missing_optional, num_missing_punctuation, base_pc, optional_pc, punctuation_pc, unicodes_base, unicodes_optional, unicodes_punctuation).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -290,10 +387,14 @@ may not be present until the whole list has been built.</p>
 <dt id="jkUnicode.orthography.OrthographyInfo.report_supported">
 <code class="descname">report_supported</code><span class="sig-paren">(</span><em>full_only=False</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.OrthographyInfo.report_supported" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print a report of supported orthographies for the current cmap.</p>
-<dl class="docutils">
-<dt>full_only</dt>
-<dd>Only report orthographies which have both basic and optional characters present</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>full_only</strong> (<em>bool</em>) &#8211; Only report orthographies which have both basic and optional characters present</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -302,6 +403,14 @@ may not be present until the whole list has been built.</p>
 <dt id="jkUnicode.orthography.cased">
 <code class="descclassname">jkUnicode.orthography.</code><code class="descname">cased</code><span class="sig-paren">(</span><em>codepoint_list</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.orthography.cased" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list with its Unicode case mapping toggled. If a codepoint has no lowercase or uppercase mapping, it is dropped from the list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>codepoint_list</strong> (<em>list</em>) &#8211; The list of integer codepoints.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>

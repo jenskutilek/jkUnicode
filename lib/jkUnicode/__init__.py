@@ -42,9 +42,11 @@ categoryName = {
 
 def get_expanded_glyph_list(unicodes):
 	""""Expand" or annotate a list of unicodes.
-For unicodes that have a case mapping (UC or LC), the target unicode will be added to the list.
-AGLFN glyph names are added to the list too, so the returned list contains tuples of (unicode, glyphname),
-sorted by unicode value."""
+	For unicodes that have a case mapping (UC or LC), the target unicode of the case mapping
+	will be added to the list. AGLFN glyph names are added to the list too, so the returned list contains tuples of (unicode, glyphname), sorted by unicode value.
+	
+	:param unicodes: A list of unicodes (int)
+	:type unicodes: list"""
 	glyphs = []
 	ui = UniInfo(0)
 	for ch in unicodes:
@@ -61,8 +63,10 @@ sorted by unicode value."""
 
 def getUnicodeChar(code):
 	"""Return the Unicode character for a Unicode number. This supports "high"
-unicodes (> 0xffff) even on 32-bit builds.
-"""
+	unicodes (> 0xffff) even on 32-bit builds.
+	
+	:param code: The codepoint
+	:type code: int"""
 	if code < 0x10000:
 		return unichr(code)
 	else:
@@ -72,6 +76,17 @@ unicodes (> 0xffff) even on 32-bit builds.
 class UniInfo(object):
 	"""The main Unicode Info object. It gets its Unicode information from the submodules aglfn, uniCase, uniCat, uniDecomposition, uniName, and uniRangesBits which are generated from the official Unicode data. You can find tools to download and regenerate the data in the `tools` subfolder."""
 	def __init__(self, uni=None):
+		"""The Unicode Info object is meant to be instantiated once and then reused to get information
+		about different codepoints. Avoid to instantiate it often, because it is expensive
+		on disk access.
+		
+		Initialize the Info object with a dummy codepoint or None e.g. before a loop
+		and then in the loop assign the actual codepoints that you want information about by setting
+		the `unicode` instance variable. This will automatically update the other instance variables
+		with the correct information from the Unicode standard.
+
+		:param uni: The codepoint.
+		:type uni: int"""
 		self.unicode = uni
 	
 	@property

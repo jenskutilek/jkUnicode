@@ -182,7 +182,10 @@ unicodeRanges = {
 
 def getUnicodesForRangeBit(b):
 	"""Get a list of unicodes for the bit b. The meanings of the bits are
-	specified in the OpenType specification for the OS/2 table ulUnicodeRange[1..4] entries."""
+	specified in the OpenType specification for the OS/2 table ulUnicodeRange[1..4] entries.
+	
+	:param b: The bit (0-127).
+	:type b: int"""
 	records = unicodeRanges[b]
 	codes = []
 	for i in range(len(records)):
@@ -193,7 +196,10 @@ def getUnicodesForRangeBit(b):
 
 def getNameForRangeBit(b):
 	"""Get the name for the bit b. The meanings of the bits are
-	specified in the OpenType specification for the OS/2 table ulUnicodeRange[1..4] entries."""
+	specified in the OpenType specification for the OS/2 table ulUnicodeRange[1..4] entries.
+
+	:param b: The bit (0-127).
+	:type b: int"""
 	records = unicodeRanges[b]
 	name = ""
 	for i in range(len(records)):

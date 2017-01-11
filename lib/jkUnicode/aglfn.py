@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # This is a generated file, use tools/generatePyUniData.py to edit and regenerate.
 
 from re import match, compile
@@ -604,7 +605,10 @@ unicodeToName = {value: key for key, value in nameToUnicode.iteritems()}
 unicodeToName = {value: key for key, value in nameToUnicode.iteritems()}
 
 def getUnicodeForGlyphname(name):
-	"""Return the Unicode value as integer or None that is assigned to the specified glyph name. It handles AGLFN names, uniXXXX names, uXXXXX names, ligature names, variant names, and PUA-encoded ornament names (orn001 - orn999, starting at 0xEA01)."""
+	"""Return the Unicode value as integer or None that is assigned to the specified glyph name. It handles AGLFN names, uniXXXX names, uXXXXX names, ligature names, variant names, and PUA-encoded ornament names (orn001 - orn999, starting at 0xEA01).
+
+	:param name: The glyph name.
+	:type name: str"""
 	ornName = compile("^orn[0-9]{3}$")
 	if "_" in name:
 		return None
@@ -625,7 +629,10 @@ def getUnicodeForGlyphname(name):
 		return None
 
 def getGlyphnameForUnicode(code):
-	"""Return the name as string or None that is assigned to the specified Unicode value."""
+	"""Return the name as string or None that is assigned to the specified Unicode value.
+
+	:param code: The codepoint.
+	:type code: int"""
 	if code is None:
 		return None
 	elif code in unicodeToName.keys():
