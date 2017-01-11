@@ -392,7 +392,7 @@ class OrthographyInfo(object):
 		return self._language_names.get(code, code)
 	
 	
-	def get_script_name(self, code):
+	def get_script_name(self, code="DFLT"):
 		"""Return the nice name for a script by its code.
 
 		:param code: The script code.
@@ -403,7 +403,7 @@ class OrthographyInfo(object):
 			return self._script_names.get(code, code)
 	
 	
-	def get_territory_name(self, code):
+	def get_territory_name(self, code="dflt"):
 		"""Return the nice name for a territory by its code.
 
 		:param code: The territory code.
