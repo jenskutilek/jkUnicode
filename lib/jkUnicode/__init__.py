@@ -132,6 +132,7 @@ class UniInfo(object):
 		s += "\n     Category: %s (%s)" % (self._categoryShort, self.category)
 		if self._uc_mapping:
 			s += "\n    Uppercase: 0x%04X" % self._uc_mapping
+		if self._lc_mapping:
 			s += "\n    Lowercase: 0x%04X" % self._lc_mapping
 		if self._dc_mapping:
 			s += "\nDecomposition: %s" % (" ".join(["0x%04X" % m for m in self._dc_mapping]))
