@@ -121,6 +121,27 @@ if exists("UnicodeData.txt"):
 else:
 	print "WARNING: File UnicodeData.txt not found, Unicode category data not regenerated."
 
+# Unicode blocks
+print "Unicode Blocks ..."
+if exists("Blocks.txt"):
+	with codecs.open("../uniBlock.py", 'w', encoding='utf-8') as outfile:
+		outfile.write("# This is a generated file, use tools/generatePyUniData.py to edit and regenerate.\n\nuniBlocks = {")
+		with codecs.open("Blocks.txt", encoding='utf-8') as f:
+			for line in f:
+				if line.startswith("#"):
+					continue
+				if len(line.strip()) > 0:
+					elements = line.split('; ')
+					if len(elements) == 2:
+						c_range, name = elements
+						start, end = c_range.split("..")
+					outfile.write("\n\t(0x%s, 0x%s): '%s'," % (start, end, name.strip()))
+					#print elements
+		outfile.write("\n}")
+	print "OK."
+else:
+	print "WARNING: File Blocks.txt not found, Unicode block data not regenerated."
+
 # Unicode decomposition
 print "Unicode Decomposition Mappings ..."
 if exists("UnicodeData.txt"):
