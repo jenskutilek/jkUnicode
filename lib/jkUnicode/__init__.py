@@ -192,7 +192,7 @@ if __name__ == '__main__':
 		print "             Name:", j.name
 		print "       Glyph Name:", j.glyphname
 		print "         Category:", j.category
-		print "    Decomposition:", [hex(n) for n in j.decomposition_mapping]
+		print "    Decomposition:", " ".join([hex(n) for n in j.decomposition_mapping])
 		print "        Character:", j.char
 		lc = j.lc_mapping
 		print "Lowercase Mapping:", lc
