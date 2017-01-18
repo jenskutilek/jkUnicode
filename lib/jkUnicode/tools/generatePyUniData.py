@@ -124,18 +124,27 @@ else:
 # Unicode blocks
 print "Unicode Blocks ..."
 if exists("Blocks.txt"):
-	with codecs.open("../uniBlock.py", 'w', encoding='utf-8') as outfile:
+	with codecs.open("../uniBlockData.py", 'w', encoding='utf-8') as outfile:
 		outfile.write("# This is a generated file, use tools/generatePyUniData.py to edit and regenerate.\n\nuniBlocks = {")
 		with codecs.open("Blocks.txt", encoding='utf-8') as f:
-			for line in f:
+			for i, line in enumerate(f):
 				if line.startswith("#"):
 					continue
 				if len(line.strip()) > 0:
 					elements = line.split('; ')
-					if len(elements) == 2:
+					if len(elements) != 2:
+						print "ERROR in Line %i while splitting line: %s" % (i, elements)
+						print "      %s" % line
+					else:
 						c_range, name = elements
-						start, end = c_range.split("..")
-					outfile.write("\n\t(0x%s, 0x%s): '%s'," % (start, end, name.strip()))
+						start_end = c_range.split("..")
+						if len(start_end) != 2:
+							print "ERROR in Line %i while splitting range: %s" % (i, start_end)
+							print "      %s" % line
+						else:
+							start = int(start_end[0], 16)
+							end   = int(start_end[1], 16)
+							outfile.write("\n\t(0x%04x, 0x%04x): '%s', # %i characters" % (start, end, name.strip(), end-start+1))
 					#print elements
 		outfile.write("\n}")
 	print "OK."
