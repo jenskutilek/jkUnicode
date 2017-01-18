@@ -44,10 +44,14 @@ else:
 
 	if os.path.exists(os.path.join(json_path, "languages_additional.json")):
 		# Read additional languages which are only added via override file
-		add_language_names = dict_from_file(json_path, "languages_additional")
-		print "OK: Read %i additional language names." % len(add_language_names)
-		for key, value in add_language_names.items():
-			language_names[key] = value
+		try:
+			add_language_names = dict_from_file(json_path, "languages_additional")
+			print "OK: Read %i additional language names." % len(add_language_names)
+			for key, value in add_language_names.items():
+				language_names[key] = value
+		except ValueError:
+			# Probably an empty file
+			print "WARNING: Could not read JSON data from 'languages_additional.json', skipped."
 	
 	master = {}
 	
@@ -59,10 +63,13 @@ else:
 				print "INFO: Using override JSON file for '%s'" % code
 				update_language_dict(language_dict, dict_from_file(overrides_path, code))
 		else:
-			if not "_" in code or not code.split("_")[0] in language_names:
+			language_dict = {}
+			if os.path.exists(os.path.join(overrides_path, file_name)):
+				print "INFO: Using override JSON file for custom definition '%s'" % code
+				language_dict = dict_from_file(overrides_path, code)
+			elif not "_" in code or not code.split("_")[0] in language_names:
 				# The language code is territory or script specific, but the parent language file is not found.
 				print "WARNING: Language '%s' requested, but JSON file not found." % code
-			language_dict = {}
 		
 		if language_dict:
 			for script, territory_dict in language_dict.items():
