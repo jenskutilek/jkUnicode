@@ -1,4 +1,4 @@
-# This is a generated file, use tools/generatePyUniData.py to edit and regenerate.
+# This is a generated file, use data-scripts/generatePyUniData.py to edit and regenerate.
 
 uniDecompositionMapping = {
 	0x00C0: [0x0041, 0x0300],

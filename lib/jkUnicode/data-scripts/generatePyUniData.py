@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import argparse
-import codecs
+import argparse, codecs, os
 from os.path import exists, join, dirname
 from string import strip
 

@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# This is a generated file, use tools/generatePyUniData.py to edit and regenerate.
+# This is a generated file, use data-scripts/generatePyUniData.py to edit and regenerate.
 
 nameToUnicode = {
 	'A': 0x0041, # LATIN CAPITAL LETTER A
