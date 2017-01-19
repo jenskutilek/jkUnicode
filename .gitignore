@@ -1,7 +1,7 @@
 build/*
 *.pyc
-lib/jkUnicode/tools/Blocks.txt
-lib/jkUnicode/tools/core.zip
-lib/jkUnicode/tools/core/*
-lib/jkUnicode/tools/UnicodeData.txt
+lib/jkUnicode/data/aglfn.txt
+lib/jkUnicode/data/Blocks.txt
+lib/jkUnicode/data/core.zip
+lib/jkUnicode/data/UnicodeData.txt
 doc/_build/doctrees/*
