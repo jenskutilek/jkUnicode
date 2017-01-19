@@ -4,7 +4,7 @@
 import copy, os, re
 import xml.etree.ElementTree as ET
 from zipfile import ZipFile
-from xmlhelpers import filtered_char_list
+from jkUnicode.tools.xmlhelpers import filtered_char_list
 from jkUnicode.aglfn import getGlyphnameForUnicode
 from jkUnicode.tools.jsonhelpers import json_path, json_to_file, clean_json_dir
 
@@ -72,18 +72,18 @@ def generate_language_data(zip_path):
 			print "OK: Read %i territory names." % len(territory_dict)
 
 			json_to_file(json_path, "territories", territory_dict)
-			
-			
-			# Now parse all the separate language XML files
-			
-			print "Parsing language character data ..."
+		
 
-			language_chars = {}
-			ignored_languages = copy.deepcopy(language_dict)
-			
-			sep_path = os.path.join(json_path, "languages")
-			
-			i = 0
+		# Now parse all the separate language XML files
+		
+		print "Parsing language character data ..."
+
+		language_chars = {}
+		ignored_languages = copy.deepcopy(language_dict)
+		
+		sep_path = os.path.join(json_path, "languages")
+		
+		i = 0
 
 		for internal_path in z.namelist():
 			if xml_re.search(internal_path):
@@ -92,7 +92,7 @@ def generate_language_data(zip_path):
 					char_dict = {}
 					i += 1
 					root = ET.parse(lang_xml).getroot()
-					print "\nFile:", internal_path
+					#print "File:", internal_path
 					
 					# Extract code
 					code = root.findall("identity/language")
