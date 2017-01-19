@@ -3,7 +3,7 @@
 
 import argparse
 import codecs
-from os.path import exists
+from os.path import exists, join, dirname
 from string import strip
 
 aglfnAdditions = {
@@ -16,14 +16,20 @@ aglfnAdditions = {
 	'fl': 0xfb02,
 }
 
+module_path = os.path.split(os.path.dirname(os.path.realpath(__file__)))[0]
+data_path = os.path.join(module_path, "data")
+gen_message = "# This is a generated file, use data-scripts/generatePyUniData.py to edit and regenerate.\n\n"
+
 
 def write_names():
 	# Unicode names
 	print "Writing Unicode Character Names ..."
-	if exists("UnicodeData.txt"):
-		with codecs.open("../uniName.py", 'w', encoding='utf-8') as outfile:
-			outfile.write("# This is a generated file, use tools/generatePyUniData.py to edit and regenerate.\n\nuniName = {")
-			with codecs.open("UnicodeData.txt", encoding='utf-8') as f:
+	src_file = join(data_path, "UnicodeData.txt")
+	if exists(src_file):
+		with codecs.open(join(module_path, "uniName.py"), 'w', encoding='utf-8') as outfile:
+			outfile.write(gen_message)
+			outfile.write("uniName = {")
+			with codecs.open(src_file, encoding='utf-8') as f:
 				for line in f:
 					elements = line.split(';')
 					outfile.write("\n\t0x%s: '%s'," % (elements[0], elements[1]))
@@ -37,12 +43,14 @@ def write_names():
 def write_case_mappings():
 	# Unicode names
 	print "Writing Unicode Case Mappings ..."
-	if exists("UnicodeData.txt"):
-		with codecs.open("../uniCase.py", 'w', encoding='utf-8') as outfile:
-			outfile.write("# This is a generated file, use tools/generatePyUniData.py to edit and regenerate.\n\nuniUpperCaseMapping = {")
+	src_file = join(data_path, "UnicodeData.txt")
+	if exists(src_file):
+		with codecs.open(join(module_path, "uniCase.py"), 'w', encoding='utf-8') as outfile:
+			outfile.write(gen_message)
+			outfile.write("uniUpperCaseMapping = {")
 			uc = []
 			lc = []
-			with codecs.open("UnicodeData.txt", encoding='utf-8') as f:
+			with codecs.open(src_file, encoding='utf-8') as f:
 				for line in f:
 					elements = line.strip().split(';')
 					
@@ -70,10 +78,12 @@ def write_case_mappings():
 def write_category():
 	# Unicode category names
 	print "Writing Unicode Categories ..."
-	if exists("UnicodeData.txt"):
-		with codecs.open("../uniCat.py", 'w', encoding='utf-8') as outfile:
-			outfile.write("# This is a generated file, use tools/generatePyUniData.py to edit and regenerate.\n\nuniCat = {")
-			with codecs.open("UnicodeData.txt", encoding='utf-8') as f:
+	src_file = join(data_path, "UnicodeData.txt")
+	if exists(src_file):
+		with codecs.open(join(module_path, "uniCat.py"), 'w', encoding='utf-8') as outfile:
+			outfile.write(gen_message)
+			outfile.write("uniCat = {")
+			with codecs.open(src_file, encoding='utf-8') as f:
 				for line in f:
 					elements = line.split(';')
 					outfile.write("\n\t0x%s: '%s'," % (elements[0], elements[2]))
@@ -86,10 +96,12 @@ def write_category():
 def write_blocks():
 	# Unicode blocks
 	print "Writing Unicode Blocks ..."
-	if exists("Blocks.txt"):
-		with codecs.open("../uniBlockData.py", 'w', encoding='utf-8') as outfile:
-			outfile.write("# This is a generated file, use tools/generatePyUniData.py to edit and regenerate.\n\nuniBlocks = {")
-			with codecs.open("Blocks.txt", encoding='utf-8') as f:
+	src_file = join(data_path, "Blocks.txt")
+	if exists(src_file):
+		with codecs.open(join(module_path, "uniBlockData.py"), 'w', encoding='utf-8') as outfile:
+			outfile.write(gen_message)
+			outfile.write("uniBlocks = {")
+			with codecs.open(src_file, encoding='utf-8') as f:
 				for i, line in enumerate(f):
 					if line.startswith("#"):
 						continue
@@ -118,11 +130,13 @@ def write_blocks():
 def write_decomposition():
 	# Unicode decomposition
 	print "Writing Unicode Decomposition Mappings ..."
-	if exists("UnicodeData.txt"):
-		with codecs.open("../uniDecomposition.py", 'w', encoding='utf-8') as outfile:
-			outfile.write("# This is a generated file, use tools/generatePyUniData.py to edit and regenerate.\n\nuniDecompositionMapping = {")
+	src_file = join(data_path, "UnicodeData.txt")
+	if exists(src_file):
+		with codecs.open(join(module_path, "uniDecomposition.py"), 'w', encoding='utf-8') as outfile:
+			outfile.write(gen_message)
+			outfile.write("uniDecompositionMapping = {")
 			dc = []
-			with codecs.open("UnicodeData.txt", encoding='utf-8') as f:
+			with codecs.open(src_file, encoding='utf-8') as f:
 				for line in f:
 					elements = line.strip().split(';')
 					
@@ -145,10 +159,12 @@ def write_decomposition():
 def write_aglfn():
 	# Adobe Glyph List for New Fonts
 	print "Writing AGLFN data ..."
-	if exists("aglfn.txt"):
-		with codecs.open("../aglfnData.py", 'w', encoding='utf-8') as outfile:
-			outfile.write("# -*- coding: utf-8 -*-\n# This is a generated file, use tools/generatePyUniData.py to edit and regenerate.\n\nnameToUnicode = {")
-			with codecs.open("aglfn.txt", encoding='utf-8') as f:
+	src_file = join(data_path, "aglfn.txt")
+	if exists(src_file):
+		with codecs.open(join(module_path, "aglfnData.py"), 'w', encoding='utf-8') as outfile:
+			outfile.write(gen_message)
+			outfile.write("nameToUnicode = {")
+			with codecs.open(src_file, encoding='utf-8') as f:
 				for i, line in enumerate(f):
 					if line[0] != "#":
 						elements = line.split(';')
@@ -164,6 +180,7 @@ def write_aglfn():
 		print "OK."
 	else:
 		print "WARNING: File aglfn.txt not found, AGLFN data not regenerated."
+
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Regenerate Unicode and glyph name data.")

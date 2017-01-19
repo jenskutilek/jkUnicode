@@ -1,4 +1,4 @@
-from helpers import RangeDict
+from tools.helpers import RangeDict
 from uniBlockData import uniBlocks
 
 uniBlockToName = RangeDict(uniBlocks)

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-from jsonhelpers import json_path, json_to_file, dict_from_file
+from jkUnicode.tools.jsonhelpers import json_path, json_to_file, dict_from_file
 
 
 languages_path = os.path.join(json_path, "languages")
@@ -53,6 +53,15 @@ else:
 			# Probably an empty file
 			print "WARNING: Could not read JSON data from 'languages_additional.json', skipped."
 	
+	ignored = {}
+	if os.path.exists(os.path.join(json_path, "ignored.json")):
+		# Keep track of ignored languages, they may have been added via languages_additional.json
+		try:
+			ignored = dict_from_file(json_path, "ignored")
+		except ValueError:
+			# Probably an empty file
+			print "WARNING: Could not read JSON data from 'ignored.json', skipped."
+
 	master = {}
 	
 	for code in sorted(language_names.keys()):
@@ -84,3 +93,5 @@ else:
 			master[code] = language_dict
 	
 	json_to_file(json_path, "language_characters", master)
+	json_to_file(json_path, "languages", language_names)
+	json_to_file(json_path, "ignored", ignored)

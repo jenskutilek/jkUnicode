@@ -2,5 +2,5 @@
 # Check the URL if it is still current:
 # http://unicode.org/Public/cldr/
 # There seems to be no stable URL for the current version.
-curl -O http://unicode.org/Public/cldr/30.0.2/core.zip
-unzip core.zip -d core/
+curl -O http://unicode.org/Public/cldr/30.0.3/core.zip
+#unzip core.zip -d core/
