@@ -138,6 +138,12 @@ unicodes_any
 		if self.num_missing_base == 0 and self.num_missing_optional != 0 and self.num_missing_punctuation != 0:
 			return True
 		return False
+
+	def support_minimal_inclusive(self):
+		"""Is the orthography supported (base characters only) for the current parent cmap?"""
+		if self.num_missing_base == 0:
+			return True
+		return False
 	
 	
 	def almost_supported_full(self, max_missing = 5):
@@ -426,8 +432,13 @@ class OrthographyInfo(object):
 		return [o for o in self.orthographies if o.support_basic()]
 	
 	
+	def get_supported_orthographies_minimum_inclusive(self):
+		"""Get a list of orthographies with minimal or better support for the current cmap."""
+		return [o for o in self.orthographies if o.support_minimal_inclusive()]
+	
+	
 	def get_supported_orthographies_minimum(self):
-		"""Get a list of minimally supported orthographies for the current cmap."""
+		"""Get a list of orthographies with minimal support for the current cmap only."""
 		return [o for o in self.orthographies if o.support_minimal()]
 	
 	
@@ -469,6 +480,23 @@ class OrthographyInfo(object):
 				ui.unicode = u
 				print "    0x%04X\t%s\t%s" % (u, ui.glyphname, ui.name.title())
 
+	
+	def report_supported_minimum_inclusive(self):
+		"""Print a report of minimally supported orthographies for the current cmap (no punctuation, no optional characters required)."""
+		m = self.get_supported_orthographies_minimum_inclusive()
+		print "The font has minimal or better support for %i orthographies:" % len(m)
+		m.sort()
+		for ot in m: print ot.name
+	
+	
+	def report_supported_minimum(self):
+		"""Print a report of minimally supported orthographies for the current cmap (no punctuation, no optional characters present)."""
+		m = self.get_supported_orthographies_minimum()
+		print "The font has minimal support for %i orthographies:" % len(m)
+		m.sort()
+		for ot in m: print ot.name
+	
+	
 	def report_supported(self, full_only=False):
 		"""Print a report of supported orthographies for the current cmap.
 
