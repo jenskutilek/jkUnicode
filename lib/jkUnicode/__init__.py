@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from uniName import uniName
+from uniNiceName import nice_name_rules
 from uniCat import uniCat
 from uniCase import uniUpperCaseMapping, uniLowerCaseMapping
 from uniDecomposition import uniDecompositionMapping
@@ -106,6 +107,7 @@ class UniInfo(object):
 			self._dc_mapping = []
 		else:
 			self._name = uniName.get(self._unicode, None)
+			# TODO: Add nicer names based on original Unicode names?
 			if self._name is None:
 				if 0xE000 <= self._unicode < 0xF8FF:
 					self._name = "<Private Use #%i>" % (self._unicode - 0xe000)
@@ -137,7 +139,7 @@ class UniInfo(object):
 		if self._dc_mapping:
 			s += "\nDecomposition: %s" % (" ".join(["0x%04X" % m for m in self._dc_mapping]))
 		return s
-	
+
 	@property
 	def category(self):
 		"""The name of the category for the current Unicode value as string."""
@@ -163,6 +165,15 @@ class UniInfo(object):
 	def name(self):
 		"""The Unicode name for the current Unicode value as string."""
 		return self._name
+	
+	@property
+	def nice_name(self):
+		"""The Unicode name for the current Unicode value as string."""
+		for transform_function in nice_name_rules:
+			result = transform_function(self._name)
+			if result:
+				return result
+		return self._name.capitalize()
 	
 	@property
 	def decomposition_mapping(self):
