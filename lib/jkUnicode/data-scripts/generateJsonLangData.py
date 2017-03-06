@@ -133,7 +133,7 @@ def generate_language_data(zip_path):
 					# Extract characters
 					ec = root.findall("characters/exemplarCharacters")
 					for c in ec:
-						if c.attrib == {}:
+						if "type" not in c.attrib:
 							# Main entry
 							u_list = format_char_list(filtered_char_list(c.text))
 							if u_list:
