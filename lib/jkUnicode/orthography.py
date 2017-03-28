@@ -241,6 +241,15 @@ The names of these attributes can be used in :py:class:`jkUnicode.orthography.Or
 		# self._info is a weakref, call it to return its object
 		return self._info()
 	
+	@property
+	def id(self):
+		_id = self.code
+		if self.script != "DFLT":
+			_id += "_%s" % self.script
+		if self.territory != "dflt":
+			_id += "_%s" % self.territory
+		return _id
+		
 	
 	@property
 	def name(self):
