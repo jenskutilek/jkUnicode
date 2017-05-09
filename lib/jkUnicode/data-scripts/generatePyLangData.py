@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from __future__ import print_function, division, absolute_import
 
 import os
 from jkUnicode.tools.jsonhelpers import json_path, json_to_file, dict_from_file
@@ -24,7 +25,7 @@ def update_language_dict(language_dict, override_dict):
 								for cat, contents in v.items():
 									language_dict[script][territory]["unicodes"][cat] = contents
 							else:
-								print "WARNING: Unknown key in territory ignored:", k
+								print("WARNING: Unknown key in territory ignored:", k)
 						else:
 							language_dict[script][territory][k] = v
 				else:
@@ -36,22 +37,22 @@ def update_language_dict(language_dict, override_dict):
 
 
 if not(os.path.exists(os.path.join(json_path, "languages.json"))):
-	print "JSON language data not found.\nPlease use the script 'generateJsonLangData.py' to generate it."
+	print("JSON language data not found.\nPlease use the script 'generateJsonLangData.py' to generate it.")
 else:
 	language_names = dict_from_file(json_path, "languages")
-	print "OK: Read %i language names." % len(language_names)
-	#print [name for name in sorted(language_names.keys())]
+	print("OK: Read %i language names." % len(language_names))
+	#print([name for name in sorted(language_names.keys())])
 
 	if os.path.exists(os.path.join(json_path, "languages_additional.json")):
 		# Read additional languages which are only added via override file
 		try:
 			add_language_names = dict_from_file(json_path, "languages_additional")
-			print "OK: Read %i additional language names." % len(add_language_names)
+			print("OK: Read %i additional language names." % len(add_language_names))
 			for key, value in add_language_names.items():
 				language_names[key] = value
 		except ValueError:
 			# Probably an empty file
-			print "WARNING: Could not read JSON data from 'languages_additional.json', skipped."
+			print("WARNING: Could not read JSON data from 'languages_additional.json', skipped.")
 	
 	ignored = {}
 	if os.path.exists(os.path.join(json_path, "ignored.json")):
@@ -60,7 +61,7 @@ else:
 			ignored = dict_from_file(json_path, "ignored")
 		except ValueError:
 			# Probably an empty file
-			print "WARNING: Could not read JSON data from 'ignored.json', skipped."
+			print("WARNING: Could not read JSON data from 'ignored.json', skipped.")
 
 	master = {}
 	
@@ -69,16 +70,16 @@ else:
 		if os.path.exists(os.path.join(languages_path, file_name)):
 			language_dict = dict_from_file(languages_path, code)
 			if os.path.exists(os.path.join(overrides_path, file_name)):
-				print "INFO: Using override JSON file for '%s'" % code
+				print("INFO: Using override JSON file for '%s'" % code)
 				update_language_dict(language_dict, dict_from_file(overrides_path, code))
 		else:
 			language_dict = {}
 			if os.path.exists(os.path.join(overrides_path, file_name)):
-				print "INFO: Using override JSON file for custom definition '%s'" % code
+				print("INFO: Using override JSON file for custom definition '%s'" % code)
 				language_dict = dict_from_file(overrides_path, code)
 			elif not "_" in code or not code.split("_")[0] in language_names:
 				# The language code is territory or script specific, but the parent language file is not found.
-				print "WARNING: Language '%s' requested, but JSON file not found." % code
+				print("WARNING: Language '%s' requested, but JSON file not found." % code)
 		
 		if language_dict:
 			for script, territory_dict in language_dict.items():

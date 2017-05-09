@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from __future__ import print_function, division, absolute_import
 
 import copy, os, re
 import xml.etree.ElementTree as ET
@@ -32,13 +33,13 @@ def format_char_list(char_list):
 def generate_language_data(zip_path):
 	
 	if not(os.path.exists(zip_path)):
-		print "Zip file with XML data not found.\nPlease use the shell script 'updateLangData.sh' to download it."
+		print("Zip file with XML data not found.\nPlease use the shell script 'updateLangData.sh' to download it.")
 		return False
 
 	with ZipFile(zip_path, "r") as z:
 		names = z.namelist()
 		if not en_path in names:
-			print "'%s' not found in zip file." % en_path
+			print("'%s' not found in zip file." % en_path)
 			return False
 		with z.open(en_path) as en_xml:
 
@@ -55,13 +56,13 @@ def generate_language_data(zip_path):
 				del language_dict["root"]
 			except:
 				pass
-			print "OK: Read %i language names." % len(language_dict)
+			print("OK: Read %i language names." % len(language_dict))
 			
 			
 			# Script names
 			
 			script_dict = extract_dict(root, "localeDisplayNames/scripts/script")
-			print "OK: Read %i script names." % len(script_dict)
+			print("OK: Read %i script names." % len(script_dict))
 
 			json_to_file(json_path, "scripts", script_dict)
 			
@@ -69,14 +70,14 @@ def generate_language_data(zip_path):
 			# Territory names
 			
 			territory_dict = extract_dict(root, "localeDisplayNames/territories/territory")
-			print "OK: Read %i territory names." % len(territory_dict)
+			print("OK: Read %i territory names." % len(territory_dict))
 
 			json_to_file(json_path, "territories", territory_dict)
 		
 
 		# Now parse all the separate language XML files
 		
-		print "Parsing language character data ..."
+		print("Parsing language character data ...")
 
 		language_chars = {}
 		ignored_languages = copy.deepcopy(language_dict)
@@ -92,43 +93,43 @@ def generate_language_data(zip_path):
 					char_dict = {}
 					i += 1
 					root = ET.parse(lang_xml).getroot()
-					#print "File:", internal_path
+					#print("File:", internal_path)
 					
 					# Extract code
 					code = root.findall("identity/language")
 					if len(code) == 0:
-						print "ERROR: Language code not found in file '%s'" % lang_xml_path
+						print("ERROR: Language code not found in file '%s'" % lang_xml_path)
 						code = None
 					elif len(code) == 1:
 						code = code[0].attrib["type"]
 					else:
-						print "ERROR: Language code ambiguous in file '%s'" % lang_xml_path
+						print("ERROR: Language code ambiguous in file '%s'" % lang_xml_path)
 						code = None
-					#print "    Code:", code
+					#print("    Code:", code)
 					
 					# Extract script
 					script = root.findall("identity/script")
 					if len(script) == 0:
-						#print "WARNING: Script not found in file '%s'" % lang_xml_path
+						#print("WARNING: Script not found in file '%s'" % lang_xml_path)
 						script = "DFLT"
 					elif len(script) == 1:
 						script = script[0].attrib["type"]
 					else:
-						print "ERROR: Script ambiguous in file '%s'" % lang_xml_path
+						print("ERROR: Script ambiguous in file '%s'" % lang_xml_path)
 						script = None
-					#print "    Script:", script
+					#print("    Script:", script)
 					
 					# Extract territory
 					territory = root.findall("identity/territory")
 					if len(territory) == 0:
-						#print "WARNING: Territory not found in file '%s'" % lang_xml_path
+						#print("WARNING: Territory not found in file '%s'" % lang_xml_path)
 						territory = "dflt"
 					elif len(territory) == 1:
 						territory = territory[0].attrib["type"]
 					else:
-						print "ERROR: Territory ambiguous in file '%s'" % lang_xml_path
+						print("ERROR: Territory ambiguous in file '%s'" % lang_xml_path)
 						territory = None
-					#print "    Territory:", territory
+					#print("    Territory:", territory)
 					
 					# Extract characters
 					ec = root.findall("characters/exemplarCharacters")
@@ -148,12 +149,12 @@ def generate_language_data(zip_path):
 									char_dict[t] = u_list
 					if char_dict:
 						if code in language_dict:
-							#print "Add information for", code
+							#print("Add information for", code)
 							if not code in language_chars:
-								#print "    Add entry for code to master dict:", code
+								#print("    Add entry for code to master dict:", code)
 								language_chars[code] = {}
 							if not script in language_chars[code]:
-								#print "    Add entry for script/code to master dict:", script
+								#print("    Add entry for script/code to master dict:", script)
 								language_chars[code][script] = {}
 							
 							# Found best matching entry from language_dict
@@ -169,7 +170,7 @@ def generate_language_data(zip_path):
 									except: pass
 									break
 							if not found:
-								print "Could not determine name for %s/%s/%s" % (script, code, territory)
+								print("Could not determine name for %s/%s/%s" % (script, code, territory))
 								name = "Unknown"
 							
 							# Build name including script or territory
@@ -196,12 +197,12 @@ def generate_language_data(zip_path):
 							#if territory in territory_dict:
 							#	language_chars[code][script][territory]["territory"] = territory_dict[territory]
 						else:
-							print "Language is not in master list:", code
+							print("Language is not in master list:", code)
 					else:
 						pass
-						#print "    XML for %s (%s/%s/%s) contains no character information" % (language_dict[code], script, code, territory)
+						#print("    XML for %s (%s/%s/%s) contains no character information" % (language_dict[code], script, code, territory))
 			
-		print "Parsed %i files." % i
+		print("Parsed %i files." % i)
 		
 		for code in ignored_languages:
 			del language_dict[code]
@@ -210,7 +211,7 @@ def generate_language_data(zip_path):
 		json_to_file(json_path, "languages", language_dict)
 		json_to_file(json_path, "ignored", ignored_languages)
 		for code, v in language_chars.items():
-			#print "json_to_file:", "%s" % code
+			#print("json_to_file:", "%s" % code)
 			json_to_file(sep_path, "%s" % code, v)
 
 if __name__ == "__main__":

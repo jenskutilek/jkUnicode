@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from __future__ import print_function, division, absolute_import
 
 # The dirty hacky stuff is outsourced into this file
 
@@ -55,7 +56,7 @@ def filtered_char_list(xml_char_list, debug=False):
 	if xml_char_list[0] == "[" and xml_char_list[-1] == "]":
 		xml_char_list = xml_char_list[1:-1]
 	else:
-		print "ERROR: Character list string from XML was not wrapped in []."
+		print("ERROR: Character list string from XML was not wrapped in [].")
 		return []
 	
 	filtered = FilteredList()
@@ -64,7 +65,7 @@ def filtered_char_list(xml_char_list, debug=False):
 	buf = Buffer()
 	
 	for c in xml_char_list:
-		if debug: print "Chunk: '%s', buffer:'%s'" % (c, buf)
+		if debug: print("Chunk: '%s', buffer:'%s'" % (c, buf))
 		if in_uniesc:
 			if c in "\\}{- ":
 				filtered.add(buf.flush())
@@ -115,7 +116,7 @@ def filtered_char_list(xml_char_list, debug=False):
 					in_escape = False
 				filtered.add(c)
 				buf.clear()
-			if debug: print "New buffer: '%s'" % buf
+			if debug: print("New buffer: '%s'" % buf)
 	
 	filtered.add(buf.flush())
 	
@@ -127,14 +128,14 @@ def filtered_char_list(xml_char_list, debug=False):
 		if f == "RANGE":
 			start = ord(filtered[i-1]) + 1
 			end   = ord(filtered[i+1])
-			#print "RANGE: %04X, %04X" % (start, end)
+			#print("RANGE: %04X, %04X" % (start, end))
 			for g in range(start, end):
-				#print "0x%04X" % g
+				#print("0x%04X" % g)
 				final.append(unichr(g))
 		else:
 			final.append(f)
 	
-	if debug: print final
+	if debug: print(final)
 	return sorted(list(set(final)))
 
 
@@ -149,8 +150,8 @@ if __name__ == "__main__":
 
 	for cl, r in lists:
 		ll = filtered_char_list(cl, True)
-		print "Result:", ll
+		print("Result:", ll)
 		if ll == r:
-			print "OK"
+			print("OK")
 		else:
-			print "ERROR"
+			print("ERROR")

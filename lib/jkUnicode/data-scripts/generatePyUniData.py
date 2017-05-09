@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from __future__ import print_function, division, absolute_import
 
 import argparse, codecs, os
 from os.path import exists, join, dirname
@@ -22,7 +23,7 @@ gen_message = "# This is a generated file, use data-scripts/generatePyUniData.py
 
 def write_names():
 	# Unicode names
-	print "Writing Unicode Character Names ..."
+	print("Writing Unicode Character Names ...")
 	src_file = join(data_path, "UnicodeData.txt")
 	if exists(src_file):
 		with codecs.open(join(module_path, "uniName.py"), 'w', encoding='utf-8') as outfile:
@@ -32,16 +33,16 @@ def write_names():
 				for line in f:
 					elements = line.split(';')
 					outfile.write("\n\t0x%s: '%s'," % (elements[0], elements[1]))
-					#print elements
+					#print(elements)
 			outfile.write("\n}")
-		print "OK."
+		print("OK.")
 	else:
-		print "    WARNING: File UnicodeData.txt not found, Unicode name data not regenerated."
+		print("    WARNING: File UnicodeData.txt not found, Unicode name data not regenerated.")
 
 
 def write_case_mappings():
 	# Unicode names
-	print "Writing Unicode Case Mappings ..."
+	print("Writing Unicode Case Mappings ...")
 	src_file = join(data_path, "UnicodeData.txt")
 	if exists(src_file):
 		with codecs.open(join(module_path, "uniCase.py"), 'w', encoding='utf-8') as outfile:
@@ -62,21 +63,21 @@ def write_case_mappings():
 					lcm = elements[13]
 					if lcm:
 						lc.append((elements[0], lcm))
-					#print elements
+					#print(elements)
 			for item in uc:
 				outfile.write("\n\t0x%s: 0x%s," % item)
 			outfile.write("\n}\n\nuniLowerCaseMapping = {")
 			for item in lc:
 				outfile.write("\n\t0x%s: 0x%s," % item)
 			outfile.write("\n}\n")
-		print "OK."
+		print("OK.")
 	else:
-		print "WARNING: File UnicodeData.txt not found, Unicode case mapping data not regenerated."
+		print("WARNING: File UnicodeData.txt not found, Unicode case mapping data not regenerated.")
 
 
 def write_category():
 	# Unicode category names
-	print "Writing Unicode Categories ..."
+	print("Writing Unicode Categories ...")
 	src_file = join(data_path, "UnicodeData.txt")
 	if exists(src_file):
 		with codecs.open(join(module_path, "uniCat.py"), 'w', encoding='utf-8') as outfile:
@@ -86,15 +87,15 @@ def write_category():
 				for line in f:
 					elements = line.split(';')
 					outfile.write("\n\t0x%s: '%s'," % (elements[0], elements[2]))
-					#print elements
+					#print(elements)
 			outfile.write("\n}")
-		print "OK."
+		print("OK.")
 	else:
-		print "WARNING: File UnicodeData.txt not found, Unicode category data not regenerated."
+		print("WARNING: File UnicodeData.txt not found, Unicode category data not regenerated.")
 
 def write_blocks():
 	# Unicode blocks
-	print "Writing Unicode Blocks ..."
+	print("Writing Unicode Blocks ...")
 	src_file = join(data_path, "Blocks.txt")
 	if exists(src_file):
 		with codecs.open(join(module_path, "uniBlockData.py"), 'w', encoding='utf-8') as outfile:
@@ -107,28 +108,28 @@ def write_blocks():
 					if len(line.strip()) > 0:
 						elements = line.split('; ')
 						if len(elements) != 2:
-							print "ERROR in Line %i while splitting line: %s" % (i, elements)
-							print "      %s" % line
+							print("ERROR in Line %i while splitting line: %s" % (i, elements))
+							print("      %s" % line)
 						else:
 							c_range, name = elements
 							start_end = c_range.split("..")
 							if len(start_end) != 2:
-								print "ERROR in Line %i while splitting range: %s" % (i, start_end)
-								print "      %s" % line
+								print("ERROR in Line %i while splitting range: %s" % (i, start_end))
+								print("      %s" % line)
 							else:
 								start = int(start_end[0], 16)
 								end   = int(start_end[1], 16)
 								outfile.write("\n\t(0x%04x, 0x%04x): '%s', # %i characters" % (start, end, name.strip(), end-start+1))
-						#print elements
+						#print(elements)
 			outfile.write("\n}")
-		print "OK."
+		print("OK.")
 	else:
-		print "WARNING: File Blocks.txt not found, Unicode block data not regenerated."
+		print("WARNING: File Blocks.txt not found, Unicode block data not regenerated.")
 
 
 def write_decomposition():
 	# Unicode decomposition
-	print "Writing Unicode Decomposition Mappings ..."
+	print("Writing Unicode Decomposition Mappings ...")
 	src_file = join(data_path, "UnicodeData.txt")
 	if exists(src_file):
 		with codecs.open(join(module_path, "uniDecomposition.py"), 'w', encoding='utf-8') as outfile:
@@ -141,7 +142,7 @@ def write_decomposition():
 					
 					# Decomposition mapping
 					dcm = elements[5]
-					#print elements[0], dcm
+					#print(elements[0], dcm)
 					if dcm:
 						codes = dcm.split(" ")
 						if not codes[0].startswith("<"):
@@ -150,14 +151,14 @@ def write_decomposition():
 			for code, decomp_sequence in dc:
 				outfile.write("\n\t0x%s: [%s]," % (code, ", ".join(["0x%s" % d for d in decomp_sequence])))
 			outfile.write("\n}\n")
-		print "OK."
+		print("OK.")
 	else:
-		print "WARNING: File UnicodeData.txt not found, Unicode name data not regenerated."
+		print("WARNING: File UnicodeData.txt not found, Unicode name data not regenerated.")
 
 
 def write_aglfn():
 	# Adobe Glyph List for New Fonts
-	print "Writing AGLFN data ..."
+	print("Writing AGLFN data ...")
 	src_file = join(data_path, "aglfn.txt")
 	if exists(src_file):
 		with codecs.open(join(module_path, "aglfnData.py"), 'w', encoding='utf-8') as outfile:
@@ -168,7 +169,7 @@ def write_aglfn():
 					if line[0] != "#":
 						elements = line.split(';')
 						if len(elements) != 3:
-							print "ERROR parsing line %i: %s" % (i, line)
+							print("ERROR parsing line %i: %s" % (i, line))
 						else:
 							outfile.write("\n\t'%s': 0x%s, # %s" % (elements[1], elements[0], strip(elements[2])))
 			if aglfnAdditions:
@@ -176,9 +177,9 @@ def write_aglfn():
 			for k in sorted(aglfnAdditions.keys()):
 				outfile.write("\n\t'%s': 0x%04x," % (k, aglfnAdditions[k]))
 			outfile.write("\n}\n")
-		print "OK."
+		print("OK.")
 	else:
-		print "WARNING: File aglfn.txt not found, AGLFN data not regenerated."
+		print("WARNING: File aglfn.txt not found, AGLFN data not regenerated.")
 
 
 if __name__ == "__main__":

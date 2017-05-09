@@ -1,3 +1,4 @@
+from __future__ import print_function, division, absolute_import
 import re
 
 re_small_letter   = re.compile("^(.+SMALL LETTER )([A-Z\- ]+?)( WITH.+)?$")
@@ -9,10 +10,10 @@ letter_names = {
 }
 
 def transform_small_letter(name):
-	#print "transform_small_letter", name
+	#print("transform_small_letter", name)
 	m = re_small_letter.match(name)
 	if m:
-		#print m.groups()
+		#print(m.groups())
 		result = m.group(1).capitalize()
 		if " " in m.group(2):
 			parts = m.group(2).split()
@@ -28,15 +29,15 @@ def transform_small_letter(name):
 			result += letter_names.get(m.group(2), m.group(2).lower())
 		if m.group(3) is not None:
 			result += "%s" % m.group(3).lower()
-		#print "Result:", result
+		#print("Result:", result)
 		return result
 	return False
 
 def transform_capital_letter(name):
-	#print "transform_capital_letter", name
+	#print("transform_capital_letter", name)
 	m = re_capital_letter.match(name)
 	if m:
-		#print m.groups()
+		#print(m.groups())
 		result = m.group(1).capitalize()
 		if " " in m.group(2):
 			parts = m.group(2).split()
@@ -52,7 +53,7 @@ def transform_capital_letter(name):
 			result += letter_names.get(m.group(2), m.group(2).title())
 		if m.group(3) is not None:
 			result += "%s" % m.group(3).lower()
-		#print "Result:", result
+		#print("Result:", result)
 		return result
 	return False
 
@@ -62,7 +63,7 @@ def transform_allah(name):
 		result = "%s%s" % (m.group(1).capitalize(), m.group(2).title())
 		if m.group(3) is not None:
 			result += "%s" % m.group(3).lower()
-		print result
+		print(result)
 		return result
 	return False
 

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function, division, absolute_import
+
 # Jens 2016-10-17
 
 def get_cmap(font):
@@ -8,6 +10,6 @@ def get_cmap(font):
 		cmapSubtable = font["cmap"].getcmap(platformID, encodingID)
 		if cmapSubtable is not None:
 			return cmapSubtable.cmap
-	print "ERROR extracting codepoints from font. Found neither CMAP (3, 10), (0, 3), nor (3, 1)."
+	print("ERROR extracting codepoints from font. Found neither CMAP (3, 10), (0, 3), nor (3, 1).")
 	return {}
 

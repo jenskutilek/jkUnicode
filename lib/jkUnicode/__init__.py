@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from __future__ import print_function, division, absolute_import
 
 from uniName import uniName
 from uniNiceName import nice_name_rules
@@ -194,21 +195,21 @@ class UniInfo(object):
 
 
 if __name__ == '__main__':
-	print "\n*** Test of jkUnicode.UniInfo ***"
+	print("\n*** Test of jkUnicode.UniInfo ***")
 	for u in [9912, 80, 0x1E40]:
 		j = UniInfo(u)
-		print "Repr.:"
-		print j
-		print "- " * 20
-		print "             Name:", j.name
-		print "       Glyph Name:", j.glyphname
-		print "         Category:", j.category
-		print "    Decomposition:", " ".join([hex(n) for n in j.decomposition_mapping])
-		print "        Character:", j.char
+		print("Repr.:")
+		print(j)
+		print("- " * 20)
+		print("             Name:", j.name)
+		print("       Glyph Name:", j.glyphname)
+		print("         Category:", j.category)
+		print("    Decomposition:", " ".join([hex(n) for n in j.decomposition_mapping]))
+		print("        Character:", j.char)
 		lc = j.lc_mapping
-		print "Lowercase Mapping:", lc
+		print("Lowercase Mapping:", lc)
 		if lc is not None:
 			j.unicode = lc
-			print j
-		print "-" * 40
+			print(j)
+		print("-" * 40)
 	

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from __future__ import division
+from __future__ import print_function, division, absolute_import
 import os, weakref
 from jkUnicode import UniInfo
 from jkUnicode.tools.jsonhelpers import json_path, json_to_file, dict_from_file
@@ -104,18 +104,18 @@ unicodes_any
 		Call this only after the whole list of orthographies is present, or it will fail,
 		because the default orthography may not be present until the whole list has been built."""
 		if self.territory != "dflt":
-			#print self.code, self.script, self.territory
+			#print(self.code, self.script, self.territory)
 			parent = self.info.orthography(self.code, self.script)
 			if parent is None:
-				print "WARNING: No parent orthography found for %s/%s/%s" % (self.code, self.script, self.territory)
+				print("WARNING: No parent orthography found for %s/%s/%s" % (self.code, self.script, self.territory))
 			else:
-				#print "    Parent:", parent.code, parent.script, parent.territory
+				#print("    Parent:", parent.code, parent.script, parent.territory)
 				# Set attributes from parent (there may be empty attributes remaining ...?)
 				for attr in ["unicodes_base", "unicodes_optional", "unicodes_punctuation"]:
 					if getattr(self, attr) == set():
 						parent_set = getattr(parent, attr)
 						if parent_set:
-							#print "    Filled from parent:", attr
+							#print("    Filled from parent:", attr)
 							setattr(self, attr, parent_set)
 	
 	
@@ -302,11 +302,11 @@ class OrthographyInfo(object):
 		self._index = {}
 		i = 0
 		for code, script_dict in master.items():
-			#print code, script_dict
+			#print(code, script_dict)
 			for script, territory_dict in script_dict.items():
-				#print script, territory_dict
+				#print(script, territory_dict)
 				for territory, info in territory_dict.items():
-					#print territory, info
+					#print(territory, info)
 					self.orthographies.append(Orthography(self, code, script, territory, info))
 					self._index[(code, script, territory)] = i
 					i += 1
@@ -484,26 +484,26 @@ class OrthographyInfo(object):
 		:type attr: str"""
 		otlist.sort()
 		for ot in otlist:
-			print "\n%s" % ot.name
+			print("\n%s" % ot.name)
 			for u in sorted(list(getattr(ot, attr))):
 				ui.unicode = u
-				print "    0x%04X\t%s\t%s" % (u, ui.glyphname, ui.name.title())
+				print("    0x%04X\t%s\t%s" % (u, ui.glyphname, ui.name.title()))
 
 	
 	def report_supported_minimum_inclusive(self):
 		"""Print a report of minimally supported orthographies for the current cmap (no punctuation, no optional characters required)."""
 		m = self.get_supported_orthographies_minimum_inclusive()
-		print "The font has minimal or better support for %i orthographies:" % len(m)
+		print("The font has minimal or better support for %i orthographies:" % len(m))
 		m.sort()
-		for ot in m: print ot.name
+		for ot in m: print(ot.name)
 	
 	
 	def report_supported_minimum(self):
 		"""Print a report of minimally supported orthographies for the current cmap (no punctuation, no optional characters present)."""
 		m = self.get_supported_orthographies_minimum()
-		print "The font has minimal support for %i orthographies:" % len(m)
+		print("The font has minimal support for %i orthographies:" % len(m))
 		m.sort()
-		for ot in m: print ot.name
+		for ot in m: print(ot.name)
 	
 	
 	def report_supported(self, full_only=False):
@@ -512,22 +512,22 @@ class OrthographyInfo(object):
 		:param full_only: Only report orthographies which have both basic and optional characters present
 		:type full_only: bool"""
 		m = self.get_supported_orthographies(full_only)
-		print "The font supports %i orthographies:" % len(m)
+		print("The font supports %i orthographies:" % len(m))
 		m.sort()
-		for ot in m: print ot.name
+		for ot in m: print(ot.name)
 	
 	
 	def report_missing_punctuation(self):
 		"""Print a report of orthographies which have all basic letters present, but are missing puncuation characters."""
 		m = self.get_almost_supported_punctuation()
-		print "Orthographies which can be supported by adding punctuation characters:"
+		print("Orthographies which can be supported by adding punctuation characters:")
 		self.print_report(m, "missing_punctuation")
 	
 	
 	def report_near_misses(self, n=5):
 		"""Print a report of orthographies which a maximum number of n characters missing."""
 		m = self.get_almost_supported(n)
-		print "Orthographies which can be supported with max. %i additional %s:" % (n, "character" if n == 1 else "characters")
+		print("Orthographies which can be supported with max. %i additional %s:" % (n, "character" if n == 1 else "characters"))
 		self.print_report(m, "missing_base")
 
 
@@ -542,19 +542,19 @@ def test_scan():
 	
 	font_path = "/Users/jens/Documents/Schriften/Hertz/Hertz-Book.ttf"
 	
-	print "Scanning font for orthographic support:"
-	print font_path
+	print("Scanning font for orthographic support:")
+	print(font_path)
 	
 	# Get a character map from a font to scan.
 	cmap = get_cmap(TTFont(font_path))
 	start = time()
 	o = OrthographyInfo()
-	print o
+	print(o)
 	
 	
 	# List known orthographies
 	for ot in sorted(o.orthographies):
-		print ot.name, ot.code
+		print(ot.name, ot.code)
 	
 	o.cmap = cmap
 	
@@ -564,25 +564,25 @@ def test_scan():
 	mini = o.get_supported_orthographies_minimum()
 	stop = time()
 	
-	print "\nFull support:", len(full), "orthography" if len(base) == 1 else "orthographies"
-	print ", ".join([x.name for x in full])
+	print("\nFull support:", len(full), "orthography" if len(base) == 1 else "orthographies")
+	print(", ".join([x.name for x in full]))
 	
 	base = [r for r in base if not r in full]
-	print "\nBasic support:", len(base), "orthography" if len(base) == 1 else "orthographies"
-	print ", ".join([x.name for x in base])
+	print("\nBasic support:", len(base), "orthography" if len(base) == 1 else "orthographies")
+	print(", ".join([x.name for x in base]))
 	
 	mini = [r for r in mini if not r in full]
-	print "\nMinimal support (no punctuation):", len(mini), "orthography" if len(mini) == 1 else "orthographies"
-	print ", ".join([x.name for x in mini])
+	print("\nMinimal support (no punctuation):", len(mini), "orthography" if len(mini) == 1 else "orthographies")
+	print(", ".join([x.name for x in mini]))
 	
 	# Timing information
-	print stop - start
+	print(stop - start)
 	
 	
 	# Output info about one orthography
 	ot = o.orthography("en", "DFLT", "ZA")
-	print "\nOrthography:", ot.name
-	print list(ot.unicodes_base)
+	print("\nOrthography:", ot.name)
+	print(list(ot.unicodes_base))
 	
 	
 	# Scan the font again, but allow for a number of missing characters
@@ -594,17 +594,17 @@ def test_scan():
 def test_reverse():
 	from time import time
 	
-	print "\nTest of the Reverse CMAP functions"
+	print("\nTest of the Reverse CMAP functions")
 	
 	c = u"ö"
 	o = OrthographyInfo()
 	
-	print "\nBuild reverse CMAP:", 
+	print("\nBuild reverse CMAP:", )
 	start = time()
 	o.build_reverse_cmap()
 	stop = time()
 	d = (stop - start) * 1000
-	print "%0.2f ms" % d
+	print("%0.2f ms" % d)
 	
 	u = ord(c)
 	
@@ -612,18 +612,18 @@ def test_reverse():
 	result1 = o.get_orthographies_for_unicode(u)
 	stop = time()
 	d = (stop - start) * 1000
-	print "Use cached lookup:  %0.2f ms" % d
+	print("Use cached lookup:  %0.2f ms" % d)
 	
 	start = time()
 	result2 = o.get_orthographies_for_unicode_any(u)
 	stop = time()
 	d = (stop - start) * 1000
-	print "Use uncached lookup: %0.2f ms" % d
+	print("Use uncached lookup: %0.2f ms" % d)
 	
 	
-	print u"'%s' is used in:" % c
+	print(u"'%s' is used in:" % c)
 	for ot in sorted(result1):
-		print "   ", ot.name
+		print("   ", ot.name)
 
 
 
