@@ -69,10 +69,7 @@ def getUnicodeChar(code):
 	
 	:param code: The codepoint
 	:type code: int"""
-	if code < 0x10000:
-		return unichr(code)
-	else:
-		return eval("u'\U%08X'" % code)
+	return chr(code)
 
 
 class UniInfo(object):
