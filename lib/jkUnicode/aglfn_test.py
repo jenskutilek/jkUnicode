@@ -1,6 +1,6 @@
 import unittest
 
-from aglfn import getUnicodeForGlyphname
+from .aglfn import getUnicodeForGlyphname
 
 class TestAglfn(unittest.TestCase):
 	

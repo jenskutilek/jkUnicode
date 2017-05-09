@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from re import match, compile
-from aglfnData import nameToUnicode
+from .aglfnData import nameToUnicode
 
 # Build reverse dictionary
 unicodeToName = {value: key for key, value in nameToUnicode.items()}

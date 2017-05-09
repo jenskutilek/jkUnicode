@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import
 
-from uniName import uniName
-from uniNiceName import nice_name_rules
-from uniCat import uniCat
-from uniCase import uniUpperCaseMapping, uniLowerCaseMapping
-from uniDecomposition import uniDecompositionMapping
+from .uniName import uniName
+from .uniNiceName import nice_name_rules
+from .uniCat import uniCat
+from .uniCase import uniUpperCaseMapping, uniLowerCaseMapping
+from .uniDecomposition import uniDecompositionMapping
 
 categoryName = {
 	'Lu':	'Letter, Uppercase',
