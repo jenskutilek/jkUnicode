@@ -156,7 +156,7 @@ class UniInfo(object):
 	@property
 	def glyphname(self):
 		"""The AGLFN glyph name for the current Unicode value as string."""
-		from aglfn import getGlyphnameForUnicode
+		from .aglfn import getGlyphnameForUnicode
 		return getGlyphnameForUnicode(self.unicode)
 	
 	@property
