@@ -1,4 +1,5 @@
 from __future__ import print_function, division, absolute_import
+
 import re
 
 re_small_letter   = re.compile("^(.+SMALL LETTER )([A-Z\- ]+?)( WITH.+)?$")

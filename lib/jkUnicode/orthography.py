@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import
+
 import os, weakref
 from jkUnicode import UniInfo
 from jkUnicode.tools.jsonhelpers import json_path, json_to_file, dict_from_file
