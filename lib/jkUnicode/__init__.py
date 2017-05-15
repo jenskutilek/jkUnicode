@@ -69,6 +69,10 @@ def getUnicodeChar(code):
 	
 	:param code: The codepoint
 	:type code: int"""
+	from sys import version as sys_version
+	if sys_version[0] == '2':
+		from jkUnicode.tools.py2 import getUnicodeCharPy2
+		return getUnicodeCharPy2(code)
 	return chr(code)
 
 
