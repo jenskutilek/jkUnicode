@@ -538,7 +538,6 @@ class OrthographyInfo(object):
 def test_scan():
 	from time import time
 	from fontTools.ttLib import TTFont
-	from htmlGenerator.fonttools.sfnt import get_cmap
 	from jkUnicode import get_expanded_glyph_list
 	
 	font_path = "/Users/jens/Documents/Schriften/Hertz/Hertz-Book.ttf"
@@ -547,7 +546,7 @@ def test_scan():
 	print(font_path)
 	
 	# Get a character map from a font to scan.
-	cmap = get_cmap(TTFont(font_path))
+	cmap = TTFont(font_path).getBestCmap()
 	start = time()
 	o = OrthographyInfo()
 	print(o)

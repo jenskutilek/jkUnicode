@@ -4,7 +4,6 @@
 import argparse
 from fontTools.ttLib import TTFont
 from jkUnicode import UniInfo
-from jkUnicode.fonttools.sfnt import get_cmap
 from jkUnicode.orthography import OrthographyInfo
 
 
@@ -30,7 +29,7 @@ class OrthoCmdLine(object):
 	def get_cmap(self, f):
 		# Get a cmap from a given font path
 		f = TTFont(font_path)
-		cmap = get_cmap(f)
+		cmap = f.getBestCmap()
 		f.close()
 		return cmap
 
