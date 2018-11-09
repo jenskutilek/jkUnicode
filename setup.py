@@ -10,7 +10,6 @@ setup(
 	url = "http://www.kutilek.de/",
 	packages = [
 		"jkUnicode",
-		"jkUnicode.fonttools",
 		"jkUnicode.tools",
 	],
 	package_dir = {"": "lib"},
