@@ -263,18 +263,19 @@ The names of these attributes can be used in :py:class:`jkUnicode.orthography.Or
 		self._name = value
 	
 	
-	def __cmp__(self, other):
-		# For sorting
+	def __gt__(self, other):
 		if self.name > other.name:
-			return 1
-		elif self.name == other.name:
-			return 0
-		else:
-			return -1
+			return True
+		return False
 	
 	
 	def __eq__(self, other):
 		if self.name == other.name:
+			return True
+		return False
+
+	def __lt__(self, other):
+		if self.name < other.name:
 			return True
 		return False
 	
