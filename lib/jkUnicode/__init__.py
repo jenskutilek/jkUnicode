@@ -47,7 +47,7 @@ def get_expanded_glyph_list(unicodes):
 	""""Expand" or annotate a list of unicodes.
 	For unicodes that have a case mapping (UC or LC), the target unicode of the case mapping
 	will be added to the list. AGLFN glyph names are added to the list too, so the returned list contains tuples of (unicode, glyphname), sorted by unicode value.
-	
+
 	:param unicodes: A list of unicodes (int)
 	:type unicodes: list"""
 	glyphs = []
@@ -67,7 +67,7 @@ def get_expanded_glyph_list(unicodes):
 def getUnicodeChar(code):
 	"""Return the Unicode character for a Unicode number. This supports "high"
 	unicodes (> 0xffff) even on 32-bit builds.
-	
+
 	:param code: The codepoint
 	:type code: int"""
 	from sys import version as sys_version
@@ -92,16 +92,17 @@ class UniInfo(object):
 		:param uni: The codepoint.
 		:type uni: int"""
 		self.unicode = uni
-	
+
 	@property
 	def unicode(self):
 		"""The Unicode value as integer. Setting this value will look up and fill the other pieces of information, like category, range, decomposition mapping, and case mapping."""
 		return self._unicode
-	
+
 	@unicode.setter
 	def unicode(self, value):
 		self._unicode = value
 		if self._unicode is None:
+			self._block = None
 			self._name = None
 			self._categoryShort = "<undefined>"
 			self._category = "<undefined>"
@@ -128,7 +129,7 @@ class UniInfo(object):
 			self._uc_mapping = uniUpperCaseMapping.get(self._unicode, None)
 			self._lc_mapping = uniLowerCaseMapping.get(self._unicode, None)
 			self._dc_mapping = uniDecompositionMapping.get(self._unicode, [])
-	
+
 	def __repr__(self):
 		if self.unicode is None:
 			s =    "      Unicode: None"
@@ -152,28 +153,28 @@ class UniInfo(object):
 	def category(self):
 		"""The name of the category for the current Unicode value as string."""
 		return self._category
-	
+
 	@property
 	def category_short(self):
 		"""The short name of the category for the current Unicode value as string."""
 		return self._categoryShort
-	
+
 	@property
 	def char(self):
 		"""The character for the current Unicode value."""
 		return getUnicodeChar(self.unicode)
-	
+
 	@property
 	def glyphname(self):
 		"""The AGLFN glyph name for the current Unicode value as string."""
 		from .aglfn import getGlyphnameForUnicode
 		return getGlyphnameForUnicode(self.unicode)
-	
+
 	@property
 	def name(self):
 		"""The Unicode name for the current Unicode value as string."""
 		return self._name
-	
+
 	@property
 	def nice_name(self):
 		"""The Unicode name for the current Unicode value as string."""
@@ -182,23 +183,21 @@ class UniInfo(object):
 			if result:
 				return result
 		return self._name.capitalize()
-	
+
 	@property
 	def decomposition_mapping(self):
 		"""The decomposition mapping for the current Unicode value as a list of integer codepoints."""
 		return self._dc_mapping
-	
+
 	@property
 	def lc_mapping(self):
 		"""The lowercase mapping for the current Unicode value as integer or None."""
 		return self._lc_mapping
-	
+
 	@property
 	def uc_mapping(self):
 		"""The uppercase mapping for the current Unicode value as integer or None."""
 		return self._uc_mapping
-
-
 
 
 if __name__ == '__main__':
@@ -219,4 +218,3 @@ if __name__ == '__main__':
 			j.unicode = lc
 			print(j)
 		print("-" * 40)
-	
