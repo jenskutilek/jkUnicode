@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import
 
+from .uniBlock import get_block
 from .uniName import uniName
 from .uniNiceName import nice_name_rules
 from .uniCat import uniCat
@@ -108,6 +109,7 @@ class UniInfo(object):
 			self._lc_mapping = None
 			self._dc_mapping = []
 		else:
+			self._block = get_block(self._unicode)
 			self._name = uniName.get(self._unicode, None)
 			# TODO: Add nicer names based on original Unicode names?
 			if self._name is None:
@@ -141,6 +143,10 @@ class UniInfo(object):
 		if self._dc_mapping:
 			s += "\nDecomposition: %s" % (" ".join(["0x%04X" % m for m in self._dc_mapping]))
 		return s
+
+	@property
+	def block(self):
+		return self._block
 
 	@property
 	def category(self):
