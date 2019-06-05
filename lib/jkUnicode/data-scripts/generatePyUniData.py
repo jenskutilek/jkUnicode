@@ -186,10 +186,43 @@ def write_decomposition():
         print("WARNING: File UnicodeData.txt not found, Unicode name data not regenerated.")
 
 
+def write_scripts():
+    # Unicode scripts
+    print("Writing Unicode Scripts ...")
+    src_file = os.path.join(data_path, "Scripts.txt")
+    if exists(src_file):
+        with codecs.open(
+            os.path.join(module_path, "uniScript.py"), 'w', encoding='utf-8'
+        ) as outfile:
+            outfile.write(gen_message)
+            outfile.write("uniScript = {")
+            with codecs.open(src_file, encoding='utf-8') as f:
+                for line in f:
+                    line = line.strip()
+                    if not line or line.startswith("#"):
+                        continue
+                    elements = line.split(';')
+                    rng = elements[0].strip()
+                    script = elements[1].strip().split("#")[0].strip()
+                    if ".." in rng:
+                        start, end = rng.split("..")
+                    else:
+                        start = rng
+                        end = rng
+                    start = int(start, 16)
+                    end = int(end, 16)
+                    for code in range(start, end):
+                        outfile.write("\n    0x%s: %s," % (code, script))
+            outfile.write("\n}\n")
+        print("OK.")
+    else:
+        print("WARNING: File Scripts.txt not found, Unicode script data not regenerated.")
+
+
 def write_aglfn():
     # Adobe Glyph List for New Fonts
     print("Writing AGLFN data ...")
-    src_file = join(data_path, "aglfn.txt")
+    src_file = os.path.join(data_path, "aglfn.txt")
     if exists(src_file):
         with codecs.open(
             os.path.join(module_path, "aglfnData.py"), 'w', encoding='utf-8'
@@ -252,13 +285,19 @@ if __name__ == "__main__":
         action="store_true", default=False,
         help='Regenerate Unicode category data'
     )
+    parser.add_argument(
+        '-s', '--script',
+        action="store_true", default=False,
+        help='Regenerate Unicode script data'
+    )
     args = parser.parse_args()
     if not any([
         args.aglfn,
         args.case,
         args.decomposition,
         args.name,
-        args.category
+        args.category,
+        args.script,
     ]):
         write_aglfn()
         write_blocks()
@@ -266,6 +305,7 @@ if __name__ == "__main__":
         write_decomposition()
         write_names()
         write_category()
+        write_scripts()
     else:
         if args.aglfn:
             write_aglfn()
@@ -279,3 +319,5 @@ if __name__ == "__main__":
             write_names()
         if args.category:
             write_category()
+        if args.script:
+            write_scripts()
