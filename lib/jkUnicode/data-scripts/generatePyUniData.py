@@ -5,7 +5,7 @@ from __future__ import print_function, division, absolute_import
 import argparse
 import codecs
 import os
-from os.path import exists, join
+from os.path import exists
 from string import strip
 
 aglfnAdditions = {
@@ -26,7 +26,7 @@ gen_message = "# This is a generated file, use data-scripts/generatePyUniData.py
 def write_names():
     # Unicode names
     print("Writing Unicode Character Names ...")
-    src_file = join(data_path, "UnicodeData.txt")
+    src_file = os.path.join(data_path, "UnicodeData.txt")
     if exists(src_file):
         with codecs.open(
             os.path.join(module_path, "uniName.py"), 'w', encoding='utf-8'
@@ -48,7 +48,7 @@ def write_names():
 def write_case_mappings():
     # Unicode names
     print("Writing Unicode Case Mappings ...")
-    src_file = join(data_path, "UnicodeData.txt")
+    src_file = os.path.join(data_path, "UnicodeData.txt")
     if exists(src_file):
         with codecs.open(
             os.path.join(module_path, "uniCase.py"), 'w', encoding='utf-8'
@@ -84,9 +84,9 @@ def write_case_mappings():
 def write_category():
     # Unicode category names
     print("Writing Unicode Categories ...")
-    src_file = join(data_path, "UnicodeData.txt")
+    src_file = os.path.join(data_path, "UnicodeData.txt")
     if exists(src_file):
-        with codecs.open(join(module_path, "uniCat.py"), 'w', encoding='utf-8') as outfile:
+        with codecs.open(os.path.join(module_path, "uniCat.py"), 'w', encoding='utf-8') as outfile:
             outfile.write(gen_message)
             outfile.write("uniCat = {")
             with codecs.open(src_file, encoding='utf-8') as f:
@@ -101,10 +101,11 @@ def write_category():
     else:
         print("WARNING: File UnicodeData.txt not found, Unicode category data not regenerated.")
 
+
 def write_blocks():
     # Unicode blocks
     print("Writing Unicode Blocks ...")
-    src_file = join(data_path, "Blocks.txt")
+    src_file = os.path.join(data_path, "Blocks.txt")
     if exists(src_file):
         with codecs.open(
             os.path.join(module_path, "uniBlockData.py"), 'w', encoding='utf-8'
@@ -151,7 +152,7 @@ def write_blocks():
 def write_decomposition():
     # Unicode decomposition
     print("Writing Unicode Decomposition Mappings ...")
-    src_file = join(data_path, "UnicodeData.txt")
+    src_file = os.path.join(data_path, "UnicodeData.txt")
     if exists(src_file):
         with codecs.open(
             os.path.join(module_path, "uniDecomposition.py"),
