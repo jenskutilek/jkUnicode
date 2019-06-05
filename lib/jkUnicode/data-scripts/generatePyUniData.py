@@ -193,10 +193,10 @@ def write_scripts():
     src_file = os.path.join(data_path, "Scripts.txt")
     if exists(src_file):
         with codecs.open(
-            os.path.join(module_path, "uniScript.py"), 'w', encoding='utf-8'
+            os.path.join(module_path, "uniScriptData.py"), 'w', encoding='utf-8'
         ) as outfile:
             outfile.write(gen_message)
-            outfile.write("uniScript = {")
+            outfile.write("uniScripts = {")
             with codecs.open(src_file, encoding='utf-8') as f:
                 for line in f:
                     line = line.strip()
@@ -210,10 +210,7 @@ def write_scripts():
                     else:
                         start = rng
                         end = rng
-                    start = int(start, 16)
-                    end = int(end, 16)
-                    for code in range(start, end):
-                        outfile.write("\n    0x%s: %s," % (code, script))
+                    outfile.write("\n    (0x%s, 0x%s): '%s'," % (start, end, script))
             outfile.write("\n}\n")
         print("OK.")
     else:
