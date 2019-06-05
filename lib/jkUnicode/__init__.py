@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import
 
-from .uniBlock import get_block
-from .uniName import uniName
-from .uniNiceName import nice_name_rules
-from .uniCat import uniCat
-from .uniCase import uniUpperCaseMapping, uniLowerCaseMapping
-from .uniDecomposition import uniDecompositionMapping
+from jkUnicode.uniBlock import get_block
+from jkUnicode.uniName import uniName
+from jkUnicode.uniNiceName import nice_name_rules
+from jkUnicode.uniCat import uniCat
+from jkUnicode.uniCase import uniUpperCaseMapping, uniLowerCaseMapping
+from jkUnicode.uniDecomposition import uniDecompositionMapping
+from jkUnicode.uniScript import get_script
 
 categoryName = {
     'Lu':   'Letter, Uppercase',
@@ -115,11 +116,13 @@ class UniInfo(object):
             self._name = None
             self._categoryShort = "<undefined>"
             self._category = "<undefined>"
+            self._script = None
             self._uc_mapping = None
             self._lc_mapping = None
             self._dc_mapping = []
         else:
             self._block = get_block(self._unicode)
+            self._script = get_script(self._unicode)
             self._name = uniName.get(self._unicode, None)
             # TODO: Add nicer names based on original Unicode names?
             if self._name is None:
@@ -186,7 +189,7 @@ class UniInfo(object):
     @property
     def glyphname(self):
         """The AGLFN glyph name for the current Unicode value as string."""
-        from .aglfn import getGlyphnameForUnicode
+        from jkUnicode.aglfn import getGlyphnameForUnicode
         return getGlyphnameForUnicode(self.unicode)
 
     @property
@@ -221,6 +224,10 @@ class UniInfo(object):
         None."""
         return self._uc_mapping
 
+    @property
+    def script(self):
+        return self._script
+
 
 if __name__ == '__main__':
     print("\n*** Test of jkUnicode.UniInfo ***")
@@ -232,6 +239,7 @@ if __name__ == '__main__':
         print("             Name:", j.name)
         print("       Glyph Name:", j.glyphname)
         print("         Category:", j.category)
+        print("           Script:", j.script)
         print("    Decomposition:", " ".join(
             [
                 hex(n)
