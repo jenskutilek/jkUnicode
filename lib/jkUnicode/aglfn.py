@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import
 
-from re import match, compile
+from re import compile
 from .aglfnData import nameToUnicode
 
 # Build reverse dictionary
 unicodeToName = {value: key for key, value in nameToUnicode.items()}
 
+
 def getUnicodeForGlyphname(name):
-    """Return the Unicode value as integer or None that is assigned to the specified glyph name. It handles AGLFN names, uniXXXX names, uXXXXX names, ligature names, variant names, and PUA-encoded ornament names (orn001 - orn999, starting at 0xEA01).
+    """Return the Unicode value as integer or None that is assigned to the
+    specified glyph name. It handles AGLFN names, uniXXXX names, uXXXXX names,
+    ligature names, variant names, and PUA-encoded ornament names (orn001 -
+    orn999, starting at 0xEA01).
 
     :param name: The glyph name.
     :type name: str"""
@@ -31,8 +35,10 @@ def getUnicodeForGlyphname(name):
     else:
         return None
 
+
 def getGlyphnameForUnicode(code):
-    """Return the name as string or None that is assigned to the specified Unicode value.
+    """Return the name as string or None that is assigned to the specified
+    Unicode value.
 
     :param code: The codepoint.
     :type code: int"""
@@ -44,4 +50,3 @@ def getGlyphnameForUnicode(code):
         return "uni%04X" % code
     else:
         return "u%05X" % code
-

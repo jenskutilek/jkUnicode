@@ -325,7 +325,10 @@ class OrthographyInfo(object):
     
     @property
     def cmap(self):
-        """The unicode to glyph name mapping, a dictionary. When you set the cmap, it is scanned against all orthographies belonging to the Orthography Info object."""
+        """The unicode to glyph name mapping, a dictionary. When you set the
+        cmap, it is scanned against all orthographies belonging to the
+        Orthography Info object.
+        """
         if self._cmap is None:
             return {}
         return self._cmap
