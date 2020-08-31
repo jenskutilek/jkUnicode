@@ -213,7 +213,7 @@ def __test__():
     myRangeBits = [0, 4]
     for b in myRangeBits:
         print("\nBit %3i:" % b)
-        codes = getRangeUnicodesForBit(b)
+        codes = getUnicodesForRangeBit(b)
         print("Codes:",)
         for c in codes:
             print(hex(c),)
