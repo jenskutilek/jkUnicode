@@ -1,5 +1,3 @@
-from __future__ import print_function, division, absolute_import
-
 # OS/2 table Unicode Range bits with corresponding Names and Ranges
 # 2011-01-30
 

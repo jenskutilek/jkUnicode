@@ -1,4 +1,3 @@
-from __future__ import print_function, division, absolute_import
 import codecs, json, os
 
 json_path = os.path.join(os.path.split(os.path.dirname(os.path.realpath(__file__)))[0], "json")
