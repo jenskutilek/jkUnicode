@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name="jkUnicode",
-    version="1.5.0",
+    version="1.6.0",
     description="Unicode support libraries.",
     author="Jens Kutilek",
     url="http://www.kutilek.de/",
