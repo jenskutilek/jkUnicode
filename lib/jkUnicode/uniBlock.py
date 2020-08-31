@@ -6,7 +6,7 @@ uniBlockToName = RangeDict(uniBlocks)
 # The reverse mapping of names to blocks
 uniNameToBlock = {}
 for k, v in uniBlockToName.items():
-    if not v in uniNameToBlock:
+    if v not in uniNameToBlock:
         uniNameToBlock[v] = k
     else:
         print("ERROR: Duplicate block name: %s" % v)
