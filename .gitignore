@@ -5,3 +5,5 @@ lib/jkUnicode/data/Blocks.txt
 lib/jkUnicode/data/core.zip
 lib/jkUnicode/data/UnicodeData.txt
 doc/_build/doctrees/*
+.tox/
+*.egg-info/
