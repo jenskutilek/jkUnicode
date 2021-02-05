@@ -660,7 +660,7 @@ class OrthographyInfo(object):
         Print a report of supported orthographies for the current cmap.
 
         :param full_only: Only report orthographies which have both basic and
-        optional characters present
+            optional characters present
         :type full_only: bool
         """
         m = self.get_supported_orthographies(full_only)

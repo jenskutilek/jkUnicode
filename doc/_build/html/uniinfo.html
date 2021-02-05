@@ -1,29 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Unicode Information &#8212; jkUnicode 1.1.0 documentation</title>
-    
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unicode Information &#8212; jkUnicode 1.6.1 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '1.1.0',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Orthography Information" href="orthography.html" />
@@ -34,156 +22,189 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="module-jkUnicode">
 <span id="unicode-information"></span><h1>Unicode Information<a class="headerlink" href="#module-jkUnicode" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="jkUnicode.UniInfo">
-<em class="property">class </em><code class="descclassname">jkUnicode.</code><code class="descname">UniInfo</code><span class="sig-paren">(</span><em>uni=None</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.UniInfo" title="Permalink to this definition">¶</a></dt>
-<dd><p>The main Unicode Info object. It gets its Unicode information from the submodules aglfn, uniCase, uniCat, uniDecomposition, uniName, and uniRangesBits which are generated from the official Unicode data. You can find tools to download and regenerate the data in the <cite>tools</cite> subfolder.</p>
-<p>The Unicode Info object is meant to be instantiated once and then reused to get information
-about different codepoints. Avoid to instantiate it often, because it is expensive
-on disk access.</p>
-<p>Initialize the Info object with a dummy codepoint or None e.g. before a loop
-and then in the loop assign the actual codepoints that you want information about by setting
-the <cite>unicode</cite> instance variable. This will automatically update the other instance variables
-with the correct information from the Unicode standard.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>uni</strong> (<em>int</em>) &#8211; The codepoint.</td>
-</tr>
-</tbody>
-</table>
-<dl class="attribute">
+<em class="property">class </em><code class="sig-prename descclassname">jkUnicode.</code><code class="sig-name descname">UniInfo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">uni</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.UniInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main Unicode Info object. It gets its Unicode information from the
+submodules aglfn, uniCase, uniCat, uniDecomposition, uniName, and
+uniRangesBits which are generated from the official Unicode data. You can
+find tools to download and regenerate the data in the <cite>tools</cite> subfolder.</p>
+<p>The Unicode Info object is meant to be instantiated once and then
+reused to get information about different codepoints. Avoid to
+instantiate it often, because it is expensive on disk access.</p>
+<p>Initialize the Info object with a dummy codepoint or None e.g. before a
+loop and then in the loop assign the actual codepoints that you want
+information about by setting the <cite>unicode</cite> instance variable. This will
+automatically update the other instance variables with the correct
+information from the Unicode standard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>uni</strong> (<em>int</em>) – The codepoint.</p>
+</dd>
+</dl>
+<dl class="py method">
 <dt id="jkUnicode.UniInfo.category">
-<code class="descname">category</code><a class="headerlink" href="#jkUnicode.UniInfo.category" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">category</code><a class="headerlink" href="#jkUnicode.UniInfo.category" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the category for the current Unicode value as string.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
 <dt id="jkUnicode.UniInfo.category_short">
-<code class="descname">category_short</code><a class="headerlink" href="#jkUnicode.UniInfo.category_short" title="Permalink to this definition">¶</a></dt>
-<dd><p>The short name of the category for the current Unicode value as string.</p>
+<em class="property">property </em><code class="sig-name descname">category_short</code><a class="headerlink" href="#jkUnicode.UniInfo.category_short" title="Permalink to this definition">¶</a></dt>
+<dd><p>The short name of the category for the current Unicode value as
+string.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
 <dt id="jkUnicode.UniInfo.char">
-<code class="descname">char</code><a class="headerlink" href="#jkUnicode.UniInfo.char" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">char</code><a class="headerlink" href="#jkUnicode.UniInfo.char" title="Permalink to this definition">¶</a></dt>
 <dd><p>The character for the current Unicode value.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
 <dt id="jkUnicode.UniInfo.decomposition_mapping">
-<code class="descname">decomposition_mapping</code><a class="headerlink" href="#jkUnicode.UniInfo.decomposition_mapping" title="Permalink to this definition">¶</a></dt>
-<dd><p>The decomposition mapping for the current Unicode value as a list of integer codepoints.</p>
+<em class="property">property </em><code class="sig-name descname">decomposition_mapping</code><a class="headerlink" href="#jkUnicode.UniInfo.decomposition_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>The decomposition mapping for the current Unicode value as a list of
+integer codepoints.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
 <dt id="jkUnicode.UniInfo.glyphname">
-<code class="descname">glyphname</code><a class="headerlink" href="#jkUnicode.UniInfo.glyphname" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">glyphname</code><a class="headerlink" href="#jkUnicode.UniInfo.glyphname" title="Permalink to this definition">¶</a></dt>
 <dd><p>The AGLFN glyph name for the current Unicode value as string.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
 <dt id="jkUnicode.UniInfo.lc_mapping">
-<code class="descname">lc_mapping</code><a class="headerlink" href="#jkUnicode.UniInfo.lc_mapping" title="Permalink to this definition">¶</a></dt>
-<dd><p>The lowercase mapping for the current Unicode value as integer or None.</p>
+<em class="property">property </em><code class="sig-name descname">lc_mapping</code><a class="headerlink" href="#jkUnicode.UniInfo.lc_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>The lowercase mapping for the current Unicode value as integer or
+None.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
 <dt id="jkUnicode.UniInfo.name">
-<code class="descname">name</code><a class="headerlink" href="#jkUnicode.UniInfo.name" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#jkUnicode.UniInfo.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The Unicode name for the current Unicode value as string.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
+<dt id="jkUnicode.UniInfo.nice_name">
+<em class="property">property </em><code class="sig-name descname">nice_name</code><a class="headerlink" href="#jkUnicode.UniInfo.nice_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Unicode name for the current Unicode value as string.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="jkUnicode.UniInfo.uc_mapping">
-<code class="descname">uc_mapping</code><a class="headerlink" href="#jkUnicode.UniInfo.uc_mapping" title="Permalink to this definition">¶</a></dt>
-<dd><p>The uppercase mapping for the current Unicode value as integer or None.</p>
+<em class="property">property </em><code class="sig-name descname">uc_mapping</code><a class="headerlink" href="#jkUnicode.UniInfo.uc_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>The uppercase mapping for the current Unicode value as integer or
+None.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
 <dt id="jkUnicode.UniInfo.unicode">
-<code class="descname">unicode</code><a class="headerlink" href="#jkUnicode.UniInfo.unicode" title="Permalink to this definition">¶</a></dt>
-<dd><p>The Unicode value as integer. Setting this value will look up and fill the other pieces of information, like category, range, decomposition mapping, and case mapping.</p>
+<em class="property">property </em><code class="sig-name descname">unicode</code><a class="headerlink" href="#jkUnicode.UniInfo.unicode" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Unicode value as integer. Setting this value will look up and
+fill the other pieces of information, like category, range,
+decomposition mapping, and case mapping.</p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="jkUnicode.getUnicodeChar">
-<code class="descclassname">jkUnicode.</code><code class="descname">getUnicodeChar</code><span class="sig-paren">(</span><em>code</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.getUnicodeChar" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the Unicode character for a Unicode number. This supports &#8220;high&#8221;
+<code class="sig-prename descclassname">jkUnicode.</code><code class="sig-name descname">getUnicodeChar</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">code</span></em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.getUnicodeChar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Unicode character for a Unicode number. This supports “high”
 unicodes (&gt; 0xffff) even on 32-bit builds.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code</strong> (<em>int</em>) &#8211; The codepoint</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>code</strong> (<em>int</em>) – The codepoint</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="jkUnicode.get_expanded_glyph_list">
-<code class="descclassname">jkUnicode.</code><code class="descname">get_expanded_glyph_list</code><span class="sig-paren">(</span><em>unicodes</em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.get_expanded_glyph_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>&#8220;Expand&#8221; or annotate a list of unicodes.
-For unicodes that have a case mapping (UC or LC), the target unicode of the case mapping
-will be added to the list. AGLFN glyph names are added to the list too, so the returned list contains tuples of (unicode, glyphname), sorted by unicode value.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>unicodes</strong> (<em>list</em>) &#8211; A list of unicodes (int)</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-prename descclassname">jkUnicode.</code><code class="sig-name descname">get_expanded_glyph_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">unicodes</span></em><span class="sig-paren">)</span><a class="headerlink" href="#jkUnicode.get_expanded_glyph_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>“Expand” or annotate a list of unicodes.
+For unicodes that have a case mapping (UC or LC), the target unicode of the
+case mapping will be added to the list. AGLFN glyph names are added to the
+list too, so the returned list contains tuples of (unicode, glyphname),
+sorted by unicode value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>unicodes</strong> (<em>list</em>) – A list of unicodes (int)</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">jkUnicode</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Unicode Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orthography.html">Orthography Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aglfn.html">Glyph Name Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uniRangesBits.html">Unicode Ranges Font Bits Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customizing.html">Customizing Module Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scripts.html">Command Line Scripts</a></li>
+</ul>
+
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Welcome to jkUnicode&#8217;s documentation!</a></li>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to jkUnicode’s documentation!</a></li>
       <li>Next: <a href="orthography.html" title="next chapter">Orthography Information</a></li>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/uniinfo.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -192,8 +213,8 @@ will be added to the list. AGLFN glyph names are added to the list too, so the r
       &copy;2017, Jens Kutilek.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/uniinfo.rst.txt"
