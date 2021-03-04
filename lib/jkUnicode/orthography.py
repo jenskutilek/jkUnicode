@@ -378,7 +378,7 @@ unicodes_any
         return True
 
     def __repr__(self):
-        return u'<Orthography "%s">' % self.name.encode(
+        return '<Orthography "%s">' % self.name.encode(
             "ascii", errors="ignore"
         )
 
@@ -693,8 +693,8 @@ class OrthographyInfo(object):
         self.print_report(m, "missing_base")
 
 
-# Test functions
 
+# Test functions
 
 def test_scan():
     from time import time
