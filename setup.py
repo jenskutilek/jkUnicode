@@ -28,7 +28,7 @@ setup(
     ],
     entry_points={
       "console_scripts": [
-          "ortho = jkUnicode.cmdline:generate_html"
+          "ortho = jkUnicode.cmdline.ortho:ortho"
       ],
     },
 )
