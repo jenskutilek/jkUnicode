@@ -692,6 +692,28 @@ class OrthographyInfo(object):
         )
         self.print_report(m, "missing_base")
 
+    def report_kill_list(self):
+        """
+        Print a list of character pairs that do not appear in any supported
+        orthography for the current cmap.
+        """
+        import itertools
+
+        m = self.get_supported_orthographies_minimum_inclusive()
+        possible_pairs = set()
+        for ot in m:
+            unicodes = ot.unicodes_base  # | ot.unicodes_optional
+            ot_pairs = set(
+                itertools.combinations_with_replacement(unicodes, 2)
+            )
+            print(
+                f"{ot.name}: {len(unicodes)} characters, "
+                f"{len(ot_pairs)} possible combinations"
+            )
+            possible_pairs |= ot_pairs
+        # for L, R in sorted(list(possible_pairs)):
+        #     print("%s%s" % (chr(L), chr(R)))
+        print(possible_pairs)
 
 
 # Test functions

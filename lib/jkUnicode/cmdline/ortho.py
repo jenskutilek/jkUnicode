@@ -22,6 +22,8 @@ class OrthoCmdLine(object):
             self.o.report_supported_minimum_inclusive()
         elif args.full_only:
             self.o.report_supported(full_only=True)
+        elif args.kill_list:
+            self.o.report_kill_list()
         else:
             self.o.report_supported(full_only=False)
 
@@ -50,6 +52,13 @@ def ortho():
         action="store_true",
         default=False,
         help="Report orthographies that have at minimum basic support",
+    )
+    parser.add_argument(
+        "-k",
+        "--kill-list",
+        action="store_true",
+        default=False,
+        help="Output a list of letters that don't appear together in any supported orthography.",
     )
     parser.add_argument(
         "-m",
