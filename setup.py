@@ -4,12 +4,13 @@ from setuptools import setup
 
 setup(
     name="jkUnicode",
-    version="1.6.0",
+    version="1.6.1",
     description="Unicode support libraries.",
     author="Jens Kutilek",
     url="http://www.kutilek.de/",
     packages=[
         "jkUnicode",
+        "jkUnicode.cmdline",
         "jkUnicode.tools",
     ],
     package_dir={"": "lib"},
