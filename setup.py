@@ -10,6 +10,7 @@ setup(
     url="http://www.kutilek.de/",
     packages=[
         "jkUnicode",
+        "jkUnicode.cmdline",
         "jkUnicode.tools",
     ],
     package_dir={"": "lib"},
@@ -28,7 +29,7 @@ setup(
     ],
     entry_points={
       "console_scripts": [
-          "ortho = jkUnicode.cmdline:generate_html"
+          "ortho = jkUnicode.cmdline.ortho:ortho"
       ],
     },
 )
