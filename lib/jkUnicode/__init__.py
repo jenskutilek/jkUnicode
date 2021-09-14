@@ -126,7 +126,7 @@ class UniInfo(object):
             # TODO: Add nicer names based on original Unicode names?
             if self._name is None:
                 if 0xE000 <= self._unicode < 0xF8FF:
-                    self._name = "<Private Use #%i>" % (self._unicode - 0xe000)
+                    self._name = "<Private Use>"
                 elif 0xD800 <= self._unicode < 0xDB7F:
                     self._name = "<Non Private Use High Surrogate #%i>" % (
                         self._unicode - 0xd8000
