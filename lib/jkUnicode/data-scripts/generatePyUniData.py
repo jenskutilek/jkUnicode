@@ -6,7 +6,6 @@ import argparse
 import codecs
 import os
 from os.path import exists
-from string import strip
 
 aglfnAdditions = {
     'NULL': 0x0000,
@@ -237,7 +236,7 @@ def write_aglfn():
                             outfile.write("\n    '%s': 0x%s, # %s" % (
                                 elements[1],
                                 elements[0],
-                                strip(elements[2])
+                                elements[2].strip()
                             ))
             if aglfnAdditions:
                 outfile.write("\n    # Local additions:")
