@@ -600,22 +600,22 @@ class OrthographyInfo(object):
         :type full_only: bool
         """
         if full_only:
-            return [o for o in self.orthographies if o.support_full()]
-        return [o for o in self.orthographies if o.support_basic()]
+            return [o for o in self.orthographies if o.support_full]
+        return [o for o in self.orthographies if o.support_basic]
 
     def get_supported_orthographies_minimum_inclusive(self):
         """
         Get a list of orthographies with minimal or better support for the
         current cmap.
         """
-        return [o for o in self.orthographies if o.support_minimal_inclusive()]
+        return [o for o in self.orthographies if o.support_minimal_inclusive]
 
     def get_supported_orthographies_minimum(self):
         """
         Get a list of orthographies with minimal support for the current cmap
         only.
         """
-        return [o for o in self.orthographies if o.support_minimal()]
+        return [o for o in self.orthographies if o.support_minimal]
 
     def get_almost_supported(self, max_missing=5):
         """
