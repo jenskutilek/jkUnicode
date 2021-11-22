@@ -154,6 +154,7 @@ unicodes_any
                             # print("    Filled from parent:", attr)
                             setattr(self, attr, parent_set)
 
+    @property
     def support_full(self):
         """
         Is the orthography supported (base, optional and punctuation
@@ -167,6 +168,7 @@ unicodes_any
             return True
         return False
 
+    @property
     def support_basic(self):
         """
         Is the orthography supported (base and punctuation characters) for the
@@ -176,6 +178,7 @@ unicodes_any
             return True
         return False
 
+    @property
     def support_minimal(self):
         """
         Is the orthography supported (base characters) for the current parent
@@ -189,6 +192,7 @@ unicodes_any
             return True
         return False
 
+    @property
     def support_minimal_inclusive(self):
         """
         Is the orthography supported (base characters only) for the current
