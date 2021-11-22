@@ -66,6 +66,7 @@ class Orthography(object):
         self.script = script
         self.territory = territory
         self.from_dict(info_dict)
+        self.forget_cmap()
 
     def from_dict(self, info_dict):
         """
@@ -331,6 +332,20 @@ unicodes_any
         """
         Forget the results of the last cmap scan.
         """
+        self.missing_base = {}
+        self.missing_optional = {}
+        self.missing_punctuation = {}
+        self.missing_all = {}
+
+        self.num_missing_base = 0
+        self.num_missing_optional = 0
+        self.num_missing_punctuation = 0
+        self.num_missing_all = 0
+
+        # Calculate percentage
+        self.base_pc = 0
+        self.optional_pc = 0
+        self.punctuation_pc = 0
         self.scan_ok = False
 
     @property
