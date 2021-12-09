@@ -16,27 +16,6 @@ IGNORED_UNICODES = [
 ]
 
 
-ui = UniInfo(0)
-
-
-def cased(codepoint_list):
-    """
-    Return a list with its Unicode case mapping toggled. If a codepoint has
-    no lowercase or uppercase mapping, it is dropped from the list.
-
-    :param codepoint_list: The list of integer codepoints.
-    :type codepoint_list: list
-    """
-    result = []
-    for c in codepoint_list:
-        ui.unicode = c
-        if ui.lc_mapping:
-            result.append(ui.lc_mapping)
-        elif ui.uc_mapping:
-            result.append(ui.uc_mapping)
-    return list(set(result))
-
-
 class Orthography(object):
     """
     The Orthography object represents an orthography. You usually don't deal
@@ -95,19 +74,19 @@ unicodes_any
         # points of each category.
         u_list = uni_info.get("base", [])
         self.unicodes_base = (
-            set(u_list + cased(u_list)) - self.info.ignored_unicodes
+            set(u_list + self.cased(u_list)) - self.info.ignored_unicodes
         )
 
         u_list = uni_info.get("optional", [])
         self.unicodes_optional = (
-            set(u_list + cased(u_list))
+            set(u_list + self.cased(u_list))
             - self.unicodes_base
             - self.info.ignored_unicodes
         )
 
         u_list = uni_info.get("punctuation", [])
         self.unicodes_punctuation = (
-            set(u_list + cased(u_list)) - self.info.ignored_unicodes
+            set(u_list + self.cased(u_list)) - self.info.ignored_unicodes
         )
 
         # Additional sets to speed up later calculations
@@ -121,6 +100,24 @@ unicodes_any
         )
 
         self.scan_ok = False
+    
+
+    def cased(self, codepoint_list):
+        """
+        Return a list with its Unicode case mapping toggled. If a codepoint has
+        no lowercase or uppercase mapping, it is dropped from the list.
+
+        :param codepoint_list: The list of integer codepoints.
+        :type codepoint_list: list
+        """
+        result = []
+        for c in codepoint_list:
+            self.info.unicode = c
+            if self.info.lc_mapping:
+                result.append(self.info.lc_mapping)
+            elif self.info.uc_mapping:
+                result.append(self.info.uc_mapping)
+        return list(set(result))
 
     def fill_from_default_orthography(self):
         """
