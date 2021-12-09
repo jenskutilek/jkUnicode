@@ -3,7 +3,6 @@
 
 import os
 import weakref
-from jkUnicode import UniInfo
 from jkUnicode.tools.jsonhelpers import dict_from_file
 
 
@@ -100,7 +99,10 @@ unicodes_any
         )
 
         self.scan_ok = False
-    
+
+    @property
+    def ui(self):
+        return self.info.ui
 
     def cased(self, codepoint_list):
         """
@@ -112,11 +114,11 @@ unicodes_any
         """
         result = []
         for c in codepoint_list:
-            self.info.unicode = c
-            if self.info.lc_mapping:
-                result.append(self.info.lc_mapping)
-            elif self.info.uc_mapping:
-                result.append(self.info.uc_mapping)
+            self.ui.unicode = c
+            if self.ui.lc_mapping:
+                result.append(self.ui.lc_mapping)
+            elif self.ui.uc_mapping:
+                result.append(self.ui.uc_mapping)
         return list(set(result))
 
     def fill_from_default_orthography(self):
@@ -390,7 +392,14 @@ class OrthographyInfo(object):
     recommended to instantiate it once and then reuse it.
     """
 
-    def __init__(self):
+    def __init__(self, ui=None):
+        # We need a UniInfo object
+        if ui is None:
+            from jkUnicode import UniInfo
+            self.ui = UniInfo(0)
+        else:
+            self.ui = ui
+
         data_path = os.path.join(
             os.path.dirname(os.path.realpath(__file__)), "json"
         )
@@ -622,9 +631,11 @@ class OrthographyInfo(object):
         for ot in otlist:
             print("\n%s" % ot.name)
             for u in sorted(list(getattr(ot, attr))):
-                ui.unicode = u
+                self.ui.unicode = u
                 print(
-                    "    0x%04X\t%s\t%s" % (u, ui.glyphname, ui.name.title())
+                    "    0x%04X\t%s\t%s" % (
+                        u, self.ui.glyphname, self.ui.name.title()
+                    )
                 )
 
     def report_supported_minimum_inclusive(self):
