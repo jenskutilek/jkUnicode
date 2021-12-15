@@ -3,6 +3,8 @@
 
 import os
 import weakref
+from pickle import dump, load
+from time import time
 from jkUnicode.tools.jsonhelpers import dict_from_file
 
 
@@ -44,6 +46,7 @@ class Orthography(object):
         self.script = script
         self.territory = territory
         self.from_dict(info_dict)
+        self.forget_cmap()
 
     def from_dict(self, info_dict):
         """
@@ -153,6 +156,7 @@ unicodes_any
                             # print("    Filled from parent:", attr)
                             setattr(self, attr, parent_set)
 
+    @property
     def support_full(self):
         """
         Is the orthography supported (base, optional and punctuation
@@ -166,6 +170,7 @@ unicodes_any
             return True
         return False
 
+    @property
     def support_basic(self):
         """
         Is the orthography supported (base and punctuation characters) for the
@@ -175,6 +180,7 @@ unicodes_any
             return True
         return False
 
+    @property
     def support_minimal(self):
         """
         Is the orthography supported (base characters) for the current parent
@@ -188,6 +194,7 @@ unicodes_any
             return True
         return False
 
+    @property
     def support_minimal_inclusive(self):
         """
         Is the orthography supported (base characters only) for the current
@@ -326,6 +333,20 @@ unicodes_any
         """
         Forget the results of the last cmap scan.
         """
+        self.missing_base = {}
+        self.missing_optional = {}
+        self.missing_punctuation = {}
+        self.missing_all = {}
+
+        self.num_missing_base = 0
+        self.num_missing_optional = 0
+        self.num_missing_punctuation = 0
+        self.num_missing_all = 0
+
+        # Calculate percentage
+        self.base_pc = 0
+        self.optional_pc = 0
+        self.punctuation_pc = 0
         self.scan_ok = False
 
     @property
@@ -403,7 +424,27 @@ class OrthographyInfo(object):
         data_path = os.path.join(
             os.path.dirname(os.path.realpath(__file__)), "json"
         )
-        master = dict_from_file(data_path, "language_characters")
+        pickled_path = os.path.join(data_path, "language_characters.pickle")
+        if os.path.exists(pickled_path):
+            print("Unpickling language data...")
+            start = time()
+            with open(pickled_path, "rb") as f:
+                master = load(f)
+            stop = time()
+            print(f"...done in {stop - start}s.")
+        else:
+            print("Loading JSON language data...")
+            start = time()
+            master = dict_from_file(data_path, "language_characters")
+            stop = time()
+            print(f"...done in {stop - start}s.")
+            try:
+                with open(pickled_path, "wb") as f:
+                    dump(master, f)
+            except:
+                # Writing the pickled file may fail on a read-only system,
+                # just ignore it
+                pass
 
         self.ignored_unicodes = set(IGNORED_UNICODES)
         self.orthographies = []
@@ -565,22 +606,22 @@ class OrthographyInfo(object):
         :type full_only: bool
         """
         if full_only:
-            return [o for o in self.orthographies if o.support_full()]
-        return [o for o in self.orthographies if o.support_basic()]
+            return [o for o in self.orthographies if o.support_full]
+        return [o for o in self.orthographies if o.support_basic]
 
     def get_supported_orthographies_minimum_inclusive(self):
         """
         Get a list of orthographies with minimal or better support for the
         current cmap.
         """
-        return [o for o in self.orthographies if o.support_minimal_inclusive()]
+        return [o for o in self.orthographies if o.support_minimal_inclusive]
 
     def get_supported_orthographies_minimum(self):
         """
         Get a list of orthographies with minimal support for the current cmap
         only.
         """
-        return [o for o in self.orthographies if o.support_minimal()]
+        return [o for o in self.orthographies if o.support_minimal]
 
     def get_almost_supported(self, max_missing=5):
         """

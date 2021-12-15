@@ -7,7 +7,11 @@ import xml.etree.ElementTree as ET
 from zipfile import ZipFile
 from jkUnicode.tools.xmlhelpers import filtered_char_list
 from jkUnicode.aglfn import getGlyphnameForUnicode
-from jkUnicode.tools.jsonhelpers import json_path, json_to_file, clean_json_dir
+from jkUnicode.tools.jsonhelpers import json_to_file, clean_json_dir
+
+json_path = os.path.join(
+    os.path.split(os.path.dirname(os.path.realpath(__file__)))[0], "json"
+)
 
 zip_path = os.path.join(os.path.split(os.path.dirname(os.path.realpath(__file__)))[0], "data", "core.zip")
 xml_re = re.compile("^common/main/.+\.xml$")
@@ -98,36 +102,36 @@ def generate_language_data(zip_path):
                     # Extract code
                     code = root.findall("identity/language")
                     if len(code) == 0:
-                        print("ERROR: Language code not found in file '%s'" % lang_xml_path)
+                        print("ERROR: Language code not found in file '%s'" % internal_path)
                         code = None
                     elif len(code) == 1:
                         code = code[0].attrib["type"]
                     else:
-                        print("ERROR: Language code ambiguous in file '%s'" % lang_xml_path)
+                        print("ERROR: Language code ambiguous in file '%s'" % internal_path)
                         code = None
                     #print("    Code:", code)
                     
                     # Extract script
                     script = root.findall("identity/script")
                     if len(script) == 0:
-                        #print("WARNING: Script not found in file '%s'" % lang_xml_path)
+                        #print("WARNING: Script not found in file '%s'" % internal_path)
                         script = "DFLT"
                     elif len(script) == 1:
                         script = script[0].attrib["type"]
                     else:
-                        print("ERROR: Script ambiguous in file '%s'" % lang_xml_path)
+                        print("ERROR: Script ambiguous in file '%s'" % internal_path)
                         script = None
                     #print("    Script:", script)
                     
                     # Extract territory
                     territory = root.findall("identity/territory")
                     if len(territory) == 0:
-                        #print("WARNING: Territory not found in file '%s'" % lang_xml_path)
+                        #print("WARNING: Territory not found in file '%s'" % internal_path)
                         territory = "dflt"
                     elif len(territory) == 1:
                         territory = territory[0].attrib["type"]
                     else:
-                        print("ERROR: Territory ambiguous in file '%s'" % lang_xml_path)
+                        print("ERROR: Territory ambiguous in file '%s'" % internal_path)
                         territory = None
                     #print("    Territory:", territory)
                     
