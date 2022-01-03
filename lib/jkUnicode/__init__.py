@@ -113,22 +113,22 @@ class UniInfo(object):
             json_path,
             json_to_file
         )
-        from time import time
+        # from time import time
         try:
-            start = time()
+            # start = time()
             self.uniName = {
                 int(k): v
                 for k, v in dict_from_file(json_path, file_name).items()
             }
-            stop = time()
-            print(f"Loaded Unicode Name data from JSON in {stop - start} s.")
+            # stop = time()
+            # print(f"Loaded Unicode Name data from JSON in {stop - start} s.")
         except FileNotFoundError:
-            start = time()
+            # start = time()
             from jkUnicode.uniName import uniName
             self.uniName = uniName
             json_to_file(json_path, file_name, self.uniName)
-            stop = time()
-            print(f"Converted Unicode Name data to JSON in {stop - start} s.")
+            # stop = time()
+            # print(f"Converted Unicode Name data to JSON in {stop - start} s.")
 
     @property
     def unicode(self):
