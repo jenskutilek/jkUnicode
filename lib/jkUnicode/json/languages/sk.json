@@ -76,10 +76,12 @@
                     "0x012D ĭ ibreve",
                     "0x014D ō omacron",
                     "0x014F ŏ obreve",
+                    "0x0151 ő ohungarumlaut",
                     "0x0153 œ oe",
                     "0x0159 ř rcaron",
                     "0x016B ū umacron",
-                    "0x016D ŭ ubreve"
+                    "0x016D ŭ ubreve",
+                    "0x0171 ű uhungarumlaut"
                 ],
                 "punctuation": [
                     "0x0021 ! exclam",
@@ -98,6 +100,7 @@
                     "0x005B [ bracketleft",
                     "0x005D ] bracketright",
                     "0x00A7 § section",
+                    "0x2011 ‑ uni2011",
                     "0x2013 – endash",
                     "0x2018 ‘ quoteleft",
                     "0x201A ‚ quotesinglbase",

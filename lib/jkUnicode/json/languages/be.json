@@ -65,7 +65,8 @@
                     "0x007B { braceleft",
                     "0x007D } braceright",
                     "0x00AB « guillemotleft",
-                    "0x00BB » guillemotright"
+                    "0x00BB » guillemotright",
+                    "0x2011 ‑ uni2011"
                 ]
             }
         }

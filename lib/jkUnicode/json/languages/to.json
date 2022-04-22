@@ -92,6 +92,7 @@
                     "0x005B [ bracketleft",
                     "0x005D ] bracketright",
                     "0x00A7 § section",
+                    "0x2011 ‑ uni2011",
                     "0x2013 – endash",
                     "0x2014 — emdash",
                     "0x2018 ‘ quoteleft",

@@ -1,5 +1,28 @@
 {
     "DFLT": {
+        "CA": {
+            "name": "Canadian French (Canada)",
+            "unicodes": {
+                "optional": [
+                    "0x00E1 á aacute",
+                    "0x00E3 ã atilde",
+                    "0x00E4 ä adieresis",
+                    "0x00E5 å aring",
+                    "0x00EC ì igrave",
+                    "0x00ED í iacute",
+                    "0x00F1 ñ ntilde",
+                    "0x00F2 ò ograve",
+                    "0x00F3 ó oacute",
+                    "0x00F6 ö odieresis",
+                    "0x00F8 ø oslash",
+                    "0x00FA ú uacute",
+                    "0x0101 ā amacron",
+                    "0x0113 ē emacron",
+                    "0x012B ī imacron",
+                    "0x01D4 ǔ uni01D4"
+                ]
+            }
+        },
         "dflt": {
             "name": "French",
             "unicodes": {
@@ -48,6 +71,7 @@
                     "0x0153 œ oe"
                 ],
                 "optional": [
+                    "0x00DF ß germandbls",
                     "0x00E1 á aacute",
                     "0x00E3 ã atilde",
                     "0x00E4 ä adieresis",
@@ -57,12 +81,18 @@
                     "0x00F1 ñ ntilde",
                     "0x00F2 ò ograve",
                     "0x00F3 ó oacute",
+                    "0x00F5 õ otilde",
                     "0x00F6 ö odieresis",
                     "0x00F8 ø oslash",
                     "0x00FA ú uacute",
                     "0x0101 ā amacron",
+                    "0x0107 ć cacute",
                     "0x0113 ē emacron",
                     "0x012B ī imacron",
+                    "0x0133 ĳ ij",
+                    "0x0159 ř rcaron",
+                    "0x0161 š scaron",
+                    "0x017F ſ longs",
                     "0x01D4 ǔ uni01D4"
                 ],
                 "punctuation": [
@@ -86,6 +116,7 @@
                     "0x00A7 § section",
                     "0x00AB « guillemotleft",
                     "0x00BB » guillemotright",
+                    "0x2011 ‑ uni2011",
                     "0x2013 – endash",
                     "0x2014 — emdash",
                     "0x2019 ’ quoteright",

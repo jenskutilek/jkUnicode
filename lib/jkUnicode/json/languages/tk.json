@@ -60,6 +60,7 @@
                     "0x007B { braceleft",
                     "0x007D } braceright",
                     "0x00A7 § section",
+                    "0x2011 ‑ uni2011",
                     "0x2013 – endash",
                     "0x2014 — emdash",
                     "0x201C “ quotedblleft",

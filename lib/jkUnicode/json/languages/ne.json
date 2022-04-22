@@ -63,7 +63,6 @@
                     "0x0941 ु uni0941",
                     "0x0942 ू uni0942",
                     "0x0943 ृ uni0943",
-                    "0x0944 ॄ uni0944",
                     "0x0945 ॅ uni0945",
                     "0x0947 े uni0947",
                     "0x0948 ै uni0948",
@@ -74,8 +73,31 @@
                     "0x0950 ॐ uni0950"
                 ],
                 "optional": [
+                    "0x0944 ॄ uni0944",
                     "0x200C ‌ uni200C",
                     "0x200D ‍ uni200D"
+                ],
+                "punctuation": [
+                    "0x0021 ! exclam",
+                    "0x0022 \" quotedbl",
+                    "0x0027 ' quotesingle",
+                    "0x0028 ( parenleft",
+                    "0x0029 ) parenright",
+                    "0x002C , comma",
+                    "0x002D - hyphen",
+                    "0x003B ; semicolon",
+                    "0x003F ? question",
+                    "0x005B [ bracketleft",
+                    "0x005D ] bracketright",
+                    "0x007B { braceleft",
+                    "0x007D } braceright",
+                    "0x0964 । uni0964",
+                    "0x2011 ‑ uni2011",
+                    "0x2014 — emdash",
+                    "0x2018 ‘ quoteleft",
+                    "0x2019 ’ quoteright",
+                    "0x201C “ quotedblleft",
+                    "0x201D ” quotedblright"
                 ]
             }
         }

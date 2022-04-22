@@ -32,8 +32,8 @@
                     "0x044E ю uni044E",
                     "0x044F я uni044F",
                     "0x0451 ё uni0451",
+                    "0x04A3 ң uni04A3",
                     "0x04AF ү uni04AF",
-                    "0x04CA ӊ uni04CA",
                     "0x04E9 ө uni04E9"
                 ],
                 "optional": [
@@ -67,6 +67,7 @@
                     "0x00A7 § section",
                     "0x00AB « guillemotleft",
                     "0x00BB » guillemotright",
+                    "0x2011 ‑ uni2011",
                     "0x2013 – endash",
                     "0x2014 — emdash",
                     "0x2018 ‘ quoteleft",

@@ -80,6 +80,7 @@
                 ],
                 "optional": [
                     "0x0625 إ uni0625",
+                    "0x0640 ـ uni0640",
                     "0x0643 ك uni0643",
                     "0x0649 ى uni0649",
                     "0x064A ي uni064A",
@@ -113,6 +114,7 @@
                     "0x061F ؟ uni061F",
                     "0x066B ٫ uni066B",
                     "0x066C ٬ uni066C",
+                    "0x2011 ‑ uni2011",
                     "0x2026 … ellipsis",
                     "0x2039 ‹ guilsinglleft",
                     "0x203A › guilsinglright"

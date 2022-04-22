@@ -1,0 +1,62 @@
+{
+    "DFLT": {
+        "dflt": {
+            "name": "Wolof",
+            "unicodes": {
+                "base": [
+                    "0x0061 a a",
+                    "0x0062 b b",
+                    "0x0063 c c",
+                    "0x0064 d d",
+                    "0x0065 e e",
+                    "0x0066 f f",
+                    "0x0067 g g",
+                    "0x0069 i i",
+                    "0x006A j j",
+                    "0x006B k k",
+                    "0x006C l l",
+                    "0x006D m m",
+                    "0x006E n n",
+                    "0x006F o o",
+                    "0x0070 p p",
+                    "0x0071 q q",
+                    "0x0072 r r",
+                    "0x0073 s s",
+                    "0x0074 t t",
+                    "0x0075 u u",
+                    "0x0077 w w",
+                    "0x0078 x x",
+                    "0x0079 y y",
+                    "0x00E0 à agrave",
+                    "0x00E9 é eacute",
+                    "0x00EB ë edieresis",
+                    "0x00F1 ñ ntilde",
+                    "0x00F3 ó oacute",
+                    "0x014B ŋ eng"
+                ],
+                "optional": [
+                    "0x0068 h h",
+                    "0x0076 v v",
+                    "0x007A z z",
+                    "0x00E3 ã atilde"
+                ],
+                "punctuation": [
+                    "0x0021 ! exclam",
+                    "0x0028 ( parenleft",
+                    "0x0029 ) parenright",
+                    "0x002C , comma",
+                    "0x002D - hyphen",
+                    "0x002E . period",
+                    "0x003A : colon",
+                    "0x003B ; semicolon",
+                    "0x003F ? question",
+                    "0x005B [ bracketleft",
+                    "0x005D ] bracketright",
+                    "0x007B { braceleft",
+                    "0x007D } braceright",
+                    "0x2011 ‑ uni2011"
+                ]
+            }
+        }
+    }
+}

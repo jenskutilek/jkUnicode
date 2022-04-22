@@ -113,6 +113,8 @@
                     "0x01E7 ǧ gcaron",
                     "0x01E9 ǩ uni01E9",
                     "0x01EF ǯ uni01EF",
+                    "0x0219 ș uni0219",
+                    "0x021B ț uni021B",
                     "0x021F ȟ uni021F",
                     "0x0292 ʒ uni0292"
                 ],
@@ -136,6 +138,7 @@
                     "0x005D ] bracketright",
                     "0x00A7 § section",
                     "0x00BB » guillemotright",
+                    "0x2011 ‑ uni2011",
                     "0x2013 – endash",
                     "0x2019 ’ quoteright",
                     "0x201D ” quotedblright",

@@ -9,11 +9,9 @@
                     "0x0063 c c",
                     "0x0064 d d",
                     "0x0065 e e",
-                    "0x0066 f f",
                     "0x0067 g g",
                     "0x0068 h h",
                     "0x0069 i i",
-                    "0x006A j j",
                     "0x006B k k",
                     "0x006C l l",
                     "0x006D m m",
@@ -26,10 +24,8 @@
                     "0x0074 t t",
                     "0x0075 u u",
                     "0x0076 v v",
-                    "0x0077 w w",
                     "0x0078 x x",
                     "0x0079 y y",
-                    "0x007A z z",
                     "0x00E0 à agrave",
                     "0x00E1 á aacute",
                     "0x00E2 â acircumflex",
@@ -98,6 +94,12 @@
                     "0x1EF7 ỷ uni1EF7",
                     "0x1EF9 ỹ uni1EF9"
                 ],
+                "optional": [
+                    "0x0066 f f",
+                    "0x006A j j",
+                    "0x0077 w w",
+                    "0x007A z z"
+                ],
                 "punctuation": [
                     "0x0021 ! exclam",
                     "0x0022 \" quotedbl",
@@ -118,6 +120,7 @@
                     "0x005B [ bracketleft",
                     "0x005D ] bracketright",
                     "0x00A7 § section",
+                    "0x2011 ‑ uni2011",
                     "0x2013 – endash",
                     "0x2014 — emdash",
                     "0x2018 ‘ quoteleft",

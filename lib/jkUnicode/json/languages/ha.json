@@ -1,5 +1,35 @@
 {
     "DFLT": {
+        "NE": {
+            "name": "Hausa (Niger)",
+            "unicodes": {
+                "optional": [
+                    "0x0070 p p",
+                    "0x0071 q q",
+                    "0x0072 r r",
+                    "0x0076 v v",
+                    "0x0078 x x",
+                    "0x0079 y y",
+                    "0x00E0 à agrave",
+                    "0x00E1 á aacute",
+                    "0x00E2 â acircumflex",
+                    "0x00E8 è egrave",
+                    "0x00E9 é eacute",
+                    "0x00EA ê ecircumflex",
+                    "0x00EC ì igrave",
+                    "0x00ED í iacute",
+                    "0x00EE î icircumflex",
+                    "0x00F2 ò ograve",
+                    "0x00F3 ó oacute",
+                    "0x00F4 ô ocircumflex",
+                    "0x00F9 ù ugrave",
+                    "0x00FA ú uacute",
+                    "0x00FB û ucircumflex",
+                    "0x02BC ʼ uni02BC",
+                    "0x0303 ̃ tildecomb"
+                ]
+            }
+        },
         "dflt": {
             "name": "Hausa",
             "unicodes": {
@@ -27,6 +57,7 @@
                     "0x0079 y y",
                     "0x007A z z",
                     "0x0199 ƙ uni0199",
+                    "0x01B4 ƴ uni01B4",
                     "0x0253 ɓ uni0253",
                     "0x0257 ɗ uni0257",
                     "0x02BC ʼ uni02BC"
@@ -52,8 +83,31 @@
                     "0x00F9 ù ugrave",
                     "0x00FA ú uacute",
                     "0x00FB û ucircumflex",
-                    "0x01B4 ƴ uni01B4",
                     "0x0303 ̃ tildecomb"
+                ],
+                "punctuation": [
+                    "0x0021 ! exclam",
+                    "0x0022 \" quotedbl",
+                    "0x0027 ' quotesingle",
+                    "0x0028 ( parenleft",
+                    "0x0029 ) parenright",
+                    "0x002C , comma",
+                    "0x002D - hyphen",
+                    "0x002E . period",
+                    "0x003A : colon",
+                    "0x003B ; semicolon",
+                    "0x003F ? question",
+                    "0x005B [ bracketleft",
+                    "0x005D ] bracketright",
+                    "0x007B { braceleft",
+                    "0x007D } braceright",
+                    "0x2011 ‑ uni2011",
+                    "0x2018 ‘ quoteleft",
+                    "0x2019 ’ quoteright",
+                    "0x201C “ quotedblleft",
+                    "0x201D ” quotedblright",
+                    "0x2032 ′ minute",
+                    "0x2033 ″ second"
                 ]
             }
         }

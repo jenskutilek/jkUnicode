@@ -41,6 +41,7 @@
                     "0x00E0 à agrave",
                     "0x00E1 á aacute",
                     "0x00E2 â acircumflex",
+                    "0x00E3 ã atilde",
                     "0x00E5 å aring",
                     "0x00E6 æ ae",
                     "0x00E7 ç ccedilla",
@@ -67,6 +68,26 @@
                     "0x014F ŏ obreve",
                     "0x0153 œ oe",
                     "0x016B ū umacron"
+                ],
+                "punctuation": [
+                    "0x0021 ! exclam",
+                    "0x0028 ( parenleft",
+                    "0x0029 ) parenright",
+                    "0x002C , comma",
+                    "0x002D - hyphen",
+                    "0x002E . period",
+                    "0x003A : colon",
+                    "0x003B ; semicolon",
+                    "0x003F ? question",
+                    "0x0040 @ at",
+                    "0x005B [ bracketleft",
+                    "0x005D ] bracketright",
+                    "0x007B { braceleft",
+                    "0x007D } braceright",
+                    "0x2011 ‑ uni2011",
+                    "0x2013 – endash",
+                    "0x201C “ quotedblleft",
+                    "0x201E „ quotedblbase"
                 ]
             }
         }

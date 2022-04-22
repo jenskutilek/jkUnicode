@@ -105,6 +105,7 @@
                     "0x005D ] bracketright",
                     "0x007B { braceleft",
                     "0x007D } braceright",
+                    "0x2011 ‑ uni2011",
                     "0x2018 ‘ quoteleft",
                     "0x2019 ’ quoteright",
                     "0x201C “ quotedblleft",

@@ -126,6 +126,7 @@
                     "0x00A7 § section",
                     "0x00AB « guillemotleft",
                     "0x00BB » guillemotright",
+                    "0x2011 ‑ uni2011",
                     "0x2013 – endash",
                     "0x2014 — emdash",
                     "0x2026 … ellipsis"

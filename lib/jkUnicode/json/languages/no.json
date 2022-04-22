@@ -1,7 +1,7 @@
 {
     "DFLT": {
         "dflt": {
-            "name": "Prussian",
+            "name": "Norwegian",
             "unicodes": {
                 "base": [
                     "0x0061 a a",
@@ -30,39 +30,61 @@
                     "0x0078 x x",
                     "0x0079 y y",
                     "0x007A z z",
-                    "0x0101 ā amacron",
-                    "0x0113 ē emacron",
-                    "0x0123 ģ uni0123",
-                    "0x012B ī imacron",
-                    "0x0137 ķ uni0137",
-                    "0x0146 ņ uni0146",
-                    "0x014D ō omacron",
-                    "0x0157 ŗ uni0157",
+                    "0x00E0 à agrave",
+                    "0x00E5 å aring",
+                    "0x00E6 æ ae",
+                    "0x00E9 é eacute",
+                    "0x00F2 ò ograve",
+                    "0x00F3 ó oacute",
+                    "0x00F4 ô ocircumflex",
+                    "0x00F8 ø oslash"
+                ],
+                "optional": [
+                    "0x00E1 á aacute",
+                    "0x00E3 ã atilde",
+                    "0x00E4 ä adieresis",
+                    "0x00E7 ç ccedilla",
+                    "0x00E8 è egrave",
+                    "0x00EA ê ecircumflex",
+                    "0x00ED í iacute",
+                    "0x00F1 ñ ntilde",
+                    "0x00F6 ö odieresis",
+                    "0x00FA ú uacute",
+                    "0x00FC ü udieresis",
+                    "0x010D č ccaron",
+                    "0x0111 đ dcroat",
+                    "0x0144 ń nacute",
+                    "0x014B ŋ eng",
                     "0x0161 š scaron",
-                    "0x016B ū umacron",
+                    "0x0167 ŧ tbar",
                     "0x017E ž zcaron",
-                    "0x021B ț uni021B",
-                    "0x1E11 ḑ uni1E11"
+                    "0x01CE ǎ uni01CE"
                 ],
                 "punctuation": [
                     "0x0021 ! exclam",
+                    "0x0022 \" quotedbl",
+                    "0x0027 ' quotesingle",
                     "0x0028 ( parenleft",
                     "0x0029 ) parenright",
+                    "0x002A * asterisk",
                     "0x002C , comma",
                     "0x002D - hyphen",
                     "0x002E . period",
+                    "0x002F / slash",
                     "0x003A : colon",
                     "0x003B ; semicolon",
                     "0x003F ? question",
+                    "0x0040 @ at",
                     "0x005B [ bracketleft",
+                    "0x005C \\ backslash",
                     "0x005D ] bracketright",
                     "0x007B { braceleft",
                     "0x007D } braceright",
-                    "0x2013 – endash",
-                    "0x2014 — emdash",
-                    "0x201C “ quotedblleft",
-                    "0x201E „ quotedblbase",
-                    "0x2026 … ellipsis"
+                    "0x00A7 § section",
+                    "0x00AB « guillemotleft",
+                    "0x00BB » guillemotright",
+                    "0x2011 ‑ uni2011",
+                    "0x2013 – endash"
                 ]
             }
         }

@@ -30,22 +30,26 @@
                     "0x0078 x x",
                     "0x0079 y y",
                     "0x007A z z",
+                    "0x00E5 å aring",
+                    "0x00E6 æ ae",
+                    "0x00F8 ø oslash"
+                ],
+                "optional": [
                     "0x00E1 á aacute",
                     "0x00E2 â acircumflex",
                     "0x00E3 ã atilde",
-                    "0x00E5 å aring",
-                    "0x00E6 æ ae",
                     "0x00E9 é eacute",
                     "0x00EA ê ecircumflex",
                     "0x00ED í iacute",
                     "0x00EE î icircumflex",
                     "0x00F4 ô ocircumflex",
-                    "0x00F8 ø oslash",
+                    "0x00F5 õ otilde",
                     "0x00FA ú uacute",
                     "0x00FB û ucircumflex",
                     "0x0129 ĩ itilde",
                     "0x0138 ĸ kgreenlandic",
-                    "0x0169 ũ utilde"
+                    "0x0169 ũ utilde",
+                    "0x1EBD ẽ uni1EBD"
                 ]
             }
         }
