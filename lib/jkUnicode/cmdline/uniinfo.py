@@ -30,8 +30,8 @@ def uniinfo():
     args = parser.parse_args()
     ui = UniInfo()
     for uni in args.codepoint:
-        uni_int = get_codepoint_from_str(uni)
-        ui.unicode = uni
+        i = get_codepoint_from_str(uni)
+        ui.unicode = i
         print(ui)
         print()
 
