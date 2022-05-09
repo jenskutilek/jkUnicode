@@ -91,8 +91,6 @@ class Orthography:
         """
         self.scan_ok = False
 
-        print(info_dict)
-
         try:
             self.name = info_dict["name"]
         except KeyError:
