@@ -1,20 +1,24 @@
 # jkUnicode
 
-Ein Python-Modul für Unicode-, Glyphnamen- und Orthografie-Informationen
+A Python module for Unicode, glyph name, and orthography information.
 
-## Basisdaten aktualisieren
+## Updating the base data
 
-Das Modul bezieht seine Informationen aus den offiziellen Daten des Unicode-Standards, der Unicode-CLDR (Common Local Data Repository) und Adobe-AGLFN. Diese Daten müssen erst in ein auf das Modul zugeschnittenes Format konvertiert werden. Dazu sind die Skripte da, die sich im Ordner `jkUnicode/tools` befinden.
+The module takes its information from the official data of the Unicode standard, the Unicode CLDR (Common Local Data Repository), and Adobe’s AGLFN standard. When updating these data, they must be converted to a format that is useable with this module. Scripts are included in the source code to aid this conversion. They can be found in `lib/jkUnicode/data` and `lib/jkUnicode/data-scripts`.
 
-### Unicode- und AGLFN-Daten
+### Unicode and AGLFN data
 
-- `updateUniData.sh` – Download der aktuellen Unicode- und AGLFN-Dateien.
-- `generatePyUniData.py` – Update der Python-Module auf Basis der Unicode- und AGLFN-Daten
+- `data/updateUniData.sh` – Download the current Unicode and AGLFN data.
+- `data-scripts/generatePyUniData.py` – Update the Python module based on the downloaded data.
 
-### Sprachunterstützungsdaten
+### Orthography data
 
-- `updateLangData.sh` – Download der aktuellen Daten aus dem Unicode-CLDR.
-- `generateJsonLangData.py` – Konvertieren der Sprachdatenbank ins JSON-Format
-- `generatePyLangData.py` – Update der Python-Module auf Basis der JSON-Daten
+- `data/updateLangData.sh` – Download of the Unicode CLDR data.
+- `data-scripts/generateJsonLangData.py` – Convert the CLDR data to the JSON format.
+- `data-scripts/generatePyLangData.py` – Update the Python module based on the JSON data.
 
-Die Skripte sollten in dieser Reihenfolge ausgeführt werden. Nach `generateJsonLangData.py` kann man in die Sprachdefinitionen eingreifen, indem man gewünschte JSON-Dateien aus dem Ordner `jkUnicode/json/languages`in den Ordner `jkUnicode/json/overrides` kopiert und editiert. Dateien in diesem Ordner haben im nächsten Schritt (`generatePyLangData.py`) Vorrang vor den Originaldateien.
+The scripts should be executed in the given order. After running `generateJsonLangData.py`, you can edit the orthography definitions by copying any desired JSON file from the folder `jkUnicode/json/languages` to `jkUnicode/json/overrides` and editing it. Any files in this folder will override the original files in the next step (`generatePyLangData.py`).
+
+If you want to add a new language definition that doesn’t override an existing one, you must add it to the overrides folder, and also add its code and name to `languages_additional.json`.
+
+Any languages without orthography information will be listed in `ignored.json`. This file is informational only and is not used by `jkUnicode`.
