@@ -1,1 +1,1 @@
-fonttools
+fonttools[woff]
