@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-from __future__ import print_function, division, absolute_import
+#!/usr/bin/env python3
 
 import argparse
 import codecs
@@ -19,7 +17,10 @@ aglfnAdditions = {
 
 module_path = os.path.split(os.path.dirname(os.path.realpath(__file__)))[0]
 data_path = os.path.join(module_path, "data")
-gen_message = "# This is a generated file, use data-scripts/generatePyUniData.py to edit and regenerate.\n\n"
+gen_message = (
+    "# This is a generated file, use data-scripts/generatePyUniData.py "
+    "to edit and regenerate.\n\n"
+)
 
 
 def write_names():
@@ -41,7 +42,10 @@ def write_names():
             outfile.write("\n}")
         print("OK.")
     else:
-        print("    WARNING: File UnicodeData.txt not found, Unicode name data not regenerated.")
+        print(
+            "    WARNING: File UnicodeData.txt not found, Unicode name data "
+            "not regenerated."
+        )
 
 
 def write_case_mappings():
