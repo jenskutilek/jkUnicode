@@ -3,7 +3,7 @@
 import os
 from jkUnicode.tools.jsonhelpers import json_path, json_to_file, dict_from_file
 
-
+print(f"JSON path: {json_path}")
 languages_path = os.path.join(json_path, "languages")
 overrides_path = os.path.join(json_path, "overrides")
 
