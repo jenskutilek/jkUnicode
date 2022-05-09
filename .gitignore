@@ -8,3 +8,4 @@ doc/_build/doctrees/*
 .tox/
 *.egg-info/
 env/*
+_version.py
