@@ -7,3 +7,4 @@ lib/jkUnicode/data/UnicodeData.txt
 doc/_build/doctrees/*
 .tox/
 *.egg-info/
+env/*
