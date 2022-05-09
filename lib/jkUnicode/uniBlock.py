@@ -1,7 +1,7 @@
-from jkUnicode.tools.helpers import RangeDict
+import jkUnicode.tools.helpers
 from jkUnicode.uniBlockData import uniBlocks
 
-uniBlockToName = RangeDict(uniBlocks)
+uniBlockToName = jkUnicode.tools.helpers.RangeDict(uniBlocks)
 
 # The reverse mapping of names to blocks
 uniNameToBlock = {}

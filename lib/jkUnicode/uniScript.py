@@ -1,7 +1,7 @@
-from jkUnicode.tools.helpers import RangeDict
+import jkUnicode.tools.helpers
 from jkUnicode.uniScriptData import uniScripts
 
-uniScriptToName = RangeDict(uniScripts)
+uniScriptToName = jkUnicode.tools.helpers.RangeDict(uniScripts)
 
 
 def get_script(codepoint):
