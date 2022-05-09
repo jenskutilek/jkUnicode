@@ -1,5 +1,5 @@
-from .tools.helpers import RangeDict
-from .uniBlockData import uniBlocks
+from jkUnicode.tools.helpers import RangeDict
+from jkUnicode.uniBlockData import uniBlocks
 
 uniBlockToName = RangeDict(uniBlocks)
 

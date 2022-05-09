@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 from jkUnicode.uniBlock import get_block
 from jkUnicode.uniNiceName import nice_name_rules
 from jkUnicode.uniCat import uniCat
