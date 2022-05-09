@@ -1,0 +1,10 @@
+[tool.black]
+target-version = ["py37"]
+
+[tool.setuptools_scm]
+write_to = "lib/jkUnicode/_version.py"
+version_scheme = "post-release"
+
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.4"]
+build-backend = "setuptools.build_meta"
