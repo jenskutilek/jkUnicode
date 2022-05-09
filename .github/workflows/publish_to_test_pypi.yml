@@ -11,8 +11,8 @@ jobs:
     - name: Set up Python 3.9
       uses: RalfG/python-wheels-manylinux-build@v0.4.2
       with:
-        python-versions: "cp39-cp39 cp310-cp310"
-        build-requirements: "mypy"
+        python-versions: 'cp39-cp39 cp310-cp310'
+        build-requirements: 'mypy'
 
     # - name: Install pypa/build
     #   run: >-
@@ -38,7 +38,7 @@ jobs:
         skip_existing: true
 
     - name: Publish distribution 📦 to PyPI
-      if: startsWith(github.ref, "refs/tags")
+      if: startsWith(github.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@master
       with:
         password: ${{ secrets.PYPI_API_TOKEN }}
