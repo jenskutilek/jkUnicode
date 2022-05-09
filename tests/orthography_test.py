@@ -3,7 +3,7 @@ from jkUnicode.orthography import OrthographyInfo
 
 
 class TestOrthography(unittest.TestCase):
-    def test_scan():
+    def test_scan(self):
         from time import time
         from fontTools.ttLib import TTFont
 
@@ -67,7 +67,7 @@ class TestOrthography(unittest.TestCase):
         o.report_near_misses(n)
 
 
-    def test_reverse():
+    def test_reverse(self):
         from time import time
 
         print("\nTest of the Reverse CMAP functions")
