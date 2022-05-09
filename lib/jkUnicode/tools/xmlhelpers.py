@@ -1,56 +1,55 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # The dirty hacky stuff is outsourced into this file
 
 from re import compile
 from jkUnicode import getUnicodeChar
 
+from typing import Any, List
+
 ur = compile("^u([0-9A-F]+)")  # Regex to match unicode sequences, e.g. \u0302
 
 
-class Buffer(object):
-    def __init__(self, string=u""):
+class Buffer:
+    def __init__(self, string: str = "") -> None:
         self._str = string
 
-    def add(self, value):
+    def add(self, value: str) -> None:
         self._str += value
 
-    def clear(self):
-        self._str = u""
+    def clear(self) -> None:
+        self._str = ""
 
-    def flush(self):
+    def flush(self) -> str:
         v = self.__get__()
         self.clear()
         return v
 
-    def __get__(self):
+    def __get__(self) -> str:
         m = ur.search(self._str)
         if m:
             return getUnicodeChar(int(m.groups(0)[0], 16))
         else:
             return self._str
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return self._str
 
 
-class FilteredList(object):
-    def __init__(self, value=[]):
-        self._value = []
+class FilteredList:
+    def __init__(self) -> None:
+        self._value: List[Any] = []
 
-    def add(self, value):
+    def add(self, value: Any) -> None:
         if value:
             self._value.append(value)
 
-    def get(self):
+    def get(self) -> Any:
         return self._value
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return str(self._value)
 
 
-def filtered_char_list(xml_char_list, debug=False):
+def filtered_char_list(xml_char_list: str, debug: bool = False) -> List[str]:
     # Filter backslashes and other peculiarities of the XML format from the
     # character list
     if xml_char_list[0] == "[" and xml_char_list[-1] == "]":
@@ -127,6 +126,7 @@ def filtered_char_list(xml_char_list, debug=False):
 
     # Expand ranges
     final = []
+    f: str
     for i, f in enumerate(filtered):
         if f == "RANGE":
             start = ord(filtered[i - 1]) + 1
