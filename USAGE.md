@@ -6,7 +6,7 @@
 
 ### Usage
 
-`ortho ortho [-h] [-f] [-p] [-n NEAR_MISS] font [font ...]`
+`ortho [-h] [-f] [-i] [-k] [-m] [-p] [-n NEAR_MISS] font [font ...]`
 
 ### Options
 
@@ -47,6 +47,38 @@ Catalan
 [...]
 Zulu
 ```
+
+#### -i
+
+`-i | --minimum-inclusive`
+
+Prints a list of orthographies for which at least all characters from the basic category are present in the font.
+
+#### Example
+
+```
+$ ortho -i ComicJens-Italic.ttf
+The font has minimal or better support for 123 orthographies:
+Afrikaans
+Albanian
+Asu
+Azeri
+[...]
+Zulu
+```
+
+#### -k
+
+`k | --kill-list`
+
+Output a list of letters that don't appear together in any supported orthography.
+
+#### -m
+
+`m | --minimum`
+
+Report orthographies that have only basic support, i.e. no optional characters and no punctuation present.
+
 
 #### -p
 

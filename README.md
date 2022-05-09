@@ -2,6 +2,10 @@
 
 A Python module for Unicode, glyph name, and orthography information.
 
+## Command line usage
+
+The orthography functions can be used via the command line script `ortho`. For details, see [USAGE.md](USAGE.md).
+
 ## Updating the base data
 
 The module takes its information from the official data of the Unicode standard, the Unicode CLDR (Common Local Data Repository), and Adobe’s AGLFN standard. When updating these data, they must be converted to a format that is useable with this module. Scripts are included in the source code to aid this conversion. They can be found in `lib/jkUnicode/data` and `lib/jkUnicode/data-scripts`.
