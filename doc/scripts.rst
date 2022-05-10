@@ -9,7 +9,7 @@ ortho
 Usage
 ~~~~~
 
-``ortho [-h] [-f] [-p] [-n NEAR_MISS] font [font ...]``
+``ortho [-h] [-f] [-i] [-k] [-m] [-p] [-n NEAR_MISS] font [font ...]``
 
 When called without any options, `ortho` will determine the orthographic support of the supplied font(s) by looking at the required characters for each orthography.
 
@@ -19,7 +19,7 @@ When called without any options, `ortho` will determine the orthographic support
    The font supports 104 orthographies:
    Afrikaans
    Albanian
-   Asu (Tanzania)
+   Asu
    Azeri
    Basque
    Bemba
@@ -42,7 +42,7 @@ Options
       The font supports 98 orthographies:
       Afrikaans
       Albanian
-      Asu (Tanzania)
+      Asu
       Azeri
       Basque
       Bemba
@@ -51,6 +51,29 @@ Options
       Catalan
       [...]
       Zulu
+
+``-i | --minimum-inclusive``
+
+Prints a list of orthographies for which at least all characters from the basic category are present in the font.
+
+   .. code-block:: bash
+
+      $ ortho -i ComicJens-Italic.ttf
+      The font has minimal or better support for 123 orthographies:
+      Afrikaans
+      Albanian
+      Asu
+      Azeri
+      [...]
+      Zulu
+
+``k | --kill-list``
+
+Output a list of letters that don’t appear together in any supported orthography.
+
+``m | --minimum``
+
+Report orthographies that have only basic support, i.e. no optional characters and no punctuation present.
 
 ``-p | --punctuation``
 
@@ -84,3 +107,16 @@ Options
       
       Tongan
           0x02BB	uni02BB	Modifier Letter Turned Comma
+
+
+uniinfo
+-------
+
+``uniinfo`` – Show information about Unicode codepoints.
+
+Usage
+~~~~~
+
+``uniinfo [-h] codepoint [codepoint ...]``
+
+Codepoints can be given in decimal (e.g. `7838`), hexadecimal (e.g. `0x1e9e`), or Unicode (`U+1E9E`) notation.
