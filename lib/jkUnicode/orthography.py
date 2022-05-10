@@ -729,7 +729,7 @@ class OrthographyInfo:
                 self.ui.unicode = u
                 print(
                     "    0x%04X\t%s\t%s" % (
-                        u, self.ui.glyphname, self.ui.name.title()
+                        u, self.ui.glyphname, self.ui.nice_name
                     )
                 )
 
