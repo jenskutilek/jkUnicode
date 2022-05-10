@@ -45,13 +45,14 @@ categoryName = {
 def get_expanded_glyph_list(
     unicodes: List[int], ui: Optional["UniInfo"] = None
 ) -> List[Tuple[int, Optional[str]]]:
-    """ "Expand" or annotate a list of unicodes.
-    For unicodes that have a case mapping (UC or LC), the target unicode of the
-    case mapping will be added to the list. AGLFN glyph names are added to the
-    list too, so the returned list contains tuples of (unicode, glyphname),
-    sorted by unicode value.
+    """ "Expand" or annotate a list of codepoints.
 
-    :param unicodes: A list of unicodes (int)
+    For codepoints that have a case mapping (UC or LC), the target codepoint of
+    the case mapping will be added to the list. AGLFN glyph names are added to
+    the list too, so the returned list contains tuples of `(codepoint,
+    glyphname)`, sorted by the codepoint value.
+
+    :param unicodes: A list of codepoints
     :type unicodes: list
 
     :param  ui: The UniInfo instance to use. If None, one will be instantiated.
@@ -72,15 +73,10 @@ def get_expanded_glyph_list(
 
 
 def getUnicodeChar(code: int) -> str:
-    """Return the Unicode character for a Unicode number. This supports "high"
-    unicodes (> 0xffff) even on 32-bit builds.
+    """Return the Unicode character for a Unicode codepoint.
 
     :param code: The codepoint
     :type code: int"""
-    # from sys import version as sys_version
-    # if sys_version[0] == '2':
-    #     from jkUnicode.tools.py2 import getUnicodeCharPy2
-    #     return getUnicodeCharPy2(code)
     return chr(code)
 
 
@@ -94,7 +90,7 @@ class UniInfo:
     def __init__(self, uni: Optional[int] = None) -> None:
         """The Unicode Info object is meant to be instantiated once and then
         reused to get information about different codepoints. Avoid to
-        instantiate it often, because it is expensive on disk access.
+        instantiate it often, because it is rather expensive on disk access.
 
         Initialize the Info object with a dummy codepoint or None e.g. before a
         loop and then in the loop assign the actual codepoints that you want
@@ -139,9 +135,9 @@ class UniInfo:
 
     @property
     def unicode(self) -> Optional[int]:
-        """The Unicode value as integer. Setting this value will look up and
-        fill the other pieces of information, like category, range,
-        decomposition mapping, and case mapping."""
+        """The Unicode codepoint. Setting this value will look up and fill the
+        other pieces of information, like category, range, decomposition
+        mapping, and case mapping."""
         return self._unicode
 
     @unicode.setter
@@ -185,14 +181,14 @@ class UniInfo:
 
     @property
     def block(self) -> Optional[str]:
-        """The name of the block for the current Unicode value as string."""
+        """The name of the block for the current codepoint."""
         if self._ublock is None:
             self._ublock = get_block(self._unicode)
         return self._ublock
 
     @property
     def category(self) -> Optional[str]:
-        """The name of the category for the current Unicode value as string."""
+        """The name of the category for the current codepoint."""
         if self._category is None:
             self._category = categoryName.get(
                 self.category_short, "<undefined>"
@@ -201,15 +197,14 @@ class UniInfo:
 
     @property
     def category_short(self) -> Optional[str]:
-        """The short name of the category for the current Unicode value as
-        string."""
+        """The short name of the category for the current codepoint."""
         if self._categoryShort is None:
             self._categoryShort = uniCat.get(self._unicode, "<undefined>")
         return self._categoryShort
 
     @property
     def char(self) -> Optional[str]:
-        """The character for the current Unicode value."""
+        """The character for the current codepoint."""
         if self.unicode is None:
             return None
 
@@ -217,14 +212,14 @@ class UniInfo:
 
     @property
     def glyphname(self) -> Optional[str]:
-        """The AGLFN glyph name for the current Unicode value as string."""
+        """The AGLFN glyph name for the current codepoint."""
         from jkUnicode.aglfn import getGlyphnameForUnicode
 
         return getGlyphnameForUnicode(self.unicode)
 
     @property
     def name(self) -> Optional[str]:
-        """The Unicode name for the current Unicode value as string."""
+        """The Unicode name for the current codepoint."""
         if self._name is None:
             self._name = self.uniName.get(self._unicode, None)
             # TODO: Add nicer names based on original Unicode names?
@@ -249,7 +244,7 @@ class UniInfo:
 
     @property
     def nice_name(self) -> Optional[str]:
-        """The Unicode name for the current Unicode value as string."""
+        """A more human-readable Unicode name for the current codepoint."""
         for transform_function in nice_name_rules:
             result = transform_function(self._name)
             if result:
@@ -261,24 +256,21 @@ class UniInfo:
 
     @property
     def decomposition_mapping(self) -> List[int]:
-        """The decomposition mapping for the current Unicode value as a list of
-        integer codepoints."""
+        """The decomposition mapping for the current codepoint."""
         if self._dc_mapping is None:
             self._dc_mapping = uniDecompositionMapping.get(self._unicode, [])
         return self._dc_mapping
 
     @property
     def lc_mapping(self) -> Optional[int]:
-        """The lowercase mapping for the current Unicode value as integer or
-        None."""
+        """The lowercase mapping for the current codepoint."""
         if self._lc_mapping is None:
             self._lc_mapping = uniLowerCaseMapping.get(self._unicode, None)
         return self._lc_mapping
 
     @property
     def uc_mapping(self) -> Optional[int]:
-        """The uppercase mapping for the current Unicode value as integer or
-        None."""
+        """The uppercase mapping for the current codepoint."""
         if self._uc_mapping is None:
             self._uc_mapping = uniUpperCaseMapping.get(self._unicode, None)
         return self._uc_mapping

@@ -8,7 +8,7 @@ from jkUnicode.tools.jsonhelpers import dict_from_file
 from typing import Any, Dict, List, Optional, Set
 
 
-# These unicode points are ignored when scanning for orthography support
+# These codepoints are ignored when scanning for orthography support
 IGNORED_UNICODES = [
     # Minute and second appear in lots of language definitions in CLDR, but are
     # not in very many fonts.
@@ -26,7 +26,7 @@ class Orthography:
     :param info_obj: The parent info object.
     :type info_obj: :py:class:`jkUnicode.orthography.OrthographyInfo`
 
-    :param code: The orthography code.
+    :param code: The ISO-639-1 code for the orthography.
     :type code: str
 
     :param script: The script code of the orthography.
@@ -68,24 +68,20 @@ class Orthography:
 
     def from_dict(self, info_dict: Dict[str, Any]) -> None:
         """
-                Read information for the current orthography from a dictionary. This
-                method is called during initialization of the object and fills in a
-                number of instance attributes:
+        Read information for the current orthography from a dictionary. This
+        method is called during initialization of the object and fills in a
+        number of instance attributes:
 
-        name
-           The orthography name.
+        `name`: The orthography name.
 
-        unicodes_base
-           The set of base characters for the orthography.
+        `unicodes_base`: The set of base characters for the orthography.
 
-        unicodes_optional
-           The set of optional characters for the orthography.
+        `unicodes_optional`: The set of optional characters for the orthography.
 
-        unicodes_punctuation
-           The set of punctuation characters for the orthography.
+        `unicodes_punctuation`: The set of punctuation characters for the
+        orthography.
 
-        unicodes_any
-           The previous three sets combined.
+        `unicodes_any`: The previous three sets combined.
         """
         self.scan_ok = False
 
@@ -140,10 +136,19 @@ class Orthography:
 
     @property
     def ui(self) -> UniInfo:
+        """
+        The :py:class:`jkUnicode.UniInfo` object that is queried for Unicode
+        information.
+        """
         return self._ui
     
     @property
     def ignored_unicodes(self) -> Set[int]:
+        """
+        The set of ignored codepoints. If a parent
+        :py:class:`jkUnicode.orthography.OrthographyInfo` object exists, it is
+        taken from there.
+        """
         if self.info is None:
             return set()
         return self.info.ignored_unicodes
@@ -156,7 +161,7 @@ class Orthography:
         Return a list with its Unicode case mapping toggled. If a codepoint has
         no lowercase or uppercase mapping, it is dropped from the list.
 
-        :param codepoint_list: The list of integer codepoints.
+        :param codepoint_list: The list of codepoints.
         :type codepoint_list: list
         """
         result = set()
@@ -166,12 +171,12 @@ class Orthography:
                 result.add(self.ui.lc_mapping)
             elif self.ui.uc_mapping:
                 result.add(self.ui.uc_mapping)
-        return list(result)
+        return sorted(list(result))
 
     def fill_from_default_orthography(self) -> None:
         """
-        Sometimes the base unicodes are empty for a variant of an orthography.
-        Try to fill them in from the default variant.
+        Sometimes the base codepoints are empty for a variant of an
+        orthography. Try to fill them in from the default variant.
 
         Call this only after the whole list of orthographies is present, or it
         will fail, because the default orthography may not be present until the
@@ -257,7 +262,7 @@ class Orthography:
 
     def almost_supported_full(self, max_missing: int = 5) -> bool:
         """
-        Is the orthography supported with a maximum of max_missing characters
+        Is the orthography supported with a maximum of `max_missing` characters
         (base, optional and punctuation characters) for the current parent
         cmap?
         """
@@ -267,7 +272,7 @@ class Orthography:
 
     def almost_supported_basic(self, max_missing: int = 5) -> bool:
         """
-        Is the orthography supported with a maximum of max_missing base
+        Is the orthography supported with a maximum of `max_missing` base
         characters for the current parent cmap?
         """
         if 0 < self.num_missing_base <= max_missing:
@@ -276,8 +281,8 @@ class Orthography:
 
     def almost_supported_punctuation(self, max_missing: int = 5) -> bool:
         """
-        Is the orthography supported with a maximum of max_missing punctuation
-        characters for the current parent cmap?
+        Is the orthography supported with a maximum of `max_missing`
+        punctuation characters for the current parent cmap?
         """
         if (
             self.num_missing_base == 0
@@ -288,7 +293,7 @@ class Orthography:
 
     def uses_unicode_base(self, u: int) -> bool:
         """
-        Is the unicode used by this orthography in the base set? This is
+        Is the codepoint used by this orthography in the base set? This is
         relatively slow. Use
         :py:func:`jkUnicode.orthography.OrthographyInfo.build_reverse_cmap` if
         you need to access this information more often.
@@ -302,8 +307,8 @@ class Orthography:
 
     def uses_unicode_any(self, u: int) -> bool:
         """
-        Is the unicode used by this orthography in any set? This is relatively
-        slow. Use
+        Is the codepoint used by this orthography in any set? This is
+        relatively slow. Use
         :py:func:`jkUnicode.orthography.OrthographyInfo.build_reverse_cmap` if
         you need to access this information more often.
 
@@ -399,9 +404,10 @@ class Orthography:
         self.scan_ok = False
 
     @property
-    def info(self) -> Optional[Any]:
+    def info(self) -> Optional["OrthographyInfo"]:
         """
-        The parent OrthographyInfo object (read-only).
+        The parent :py:class:`jkUnicode.orthography.OrthographyInfo` object
+        (read-only).
         """
         # self._info is a weakref, call it to return its object
         # return self._info()
@@ -409,6 +415,9 @@ class Orthography:
 
     @property
     def identifier(self) -> str:
+        """
+        Return an identifier for language code/script/territory (read-only).
+        """
         _id = self.code
         if self.script != "DFLT":
             _id += "_%s" % self.script
@@ -419,7 +428,7 @@ class Orthography:
     @property
     def name(self) -> str:
         """
-        The name of the orthography (read-only).
+        The name of the orthography.
         """
         return self._name
 
