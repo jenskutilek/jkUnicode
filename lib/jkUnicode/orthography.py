@@ -159,14 +159,14 @@ class Orthography:
         :param codepoint_list: The list of integer codepoints.
         :type codepoint_list: list
         """
-        result = []
+        result = set()
         for c in codepoint_list:
             self.ui.unicode = c
             if self.ui.lc_mapping:
-                result.append(self.ui.lc_mapping)
+                result.add(self.ui.lc_mapping)
             elif self.ui.uc_mapping:
-                result.append(self.ui.uc_mapping)
-        return list(set(result))
+                result.add(self.ui.uc_mapping)
+        return list(result)
 
     def fill_from_default_orthography(self) -> None:
         """
