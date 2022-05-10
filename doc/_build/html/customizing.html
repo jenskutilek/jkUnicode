@@ -4,11 +4,12 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Customizing Module Data &#8212; jkUnicode 1.6.1 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -32,15 +33,15 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="customizing-module-data">
+  <section id="customizing-module-data">
 <h1>Customizing Module Data<a class="headerlink" href="#customizing-module-data" title="Permalink to this headline">¶</a></h1>
 <p>The jkUnicode modules read their data from Python, text, and JSON files generated from the official data sources. You can update, customize, and partially override this data in order to adapt the module’s behaviour to your needs.</p>
-<div class="section" id="glyph-name-and-unicode-character-data">
+<section id="glyph-name-and-unicode-character-data">
 <h2>Glyph Name and Unicode Character Data<a class="headerlink" href="#glyph-name-and-unicode-character-data" title="Permalink to this headline">¶</a></h2>
 <p>To download the current version of the glyph name and Unicode character data from their original sources (unicode.org and Adobe’s GitHub repository), run the shell script <cite>updateUniData.sh</cite> in the <cite>tools</cite> folder included in the source distribution of jkUnicode. This will download the text files <cite>aglfn.txt</cite>, <cite>Blocks.txt</cite>, and <cite>UnicodeData.txt</cite>.</p>
 <p>The raw downloads must then be converted into Python modules using the script <cite>generatePyUniData.py</cite>.</p>
-</div>
-<div class="section" id="orthography-data">
+</section>
+<section id="orthography-data">
 <h2>Orthography Data<a class="headerlink" href="#orthography-data" title="Permalink to this headline">¶</a></h2>
 <p>The orthography submodule is derived from the Unicode Common Locale Data Repository (CLDR). To download a zip file of the core data, you can use the shell script <cite>updateLangData.sh</cite> in the <cite>tools</cite> subfolder. As there seems to be no stable URL for the latest version of this data, you have to check on <a class="reference external" href="http://unicode.org/Public/cldr/">http://unicode.org/Public/cldr/</a> if the URL in the script is pointing to the desired version before running the script.</p>
 <p>After downloading, the data is extracted into the <cite>tools/core</cite> subfolder.</p>
@@ -60,8 +61,8 @@
 <p>If you want to override any of the orthography definitions, place a modified copy of any file from the <cite>json/languages</cite> subfolder in the <cite>json/overrides</cite> subfolder. You can omit any key/value pairs which would be identical in the override folder, in order to have as little data duplication as possible. The character representation and the Unicode name of the character are included just for easier reading, they can be omitted from the override files and are not part of the final data.</p>
 <p>When you have customized the definitions to your liking, run the script <cite>generatePyLangData.py</cite> to convert the data from the initial JSON representation to the final JSON representation. This will update the file <cite>tools/language_characters.json</cite>, which is directly used by the <a class="reference internal" href="orthography.html#module-jkUnicode.orthography" title="jkUnicode.orthography"><code class="xref py py-class docutils literal notranslate"><span class="pre">jkUnicode.orthography</span></code></a> module.</p>
 <p>Some characters are ignored by default in all orthography definitions. There is currently no way to edit these, other than to directly change the list IGNORED_UNICODES in <a class="reference internal" href="orthography.html#module-jkUnicode.orthography" title="jkUnicode.orthography"><code class="xref py py-class docutils literal notranslate"><span class="pre">jkUnicode.orthography</span></code></a>. The list currently contains the minute and second characters (U+2032, U+2033), which appear in many language definitions in the CLDR, but are not contained in a lot of standard font glyph sets.</p>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -80,7 +81,7 @@
 
 
 <h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="uniinfo.html">Unicode Information</a></li>
 <li class="toctree-l1"><a class="reference internal" href="orthography.html">Orthography Information</a></li>
@@ -107,7 +108,7 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -129,7 +130,7 @@
       &copy;2017, Jens Kutilek.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

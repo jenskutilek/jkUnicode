@@ -1,6 +1,8 @@
 # Updating the base data
 
-The module takes its information from the official data of the Unicode standard, the Unicode CLDR (Common Local Data Repository), and Adobe’s AGLFN standard. When updating these data, they must be converted to a format that is useable with this module. Scripts are included in the source code to aid this conversion. They can be found in `lib/jkUnicode/data` and `lib/jkUnicode/data-scripts`.
+The module takes its information from the official data of the Unicode standard, the Unicode CLDR (Common Local Data Repository), and Adobe’s AGLFN standard. If you wish to update or customize this data, you must install the package from source code.
+
+The downloaded data from the official sources must be converted to a format that is useable with this module. Scripts are included in the source code to aid this conversion. They can be found in `lib/jkUnicode/data` and `lib/jkUnicode/data-scripts`.
 
 ## Unicode and AGLFN data
 

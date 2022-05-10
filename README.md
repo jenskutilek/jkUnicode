@@ -39,7 +39,7 @@ $ ortho ComicJens.ttf
 The font supports 104 orthographies:
 Afrikaans
 Albanian
-Asu (Tanzania)
+Asu
 Azeri
 Basque
 Bemba
@@ -53,7 +53,7 @@ $ ortho -f ComicJens.ttf
 The font supports 98 orthographies:
 Afrikaans
 Albanian
-Asu (Tanzania)
+Asu
 Azeri
 Basque
 Bemba

@@ -319,28 +319,23 @@ class Orthography:
         Scan the orthography against the current parent cmap. This fills in a
         number of instance attributes:
 
-        missing_base
-           A set of unicode values that are missing from the basic characters
-           of the orthography.
+        `missing_base`: A set of unicode values that are missing from the basic
+        characters of the orthography.
 
-        missing_optional
-           A set of unicode values that are missing from the optional
-           characters of the orthography.
+        `missing_optional`: A set of unicode values that are missing from the
+        optional characters of the orthography.
 
-        missing_punctuation
-           A set of unicode values that are missing from the punctuation
-           characters of the orthography.
+        `missing_punctuation`: A set of unicode values that are missing from
+        the punctuation characters of the orthography.
 
-        missing_all
-           A set of all the previous combined.
+        `missing_all`: A set of all the previous combined.
 
-        num_missing_base, num_missing_optional, num_missing_punctuation,
-        num_missing_all
-           The number of missing characters for the previous attributes
+        `num_missing_base, num_missing_optional, num_missing_punctuation,
+        num_missing_all`: The number of missing characters for the previous
+        attributes
 
-        base_pc, optional_pc, punctuation_pc
-           The percentage values of support for the categories basic, optional,
-           and punctuation characters.
+        `base_pc, optional_pc, punctuation_pc`: The percentage values of
+        support for the categories basic, optional, and punctuation characters.
 
         The names of these attributes can be used in
         :py:class:`jkUnicode.orthography.OrthographyInfo.print_report`.
