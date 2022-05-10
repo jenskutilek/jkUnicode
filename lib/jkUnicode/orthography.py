@@ -50,7 +50,7 @@ class Orthography:
     ) -> None:
         self._info = info_obj
         if self._info is None:
-            self._ui = UniInfo(0)
+            self._ui = UniInfo()
         else:
             self._ui = self._info.ui
         self.code = code
@@ -469,7 +469,7 @@ class OrthographyInfo:
     def __init__(self, ui: Optional[UniInfo] = None) -> None:
         # We need a UniInfo object
         if ui is None:
-            self.ui = UniInfo(0)
+            self.ui = UniInfo()
         else:
             self.ui = ui
 

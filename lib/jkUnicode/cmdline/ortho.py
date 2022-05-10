@@ -10,7 +10,6 @@ from jkUnicode.orthography import OrthographyInfo
 class OrthoCmdLine(object):
     def __init__(self, font_path, args):
         self.o = OrthographyInfo()
-        self.u = UniInfo(0)
         self.o.cmap = self.get_cmap(font_path)
         if args.punctuation:
             self.o.report_missing_punctuation()
