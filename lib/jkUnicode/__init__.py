@@ -147,44 +147,21 @@ class UniInfo:
     @unicode.setter
     def unicode(self, value: Optional[int]):
         self._unicode = value
+        # Set some properties to None
+        # Those are expensive to compute, we do it only when asked to.
+        self._ublock = None
+        self._script = None
+        self._name = None
+        self._categoryShort = None
+        self._category = None
+        self._uc_mapping = None
+        self._lc_mapping = None
+        self._dc_mapping = None
+    
         if self._unicode is None:
-            self._ublock = None
-            self._name = None
             self._categoryShort = "<undefined>"
             self._category = "<undefined>"
-            self._script = None
-            self._uc_mapping = None
-            self._lc_mapping = None
             self._dc_mapping = []
-        else:
-            self._ublock = get_block(self._unicode)
-            self._script = get_script(self._unicode)
-            self._name = self.uniName.get(self._unicode, None)
-            # TODO: Add nicer names based on original Unicode names?
-            if self._name is None:
-                if 0xE000 <= self._unicode < 0xF8FF:
-                    self._name = "<Private Use>"
-                elif 0xD800 <= self._unicode < 0xDB7F:
-                    self._name = "<Non Private Use High Surrogate #%i>" % (
-                        self._unicode - 0xD8000
-                    )
-                elif 0xDB80 <= self._unicode < 0xDBFF:
-                    self._name = "<Private Use High Surrogate #%i>" % (
-                        self._unicode - 0xDB80
-                    )
-                elif 0xDC00 <= self._unicode < 0xDFFF:
-                    self._name = "<Low Surrogate #%i>" % (
-                        self._unicode - 0xDC00
-                    )
-                else:
-                    self._name = "<undefined>"
-            self._categoryShort = uniCat.get(self._unicode, "<undefined>")
-            self._category = categoryName.get(
-                self._categoryShort, "<undefined>"
-            )
-            self._uc_mapping = uniUpperCaseMapping.get(self._unicode, None)
-            self._lc_mapping = uniLowerCaseMapping.get(self._unicode, None)
-            self._dc_mapping = uniDecompositionMapping.get(self._unicode, [])
 
     def __repr__(self) -> str:
         if self.unicode is None:
@@ -209,17 +186,25 @@ class UniInfo:
     @property
     def block(self) -> Optional[str]:
         """The name of the block for the current Unicode value as string."""
+        if self._ublock is None:
+            self._ublock = get_block(self._unicode)
         return self._ublock
 
     @property
     def category(self) -> Optional[str]:
         """The name of the category for the current Unicode value as string."""
+        if self._category is None:
+            self._category = categoryName.get(
+                self.category_short, "<undefined>"
+            )
         return self._category
 
     @property
     def category_short(self) -> Optional[str]:
         """The short name of the category for the current Unicode value as
         string."""
+        if self._categoryShort is None:
+            self._categoryShort = uniCat.get(self._unicode, "<undefined>")
         return self._categoryShort
 
     @property
@@ -240,6 +225,26 @@ class UniInfo:
     @property
     def name(self) -> Optional[str]:
         """The Unicode name for the current Unicode value as string."""
+        if self._name is None:
+            self._name = self.uniName.get(self._unicode, None)
+            # TODO: Add nicer names based on original Unicode names?
+            if self._name is None:
+                if 0xE000 <= self._unicode < 0xF8FF:
+                    self._name = "<Private Use>"
+                elif 0xD800 <= self._unicode < 0xDB7F:
+                    self._name = "<Non Private Use High Surrogate #%i>" % (
+                        self._unicode - 0xD8000
+                    )
+                elif 0xDB80 <= self._unicode < 0xDBFF:
+                    self._name = "<Private Use High Surrogate #%i>" % (
+                        self._unicode - 0xDB80
+                    )
+                elif 0xDC00 <= self._unicode < 0xDFFF:
+                    self._name = "<Low Surrogate #%i>" % (
+                        self._unicode - 0xDC00
+                    )
+                else:
+                    self._name = "<undefined>"
         return self._name
 
     @property
@@ -258,22 +263,30 @@ class UniInfo:
     def decomposition_mapping(self) -> List[int]:
         """The decomposition mapping for the current Unicode value as a list of
         integer codepoints."""
+        if self._dc_mapping is None:
+            self._dc_mapping = uniDecompositionMapping.get(self._unicode, [])
         return self._dc_mapping
 
     @property
     def lc_mapping(self) -> Optional[int]:
         """The lowercase mapping for the current Unicode value as integer or
         None."""
+        if self._lc_mapping is None:
+            self._lc_mapping = uniLowerCaseMapping.get(self._unicode, None)
         return self._lc_mapping
 
     @property
     def uc_mapping(self) -> Optional[int]:
         """The uppercase mapping for the current Unicode value as integer or
         None."""
+        if self._uc_mapping is None:
+            self._uc_mapping = uniUpperCaseMapping.get(self._unicode, None)
         return self._uc_mapping
 
     @property
     def script(self) -> Optional[str]:
+        if self._script is None:
+            self._script = get_script(self._unicode)
         return self._script
 
 
