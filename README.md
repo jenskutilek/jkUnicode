@@ -4,6 +4,7 @@ A Python module for Unicode, glyph name, and orthography information.
 
 The orthography functions can be used via the command line script `ortho`. The Unicode info for one or more codepoints can be shown via the command `uniinfo`.
 
+For using the module with Python, see the [docs](https://jkunicode.readthedocs.io/en/latest/).
 
 ## `uniinfo`
 
