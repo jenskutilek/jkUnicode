@@ -145,14 +145,14 @@ class UniInfo:
         self._unicode = value
         # Set some properties to None
         # Those are expensive to compute, we do it only when asked to.
-        self._ublock = None
-        self._script = None
-        self._name = None
-        self._categoryShort = None
-        self._category = None
-        self._uc_mapping = None
-        self._lc_mapping = None
-        self._dc_mapping = None
+        self._ublock: Optional[str] = None
+        self._script: Optional[str] = None
+        self._name: Optional[str] = None
+        self._categoryShort: Optional[str] = None
+        self._category: Optional[str] = None
+        self._uc_mapping: Optional[int] = None
+        self._lc_mapping: Optional[int] = None
+        self._dc_mapping: Optional[List[int]] = None
     
         if self._unicode is None:
             self._categoryShort = "<undefined>"
@@ -189,15 +189,25 @@ class UniInfo:
     @property
     def category(self) -> Optional[str]:
         """The name of the category for the current codepoint."""
+        if self._unicode is None:
+            return None
+
         if self._category is None:
-            self._category = categoryName.get(
-                self.category_short, "<undefined>"
-            )
+            cs = self.category_short
+            if cs is None:
+                self._category = "<undefined>"
+            else:
+                self._category = categoryName.get(
+                    cs, "<undefined>"
+                )
         return self._category
 
     @property
     def category_short(self) -> Optional[str]:
         """The short name of the category for the current codepoint."""
+        if self._unicode is None:
+            return None
+
         if self._categoryShort is None:
             self._categoryShort = uniCat.get(self._unicode, "<undefined>")
         return self._categoryShort
@@ -220,6 +230,9 @@ class UniInfo:
     @property
     def name(self) -> Optional[str]:
         """The Unicode name for the current codepoint."""
+        if self._unicode is None:
+            return None
+
         if self._name is None:
             self._name = self.uniName.get(self._unicode, None)
             # TODO: Add nicer names based on original Unicode names?
@@ -258,12 +271,22 @@ class UniInfo:
     def decomposition_mapping(self) -> List[int]:
         """The decomposition mapping for the current codepoint."""
         if self._dc_mapping is None:
-            self._dc_mapping = uniDecompositionMapping.get(self._unicode, [])
+            if self._unicode is not None:
+                try:
+                    if self._unicode is not None:
+                        self._dc_mapping = uniDecompositionMapping[self._unicode]
+                except KeyError:
+                    self._dc_mapping = []
+            else:
+                self._dc_mapping = []
         return self._dc_mapping
 
     @property
     def lc_mapping(self) -> Optional[int]:
         """The lowercase mapping for the current codepoint."""
+        if self._unicode is None:
+            return None
+
         if self._lc_mapping is None:
             self._lc_mapping = uniLowerCaseMapping.get(self._unicode, None)
         return self._lc_mapping
@@ -271,6 +294,9 @@ class UniInfo:
     @property
     def uc_mapping(self) -> Optional[int]:
         """The uppercase mapping for the current codepoint."""
+        if self._unicode is None:
+            return None
+
         if self._uc_mapping is None:
             self._uc_mapping = uniUpperCaseMapping.get(self._unicode, None)
         return self._uc_mapping
