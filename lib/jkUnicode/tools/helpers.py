@@ -10,6 +10,9 @@ class RangeDict(dict):
             self[k] = v
 
     def __getitem__(self, key: Any) -> Any:
+        if key is None:
+            raise KeyError
+
         for k, v in self.items():
             if k[0] <= key <= k[1]:
                 return v
