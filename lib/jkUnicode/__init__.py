@@ -258,12 +258,13 @@ class UniInfo:
     @property
     def nice_name(self) -> Optional[str]:
         """A more human-readable Unicode name for the current codepoint."""
+        if self._name is None:
+            return None
+
         for transform_function in nice_name_rules:
             result = transform_function(self._name)
             if result:
                 return result
-        if self._name is None:
-            return None
 
         return self._name.capitalize()
 
