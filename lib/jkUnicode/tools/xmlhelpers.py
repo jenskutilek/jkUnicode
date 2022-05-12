@@ -122,15 +122,15 @@ def filtered_char_list(xml_char_list: str, debug: bool = False) -> List[str]:
 
     filtered.add(buf.flush())
 
-    filtered = filtered.get()
+    result = filtered.get()
 
     # Expand ranges
     final = []
     f: str
-    for i, f in enumerate(filtered):
+    for i, f in enumerate(result):
         if f == "RANGE":
-            start = ord(filtered[i - 1]) + 1
-            end = ord(filtered[i + 1])
+            start = ord(result[i - 1]) + 1
+            end = ord(result[i + 1])
             # print("RANGE: %04X, %04X" % (start, end))
             for g in range(start, end):
                 # print("0x%04X" % g)
