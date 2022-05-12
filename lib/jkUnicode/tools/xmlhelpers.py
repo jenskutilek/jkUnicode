@@ -5,7 +5,8 @@ from jkUnicode import getUnicodeChar
 
 from typing import Any, List
 
-ur = compile("^u([0-9A-F]+)")  # Regex to match unicode sequences, e.g. \u0302
+# Regex to match unicode sequences, e.g. \u0302
+unicode_seq = compile("^u([0-9A-F]+)")
 
 
 class Buffer:
@@ -24,11 +25,12 @@ class Buffer:
         return v
 
     def __get__(self) -> str:
-        m = ur.search(self._str)
-        if m:
-            return getUnicodeChar(int(m.groups(0)[0], 16))
-        else:
+        m = unicode_seq.search(self._str)
+        if m is None:
             return self._str
+
+        group = str(m.groups(0)[0])
+        return getUnicodeChar(int(group, 16))
 
     def __repr__(self) -> str:
         return self._str
