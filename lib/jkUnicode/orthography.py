@@ -348,7 +348,7 @@ class Orthography:
         if self.info is None:
             cmap_set = set()
         else:
-            cmap_set = set(self.info.cmap)
+            cmap_set = self.info.codepoints
         # Check for missing chars
         self.missing_base = self.unicodes_base - cmap_set
         self.missing_optional = self.unicodes_optional - cmap_set
@@ -525,27 +525,40 @@ class OrthographyInfo:
         self._territory_names = dict_from_file(data_path, "territories")
 
         self._cmap: Dict[int, str] = {}
+        self._codepoints: Set[int] = set()
         self._reverse_cmap: Dict[int, List[int]] = {}
 
     @property
-    def cmap(self) -> dict:
+    def cmap(self) -> Dict[int, str]:
         """
-        The unicode to glyph name mapping, a dictionary. When you set the cmap,
-        it is scanned against all orthographies belonging to the Orthography
-        Info object.
+        The codepoint to glyph name mapping. When you set the cmap, it is
+        scanned against all orthographies belonging to the OrthographyInfo
+        object.
+
+        You set the cmap by passing a dictionary, usually from a font. E.g.:
+
+        TTFont("myfont.ttf")
+        o = OrthographyInfo()
+        o.cmap = TTFont("myfont.ttf").getBestCmap()
         """
         return self._cmap
 
     @cmap.setter
-    def cmap(self, value: Optional[dict] = None) -> None:
+    def cmap(self, value: Optional[Dict[int, str]] = None) -> None:
         if value is None:
-            self._cmap = {}
+            self._cmap = dict()
+            self._codepoints = set()
             for o in self.orthographies:
                 o.forget_cmap()
         else:
             self._cmap = value
+            self._codepoints = set(value.keys())
             for o in self.orthographies:
                 o.scan_cmap()
+    
+    @property
+    def codepoints(self) -> Set[int]:
+        return self._codepoints
 
     def build_reverse_cmap(self) -> None:
         """
