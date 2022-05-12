@@ -1,7 +1,5 @@
 import os
 
-from pickle import dump, load
-
 from jkUnicode import UniInfo
 from jkUnicode.tools.jsonhelpers import dict_from_file
 
@@ -480,28 +478,7 @@ class OrthographyInfo:
         data_path = os.path.join(
             os.path.dirname(os.path.realpath(__file__)), "json"
         )
-        pickled_path = os.path.join(data_path, "language_characters.pickle")
-        if os.path.exists(pickled_path):
-            # print("Unpickling language data...")
-            # start = time()
-            with open(pickled_path, "rb") as f:
-                master = load(f)
-            # stop = time()
-            # print(f"...done in {stop - start}s.")
-        else:
-            # print("Loading JSON language data...")
-            # start = time()
-            master = dict_from_file(data_path, "language_characters")
-            # stop = time()
-            # print(f"...done in {stop - start}s.")
-            try:
-                with open(pickled_path, "wb") as f:
-                    dump(master, f)
-            except:
-                # Writing the pickled file may fail on a read-only system,
-                # just ignore it
-                pass
-
+        master = dict_from_file(data_path, "language_characters")
         self.ignored_unicodes = set(IGNORED_UNICODES)
         self.orthographies = []
         self._index = {}
