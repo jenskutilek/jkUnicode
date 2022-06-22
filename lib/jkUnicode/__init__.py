@@ -258,15 +258,15 @@ class UniInfo:
     @property
     def nice_name(self) -> Optional[str]:
         """A more human-readable Unicode name for the current codepoint."""
-        if self._name is None:
+        if self.name is None:
             return None
 
         for transform_function in nice_name_rules:
-            result = transform_function(self._name)
+            result = transform_function(self.name)
             if result:
                 return result
 
-        return self._name.capitalize()
+        return self.name.capitalize()
 
     @property
     def decomposition_mapping(self) -> List[int]:
