@@ -18,9 +18,8 @@ from zipfile import ZipFile
 
 CharDict: TypeAlias = Dict[str, List[int]]
 
-LanguageCharsDict: TypeAlias = Dict[
-    str, Dict[str, Dict[str, Dict[str, CharDict | str]]]
-]
+LanguageTerritoryDict: TypeAlias = Dict[str, Dict[str, CharDict | str]]
+LanguageCharsDict: TypeAlias = Dict[str, Dict[str, LanguageTerritoryDict]]
 
 
 # FIXME
