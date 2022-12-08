@@ -53,13 +53,14 @@ def generate_language_data(zip_path: Path) -> None:
             "Zip file with XML data not found.\nPlease use the shell script "
             "'updateLangData.sh' to download it."
         )
-        return False
+        return
 
     with ZipFile(zip_path, "r") as z:
         names = z.namelist()
         if not en_path in names:
             print("'%s' not found in zip file." % en_path)
-            return False
+            return
+
         with z.open(en_path) as en_xml:
 
             # Extract language, script and territory names from the English data file
