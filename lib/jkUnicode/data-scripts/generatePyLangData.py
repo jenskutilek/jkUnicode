@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 
-import os
 from jkUnicode.tools.jsonhelpers import json_path, json_to_file, dict_from_file
 
 print(f"JSON path: {json_path}")
-languages_path = os.path.join(json_path, "languages")
-overrides_path = os.path.join(json_path, "overrides")
+languages_path = json_path / "languages"
+overrides_path = json_path / "overrides"
 
 
 def update_language_dict(language_dict, override_dict):
@@ -39,7 +38,7 @@ def update_language_dict(language_dict, override_dict):
     # return language_dict # dict is changed in place
 
 
-if not (os.path.exists(os.path.join(json_path, "languages.json"))):
+if not (json_path / "languages.json").exists():
     print(
         "JSON language data not found.\n"
         "Please use the script 'generateJsonLangData.py' to generate it."
@@ -49,7 +48,7 @@ else:
     print("OK: Read %i language names." % len(language_names))
     # print([name for name in sorted(language_names.keys())])
 
-    if os.path.exists(os.path.join(json_path, "languages_additional.json")):
+    if (json_path / "languages_additional.json").exists():
         # Read additional languages which are only added via override file
         try:
             add_language_names = dict_from_file(
@@ -69,7 +68,7 @@ else:
             )
 
     ignored = {}
-    if os.path.exists(os.path.join(json_path, "ignored.json")):
+    if (json_path / "ignored.json").exists():
         # Keep track of ignored languages, they may have been added via
         # languages_additional.json
         try:
@@ -85,16 +84,16 @@ else:
 
     for code in sorted(language_names.keys()):
         file_name = "%s.json" % code
-        if os.path.exists(os.path.join(languages_path, file_name)):
+        if (languages_path / file_name).exists():
             language_dict = dict_from_file(languages_path, code)
-            if os.path.exists(os.path.join(overrides_path, file_name)):
+            if (overrides_path / file_name).exists():
                 print("INFO: Using override JSON file for '%s'" % code)
                 update_language_dict(
                     language_dict, dict_from_file(overrides_path, code)
                 )
         else:
             language_dict = {}
-            if os.path.exists(os.path.join(overrides_path, file_name)):
+            if (overrides_path / file_name).exists():
                 print(
                     "INFO: Using override JSON file for custom definition "
                     f"'{code}'"
