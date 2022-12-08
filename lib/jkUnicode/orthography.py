@@ -1,8 +1,8 @@
-import os
+from __future__ import annotations
 
 from jkUnicode import UniInfo
 from jkUnicode.tools.jsonhelpers import dict_from_file
-
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
 
 
@@ -471,9 +471,7 @@ class OrthographyInfo:
         else:
             self.ui = ui
 
-        data_path = os.path.join(
-            os.path.dirname(os.path.realpath(__file__)), "json"
-        )
+        data_path = Path(__file__).resolve().parent / "json"
         master = dict_from_file(data_path, "language_characters")
         self.ignored_unicodes = set(IGNORED_UNICODES)
         self.orthographies = []
