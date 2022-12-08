@@ -11,7 +11,7 @@ from jkUnicode.tools.xmlhelpers import filtered_char_list
 from jkUnicode.aglfn import getGlyphnameForUnicode
 from jkUnicode.tools.jsonhelpers import json_to_file, clean_json_dir
 from pathlib import Path
-from typing import Dict, List
+from typing import Any, Dict, List, Tuple
 from zipfile import ZipFile
 
 
@@ -60,7 +60,7 @@ def generate_language_tags(data_path: Path) -> None:
         return
 
     with codecs.open(str(data_path), "rb", "utf-8") as f:
-        header = f.readline()
+        _ = f.readline()
         lines = f.readlines()
 
     lines = unbreak_lines(lines)
@@ -128,7 +128,7 @@ def generate_language_data(zip_path: Path) -> None:
             try:
                 # Root is not a language, but the template file
                 del language_dict["root"]
-            except:
+            except KeyError:
                 pass
             print("OK: Read %i language names." % len(language_dict))
 
@@ -153,164 +153,15 @@ def generate_language_data(zip_path: Path) -> None:
         # Now parse all the separate language XML files
 
         print("Parsing language character data ...")
-
-        language_chars = {}
-        ignored_languages = copy.deepcopy(language_dict)
-
-        sep_path = json_path / "languages"
-
-        i = 0
-
-        for internal_path in z.namelist():
-            if xml_re.search(internal_path):
-                with z.open(internal_path) as lang_xml:
-
-                    char_dict = {}
-                    i += 1
-                    root = ET.parse(lang_xml).getroot()
-                    # print("File:", internal_path)
-
-                    # Extract code
-                    code = root.findall("identity/language")
-                    if len(code) == 0:
-                        print(
-                            "ERROR: Language code not found in file '%s'"
-                            % internal_path
-                        )
-                        code = None
-                    elif len(code) == 1:
-                        code = code[0].attrib["type"]
-                    else:
-                        print(
-                            "ERROR: Language code ambiguous in file '%s'"
-                            % internal_path
-                        )
-                        code = None
-                    # print("    Code:", code)
-
-                    # Extract script
-                    script = root.findall("identity/script")
-                    if len(script) == 0:
-                        # print("WARNING: Script not found in file '%s'" % internal_path)
-                        script = "DFLT"
-                    elif len(script) == 1:
-                        script = script[0].attrib["type"]
-                    else:
-                        print(
-                            "ERROR: Script ambiguous in file '%s'"
-                            % internal_path
-                        )
-                        script = None
-                    # print("    Script:", script)
-
-                    # Extract territory
-                    territory = root.findall("identity/territory")
-                    if len(territory) == 0:
-                        # print("WARNING: Territory not found in file '%s'" % internal_path)
-                        territory = "dflt"
-                    elif len(territory) == 1:
-                        territory = territory[0].attrib["type"]
-                    else:
-                        print(
-                            "ERROR: Territory ambiguous in file '%s'"
-                            % internal_path
-                        )
-                        territory = None
-                    # print("    Territory:", territory)
-
-                    # Extract characters
-                    ec = root.findall("characters/exemplarCharacters")
-                    for c in ec:
-                        if "type" not in c.attrib:
-                            # Main entry
-                            u_list = format_char_list(
-                                filtered_char_list(c.text)
-                            )
-                            if u_list:
-                                char_dict["base"] = u_list
-                        elif "type" in c.attrib:
-                            t = c.attrib["type"]
-                            if t in ["auxiliary", "punctuation"]:
-                                if t == "auxiliary":
-                                    t = "optional"
-                                u_list = format_char_list(
-                                    filtered_char_list(c.text)
-                                )
-                                if u_list:
-                                    char_dict[t] = u_list
-                    if char_dict:
-                        if code in language_dict:
-                            # print("Add information for", code)
-                            if code not in language_chars:
-                                # print("    Add entry for code to master dict:", code)
-                                language_chars[code] = {}
-                            if script not in language_chars[code]:
-                                # print("    Add entry for script/code to master dict:", script)
-                                language_chars[code][script] = {}
-
-                            # Found best matching entry from language_dict
-                            c_t_key = "%s_%s" % (code, territory)
-                            c_s_key = "%s_%s" % (code, script)
-                            all_key = "%s_%s_%s" % (code, script, territory)
-                            found = False
-                            for key in [all_key, c_t_key, c_s_key, code]:
-                                if key in language_dict:
-                                    found = True
-                                    name = language_dict[key]
-                                    try:
-                                        del ignored_languages[key]
-                                    except KeyError:
-                                        pass
-                                    break
-                            if not found:
-                                print(
-                                    "Could not determine name for %s/%s/%s"
-                                    % (script, code, territory)
-                                )
-                                name = "Unknown"
-
-                            # Build name including script or territory
-                            if script == "DFLT":
-                                if territory != "dflt":
-                                    name += " (%s)" % (
-                                        territory_dict[territory]
-                                        if territory in territory_dict
-                                        else territory,
-                                    )
-                            else:
-                                if territory == "dflt":
-                                    name += " (%s)" % (
-                                        script_dict[script]
-                                        if script in script_dict
-                                        else script,
-                                    )
-                                else:
-                                    name += " (%s, %s)" % (
-                                        script_dict[script]
-                                        if script in script_dict
-                                        else script,
-                                        territory_dict[territory]
-                                        if territory in territory_dict
-                                        else territory,
-                                    )
-
-                            language_chars[code][script][territory] = {
-                                "name": name,
-                                "unicodes": char_dict,
-                            }
-                            # if territory in territory_dict:
-                            #   language_chars[code][script][territory]["territory"] = territory_dict[territory]
-                        else:
-                            if code != "root":
-                                print(f"Language is not in master list: {code}")
-                    else:
-                        pass
-                        # print("    XML for %s (%s/%s/%s) contains no character information" % (language_dict[code], script, code, territory))
-
-        print(f"Parsed {i} files.")
+        language_chars, ignored_languages = parse_lang_char_data(
+            z, language_dict, script_dict, territory_dict
+        )
 
         for code in ignored_languages:
             del language_dict[code]
+
+        sep_path = json_path / "languages"
+
         clean_json_dir(sep_path)
 
         json_to_file(json_path, "languages", language_dict)
@@ -318,6 +169,165 @@ def generate_language_data(zip_path: Path) -> None:
         for code, v in language_chars.items():
             # print("json_to_file:", "%s" % code)
             json_to_file(sep_path, "%s" % code, v)
+
+
+def extract_lang_code(internal_path, root) -> str | None:
+    # Extract code
+    code = root.findall("identity/language")
+    if len(code) == 0:
+        print("ERROR: Language code not found in file '%s'" % internal_path)
+        return
+    elif len(code) == 1:
+        return code[0].attrib["type"]
+    else:
+        print("ERROR: Language code ambiguous in file '%s'" % internal_path)
+
+
+def extract_script_code(internal_path, root) -> str | None:
+    # Extract script
+    script = root.findall("identity/script")
+    if len(script) == 0:
+        # print("WARNING: Script not found in file '%s'" % internal_path)
+        return "DFLT"
+    elif len(script) == 1:
+        return script[0].attrib["type"]
+    else:
+        print("ERROR: Script ambiguous in file '%s'" % internal_path)
+
+
+def extract_territory_code(internal_path, root) -> str | None:
+    # Extract territory
+    territory = root.findall("identity/territory")
+    if len(territory) == 0:
+        # print("WARNING: Territory not found in file '%s'" % internal_path)
+        return "dflt"
+    elif len(territory) == 1:
+        return territory[0].attrib["type"]
+    else:
+        print("ERROR: Territory ambiguous in file '%s'" % internal_path)
+
+
+def extract_characters(root) -> Dict:
+    # Extract characters
+    char_dict = {}
+    ec = root.findall("characters/exemplarCharacters")
+    for c in ec:
+        if "type" not in c.attrib:
+            # Main entry
+            u_list = format_char_list(filtered_char_list(c.text))
+            if u_list:
+                char_dict["base"] = u_list
+        elif "type" in c.attrib:
+            t = c.attrib["type"]
+            if t in ["auxiliary", "punctuation"]:
+                if t == "auxiliary":
+                    t = "optional"
+                u_list = format_char_list(filtered_char_list(c.text))
+                if u_list:
+                    char_dict[t] = u_list
+    return char_dict
+
+
+def parse_lang_char_data(
+    z, language_dict, script_dict, territory_dict
+) -> Tuple[Dict[str, Any], List[str]]:
+    language_chars = {}
+    ignored_languages = copy.deepcopy(language_dict)
+
+    i = 0
+
+    for internal_path in z.namelist():
+        if not xml_re.search(internal_path):
+            continue
+
+        with z.open(internal_path) as lang_xml:
+            i += 1
+
+            root = ET.parse(lang_xml).getroot()
+            # print("File:", internal_path)
+
+            code = extract_lang_code(internal_path, root)
+            script = extract_script_code(internal_path, root)
+            territory = extract_territory_code(internal_path, root)
+
+            char_dict = extract_characters(root)
+
+            if not char_dict:
+                # print(
+                #     "    XML for %s (%s/%s/%s) contains no character information"
+                #     % (language_dict[code], script, code, territory)
+                # )
+                continue
+
+            if code not in language_dict:
+                if code != "root":
+                    print(f"Language is not in master list: {code}")
+                continue
+
+            # print("Add information for", code)
+            if code not in language_chars:
+                # print("    Add entry for code to master dict:", code)
+                language_chars[code] = {}
+
+            if script not in language_chars[code]:
+                # print("    Add entry for script/code to master dict:", script)
+                language_chars[code][script] = {}
+
+            # Found best matching entry from language_dict
+            c_t_key = "%s_%s" % (code, territory)
+            c_s_key = "%s_%s" % (code, script)
+            all_key = "%s_%s_%s" % (code, script, territory)
+            found = False
+            name = "Unknown"
+            for key in [all_key, c_t_key, c_s_key, code]:
+                if key in language_dict:
+                    found = True
+                    name = language_dict[key]
+                    try:
+                        del ignored_languages[key]
+                    except KeyError:
+                        pass
+                    break
+            if not found:
+                print(
+                    "Could not determine name for %s/%s/%s"
+                    % (script, code, territory)
+                )
+
+            # Build name including script or territory
+            if script == "DFLT":
+                if territory != "dflt":
+                    name += " (%s)" % (
+                        territory_dict[territory]
+                        if territory in territory_dict
+                        else territory,
+                    )
+            else:
+                if territory == "dflt":
+                    name += " (%s)" % (
+                        script_dict[script]
+                        if script in script_dict
+                        else script,
+                    )
+                else:
+                    name += " (%s, %s)" % (
+                        script_dict[script]
+                        if script in script_dict
+                        else script,
+                        territory_dict[territory]
+                        if territory in territory_dict
+                        else territory,
+                    )
+
+            language_chars[code][script][territory] = {
+                "name": name,
+                "unicodes": char_dict,
+            }
+            # if territory in territory_dict:
+            #   language_chars[code][script][territory]["territory"] = territory_dict[territory]
+
+    print(f"Parsed {i} files.")
+    return language_chars, ignored_languages
 
 
 if __name__ == "__main__":
