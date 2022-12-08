@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import copy, os, re
+import codecs
+import copy
+import os
+import re
 import xml.etree.ElementTree as ET
-from zipfile import ZipFile
+
 from jkUnicode.tools.xmlhelpers import filtered_char_list
 from jkUnicode.aglfn import getGlyphnameForUnicode
 from jkUnicode.tools.jsonhelpers import json_to_file, clean_json_dir
 from pathlib import Path
+from typing import Dict, List
+from zipfile import ZipFile
 
 
 # FIXME
