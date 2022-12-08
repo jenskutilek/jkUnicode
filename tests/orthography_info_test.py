@@ -1,5 +1,5 @@
 import unittest
-from jkUnicode.orthography import OrthographyInfo, Orthography
+from jkUnicode.orthography import OrthographyInfo
 from os.path import dirname, join
 
 
