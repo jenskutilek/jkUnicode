@@ -28,7 +28,7 @@ tags_path = base_path / "data" / "language-subtag-registry"
 json_path = base_path / "json"
 
 # Path inside the zip file
-xml_re = re.compile("^common/main/.+\.xml$")
+xml_re = re.compile(r"^common/main/.+\.xml$")
 en_path = "common/main/en.xml"
 
 
