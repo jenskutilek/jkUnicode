@@ -171,16 +171,17 @@ def generate_language_data(zip_path: Path) -> None:
             json_to_file(sep_path, "%s" % code, v)
 
 
-def extract_lang_code(internal_path, root) -> str | None:
+def extract_lang_code(internal_path: str, root) -> str | None:
     # Extract code
     code = root.findall("identity/language")
     if len(code) == 0:
         print("ERROR: Language code not found in file '%s'" % internal_path)
-        return
+        return None
     elif len(code) == 1:
         return code[0].attrib["type"]
     else:
         print("ERROR: Language code ambiguous in file '%s'" % internal_path)
+    return None
 
 
 def extract_script_code(internal_path, root) -> str | None:
@@ -193,6 +194,7 @@ def extract_script_code(internal_path, root) -> str | None:
         return script[0].attrib["type"]
     else:
         print("ERROR: Script ambiguous in file '%s'" % internal_path)
+    return None
 
 
 def extract_territory_code(internal_path, root) -> str | None:
@@ -205,9 +207,10 @@ def extract_territory_code(internal_path, root) -> str | None:
         return territory[0].attrib["type"]
     else:
         print("ERROR: Territory ambiguous in file '%s'" % internal_path)
+    return None
 
 
-def extract_characters(root) -> Dict:
+def extract_characters(root) -> Dict[str, List[int]]:
     # Extract characters
     char_dict = {}
     ec = root.findall("characters/exemplarCharacters")
@@ -228,10 +231,21 @@ def extract_characters(root) -> Dict:
     return char_dict
 
 
+CharDict = Dict[str, List[int]]
+
+LanguageCharsDict = Dict[
+    str,  # code
+    Dict[
+        str,  # script
+        Dict[str, Dict[str, CharDict | str]],  # territory;  name, unicodes
+    ],
+]
+
+
 def parse_lang_char_data(
     z, language_dict, script_dict, territory_dict
-) -> Tuple[Dict[str, Any], List[str]]:
-    language_chars = {}
+) -> Tuple[LanguageCharsDict, List[str]]:
+    language_chars: LanguageCharsDict = {}
     ignored_languages = copy.deepcopy(language_dict)
 
     i = 0
@@ -267,10 +281,12 @@ def parse_lang_char_data(
             # print("Add information for", code)
             if code not in language_chars:
                 # print("    Add entry for code to master dict:", code)
+                assert code is not None
                 language_chars[code] = {}
 
             if script not in language_chars[code]:
                 # print("    Add entry for script/code to master dict:", script)
+                assert script is not None
                 language_chars[code][script] = {}
 
             # Found best matching entry from language_dict
@@ -319,6 +335,7 @@ def parse_lang_char_data(
                         else territory,
                     )
 
+            assert territory is not None
             language_chars[code][script][territory] = {
                 "name": name,
                 "unicodes": char_dict,
