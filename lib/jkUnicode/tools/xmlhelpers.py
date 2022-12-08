@@ -60,19 +60,14 @@ def filtered_char_list(xml_char_list: str, debug: bool = False) -> List[str]:
         print("ERROR: Character list string from XML was not wrapped in [].")
         return []
 
-    filtered = filter_char_list(xml_char_list)
-    return expand_ranges(filtered)
-
-
-def filter_char_list(xml_char_list):
     filtered = FilteredList()
     in_escape = False
     in_uniesc = False
     buf = Buffer()
 
     for c in xml_char_list:
-        # if debug:
-        #     print("Chunk: '%s', buffer:'%s'" % (c, buf))
+        if debug:
+            print("Chunk: '%s', buffer:'%s'" % (c, buf))
         if in_uniesc:
             if c in "\\}{- ":
                 filtered.add(buf.flush())
@@ -124,12 +119,11 @@ def filter_char_list(xml_char_list):
                     in_escape = False
                 filtered.add(c)
                 buf.clear()
-            # if debug:
-            #     print("New buffer: '%s'" % buf)
-    return filtered
+            if debug:
+                print("New buffer: '%s'" % buf)
 
+    filtered.add(buf.flush())
 
-def expand_ranges(filtered):
     result = filtered.get()
 
     # Expand ranges
@@ -145,8 +139,9 @@ def expand_ranges(filtered):
                 final.append(chr(g))
         else:
             final.append(f)
-    # if debug:
-    #     print(final)
+
+    if debug:
+        print(final)
     return sorted(list(set(final)))
 
 
