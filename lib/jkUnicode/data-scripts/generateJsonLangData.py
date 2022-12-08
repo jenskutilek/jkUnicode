@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from __future__ import annotations
 
 import copy, os, re
 import xml.etree.ElementTree as ET
@@ -6,15 +7,20 @@ from zipfile import ZipFile
 from jkUnicode.tools.xmlhelpers import filtered_char_list
 from jkUnicode.aglfn import getGlyphnameForUnicode
 from jkUnicode.tools.jsonhelpers import json_to_file, clean_json_dir
+from pathlib import Path
 
 
-base_path = os.path.split(os.path.dirname(os.path.realpath(__file__)))[0]
+# FIXME
+base_path = Path(os.path.split(Path(__file__).resolve().parent)[0])
 
 # Input path for the CLDR zip file
-zip_path = os.path.join(base_path, "data", "core.zip")
+zip_path = base_path / "data" / "core.zip"
+
+# Input path for BCP47 language subtag data
+tags_path = base_path / "data" / "language-subtag-registry"
 
 # Output path for JSON files
-json_path = os.path.join(base_path, "json")
+json_path = base_path / "json"
 
 # Path inside the zip file
 xml_re = re.compile("^common/main/.+\.xml$")
@@ -40,9 +46,9 @@ def format_char_list(char_list):
     ]
 
 
-def generate_language_data(zip_path):
+def generate_language_data(zip_path: Path) -> None:
 
-    if not (os.path.exists(zip_path)):
+    if not zip_path.exists():
         print(
             "Zip file with XML data not found.\nPlease use the shell script "
             "'updateLangData.sh' to download it."
@@ -97,7 +103,7 @@ def generate_language_data(zip_path):
         language_chars = {}
         ignored_languages = copy.deepcopy(language_dict)
 
-        sep_path = os.path.join(json_path, "languages")
+        sep_path = json_path / "languages"
 
         i = 0
 
