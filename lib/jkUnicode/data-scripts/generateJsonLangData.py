@@ -12,14 +12,19 @@ from jkUnicode.aglfn import getGlyphnameForUnicode
 from jkUnicode.tools.jsonhelpers import json_to_file, clean_json_dir
 from pathlib import Path
 from typing import Dict, List, Tuple
-from typing_extensions import TypeAlias
+from typing_extensions import TypeAlias, TypedDict
 from zipfile import ZipFile
 
 
-CharDict: TypeAlias = Dict[str, List[int]]
+CharDict: TypeAlias = Dict[str, List[str]]
 
-LanguageTerritoryDict: TypeAlias = Dict[str, Dict[str, str] | Dict[str, CharDict]]
-LanguageCharsDict: TypeAlias = Dict[str, Dict[str, LanguageTerritoryDict]]
+
+class LanguageDict(TypedDict):
+    name: str
+    unicodes: CharDict
+
+
+LanguageCharsDict: TypeAlias = Dict[str, Dict[str, Dict[str, LanguageDict]]]
 
 
 # FIXME
@@ -217,7 +222,7 @@ def extract_territory_code(internal_path, root) -> str | None:
     return None
 
 
-def extract_characters(root) -> Dict[str, List[int]]:
+def extract_characters(root) -> CharDict:
     # Extract characters
     char_dict = {}
     ec = root.findall("characters/exemplarCharacters")
