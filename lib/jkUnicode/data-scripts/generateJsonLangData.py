@@ -11,7 +11,7 @@ from jkUnicode.tools.xmlhelpers import filtered_char_list
 from jkUnicode.aglfn import getGlyphnameForUnicode
 from jkUnicode.tools.jsonhelpers import json_to_file, clean_json_dir
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Dict, List, Tuple
 from zipfile import ZipFile
 
 
