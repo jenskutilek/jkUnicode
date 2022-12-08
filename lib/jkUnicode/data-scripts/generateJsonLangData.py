@@ -11,8 +11,15 @@ from jkUnicode.tools.xmlhelpers import filtered_char_list
 from jkUnicode.aglfn import getGlyphnameForUnicode
 from jkUnicode.tools.jsonhelpers import json_to_file, clean_json_dir
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, TypeAlias
 from zipfile import ZipFile
+
+
+CharDict: TypeAlias = Dict[str, List[int]]
+
+LanguageCharsDict: TypeAlias = Dict[
+    str, Dict[str, Dict[str, Dict[str, CharDict | str]]]
+]
 
 
 # FIXME
@@ -229,11 +236,6 @@ def extract_characters(root) -> Dict[str, List[int]]:
                 if u_list:
                     char_dict[t] = u_list
     return char_dict
-
-
-CharDict = Dict[str, List[int]]
-
-LanguageCharsDict = Dict[str, Dict[str, Dict[str, Dict[str, CharDict | str]]]]
 
 
 def parse_lang_char_data(
