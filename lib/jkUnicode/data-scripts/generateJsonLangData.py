@@ -233,13 +233,7 @@ def extract_characters(root) -> Dict[str, List[int]]:
 
 CharDict = Dict[str, List[int]]
 
-LanguageCharsDict = Dict[
-    str,  # code
-    Dict[
-        str,  # script
-        Dict[str, Dict[str, CharDict | str]],  # territory;  name, unicodes
-    ],
-]
+LanguageCharsDict = Dict[str, Dict[str, Dict[str, Dict[str, CharDict | str]]]]
 
 
 def parse_lang_char_data(
