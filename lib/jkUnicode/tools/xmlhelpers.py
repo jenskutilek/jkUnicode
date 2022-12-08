@@ -51,23 +51,15 @@ class FilteredList:
         return str(self._value)
 
 
-def filtered_char_list(xml_char_list: str, debug: bool = False) -> List[str]:
-    # Filter backslashes and other peculiarities of the XML format from the
-    # character list
-    if xml_char_list[0] == "[" and xml_char_list[-1] == "]":
-        xml_char_list = xml_char_list[1:-1]
-    else:
-        print("ERROR: Character list string from XML was not wrapped in [].")
-        return []
-
+def unescape_char_list(xml_char_list: str):
     filtered = FilteredList()
     in_escape = False
     in_uniesc = False
     buf = Buffer()
 
     for c in xml_char_list:
-        if debug:
-            print("Chunk: '%s', buffer:'%s'" % (c, buf))
+        # if debug:
+        #     print("Chunk: '%s', buffer:'%s'" % (c, buf))
         if in_uniesc:
             if c in "\\}{- ":
                 filtered.add(buf.flush())
@@ -119,12 +111,24 @@ def filtered_char_list(xml_char_list: str, debug: bool = False) -> List[str]:
                     in_escape = False
                 filtered.add(c)
                 buf.clear()
-            if debug:
-                print("New buffer: '%s'" % buf)
+            # if debug:
+            #     print("New buffer: '%s'" % buf)
 
     filtered.add(buf.flush())
 
-    result = filtered.get()
+    return filtered.get()
+
+
+def filtered_char_list(xml_char_list: str, debug: bool = False) -> List[str]:
+    # Filter backslashes and other peculiarities of the XML format from the
+    # character list
+    if xml_char_list[0] == "[" and xml_char_list[-1] == "]":
+        xml_char_list = xml_char_list[1:-1]
+    else:
+        print("ERROR: Character list string from XML was not wrapped in [].")
+        return []
+
+    result = unescape_char_list(xml_char_list)
 
     # Expand ranges
     final = []
