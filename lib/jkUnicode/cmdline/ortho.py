@@ -3,7 +3,6 @@
 
 import argparse
 from fontTools.ttLib import TTFont
-from jkUnicode import UniInfo
 from jkUnicode.orthography import OrthographyInfo
 
 
