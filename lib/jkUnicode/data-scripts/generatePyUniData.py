@@ -6,13 +6,13 @@ import os
 from os.path import exists
 
 aglfnAdditions = {
-    'NULL': 0x0000,
-    'CR': 0xd,
-    'twosuperior': 0x00B2,
-    'threesuperior': 0x00B3,
-    'onesuperior': 0x00B9,
-    'fi': 0xfb01,
-    'fl': 0xfb02,
+    "NULL": 0x0000,
+    "CR": 0xD,
+    "twosuperior": 0x00B2,
+    "threesuperior": 0x00B3,
+    "onesuperior": 0x00B9,
+    "fi": 0xFB01,
+    "fl": 0xFB02,
 }
 
 module_path = os.path.split(os.path.dirname(os.path.realpath(__file__)))[0]
@@ -29,16 +29,16 @@ def write_names():
     src_file = os.path.join(data_path, "UnicodeData.txt")
     if exists(src_file):
         with codecs.open(
-            os.path.join(module_path, "uniName.py"), 'w', encoding='utf-8'
+            os.path.join(module_path, "uniName.py"), "w", encoding="utf-8"
         ) as outfile:
             outfile.write(gen_message)
             outfile.write("uniName = {")
-            with codecs.open(src_file, encoding='utf-8') as f:
+            with codecs.open(src_file, encoding="utf-8") as f:
                 for line in f:
-                    elements = line.split(';')
-                    outfile.write("\n    0x%s: '%s'," % (
-                        elements[0], elements[1]
-                    ))
+                    elements = line.split(";")
+                    outfile.write(
+                        "\n    0x%s: '%s'," % (elements[0], elements[1])
+                    )
             outfile.write("\n}")
         print("OK.")
     else:
@@ -54,15 +54,15 @@ def write_case_mappings():
     src_file = os.path.join(data_path, "UnicodeData.txt")
     if exists(src_file):
         with codecs.open(
-            os.path.join(module_path, "uniCase.py"), 'w', encoding='utf-8'
+            os.path.join(module_path, "uniCase.py"), "w", encoding="utf-8"
         ) as outfile:
             outfile.write(gen_message)
             outfile.write("uniUpperCaseMapping = {")
             uc = []
             lc = []
-            with codecs.open(src_file, encoding='utf-8') as f:
+            with codecs.open(src_file, encoding="utf-8") as f:
                 for line in f:
-                    elements = line.strip().split(';')
+                    elements = line.strip().split(";")
 
                     # Uppercase mapping
                     ucm = elements[14]
@@ -81,7 +81,9 @@ def write_case_mappings():
             outfile.write("\n}\n")
         print("OK.")
     else:
-        print("WARNING: File UnicodeData.txt not found, Unicode case mapping data not regenerated.")
+        print(
+            "WARNING: File UnicodeData.txt not found, Unicode case mapping data not regenerated."
+        )
 
 
 def write_category():
@@ -89,20 +91,23 @@ def write_category():
     print("Writing Unicode Categories ...")
     src_file = os.path.join(data_path, "UnicodeData.txt")
     if exists(src_file):
-        with codecs.open(os.path.join(module_path, "uniCat.py"), 'w', encoding='utf-8') as outfile:
+        with codecs.open(
+            os.path.join(module_path, "uniCat.py"), "w", encoding="utf-8"
+        ) as outfile:
             outfile.write(gen_message)
             outfile.write("uniCat = {")
-            with codecs.open(src_file, encoding='utf-8') as f:
+            with codecs.open(src_file, encoding="utf-8") as f:
                 for line in f:
-                    elements = line.split(';')
-                    outfile.write("\n    0x%s: '%s'," % (
-                        elements[0],
-                        elements[2]
-                    ))
+                    elements = line.split(";")
+                    outfile.write(
+                        "\n    0x%s: '%s'," % (elements[0], elements[2])
+                    )
             outfile.write("\n}")
         print("OK.")
     else:
-        print("WARNING: File UnicodeData.txt not found, Unicode category data not regenerated.")
+        print(
+            "WARNING: File UnicodeData.txt not found, Unicode category data not regenerated."
+        )
 
 
 def write_blocks():
@@ -111,21 +116,20 @@ def write_blocks():
     src_file = os.path.join(data_path, "Blocks.txt")
     if exists(src_file):
         with codecs.open(
-            os.path.join(module_path, "uniBlockData.py"), 'w', encoding='utf-8'
+            os.path.join(module_path, "uniBlockData.py"), "w", encoding="utf-8"
         ) as outfile:
             outfile.write(gen_message)
             outfile.write("uniBlocks = {")
-            with codecs.open(src_file, encoding='utf-8') as f:
+            with codecs.open(src_file, encoding="utf-8") as f:
                 for i, line in enumerate(f):
                     if line.startswith("#"):
                         continue
                     if len(line.strip()) > 0:
-                        elements = line.split('; ')
+                        elements = line.split("; ")
                         if len(elements) != 2:
                             print(
-                                "ERROR in Line %i while splitting line: %s" % (
-                                    i, elements
-                                )
+                                "ERROR in Line %i while splitting line: %s"
+                                % (i, elements)
                             )
                             print("      %s" % line)
                         else:
@@ -133,23 +137,28 @@ def write_blocks():
                             start_end = c_range.split("..")
                             if len(start_end) != 2:
                                 print(
-                                    "ERROR in Line %i while splitting range: %s" % (
-                                        i, start_end
-                                    )
+                                    "ERROR in Line %i while splitting range: %s"
+                                    % (i, start_end)
                                 )
                                 print("      %s" % line)
                             else:
                                 start = int(start_end[0], 16)
-                                end   = int(start_end[1], 16)
+                                end = int(start_end[1], 16)
                                 outfile.write(
-                                    "\n    (0x%04x, 0x%04x): '%s', # %i characters" % (
-                                        start, end, name.strip(), end-start+1
+                                    "\n    (0x%04x, 0x%04x): '%s', # %i characters"
+                                    % (
+                                        start,
+                                        end,
+                                        name.strip(),
+                                        end - start + 1,
                                     )
                                 )
             outfile.write("\n}")
         print("OK.")
     else:
-        print("WARNING: File Blocks.txt not found, Unicode block data not regenerated.")
+        print(
+            "WARNING: File Blocks.txt not found, Unicode block data not regenerated."
+        )
 
 
 def write_decomposition():
@@ -159,15 +168,15 @@ def write_decomposition():
     if exists(src_file):
         with codecs.open(
             os.path.join(module_path, "uniDecomposition.py"),
-            'w',
-            encoding='utf-8'
+            "w",
+            encoding="utf-8",
         ) as outfile:
             outfile.write(gen_message)
             outfile.write("uniDecompositionMapping = {")
             dc = []
-            with codecs.open(src_file, encoding='utf-8') as f:
+            with codecs.open(src_file, encoding="utf-8") as f:
                 for line in f:
-                    elements = line.strip().split(';')
+                    elements = line.strip().split(";")
 
                     # Decomposition mapping
                     dcm = elements[5]
@@ -177,17 +186,16 @@ def write_decomposition():
                             dc.append((elements[0], codes))
 
             for code, decomp_sequence in dc:
-                outfile.write("\n    0x%s: [%s]," % (
-                    code,
-                    ", ".join([
-                        "0x%s" % d
-                        for d in decomp_sequence
-                    ])
-                ))
+                outfile.write(
+                    "\n    0x%s: [%s],"
+                    % (code, ", ".join(["0x%s" % d for d in decomp_sequence]))
+                )
             outfile.write("\n}\n")
         print("OK.")
     else:
-        print("WARNING: File UnicodeData.txt not found, Unicode name data not regenerated.")
+        print(
+            "WARNING: File UnicodeData.txt not found, Unicode name data not regenerated."
+        )
 
 
 def write_scripts():
@@ -196,16 +204,16 @@ def write_scripts():
     src_file = os.path.join(data_path, "Scripts.txt")
     if exists(src_file):
         with codecs.open(
-            os.path.join(module_path, "uniScriptData.py"), 'w', encoding='utf-8'
+            os.path.join(module_path, "uniScriptData.py"), "w", encoding="utf-8"
         ) as outfile:
             outfile.write(gen_message)
             outfile.write("uniScripts = {")
-            with codecs.open(src_file, encoding='utf-8') as f:
+            with codecs.open(src_file, encoding="utf-8") as f:
                 for line in f:
                     line = line.strip()
                     if not line or line.startswith("#"):
                         continue
-                    elements = line.split(';')
+                    elements = line.split(";")
                     rng = elements[0].strip()
                     script = elements[1].strip().split("#")[0].strip()
                     if ".." in rng:
@@ -213,11 +221,15 @@ def write_scripts():
                     else:
                         start = rng
                         end = rng
-                    outfile.write("\n    (0x%s, 0x%s): '%s'," % (start, end, script))
+                    outfile.write(
+                        "\n    (0x%s, 0x%s): '%s'," % (start, end, script)
+                    )
             outfile.write("\n}\n")
         print("OK.")
     else:
-        print("WARNING: File Scripts.txt not found, Unicode script data not regenerated.")
+        print(
+            "WARNING: File Scripts.txt not found, Unicode script data not regenerated."
+        )
 
 
 def write_aglfn():
@@ -226,22 +238,25 @@ def write_aglfn():
     src_file = os.path.join(data_path, "aglfn.txt")
     if exists(src_file):
         with codecs.open(
-            os.path.join(module_path, "aglfnData.py"), 'w', encoding='utf-8'
+            os.path.join(module_path, "aglfnData.py"), "w", encoding="utf-8"
         ) as outfile:
             outfile.write(gen_message)
             outfile.write("nameToUnicode = {")
-            with codecs.open(src_file, encoding='utf-8') as f:
+            with codecs.open(src_file, encoding="utf-8") as f:
                 for i, line in enumerate(f):
                     if line[0] != "#":
-                        elements = line.split(';')
+                        elements = line.split(";")
                         if len(elements) != 3:
                             print("ERROR parsing line %i: %s" % (i, line))
                         else:
-                            outfile.write("\n    '%s': 0x%s, # %s" % (
-                                elements[1],
-                                elements[0],
-                                elements[2].strip()
-                            ))
+                            outfile.write(
+                                "\n    '%s': 0x%s, # %s"
+                                % (
+                                    elements[1],
+                                    elements[0],
+                                    elements[2].strip(),
+                                )
+                            )
             if aglfnAdditions:
                 outfile.write("\n    # Local additions:")
             for k in sorted(aglfnAdditions.keys()):
@@ -257,49 +272,65 @@ if __name__ == "__main__":
         description="Regenerate Unicode and glyph name data."
     )
     parser.add_argument(
-        '-a', '--aglfn',
-        action="store_true", default=False,
-        help='Regenerate glyph name data'
+        "-a",
+        "--aglfn",
+        action="store_true",
+        default=False,
+        help="Regenerate glyph name data",
     )
     parser.add_argument(
-        '-b', '--block',
-        action="store_true", default=False,
-        help='Regenerate Unicode block data'
+        "-b",
+        "--block",
+        action="store_true",
+        default=False,
+        help="Regenerate Unicode block data",
     )
     parser.add_argument(
-        '-c', '--case',
-        action="store_true", default=False,
-        help='Regenerate Unicode case mapping data'
+        "-c",
+        "--case",
+        action="store_true",
+        default=False,
+        help="Regenerate Unicode case mapping data",
     )
     parser.add_argument(
-        '-d', '--decomposition',
-        action="store_true", default=False,
-        help='Regenerate Unicode decomposition data'
+        "-d",
+        "--decomposition",
+        action="store_true",
+        default=False,
+        help="Regenerate Unicode decomposition data",
     )
     parser.add_argument(
-        '-n', '--name',
-        action="store_true", default=False,
-        help='Regenerate Unicode name data'
+        "-n",
+        "--name",
+        action="store_true",
+        default=False,
+        help="Regenerate Unicode name data",
     )
     parser.add_argument(
-        '-t', '--category',
-        action="store_true", default=False,
-        help='Regenerate Unicode category data'
+        "-t",
+        "--category",
+        action="store_true",
+        default=False,
+        help="Regenerate Unicode category data",
     )
     parser.add_argument(
-        '-s', '--script',
-        action="store_true", default=False,
-        help='Regenerate Unicode script data'
+        "-s",
+        "--script",
+        action="store_true",
+        default=False,
+        help="Regenerate Unicode script data",
     )
     args = parser.parse_args()
-    if not any([
-        args.aglfn,
-        args.case,
-        args.decomposition,
-        args.name,
-        args.category,
-        args.script,
-    ]):
+    if not any(
+        [
+            args.aglfn,
+            args.case,
+            args.decomposition,
+            args.name,
+            args.category,
+            args.script,
+        ]
+    ):
         write_aglfn()
         write_blocks()
         write_case_mappings()

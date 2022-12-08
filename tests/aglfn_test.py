@@ -24,9 +24,7 @@ class TestAglfn(unittest.TestCase):
         )
 
     def test_uni_bmp(self):
-        self._check_dict(
-            {"union": 0x222A, "uni0162": 0x162}
-        )
+        self._check_dict({"union": 0x222A, "uni0162": 0x162})
 
     def test_u(self):
         self._check_dict(
@@ -43,14 +41,10 @@ class TestAglfn(unittest.TestCase):
         )
 
     def test_ornaments(self):
-        self._check_dict(
-            {"orn000": 0xEA00, "orn999": 0xEA00 + 999}
-        )
+        self._check_dict({"orn000": 0xEA00, "orn999": 0xEA00 + 999})
 
     def test_ligatures(self):
-        self._check_dict(
-            {"f_l": None, "uni0162_h": None}
-        )
+        self._check_dict({"f_l": None, "uni0162_h": None})
 
 
 if __name__ == "__main__":

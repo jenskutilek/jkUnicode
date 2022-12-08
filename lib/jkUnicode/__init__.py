@@ -103,7 +103,6 @@ class UniInfo:
         self._load_uni_name()
         self.unicode: Optional[int] = uni
 
-
     def _load_uni_name(self, file_name: str = "uni_names") -> None:
         """Import uniName from JSON or from Python"""
         # Loading the data from JSON is not faster than importing a python
@@ -153,7 +152,7 @@ class UniInfo:
         self._uc_mapping: Optional[int] = None
         self._lc_mapping: Optional[int] = None
         self._dc_mapping: Optional[List[int]] = None
-    
+
         if self._unicode is None:
             self._categoryShort = "<undefined>"
             self._category = "<undefined>"
@@ -197,9 +196,7 @@ class UniInfo:
             if cs is None:
                 self._category = "<undefined>"
             else:
-                self._category = categoryName.get(
-                    cs, "<undefined>"
-                )
+                self._category = categoryName.get(cs, "<undefined>")
         return self._category
 
     @property
@@ -275,7 +272,9 @@ class UniInfo:
             if self._unicode is not None:
                 try:
                     if self._unicode is not None:
-                        self._dc_mapping = uniDecompositionMapping[self._unicode]
+                        self._dc_mapping = uniDecompositionMapping[
+                            self._unicode
+                        ]
                 except KeyError:
                     self._dc_mapping = []
             else:

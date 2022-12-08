@@ -12,5 +12,5 @@ def get_script(codepoint):
 
 
 if __name__ == "__main__":
-    print(get_script(0x4ff))
+    print(get_script(0x4FF))
     print(get_script(0x500))

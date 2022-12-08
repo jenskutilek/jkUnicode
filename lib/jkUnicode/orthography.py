@@ -140,7 +140,7 @@ class Orthography:
         information.
         """
         return self._ui
-    
+
     @property
     def ignored_unicodes(self) -> Set[int]:
         """
@@ -152,10 +152,7 @@ class Orthography:
             return set()
         return self.info.ignored_unicodes
 
-
-    def cased(
-        self, codepoint_list: List[int]
-    ) -> List[int]:
+    def cased(self, codepoint_list: List[int]) -> List[int]:
         """
         Return a list with its Unicode case mapping toggled. If a codepoint has
         no lowercase or uppercase mapping, it is dropped from the list.
@@ -353,9 +350,7 @@ class Orthography:
         self.missing_optional = self.unicodes_optional - cmap_set
         self.missing_punctuation = self.unicodes_punctuation - cmap_set
         self.missing_all = (
-            self.missing_base
-            | self.missing_optional
-            | self.missing_punctuation
+            self.missing_base | self.missing_optional | self.missing_punctuation
         )
 
         self.num_missing_base: int = len(self.missing_base)
@@ -535,7 +530,7 @@ class OrthographyInfo:
                 self._codepoints = newCodepoints
                 for o in self.orthographies:
                     o.scan_cmap()
-    
+
     @property
     def codepoints(self) -> Set[int]:
         return self._codepoints
@@ -554,7 +549,9 @@ class OrthographyInfo:
                 else:
                     self._reverse_cmap[u] = [i]
 
-    def orthography(self, code: str, script: str = "DFLT", territory: str = "dflt") -> Optional[Orthography]:
+    def orthography(
+        self, code: str, script: str = "DFLT", territory: str = "dflt"
+    ) -> Optional[Orthography]:
         """
         Access a particular orthography by its language, script and territory
         code.
@@ -571,7 +568,9 @@ class OrthographyInfo:
             return None
         return self.orthographies[i]
 
-    def get_orthographies_for_char(self, char: str) -> List[Optional[Orthography]]:
+    def get_orthographies_for_char(
+        self, char: str
+    ) -> List[Optional[Orthography]]:
         """
         Get a list of orthographies which use a supplied character at base
         level.
@@ -584,7 +583,9 @@ class OrthographyInfo:
         ol = self._reverse_cmap.get(ord(char), [])
         return [self.orthographies[i] for i in ol]
 
-    def get_orthographies_for_unicode(self, u: int) -> List[Optional[Orthography]]:
+    def get_orthographies_for_unicode(
+        self, u: int
+    ) -> List[Optional[Orthography]]:
         """
         Get a list of orthographies which use a supplied codepoint at base
         level.
@@ -644,7 +645,9 @@ class OrthographyInfo:
 
     # Convenience functions
 
-    def get_supported_orthographies(self, full_only: bool = False) -> List[Orthography]:
+    def get_supported_orthographies(
+        self, full_only: bool = False
+    ) -> List[Orthography]:
         """
         Get a list of supported orthographies for a character list.
 
@@ -656,7 +659,9 @@ class OrthographyInfo:
             return [o for o in self.orthographies if o.support_full]
         return [o for o in self.orthographies if o.support_basic]
 
-    def get_supported_orthographies_minimum_inclusive(self) -> List[Orthography]:
+    def get_supported_orthographies_minimum_inclusive(
+        self,
+    ) -> List[Orthography]:
         """
         Get a list of orthographies with minimal or better support for the
         current cmap.
@@ -721,9 +726,8 @@ class OrthographyInfo:
             for u in sorted(list(getattr(ot, attr))):
                 self.ui.unicode = u
                 print(
-                    "    0x%04X\t%s\t%s" % (
-                        u, self.ui.glyphname, self.ui.nice_name
-                    )
+                    "    0x%04X\t%s\t%s"
+                    % (u, self.ui.glyphname, self.ui.nice_name)
                 )
 
     def report_supported_minimum_inclusive(self) -> None:
@@ -799,9 +803,7 @@ class OrthographyInfo:
         possible_pairs = set()
         for ot in m:
             unicodes = ot.unicodes_base  # | ot.unicodes_optional
-            ot_pairs = set(
-                itertools.combinations_with_replacement(unicodes, 2)
-            )
+            ot_pairs = set(itertools.combinations_with_replacement(unicodes, 2))
             print(
                 f"{ot.name}: {len(unicodes)} characters, "
                 f"{len(ot_pairs)} possible combinations"

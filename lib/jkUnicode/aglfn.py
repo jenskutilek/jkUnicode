@@ -28,7 +28,7 @@ def getUnicodeForGlyphname(name):
         except:
             return None
     elif ornName.match(name):
-        return 0xea00 + int(name[3:6])
+        return 0xEA00 + int(name[3:6])
     else:
         return None
 
@@ -43,7 +43,7 @@ def getGlyphnameForUnicode(code):
         return None
     elif code in unicodeToName.keys():
         return unicodeToName[code]
-    elif code < 0xffff:
+    elif code < 0xFFFF:
         return "uni%04X" % code
     else:
         return "u%05X" % code
