@@ -5,3 +5,6 @@
 # There seems to be no stable URL for the current version.
 curl -O http://unicode.org/Public/cldr/41/core.zip
 #unzip core.zip -d core/
+
+# BCP 47 language subtags
+curl -O https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry

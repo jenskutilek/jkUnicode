@@ -51,6 +51,54 @@ def format_char_list(char_list):
     ]
 
 
+def generate_language_tags(data_path: Path) -> None:
+    if not data_path.exists():
+        print(
+            "File with language subtag data not found.\nPlease use the shell "
+            f"script 'updateLangData.sh' to download '{data_path.name}'."
+        )
+        return
+
+    with codecs.open(str(data_path), "rb", "utf-8") as f:
+        header = f.readline()
+        lines = f.readlines()
+
+    lines = unbreak_lines(lines)
+    languages = []
+    lang: Dict[str, str] | None = None
+    for line in lines:
+        line = line.strip()
+        if line == "%%":
+            if lang is not None:
+                languages.append(lang)
+            lang = {}
+        else:
+            parts = line.split(":", 1)
+            assert len(parts) == 2
+            key, value = parts
+            assert lang is not None
+            lang[key] = value.strip()
+    from pprint import pprint
+
+    pprint(languages)
+
+
+def unbreak_lines(lines: List[str]) -> List[str]:
+    # Remove continued lines (marked by two spaces at the beginning)
+    long_lines: List[str] = []
+    line_buffer = ""
+    for line in lines:
+        if line.startswith("  "):
+            line_buffer += " " + line.strip()
+        else:
+            if line_buffer:
+                long_lines.append(line_buffer)
+            line_buffer = line
+    if line_buffer:
+        long_lines.append(line_buffer)
+    return long_lines
+
+
 def generate_language_data(zip_path: Path) -> None:
 
     if not zip_path.exists():
@@ -273,4 +321,5 @@ def generate_language_data(zip_path: Path) -> None:
 
 
 if __name__ == "__main__":
+    generate_language_tags(tags_path)
     generate_language_data(zip_path)
