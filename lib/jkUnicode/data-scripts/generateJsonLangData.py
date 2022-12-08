@@ -110,7 +110,7 @@ def generate_language_data(zip_path: Path) -> None:
 
     with ZipFile(zip_path, "r") as z:
         names = z.namelist()
-        if not en_path in names:
+        if en_path not in names:
             print("'%s' not found in zip file." % en_path)
             return
 
@@ -241,10 +241,10 @@ def generate_language_data(zip_path: Path) -> None:
                     if char_dict:
                         if code in language_dict:
                             # print("Add information for", code)
-                            if not code in language_chars:
+                            if code not in language_chars:
                                 # print("    Add entry for code to master dict:", code)
                                 language_chars[code] = {}
-                            if not script in language_chars[code]:
+                            if script not in language_chars[code]:
                                 # print("    Add entry for script/code to master dict:", script)
                                 language_chars[code][script] = {}
 
@@ -259,7 +259,7 @@ def generate_language_data(zip_path: Path) -> None:
                                     name = language_dict[key]
                                     try:
                                         del ignored_languages[key]
-                                    except:
+                                    except KeyError:
                                         pass
                                     break
                             if not found:

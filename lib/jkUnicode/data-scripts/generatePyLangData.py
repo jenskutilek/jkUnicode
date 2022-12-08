@@ -100,7 +100,7 @@ else:
                     f"'{code}'"
                 )
                 language_dict = dict_from_file(overrides_path, code)
-            elif not "_" in code or not code.split("_")[0] in language_names:
+            elif "_" not in code or code.split("_")[0] not in language_names:
                 # The language code is territory or script specific, but the
                 # parent language file is not found.
                 print(

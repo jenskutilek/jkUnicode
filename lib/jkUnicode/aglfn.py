@@ -25,7 +25,7 @@ def getUnicodeForGlyphname(name):
     elif name[0] == "u" and len(name) == 6:
         try:
             return int(name[1:], 16)
-        except:
+        except ValueError:
             return None
     elif ornName.match(name):
         return 0xEA00 + int(name[3:6])
