@@ -707,15 +707,14 @@ class OrthographyInfo:
         Print a formatted report for a given list of orthographies.
 
         :param otlist: The list of orthographies.
-        :type otlist: list
+        :type otlist: List[Orthography]
 
         :param attr: The name of the attribute of the orthography object that
-                     will be shown in the report (missing_base,
-                     missing_optional, missing_punctuation, missing_all,
-                     num_missing_base, num_missing_optional,
-                     num_missing_punctuation, base_pc, optional_pc,
-                     punctuation_pc, unicodes_base, unicodes_optional,
-                     unicodes_punctuation).
+            will be shown in the report (missing_base, missing_optional,
+            missing_punctuation, missing_all, num_missing_base,
+            num_missing_optional, num_missing_punctuation, base_pc, optional_pc,
+            punctuation_pc, unicodes_base, unicodes_optional,
+            unicodes_punctuation).
         :type attr: str
         """
         otlist.sort()
