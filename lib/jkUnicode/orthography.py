@@ -410,13 +410,13 @@ class Orthography:
     @property
     def identifier(self) -> str:
         """
-        Return an identifier for language code/script/territory (read-only).
+        Return a BCP47 identifier for language code/script/territory (read-only).
         """
         _id = self.code
         if self.script != "DFLT":
-            _id += "_%s" % self.script
+            _id += "-%s" % self.script
         if self.territory != "dflt":
-            _id += "_%s" % self.territory
+            _id += "-%s" % self.territory
         return _id
 
     @property
@@ -702,7 +702,9 @@ class OrthographyInfo:
 
     # Very convenient convenience functions
 
-    def print_report(self, otlist: List[Orthography], attr: str) -> None:
+    def print_report(
+        self, otlist: List[Orthography], attr: str, bcp47: bool = False
+    ) -> None:
         """
         Print a formatted report for a given list of orthographies.
 
@@ -716,10 +718,15 @@ class OrthographyInfo:
             punctuation_pc, unicodes_base, unicodes_optional,
             unicodes_punctuation).
         :type attr: str
+
+        :param bcp47: Output orthographies as BCP47 language subtags instead of
+            human readable names
+        :type bcp47: bool
         """
         otlist.sort()
         for ot in otlist:
-            print("\n%s" % ot.name)
+            name = ot.identifier if bcp47 else ot.name
+            print("\n%s" % name)
             for u in sorted(list(getattr(ot, attr))):
                 self.ui.unicode = u
                 print(
@@ -727,7 +734,7 @@ class OrthographyInfo:
                     % (u, self.ui.glyphname, self.ui.nice_name)
                 )
 
-    def report_supported_minimum_inclusive(self) -> None:
+    def report_supported_minimum_inclusive(self, bcp47=False) -> None:
         """
         Print a report of minimally supported orthographies for the current
         cmap (no punctuation, no optional characters required).
@@ -739,9 +746,12 @@ class OrthographyInfo:
         )
         m.sort()
         for ot in m:
-            print(ot.name)
+            if bcp47:
+                print(ot.identifier)
+            else:
+                print(ot.name)
 
-    def report_supported_minimum(self) -> None:
+    def report_supported_minimum(self, bcp47=False) -> None:
         """
         Print a report of minimally supported orthographies for the current
         cmap (no punctuation, no optional characters present).
@@ -750,9 +760,12 @@ class OrthographyInfo:
         print("The font has minimal support for %i orthographies:" % len(m))
         m.sort()
         for ot in m:
-            print(ot.name)
+            if bcp47:
+                print(ot.identifier)
+            else:
+                print(ot.name)
 
-    def report_supported(self, full_only: bool = False) -> None:
+    def report_supported(self, full_only: bool = False, bcp47=False) -> None:
         """
         Print a report of supported orthographies for the current cmap.
 
@@ -764,9 +777,12 @@ class OrthographyInfo:
         print("The font supports %i orthographies:" % len(m))
         m.sort()
         for ot in m:
-            print(ot.name)
+            if bcp47:
+                print(ot.identifier)
+            else:
+                print(ot.name)
 
-    def report_missing_punctuation(self) -> None:
+    def report_missing_punctuation(self, bcp47=False) -> None:
         """
         Print a report of orthographies which have all basic letters present,
         but are missing puncuation characters.
@@ -775,9 +791,9 @@ class OrthographyInfo:
         print(
             "Orthographies which can be supported by adding punctuation characters:"
         )
-        self.print_report(m, "missing_punctuation")
+        self.print_report(m, "missing_punctuation", bcp47=bcp47)
 
-    def report_near_misses(self, n: int = 5) -> None:
+    def report_near_misses(self, n: int = 5, bcp47=False) -> None:
         """
         Print a report of orthographies which a maximum number of n characters
         missing.
@@ -787,9 +803,9 @@ class OrthographyInfo:
             "Orthographies which can be supported with max. %i additional %s:"
             % (n, "character" if n == 1 else "characters")
         )
-        self.print_report(m, "missing_base")
+        self.print_report(m, "missing_base", bcp47=bcp47)
 
-    def report_kill_list(self) -> None:
+    def report_kill_list(self, bcp47=False) -> None:
         """
         Print a list of character pairs that do not appear in any supported
         orthography for the current cmap.
@@ -801,8 +817,9 @@ class OrthographyInfo:
         for ot in m:
             unicodes = ot.unicodes_base  # | ot.unicodes_optional
             ot_pairs = set(itertools.combinations_with_replacement(unicodes, 2))
+            name = ot.identifier if bcp47 else ot.name
             print(
-                f"{ot.name}: {len(unicodes)} characters, "
+                f"{name}: {len(unicodes)} characters, "
                 f"{len(ot_pairs)} possible combinations"
             )
             possible_pairs |= ot_pairs
