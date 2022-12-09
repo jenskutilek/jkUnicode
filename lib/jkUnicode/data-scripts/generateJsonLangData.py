@@ -353,5 +353,5 @@ def parse_lang_char_data(
 
 
 if __name__ == "__main__":
-    generate_language_tags(tags_path)
+    # generate_language_tags(tags_path)
     generate_language_data(zip_path)
