@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from re import compile
 from .aglfnData import nameToUnicode
 
@@ -5,7 +7,7 @@ from .aglfnData import nameToUnicode
 unicodeToName = {value: key for key, value in nameToUnicode.items()}
 
 
-def getUnicodeForGlyphname(name):
+def getUnicodeForGlyphname(name: str) -> int | None:
     """Return the Unicode value as integer or None that is assigned to the
     specified glyph name. It handles AGLFN names, uniXXXX names, uXXXXX names,
     ligature names, variant names, and PUA-encoded ornament names (orn001 -
@@ -33,7 +35,7 @@ def getUnicodeForGlyphname(name):
         return None
 
 
-def getGlyphnameForUnicode(code):
+def getGlyphnameForUnicode(code: int | None) -> str | None:
     """Return the name as string or None that is assigned to the specified
     Unicode value.
 

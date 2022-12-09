@@ -566,9 +566,7 @@ class OrthographyInfo:
             return None
         return self.orthographies[i]
 
-    def get_orthographies_for_char(
-        self, char: str
-    ) -> List[Optional[Orthography]]:
+    def get_orthographies_for_char(self, char: str) -> List[Orthography]:
         """
         Get a list of orthographies which use a supplied character at base
         level.
@@ -581,9 +579,7 @@ class OrthographyInfo:
         ol = self._reverse_cmap.get(ord(char), [])
         return [self.orthographies[i] for i in ol]
 
-    def get_orthographies_for_unicode(
-        self, u: int
-    ) -> List[Optional[Orthography]]:
+    def get_orthographies_for_unicode(self, u: int) -> List[Orthography]:
         """
         Get a list of orthographies which use a supplied codepoint at base
         level.

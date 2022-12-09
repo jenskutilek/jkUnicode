@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from jkUnicode.uniBlock import get_block
 from jkUnicode.uniNiceName import nice_name_rules
 from jkUnicode.uniCat import uniCat
