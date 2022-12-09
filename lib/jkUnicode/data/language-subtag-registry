@@ -387,7 +387,8 @@ Added: 2005-10-16
 %%
 Type: language
 Subtag: ia
-Description: Interlingua (International Auxiliary Language Association)
+Description: Interlingua (International Auxiliary Language
+  Association)
 Added: 2005-10-16
 %%
 Type: language
@@ -16986,7 +16987,8 @@ Type: language
 Subtag: kha
 Description: Khasi
 Added: 2005-10-16
-Comments: as of 2008-04-21 this subtag does not include Lyngngam; see lyg
+Comments: as of 2008-04-21 this subtag does not include Lyngngam; see
+  lyg
 %%
 Type: language
 Subtag: khb
@@ -29160,7 +29162,8 @@ Type: language
 Subtag: pny
 Description: Pinyin
 Added: 2009-07-29
-Comments: a Niger-Congo language spoken in Cameroon; not to be confused with the Pinyin romanization systems used for Chinese and Tibetan
+Comments: a Niger-Congo language spoken in Cameroon; not to be confused
+  with the Pinyin romanization systems used for Chinese and Tibetan
 %%
 Type: language
 Subtag: pnz
@@ -46191,7 +46194,8 @@ Type: region
 Subtag: GB
 Description: United Kingdom
 Added: 2005-10-16
-Comments: as of 2006-03-29 GB no longer includes the Channel Islands and Isle of Man; see GG, JE, IM
+Comments: as of 2006-03-29 GB no longer includes the Channel Islands and
+  Isle of Man; see GG, JE, IM
 %%
 Type: region
 Subtag: GD
@@ -47140,7 +47144,8 @@ Type: region
 Subtag: 003
 Description: North America
 Added: 2010-08-16
-Comments: Includes Northern America (021), Caribbean (029), and Central America (013); see also 021
+Comments: Includes Northern America (021), Caribbean (029), and Central
+  America (013); see also 021
 %%
 Type: region
 Subtag: 005
@@ -47191,7 +47196,8 @@ Type: region
 Subtag: 021
 Description: Northern America
 Added: 2005-10-16
-Comments: Does not include Caribbean (029) or Central America (013); see also 003
+Comments: Does not include Caribbean (029) or Central America (013); see
+  also 003
 %%
 Type: region
 Subtag: 029
@@ -47288,14 +47294,18 @@ Subtag: 1606nict
 Description: Late Middle French (to 1606)
 Added: 2007-03-20
 Prefix: frm
-Comments: 16th century French as in Jean Nicot, "Thresor de la langue francoyse", 1606, but also including some French similar to that of Rabelais
+Comments: 16th century French as in Jean Nicot, "Thresor de la langue
+  francoyse", 1606, but also including some French similar to that of
+  Rabelais
 %%
 Type: variant
 Subtag: 1694acad
 Description: Early Modern French
 Added: 2007-03-20
 Prefix: fr
-Comments: 17th century French, as catalogued in the "Dictionnaire de l'académie françoise", 4eme ed. 1694; frequently includes elements of Middle French, as this is a transitional period
+Comments: 17th century French, as catalogued in the "Dictionnaire de
+  l'académie françoise", 4eme ed. 1694; frequently includes
+  elements of Middle French, as this is a transitional period
 %%
 Type: variant
 Subtag: 1901
@@ -47305,7 +47315,8 @@ Prefix: de
 %%
 Type: variant
 Subtag: 1959acad
-Description: "Academic" ("governmental") variant of Belarusian as codified in 1959
+Description: "Academic" ("governmental") variant of Belarusian as
+  codified in 1959
 Added: 2008-09-30
 Prefix: be
 %%
@@ -47328,10 +47339,12 @@ Prefix: de
 %%
 Type: variant
 Subtag: abl1943
-Description: Orthographic formulation of 1943 - Official in Brazil (Formulário Ortográfico de 1943 - Oficial no Brasil)
+Description: Orthographic formulation of 1943 - Official in Brazil
+  (Formulário Ortográfico de 1943 - Oficial no Brasil)
 Added: 2015-05-06
 Prefix: pt-BR
-Comments: Denotes conventions established by the Academia Brasileira de Letras in 1943 and generally used in Brazil until 2009
+Comments: Denotes conventions established by the Academia Brasileira de
+  Letras in 1943 and generally used in Brazil until 2009
 %%
 Type: variant
 Subtag: akuapem
@@ -47343,7 +47356,10 @@ Type: variant
 Subtag: alalc97
 Description: ALA-LC Romanization, 1997 edition
 Added: 2009-12-09
-Comments: Romanizations recommended by the American Library Association and the Library of Congress, in "ALA-LC Romanization Tables: Transliteration Schemes for Non-Roman Scripts" (1997), ISBN 978-0-8444-0940-5.
+Comments: Romanizations recommended by the American Library Association
+  and the Library of Congress, in "ALA-LC Romanization Tables:
+  Transliteration Schemes for Non-Roman Scripts" (1997), ISBN
+  978-0-8444-0940-5.
 %%
 Type: variant
 Subtag: aluku
@@ -47351,15 +47367,18 @@ Description: Aluku dialect
 Description: Boni dialect
 Added: 2009-09-05
 Prefix: djk
-Comments: Aluku dialect of the "Busi Nenge Tongo" English-based Creole continuum in Eastern Suriname and Western French Guiana
+Comments: Aluku dialect of the "Busi Nenge Tongo" English-based Creole
+  continuum in Eastern Suriname and Western French Guiana
 %%
 Type: variant
 Subtag: ao1990
-Description: Portuguese Language Orthographic Agreement of 1990 (Acordo Ortográfico da Língua Portuguesa de 1990)
+Description: Portuguese Language Orthographic Agreement of 1990 (Acordo
+  Ortográfico da Língua Portuguesa de 1990)
 Added: 2015-05-06
 Prefix: pt
 Prefix: gl
-Comments: Portuguese orthography conventions established in 1990 but not brought into effect until 2009
+Comments: Portuguese orthography conventions established in 1990 but
+  not brought into effect until 2009
 %%
 Type: variant
 Subtag: aranes
@@ -47420,7 +47439,12 @@ Prefix: sah
 Prefix: tk
 Prefix: tt
 Prefix: uz
-Comments: Denotes alphabet used in Turkic republics/regions of the former USSR in late 1920s, and throughout 1930s, which aspired to represent equivalent phonemes in a unified fashion. Also known as: New Turkic Alphabet; Birlәşdirilmiş Jeni Tyrk Әlifbasь (Birlesdirilmis Jeni Tyrk Elifbasi); Jaŋalif (Janalif).
+Comments: Denotes alphabet used in Turkic republics/regions of the
+  former USSR in late 1920s, and throughout 1930s, which aspired to
+  represent equivalent phonemes in a unified fashion. Also known as: New
+  Turkic Alphabet; Birlәşdirilmiş Jeni Tyrk
+  Әlifbasь (Birlesdirilmis Jeni Tyrk Elifbasi);
+  Jaŋalif (Janalif).
 %%
 Type: variant
 Subtag: balanka
@@ -47433,7 +47457,8 @@ Type: variant
 Subtag: barla
 Description: The Barlavento dialect group of Kabuverdianu
 Prefix: kea
-Comments: Barlavento is one of the two main dialect groups of Kabuverdianu.
+Comments: Barlavento is one of the two main dialect groups of
+  Kabuverdianu.
 Added: 2013-12-10
 %%
 Type: variant
@@ -47460,14 +47485,17 @@ Description: The San Giorgio dialect of Resian
 Description: The Bila dialect of Resian
 Added: 2007-07-05
 Prefix: sl-rozaj
-Comments: The dialect of San Giorgio/Bila is one of the four major local dialects of Resian
+Comments: The dialect of San Giorgio/Bila is one of the four major local
+  dialects of Resian
 %%
 Type: variant
 Subtag: bohoric
 Description: Slovene in Bohorič alphabet
 Added: 2012-06-27
 Prefix: sl
-Comments: The subtag represents the alphabet codified by Adam Bohorič in 1584 and used from the first printed Slovene book and up to the mid-19th century.
+Comments: The subtag represents the alphabet codified by Adam Bohorič
+  in 1584 and used from the first printed Slovene book and up to the
+  mid-19th century.
 %%
 Type: variant
 Subtag: boont
@@ -47491,10 +47519,13 @@ Comments: Occitan variant spoken in northwestern Italy
 %%
 Type: variant
 Subtag: colb1945
-Description: Portuguese-Brazilian Orthographic Convention of 1945 (Convenção Ortográfica Luso-Brasileira de 1945)
+Description: Portuguese-Brazilian Orthographic Convention of 1945
+  (Convenção Ortográfica Luso-Brasileira de 1945)
 Added: 2015-05-06
 Prefix: pt
-Comments: Portuguese orthography conventions established in 1945, generally in effect until 2009. This reform was not ratified in Brazil.
+Comments: Portuguese orthography conventions established in 1945,
+  generally in effect until 2009. This reform was not ratified in
+  Brazil.
 %%
 Type: variant
 Subtag: cornu
@@ -47515,7 +47546,9 @@ Subtag: dajnko
 Description: Slovene in Dajnko alphabet
 Added: 2012-06-27
 Prefix: sl
-Comments: The subtag represents the alphabet codified by Peter Dajnko and used from 1824 to 1839 mostly in Styria (in what is now Eastern Slovenia).
+Comments: The subtag represents the alphabet codified by Peter Dajnko
+  and used from 1824 to 1839 mostly in Styria (in what is now Eastern
+  Slovenia).
 %%
 Type: variant
 Subtag: ekavsk
@@ -47586,7 +47619,8 @@ Prefix: oc-lengadoc
 Prefix: oc-nicard
 Prefix: oc-provenc
 Prefix: oc-vivaraup
-Comments: Classical written standard for Occitan developed in 1935 by Alibèrt
+Comments: Classical written standard for Occitan developed in 1935 by
+  Alibèrt
 %%
 Type: variant
 Subtag: grital
