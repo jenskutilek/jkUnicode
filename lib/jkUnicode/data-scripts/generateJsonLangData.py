@@ -12,11 +12,14 @@ from jkUnicode.aglfn import getGlyphnameForUnicode
 from jkUnicode.tools.jsonhelpers import json_to_file, clean_json_dir
 from pathlib import Path
 from typing import Dict, List, Tuple
-from typing_extensions import TypeAlias, TypedDict
+from typing_extensions import NotRequired, TypeAlias, TypedDict
 from zipfile import ZipFile
 
 
-CharDict: TypeAlias = Dict[str, List[str]]
+class CharDict(TypedDict):
+    base: NotRequired[List[str]]
+    optional: NotRequired[List[str]]
+    punctuation: NotRequired[List[str]]
 
 
 class LanguageDict(TypedDict):
@@ -224,22 +227,23 @@ def extract_territory_code(internal_path, root) -> str | None:
 
 def extract_characters(root) -> CharDict:
     # Extract characters
-    char_dict = {}
+    char_dict = CharDict()
     ec = root.findall("characters/exemplarCharacters")
     for c in ec:
+        u_list = format_char_list(filtered_char_list(c.text))
+        if not u_list:
+            continue
+
         if "type" not in c.attrib:
             # Main entry
-            u_list = format_char_list(filtered_char_list(c.text))
-            if u_list:
-                char_dict["base"] = u_list
-        elif "type" in c.attrib:
+            char_dict["base"] = u_list
+        else:
             t = c.attrib["type"]
-            if t in ["auxiliary", "punctuation"]:
-                if t == "auxiliary":
-                    t = "optional"
-                u_list = format_char_list(filtered_char_list(c.text))
-                if u_list:
-                    char_dict[t] = u_list
+            if t == "auxiliary":
+                char_dict["optional"] = u_list
+            elif t == "punctuation":
+                char_dict["punctuation"] = u_list
+
     return char_dict
 
 
