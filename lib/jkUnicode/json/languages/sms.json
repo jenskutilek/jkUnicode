@@ -1,7 +1,7 @@
 {
     "DFLT": {
         "dflt": {
-            "name": "Romanian",
+            "name": "Sami, Skolt",
             "unicodes": {
                 "base": [
                     "0x0061 a a",
@@ -20,42 +20,38 @@
                     "0x006E n n",
                     "0x006F o o",
                     "0x0070 p p",
-                    "0x0071 q q",
                     "0x0072 r r",
                     "0x0073 s s",
                     "0x0074 t t",
                     "0x0075 u u",
                     "0x0076 v v",
+                    "0x007A z z",
+                    "0x00E2 â acircumflex",
+                    "0x00E4 ä adieresis",
+                    "0x00E5 å aring",
+                    "0x00F5 õ otilde",
+                    "0x010D č ccaron",
+                    "0x0111 đ dcroat",
+                    "0x014B ŋ eng",
+                    "0x0161 š scaron",
+                    "0x017E ž zcaron",
+                    "0x01E5 ǥ uni01E5",
+                    "0x01E7 ǧ gcaron",
+                    "0x01E9 ǩ uni01E9",
+                    "0x01EF ǯ uni01EF",
+                    "0x0292 ʒ uni0292"
+                ],
+                "optional": [
+                    "0x0071 q q",
                     "0x0077 w w",
                     "0x0078 x x",
                     "0x0079 y y",
-                    "0x007A z z",
-                    "0x00E2 â acircumflex",
-                    "0x00EE î icircumflex",
-                    "0x0103 ă abreve",
-                    "0x0219 ș uni0219",
-                    "0x021B ț uni021B"
-                ],
-                "optional": [
-                    "0x00E0 à agrave",
-                    "0x00E1 á aacute",
-                    "0x00E4 ä adieresis",
-                    "0x00E5 å aring",
-                    "0x00E7 ç ccedilla",
-                    "0x00E8 è egrave",
-                    "0x00E9 é eacute",
-                    "0x00EA ê ecircumflex",
-                    "0x00EB ë edieresis",
-                    "0x00F1 ñ ntilde",
-                    "0x00F6 ö odieresis",
-                    "0x00FC ü udieresis",
-                    "0x015F ş scedilla",
-                    "0x0163 ţ uni0163"
+                    "0x00F6 ö odieresis"
                 ],
                 "punctuation": [
                     "0x0021 ! exclam",
-                    "0x0022 \" quotedbl",
-                    "0x0027 ' quotesingle",
+                    "0x0023 # numbersign",
+                    "0x0026 & ampersand",
                     "0x0028 ( parenleft",
                     "0x0029 ) parenright",
                     "0x002A * asterisk",
@@ -68,16 +64,14 @@
                     "0x003F ? question",
                     "0x0040 @ at",
                     "0x005B [ bracketleft",
+                    "0x005C \\ backslash",
                     "0x005D ] bracketright",
-                    "0x00AB « guillemotleft",
+                    "0x00A7 § section",
                     "0x00BB » guillemotright",
                     "0x2011 ‑ uni2011",
                     "0x2013 – endash",
-                    "0x2014 — emdash",
-                    "0x2018 ‘ quoteleft",
-                    "0x201C “ quotedblleft",
+                    "0x2019 ’ quoteright",
                     "0x201D ” quotedblright",
-                    "0x201E „ quotedblbase",
                     "0x2026 … ellipsis"
                 ]
             }

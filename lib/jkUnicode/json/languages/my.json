@@ -113,12 +113,27 @@
                     "0x1099 ႙ uni1099"
                 ],
                 "punctuation": [
+                    "0x0023 # numbersign",
+                    "0x0028 ( parenleft",
+                    "0x0029 ) parenright",
+                    "0x002A * asterisk",
+                    "0x002D - hyphen",
+                    "0x002F / slash",
+                    "0x0040 @ at",
+                    "0x005B [ bracketleft",
+                    "0x005D ] bracketright",
+                    "0x007B { braceleft",
+                    "0x007D } braceright",
                     "0x104A ၊ uni104A",
                     "0x104B ။ uni104B",
+                    "0x2011 ‑ uni2011",
+                    "0x2013 – endash",
+                    "0x2014 — emdash",
                     "0x2018 ‘ quoteleft",
                     "0x2019 ’ quoteright",
                     "0x201C “ quotedblleft",
-                    "0x201D ” quotedblright"
+                    "0x201D ” quotedblright",
+                    "0x2026 … ellipsis"
                 ]
             }
         }

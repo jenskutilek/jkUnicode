@@ -1,7 +1,7 @@
 {
     "DFLT": {
         "dflt": {
-            "name": "Belarusian",
+            "name": "Moksha",
             "unicodes": {
                 "base": [
                     "0x0430 а uni0430",
@@ -12,6 +12,7 @@
                     "0x0435 е uni0435",
                     "0x0436 ж uni0436",
                     "0x0437 з uni0437",
+                    "0x0438 и uni0438",
                     "0x0439 й uni0439",
                     "0x043A к uni043A",
                     "0x043B л uni043B",
@@ -28,15 +29,40 @@
                     "0x0446 ц uni0446",
                     "0x0447 ч uni0447",
                     "0x0448 ш uni0448",
+                    "0x0449 щ uni0449",
+                    "0x044A ъ uni044A",
                     "0x044B ы uni044B",
                     "0x044C ь uni044C",
                     "0x044D э uni044D",
                     "0x044E ю uni044E",
                     "0x044F я uni044F",
-                    "0x0451 ё uni0451",
+                    "0x0451 ё uni0451"
+                ],
+                "optional": [
+                    "0x0454 є uni0454",
+                    "0x0455 ѕ uni0455",
                     "0x0456 і uni0456",
                     "0x045E ў uni045E",
-                    "0x0491 ґ uni0491"
+                    "0x045F џ uni045F",
+                    "0x0461 ѡ uni0461",
+                    "0x0463 ѣ uni0463",
+                    "0x0473 ѳ uni0473",
+                    "0x0475 ѵ uni0475",
+                    "0x0477 ѷ uni0477",
+                    "0x0497 җ uni0497",
+                    "0x04A5 ҥ uni04A5",
+                    "0x04D3 ӓ uni04D3",
+                    "0x04D9 ә uni04D9",
+                    "0x0515 ԕ uni0515",
+                    "0x0517 ԗ uni0517",
+                    "0x0519 ԙ uni0519"
+                ],
+                "punctuation": [
+                    "0x0021 ! exclam",
+                    "0x002C , comma",
+                    "0x002E . period",
+                    "0x003B ; semicolon",
+                    "0x003F ? question"
                 ]
             }
         }

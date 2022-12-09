@@ -1,7 +1,7 @@
 {
     "Adlm": {
         "dflt": {
-            "name": "Fulah (Adlam)",
+            "name": "Fula (Adlam)",
             "unicodes": {
                 "base": [
                     "0x0030 0 zero",
@@ -64,7 +64,7 @@
     },
     "DFLT": {
         "dflt": {
-            "name": "Fulah",
+            "name": "Fula",
             "unicodes": {
                 "base": [
                     "0x0061 a a",
