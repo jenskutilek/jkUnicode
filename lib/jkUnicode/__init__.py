@@ -306,6 +306,8 @@ class UniInfo:
     @property
     def script(self) -> Optional[str]:
         if self._script is None:
+            if self._unicode is None:
+                return None
             self._script = get_script(self._unicode)
         return self._script
 
