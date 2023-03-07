@@ -4,11 +4,11 @@ from jkUnicode.uniScriptData import uniScripts
 uniScriptToName = jkUnicode.tools.helpers.RangeDict(uniScripts)
 
 
-def get_script(codepoint):
+def get_script(codepoint: int) -> str:
     try:
         return uniScriptToName[codepoint]
     except KeyError:
-        return None
+        return "Unknown"
 
 
 if __name__ == "__main__":
