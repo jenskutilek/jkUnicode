@@ -2832,7 +2832,7 @@
     },
     "Hant": {
         "dflt": {
-            "name": "Traditional Mandarin Chinese (Traditional Han)",
+            "name": "Chinese, Traditional Mandarin (Traditional Han)",
             "unicodes": {
                 "base": [
                     "0x4E00 一 uni4E00",

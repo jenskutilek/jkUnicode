@@ -3268,7 +3268,7 @@
     "de": {
         "DFLT": {
             "CH": {
-                "name": "Swiss High German (Switzerland)",
+                "name": "German, Swiss High (Switzerland)",
                 "unicodes": {
                     "base": [
                         97,
@@ -3627,7 +3627,7 @@
     "dsb": {
         "DFLT": {
             "dflt": {
-                "name": "Lower Sorbian",
+                "name": "Sorbian, Lower",
                 "unicodes": {
                     "base": [
                         97,
@@ -5475,7 +5475,7 @@
     "fr": {
         "DFLT": {
             "CA": {
-                "name": "Canadian French (Canada)",
+                "name": "French, Canadian (Canada)",
                 "unicodes": {
                     "optional": [
                         225,
@@ -5783,6 +5783,7 @@
     "fy": {
         "DFLT": {
             "dflt": {
+                "comment": "Removed combining acute",
                 "name": "Frisian, Western",
                 "unicodes": {
                     "base": [
@@ -6210,7 +6211,7 @@
     "gsw": {
         "DFLT": {
             "dflt": {
-                "name": "Swiss German",
+                "name": "German, Swiss",
                 "unicodes": {
                     "base": [
                         97,
@@ -6979,7 +6980,7 @@
     "hsb": {
         "DFLT": {
             "dflt": {
-                "name": "Upper Sorbian",
+                "name": "Sorbian, Upper",
                 "unicodes": {
                     "base": [
                         97,
@@ -26403,7 +26404,7 @@
     "lrc": {
         "DFLT": {
             "dflt": {
-                "name": "Northern Luri",
+                "name": "Luri Northern",
                 "unicodes": {
                     "base": [
                         1570,
@@ -28311,7 +28312,7 @@
     "nd": {
         "DFLT": {
             "dflt": {
-                "name": "North Ndebele",
+                "name": "Ndebele, North",
                 "unicodes": {
                     "base": [
                         97,
@@ -28350,7 +28351,7 @@
     "nds": {
         "DFLT": {
             "NL": {
-                "name": "Low Saxon (Netherlands)",
+                "name": "Saxon, Low (Netherlands)",
                 "unicodes": {
                     "base": [
                         97,
@@ -28438,7 +28439,7 @@
                 }
             },
             "dflt": {
-                "name": "Low German",
+                "name": "German, Low",
                 "unicodes": {
                     "base": [
                         97,
@@ -29669,7 +29670,7 @@
     "pcm": {
         "DFLT": {
             "dflt": {
-                "name": "Nigerian Pidgin",
+                "name": "Pidgin, Nigerian",
                 "unicodes": {
                     "base": [
                         97,
@@ -30085,7 +30086,7 @@
     "pt": {
         "DFLT": {
             "PT": {
-                "name": "Portuguese (European)",
+                "name": "Portuguese, European (Portugal)",
                 "unicodes": {
                     "punctuation": [
                         33,
@@ -32778,7 +32779,7 @@
     "sw": {
         "DFLT": {
             "CD": {
-                "name": "Swahili (Congo)",
+                "name": "Swahili, Congo (Congo (DRC))",
                 "unicodes": {
                     "base": [
                         97,
@@ -34754,7 +34755,7 @@
     "tzm": {
         "DFLT": {
             "dflt": {
-                "name": "Central Atlas Tamazight",
+                "name": "Tamazight, Central Atlas",
                 "unicodes": {
                     "base": [
                         97,
@@ -41480,7 +41481,7 @@
     "zgh": {
         "DFLT": {
             "dflt": {
-                "name": "Standard Moroccan Tamazight",
+                "name": "Tamazight, Standard Moroccan",
                 "unicodes": {
                     "base": [
                         11568,
@@ -44354,7 +44355,7 @@
         },
         "Hant": {
             "dflt": {
-                "name": "Traditional Mandarin Chinese (Traditional Han)",
+                "name": "Chinese, Traditional Mandarin (Traditional Han)",
                 "unicodes": {
                     "base": [
                         19968,

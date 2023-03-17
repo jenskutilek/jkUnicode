@@ -1,7 +1,7 @@
 {
     "DFLT": {
         "NL": {
-            "name": "Low Saxon (Netherlands)",
+            "name": "Saxon, Low (Netherlands)",
             "unicodes": {
                 "base": [
                     "0x0061 a a",
@@ -89,7 +89,7 @@
             }
         },
         "dflt": {
-            "name": "Low German",
+            "name": "German, Low",
             "unicodes": {
                 "base": [
                     "0x0061 a a",

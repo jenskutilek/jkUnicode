@@ -1,7 +1,7 @@
 {
     "DFLT": {
         "CA": {
-            "name": "Canadian French (Canada)",
+            "name": "French, Canadian (Canada)",
             "unicodes": {
                 "optional": [
                     "0x00E1 á aacute",
