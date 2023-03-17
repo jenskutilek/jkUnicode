@@ -180,7 +180,7 @@ def generate_language_data(zip_path: Path) -> None:
         clean_json_dir(sep_path)
 
         json_to_file(json_path, "languages", language_dict)
-        json_to_file(json_path, "ignored", ignored_languages)
+        json_to_file(json_path, "ignored_languages", ignored_languages)
         for code, v in language_chars.items():
             # print("json_to_file:", "%s" % code)
             json_to_file(sep_path, "%s" % code, v)

@@ -68,15 +68,15 @@ else:
             )
 
     ignored = {}
-    if (json_path / "ignored.json").exists():
+    if (json_path / "ignored_languages.json").exists():
         # Keep track of ignored languages, they may have been added via
         # languages_additional.json
         try:
-            ignored = dict_from_file(json_path, "ignored")
+            ignored = dict_from_file(json_path, "ignored_languages")
         except ValueError:
             # Probably an empty file
             print(
-                "WARNING: Could not read JSON data from 'ignored.json', "
+                "WARNING: Could not read JSON data from 'ignored_languages.json', "
                 "skipped."
             )
 
@@ -122,4 +122,4 @@ else:
 
     json_to_file(json_path, "language_characters", master)
     json_to_file(json_path, "languages", language_names)
-    json_to_file(json_path, "ignored", ignored)
+    json_to_file(json_path, "ignored_languages", ignored)

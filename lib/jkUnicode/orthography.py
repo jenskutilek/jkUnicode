@@ -6,16 +6,6 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
 
 
-# These codepoints are ignored when scanning for orthography support
-IGNORED_UNICODES = [
-    # Minute and second appear in lots of language definitions in CLDR, but are
-    # not in very many fonts.
-    0x2011,  # non-breaking hyphen
-    0x2032,  # minute
-    0x2033,  # second
-]
-
-
 class Orthography:
     """
     The Orthography object represents an orthography. You usually don't deal
@@ -473,7 +463,9 @@ class OrthographyInfo:
 
         data_path = Path(__file__).resolve().parent / "json"
         master = dict_from_file(data_path, "language_characters")
-        self.ignored_unicodes = set(IGNORED_UNICODES)
+        self.ignored_unicodes = set(
+            dict_from_file(data_path, "ignored_characters")
+        )
         self.orthographies = []
         self._index = {}
         i = 0
