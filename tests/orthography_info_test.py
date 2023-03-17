@@ -453,6 +453,123 @@ class TestOrthographyInfo(unittest.TestCase):
             "Uzbek: uz",
         ]
 
+    def test_get_missing(self):
+        o = OrthographyInfo()
+        o.cmap = get_cmap()
+        ot = o.orthography("de", territory="CH")
+        assert ot is not None
+
+        missing = ot.get_missing(minimum=False, punctuation=False)
+        characters = sorted(missing)
+        assert characters == [
+            33,
+            34,
+            35,
+            38,
+            39,
+            40,
+            41,
+            42,
+            47,
+            58,
+            59,
+            63,
+            64,
+            91,
+            93,
+            123,
+            125,
+            167,
+            171,
+            187,
+            276,
+            277,
+            300,
+            301,
+            334,
+            335,
+            8211,
+            8212,
+            8216,
+            8218,
+            8220,
+            8222,
+            8230,
+        ]
+
+    def test_get_missing_minimum(self):
+        o = OrthographyInfo()
+        o.cmap = get_cmap()
+        ot = o.orthography("agq")
+        assert ot is not None
+
+        missing = ot.get_missing(minimum=True, punctuation=False)
+        characters = sorted(missing)
+        print(characters)
+        assert characters == [
+            390,
+            400,
+            407,
+            461,
+            462,
+            463,
+            464,
+            465,
+            466,
+            467,
+            468,
+            580,
+            596,
+            603,
+            616,
+            649,
+            660,
+        ]
+
+    def test_get_missing_punctuation(self):
+        o = OrthographyInfo()
+        o.cmap = get_cmap()
+        ot = o.orthography("de", territory="CH")
+        assert ot is not None
+
+        missing = ot.get_missing(minimum=False, punctuation=True)
+        characters = sorted(missing)
+        assert characters == [
+            33,
+            34,
+            35,
+            38,
+            39,
+            40,
+            41,
+            42,
+            47,
+            58,
+            59,
+            63,
+            64,
+            91,
+            93,
+            123,
+            125,
+            167,
+            171,
+            187,
+            8211,
+            8212,
+            8216,
+            8218,
+            8220,
+            8222,
+            8230,
+        ]
+
+    def test_get_missing_unknown(self):
+        o = OrthographyInfo()
+        o.cmap = get_cmap()
+        ot = o.orthography("jens")
+        assert ot is None
+
     def test_single_orthography(self):
         # Info about one orthography
         o = OrthographyInfo()
