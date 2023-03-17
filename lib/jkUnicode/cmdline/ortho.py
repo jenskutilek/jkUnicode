@@ -7,10 +7,17 @@ from jkUnicode.orthography import OrthographyInfo
 
 
 class OrthoCmdLine:
-    def __init__(self, font_path, args):
+    def __init__(self, font_path, args) -> None:
         self.o = OrthographyInfo()
         self.o.cmap = self.get_cmap(font_path)
-        if args.punctuation:
+        if args.support:
+            self.o.report_missing(
+                codes=args.support,
+                minimum=args.minimum,
+                punctuation=args.punctuation,
+                bcp47=args.bcp47,
+            )
+        elif args.punctuation:
             self.o.report_missing_punctuation(bcp47=args.bcp47)
         elif args.near_miss:
             self.o.report_near_misses(args.near_miss[0], bcp47=args.bcp47)
@@ -85,6 +92,13 @@ def ortho():
         type=int,
         nargs=1,
         help="Report almost supported orthographies with maximum number of missing characters",
+    )
+    parser.add_argument(
+        "-s",
+        "--support",
+        type=str,
+        nargs=1,
+        help="List Unicode characters missing from font to support the provided BCP47 language code",
     )
     parser.add_argument("font", type=str, nargs="+", help="One or more fonts")
 

@@ -770,6 +770,38 @@ class OrthographyInfo:
             else:
                 print(ot.name)
 
+    def report_missing(
+        self, codes: List[str], minimum=False, punctuation=False, bcp47=False
+    ) -> None:
+        for code in codes:  # Dubious loop, the list only ever contains 1 item
+            o = self.orthography(code)
+            if o is None:
+                print(f"Orthography '{code}' is unknown.")
+                continue
+
+            missing = set()
+
+            if minimum:
+                missing = o.missing_base
+
+                if punctuation:
+                    missing |= o.missing_punctuation
+
+            else:
+                if punctuation:
+                    missing |= o.missing_punctuation
+                else:
+                    missing |= o.missing_all
+
+            if missing:
+                print(o.identifier if bcp47 else o.name)
+                for u in sorted(missing):
+                    self.ui.unicode = u
+                    print(
+                        "    0x%04X\t%s\t%s"
+                        % (u, self.ui.glyphname, self.ui.nice_name)
+                    )
+
     def report_missing_punctuation(self, bcp47=False) -> None:
         """
         Print a report of orthographies which have all basic letters present,
