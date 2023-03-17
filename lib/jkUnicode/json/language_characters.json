@@ -5607,7 +5607,7 @@
     "frr": {
         "DFLT": {
             "dflt": {
-                "name": "Northern Frisian",
+                "name": "Frisian, Northern",
                 "unicodes": {
                     "base": [
                         97,
@@ -5783,7 +5783,7 @@
     "fy": {
         "DFLT": {
             "dflt": {
-                "name": "Western Frisian",
+                "name": "Frisian, Western",
                 "unicodes": {
                     "base": [
                         97,
