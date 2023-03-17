@@ -277,6 +277,37 @@ class Orthography:
             return True
         return False
 
+    def get_missing(
+        self, minimum: bool = False, punctuation: bool = False
+    ) -> Set[int]:
+        """
+        Return a set of missing characters for support of the orthography. If
+        `minimum` is true, only required characters are listed. If `punctuation`
+        is true, only punctuation characters are listed. If both are true, both
+        required and punctuation characters are listed. If both are false, all
+        required, optional, and punctuation characters are listed.
+
+        :param minimum: Only report missing required characters
+        :type minimum: bool
+        :param punctuation: Only report missing punctuation
+        :type punctuation: bool
+        """
+        missing = set()
+
+        if minimum:
+            missing = self.missing_base
+
+            if punctuation:
+                missing |= self.missing_punctuation
+
+        else:
+            if punctuation:
+                missing |= self.missing_punctuation
+            else:
+                missing |= self.missing_all
+
+        return missing
+
     def uses_unicode_base(self, u: int) -> bool:
         """
         Is the codepoint used by this orthography in the base set? This is
@@ -803,22 +834,10 @@ class OrthographyInfo:
         for code in codes:
             o = self.orthography(*self.split_bcp47(code))
             if o is None:
-                print(f"Orthography '{code}' is unknown.")
+                print(f"Orthography is unknown: {code}")
                 continue
 
-            missing = set()
-
-            if minimum:
-                missing = o.missing_base
-
-                if punctuation:
-                    missing |= o.missing_punctuation
-
-            else:
-                if punctuation:
-                    missing |= o.missing_punctuation
-                else:
-                    missing |= o.missing_all
+            missing = o.get_missing(minimum, punctuation)
 
             if missing:
                 print(o.identifier if bcp47 else o.name)
