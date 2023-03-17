@@ -707,8 +707,7 @@ class OrthographyInfo:
             unicodes_punctuation).
         :type attr: str
 
-        :param bcp47: Output orthographies as BCP47 language subtags instead of
-            human readable names
+        :param bcp47: Output BCP47 subtags instead of names
         :type bcp47: bool
         """
         otlist.sort()
@@ -726,6 +725,9 @@ class OrthographyInfo:
         """
         Print a report of minimally supported orthographies for the current
         cmap (no punctuation, no optional characters required).
+
+        :param bcp47: Output BCP47 subtags instead of names
+        :type bcp47: bool
         """
         m = self.get_supported_orthographies_minimum_inclusive()
         print(
@@ -743,6 +745,9 @@ class OrthographyInfo:
         """
         Print a report of minimally supported orthographies for the current
         cmap (no punctuation, no optional characters present).
+
+        :param bcp47: Output BCP47 subtags instead of names
+        :type bcp47: bool
         """
         m = self.get_supported_orthographies_minimum()
         print("The font has minimal support for %i orthographies:" % len(m))
@@ -760,6 +765,8 @@ class OrthographyInfo:
         :param full_only: Only report orthographies which have both basic and
             optional characters present
         :type full_only: bool
+        :param bcp47: Output BCP47 subtags instead of names
+        :type bcp47: bool
         """
         m = self.get_supported_orthographies(full_only)
         print("The font supports %i orthographies:" % len(m))
@@ -773,7 +780,24 @@ class OrthographyInfo:
     def report_missing(
         self, codes: List[str], minimum=False, punctuation=False, bcp47=False
     ) -> None:
-        for code in codes:  # Dubious loop, the list only ever contains 1 item
+        """
+        Print a report of missing characters for the given BCP47 language
+        subtags. If `minimum` is true, only required characters are listed. If
+        `punctuation` is true, only punctuation characters are listed. If both
+        are true, both required and punctuation characters are listed. If both
+        are false, all required, optional, and punctuation characters are
+        listed.
+
+        :param codes: BCP47 language subtags
+        :type codes: List[str]
+        :param minimum: Only report missing required characters
+        :type minimum: bool
+        :param punctuation: Only report missing punctuation
+        :type punctuation: bool
+        :param bcp47: Output BCP47 subtags instead of names
+        :type bcp47: bool
+        """
+        for code in codes:
             o = self.orthography(code)
             if o is None:
                 print(f"Orthography '{code}' is unknown.")
@@ -806,6 +830,9 @@ class OrthographyInfo:
         """
         Print a report of orthographies which have all basic letters present,
         but are missing puncuation characters.
+
+        :param bcp47: Output BCP47 subtags instead of names
+        :type bcp47: bool
         """
         m = self.get_almost_supported_punctuation()
         print(
@@ -817,6 +844,11 @@ class OrthographyInfo:
         """
         Print a report of orthographies which a maximum number of n characters
         missing.
+
+        :param n: The maximum number of missing characters
+        :type n: int
+        :param bcp47: Output BCP47 subtags instead of names
+        :type bcp47: bool
         """
         m = self.get_almost_supported(n)
         print(
@@ -829,6 +861,9 @@ class OrthographyInfo:
         """
         Print a list of character pairs that do not appear in any supported
         orthography for the current cmap.
+
+        :param bcp47: Output BCP47 subtags instead of names
+        :type bcp47: bool
         """
         import itertools
 
