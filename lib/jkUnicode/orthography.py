@@ -464,7 +464,10 @@ class OrthographyInfo:
         data_path = Path(__file__).resolve().parent / "json"
         master = dict_from_file(data_path, "language_characters")
         self.ignored_unicodes = set(
-            dict_from_file(data_path, "ignored_characters")
+            [
+                int(us, 16)
+                for us in dict_from_file(data_path, "ignored_characters")
+            ]
         )
         self.orthographies = []
         self._index = {}
