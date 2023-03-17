@@ -15,8 +15,12 @@ The downloaded data from the official sources must be converted to a format that
 - `data-scripts/generateJsonLangData.py` – Convert the CLDR data to the JSON format.
 - `data-scripts/generatePyLangData.py` – Update the Python module based on the JSON data.
 
-The scripts should be executed in the given order. After running `generateJsonLangData.py`, you can edit the orthography definitions by copying any desired JSON file from the folder `jkUnicode/json/languages` to `jkUnicode/json/overrides` and editing it. Any files in this folder will override the original files in the next step (`generatePyLangData.py`).
+The scripts should be executed in the given order. Before running `generateJsonLangData.py`, you can customize the display names by editing `json/override_names.json`.
+
+After running it, you can edit the orthography definitions by copying any desired JSON file from the folder `jkUnicode/json/languages` to `jkUnicode/json/overrides` and editing it. Any files in this folder will override the original files in the next step (`generatePyLangData.py`). The data is merged using Python’s `dict.update()` method, so you only need to include any keys actually containing changes in your override file. 
 
 If you want to add a new language definition that doesn’t override an existing one, you must add it to the overrides folder, and also add its code and name to `languages_additional.json`.
 
-Any languages without orthography information will be listed in `ignored.json`. This file is informational only and is not used by `jkUnicode`.
+Any languages without orthography information will be listed in `ignored_languages.json`. This file is informational only and is not used by `jkUnicode`.
+
+If you want to ignore any characters globally when determining orthography support, add them to `json/ignored_characters.json`.
