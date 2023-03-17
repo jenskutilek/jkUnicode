@@ -9,7 +9,11 @@ import xml.etree.ElementTree as ET
 
 from jkUnicode.tools.xmlhelpers import filtered_char_list
 from jkUnicode.aglfn import getGlyphnameForUnicode
-from jkUnicode.tools.jsonhelpers import json_to_file, clean_json_dir
+from jkUnicode.tools.jsonhelpers import (
+    dict_from_file,
+    json_to_file,
+    clean_json_dir,
+)
 from pathlib import Path
 from typing import Dict, List, Tuple
 from typing_extensions import NotRequired, TypeAlias, TypedDict
@@ -41,6 +45,9 @@ tags_path = base_path / "data" / "language-subtag-registry"
 
 # Output path for JSON files
 json_path = base_path / "json"
+
+# Language names override file name inside json_path
+language_names_override_filename = "override_names"
 
 # Path inside the zip file
 xml_re = re.compile(r"^common/main/.+\.xml$")
@@ -114,7 +121,9 @@ def unbreak_lines(lines: List[str]) -> List[str]:
     return long_lines
 
 
-def generate_language_data(zip_path: Path) -> None:
+def generate_language_data(
+    zip_path: Path, name_overrides_filename: str | None = None
+) -> None:
 
     if not zip_path.exists():
         print(
@@ -122,6 +131,14 @@ def generate_language_data(zip_path: Path) -> None:
             "'updateLangData.sh' to download it."
         )
         return
+
+    name_overrides = {}
+    if name_overrides_filename is not None:
+        try:
+            name_overrides = dict_from_file(json_path, name_overrides_filename)
+            # print(f"Using overrides for language names:\n{name_overrides}")
+        except FileNotFoundError:
+            print("Override file for language names not found.")
 
     with ZipFile(zip_path, "r") as z:
         names = z.namelist()
@@ -164,6 +181,14 @@ def generate_language_data(zip_path: Path) -> None:
             print("OK: Read %i territory names." % len(territory_dict))
 
             json_to_file(json_path, "territories", territory_dict)
+
+        for code, name in name_overrides.items():
+            if code in language_dict:
+                print(
+                    f"Overriding name for language '{code}': "
+                    f"{language_dict[code]} → {name}"
+                )
+                language_dict[code] = name
 
         # Now parse all the separate language XML files
 
@@ -354,4 +379,4 @@ def parse_lang_char_data(
 
 if __name__ == "__main__":
     # generate_language_tags(tags_path)
-    generate_language_data(zip_path)
+    generate_language_data(zip_path, language_names_override_filename)
