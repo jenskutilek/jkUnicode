@@ -3,7 +3,7 @@ from __future__ import annotations
 from jkUnicode import UniInfo
 from jkUnicode.tools.jsonhelpers import dict_from_file
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 
 class Orthography:
@@ -801,7 +801,7 @@ class OrthographyInfo:
         :type bcp47: bool
         """
         for code in codes:
-            o = self.orthography(code)
+            o = self.orthography(*self.split_bcp47(code))
             if o is None:
                 print(f"Orthography '{code}' is unknown.")
                 continue
@@ -884,6 +884,22 @@ class OrthographyInfo:
         # for L, R in sorted(list(possible_pairs)):
         #     print("%s%s" % (chr(L), chr(R)))
         print(possible_pairs)
+
+    def split_bcp47(self, value: str) -> Tuple[str, str, str]:
+        code = value
+        script = "DFLT"
+        territory = "dflt"
+        if "-" in value:
+            parts = value.split("-")
+            assert len(parts) > 1
+            code = parts[0]
+            for part in parts[1:]:
+                if len(part) == 4:
+                    script = part
+                else:
+                    territory = part
+                    break
+        return code, script, territory
 
 
 # o = Orthography(
