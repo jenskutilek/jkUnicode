@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from functools import cached_property
 from jkUnicode.uniBlock import get_block
+from jkUnicode.uniName import uniName
 from jkUnicode.uniNiceName import nice_name_rules
 from jkUnicode.uniCat import uniCat
 from jkUnicode.uniCase import uniUpperCaseMapping, uniLowerCaseMapping
@@ -109,32 +110,8 @@ class UniInfo:
 
     def _load_uni_name(self, file_name: str = "uni_names") -> None:
         """Import uniName from JSON or from Python"""
-        # Loading the data from JSON is not faster than importing a python
-        # module. Skip the optimization.
-        from jkUnicode.uniName import uniName
-
+        # NB: Loading the data from JSON is not faster than importing a python module.
         self.uniName = uniName
-        # from jkUnicode.tools.jsonhelpers import (
-        #     dict_from_file,
-        #     json_path,
-        #     json_to_file
-        # )
-        # from time import time
-        # try:
-        #     start = time()
-        #     self.uniName = {
-        #         int(k): v
-        #         for k, v in dict_from_file(json_path, file_name).items()
-        #     }
-        #     stop = time()
-        #     print(f"Loaded Unicode Name data from JSON in {stop - start} s.")
-        # except FileNotFoundError:
-        #     start = time()
-        #     from jkUnicode.uniName import uniName
-        #     self.uniName = uniName
-        #     stop = time()
-        #     print(f"Converted Unicode Name data to JSON in {stop - start} s.")
-        #     json_to_file(json_path, file_name, self.uniName)
 
     @property
     def unicode(self) -> Optional[int]:
