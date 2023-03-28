@@ -224,8 +224,11 @@ class UniInfo:
         return getUnicodeChar(self.unicode)
 
     @char.setter
-    def char(self, value: str) -> None:
-        self.unicode = ord(value)
+    def char(self, value: Optional[str]) -> None:
+        if value is None:
+            self.unicode = None
+        else:
+            self.unicode = ord(value)
 
     @property
     def glyphname(self) -> Optional[str]:
