@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import cached_property
 from jkUnicode.uniBlock import get_block
 from jkUnicode.uniNiceName import nice_name_rules
 from jkUnicode.uniCat import uniCat
@@ -103,7 +104,8 @@ class UniInfo:
         :param uni: The codepoint.
         :type uni: int"""
         self._load_uni_name()
-        self.unicode: Optional[int] = uni
+        self._dc_mapping: Optional[List[int]]
+        self.unicode = uni
 
     def _load_uni_name(self, file_name: str = "uni_names") -> None:
         """Import uniName from JSON or from Python"""
@@ -146,14 +148,18 @@ class UniInfo:
         self._unicode = value
         # Set some properties to None
         # Those are expensive to compute, we do it only when asked to.
-        self._ublock: Optional[str] = None
         self._script: Optional[str] = None
         self._name: Optional[str] = None
         self._categoryShort: Optional[str] = None
         self._category: Optional[str] = None
         self._uc_mapping: Optional[int] = None
         self._lc_mapping: Optional[int] = None
-        self._dc_mapping: Optional[List[int]] = None
+        self._dc_mapping = None
+
+        # Those are now cached properties, delete them to invalidate the cache
+        for attr in ("block", ):
+            if hasattr(self, attr):
+                delattr(self, attr)
 
         if self._unicode is None:
             self._categoryShort = "<undefined>"
@@ -180,12 +186,10 @@ class UniInfo:
             )
         return s
 
-    @property
+    @cached_property
     def block(self) -> Optional[str]:
         """The name of the block for the current codepoint."""
-        if self._ublock is None:
-            self._ublock = get_block(self._unicode)
-        return self._ublock
+        return get_block(self._unicode)
 
     @property
     def category(self) -> Optional[str]:
