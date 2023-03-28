@@ -1,4 +1,7 @@
 import unittest
+
+from time import time
+
 from jkUnicode import UniInfo
 
 
@@ -101,3 +104,51 @@ class TestUniInfo(unittest.TestCase):
         assert u.unicode == 0x1E9E
         u.char = None
         assert u.unicode is None
+
+    def test_instatiation(self):
+        name = None
+        # Instantiation
+        a0 = time()
+        for c in range(10000):
+            u = UniInfo(c)
+            _ = u.category
+            _ = u.name
+            _ = u.script
+        a1 = time()
+
+        # Reuse
+        b0 = time()
+        u = UniInfo()
+        for c in range(10000):
+            u.unicode = c
+            _ = u.category
+            name = u.name
+            _ = u.script
+        b1 = time()
+        assert b1 - b0 < a1 - a0
+        print("Instantiation:", a1 - a0, "s")
+        print("Reuse:", b1 - b0, "s")
+        assert name == "PENCIL"
+
+    def test_repr(self):
+        u = UniInfo(ord("Ä"))
+        assert str(u) == (
+            "      Unicode: 0x00C4 (dec. 196)\n"
+            "         Name: LATIN CAPITAL LETTER A WITH DIAERESIS\n"
+            "     Category: Lu (Letter, Uppercase)\n"
+            "    Lowercase: 0x00E4\n"
+            "Decomposition: 0x0041 0x0308"
+        )
+        u.char = "ẞ"
+        assert str(u) == (
+            "      Unicode: 0x1E9E (dec. 7838)\n"
+            "         Name: LATIN CAPITAL LETTER SHARP S\n"
+            "     Category: Lu (Letter, Uppercase)\n"
+            "    Lowercase: 0x00DF"
+        )
+        u.unicode = None
+        assert str(u) == (
+            "      Unicode: None\n"
+            "         Name: None\n"
+            "     Category: None (None)"
+        )

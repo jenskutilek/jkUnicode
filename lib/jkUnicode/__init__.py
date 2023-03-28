@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 from functools import cached_property
+from jkUnicode.aglfn import getGlyphnameForUnicode
 from jkUnicode.uniBlock import get_block
+from jkUnicode.uniCase import uniLowerCaseMapping, uniUpperCaseMapping
+from jkUnicode.uniCat import uniCat
+from jkUnicode.uniDecomposition import uniDecompositionMapping
 from jkUnicode.uniName import uniName
 from jkUnicode.uniNiceName import nice_name_rules
-from jkUnicode.uniCat import uniCat
-from jkUnicode.uniCase import uniUpperCaseMapping, uniLowerCaseMapping
-from jkUnicode.uniDecomposition import uniDecompositionMapping
 from jkUnicode.uniScript import get_script
 
 from typing import List, Optional, Tuple
@@ -94,24 +95,19 @@ class UniInfo:
     def __init__(self, uni: Optional[int] = None) -> None:
         """The Unicode Info object is meant to be instantiated once and then
         reused to get information about different codepoints. Avoid to
-        instantiate it often, because it is rather expensive on disk access.
+        instantiate it often, because it is rather expensive.
 
-        Initialize the Info object with a dummy codepoint or None e.g. before a
-        loop and then in the loop assign the actual codepoints that you want
-        information about by setting the `unicode` instance variable. This will
-        automatically update the other instance variables with the correct
-        information from the Unicode standard.
+        Initialize the Info object with a None e.g. before a loop and then in
+        the loop assign the actual codepoints that you want information about by
+        setting the `unicode` instance variable. This will automatically update
+        the other instance variables with the correct information from the
+        Unicode standard.
 
         :param uni: The codepoint.
         :type uni: int"""
-        self._load_uni_name()
-        self._dc_mapping: Optional[List[int]]
-        self.unicode = uni
-
-    def _load_uni_name(self, file_name: str = "uni_names") -> None:
-        """Import uniName from JSON or from Python"""
-        # NB: Loading the data from JSON is not faster than importing a python module.
-        self.uniName = uniName
+        self._unicode = None
+        if uni is not None:
+            self.unicode = uni
 
     @property
     def unicode(self) -> Optional[int]:
@@ -122,19 +118,24 @@ class UniInfo:
 
     @unicode.setter
     def unicode(self, value: Optional[int]):
-        self._unicode = value
-        # Set some properties to None
-        # Those are expensive to compute, we do it only when asked to.
-        self._script: Optional[str] = None
-        self._name: Optional[str] = None
-        self._categoryShort: Optional[str] = None
-        self._category: Optional[str] = None
-        self._uc_mapping: Optional[int] = None
-        self._lc_mapping: Optional[int] = None
-        self._dc_mapping = None
+        if value == self._unicode:
+            return
 
-        # Those are now cached properties, delete them to invalidate the cache
-        for attr in ("block", ):
+        self._unicode = value
+
+        # Invalidate cached properties
+        for attr in (
+            "block",
+            "category",
+            "category_short",
+            "decomposition_mapping",
+            "glyphname",
+            "lc_mapping",
+            "name",
+            "nice_name",
+            "script",
+            "uc_mapping",
+        ):
             if hasattr(self, attr):
                 delattr(self, attr)
 
@@ -152,14 +153,14 @@ class UniInfo:
                 self.unicode,
             )
         s += "\n         Name: %s" % self.name
-        s += "\n     Category: %s (%s)" % (self._categoryShort, self.category)
-        if self._uc_mapping:
-            s += "\n    Uppercase: 0x%04X" % self._uc_mapping
-        if self._lc_mapping:
-            s += "\n    Lowercase: 0x%04X" % self._lc_mapping
-        if self._dc_mapping:
+        s += "\n     Category: %s (%s)" % (self.category_short, self.category)
+        if self.uc_mapping:
+            s += "\n    Uppercase: 0x%04X" % self.uc_mapping
+        if self.lc_mapping:
+            s += "\n    Lowercase: 0x%04X" % self.lc_mapping
+        if self.decomposition_mapping:
             s += "\nDecomposition: %s" % (
-                " ".join(["0x%04X" % m for m in self._dc_mapping])
+                " ".join(["0x%04X" % m for m in self.decomposition_mapping])
             )
         return s
 
@@ -168,29 +169,24 @@ class UniInfo:
         """The name of the block for the current codepoint."""
         return get_block(self._unicode)
 
-    @property
+    @cached_property
     def category(self) -> Optional[str]:
         """The name of the category for the current codepoint."""
         if self._unicode is None:
             return None
 
-        if self._category is None:
-            cs = self.category_short
-            if cs is None:
-                self._category = "<undefined>"
-            else:
-                self._category = categoryName.get(cs, "<undefined>")
-        return self._category
+        if self.category_short is None:
+            return "<undefined>"
 
-    @property
+        return categoryName.get(self.category_short, "<undefined>")
+
+    @cached_property
     def category_short(self) -> Optional[str]:
         """The short name of the category for the current codepoint."""
         if self._unicode is None:
             return None
 
-        if self._categoryShort is None:
-            self._categoryShort = uniCat.get(self._unicode, "<undefined>")
-        return self._categoryShort
+        return uniCat.get(self._unicode, "<undefined>")
 
     @property
     def char(self) -> Optional[str]:
@@ -207,42 +203,37 @@ class UniInfo:
         else:
             self.unicode = ord(value)
 
-    @property
+    @cached_property
     def glyphname(self) -> Optional[str]:
         """The AGLFN glyph name for the current codepoint."""
-        from jkUnicode.aglfn import getGlyphnameForUnicode
 
         return getGlyphnameForUnicode(self.unicode)
 
-    @property
+    @cached_property
     def name(self) -> Optional[str]:
         """The Unicode name for the current codepoint."""
         if self._unicode is None:
             return None
 
-        if self._name is None:
-            self._name = self.uniName.get(self._unicode, None)
-            # TODO: Add nicer names based on original Unicode names?
-            if self._name is None:
-                if 0xE000 <= self._unicode < 0xF8FF:
-                    self._name = "<Private Use>"
-                elif 0xD800 <= self._unicode < 0xDB7F:
-                    self._name = "<Non Private Use High Surrogate #%i>" % (
-                        self._unicode - 0xD8000
-                    )
-                elif 0xDB80 <= self._unicode < 0xDBFF:
-                    self._name = "<Private Use High Surrogate #%i>" % (
-                        self._unicode - 0xDB80
-                    )
-                elif 0xDC00 <= self._unicode < 0xDFFF:
-                    self._name = "<Low Surrogate #%i>" % (
-                        self._unicode - 0xDC00
-                    )
-                else:
-                    self._name = "<undefined>"
-        return self._name
+        name = uniName.get(self._unicode, None)
+        # TODO: Add nicer names based on original Unicode names?
+        if name is None:
+            if 0xE000 <= self._unicode < 0xF8FF:
+                return "<Private Use>"
+            if 0xD800 <= self._unicode < 0xDB7F:
+                return "<Non Private Use High Surrogate #%i>" % (
+                    self._unicode - 0xD8000
+                )
+            if 0xDB80 <= self._unicode < 0xDBFF:
+                return "<Private Use High Surrogate #%i>" % (
+                    self._unicode - 0xDB80
+                )
+            if 0xDC00 <= self._unicode < 0xDFFF:
+                return "<Low Surrogate #%i>" % (self._unicode - 0xDC00)
+            return "<undefined>"
+        return name
 
-    @property
+    @cached_property
     def nice_name(self) -> Optional[str]:
         """A more human-readable Unicode name for the current codepoint."""
         if self.name is None:
@@ -255,75 +246,37 @@ class UniInfo:
 
         return self.name.capitalize()
 
-    @property
+    @cached_property
     def decomposition_mapping(self) -> List[int]:
         """The decomposition mapping for the current codepoint."""
-        if self._dc_mapping is None:
-            if self._unicode is not None:
-                try:
-                    if self._unicode is not None:
-                        self._dc_mapping = uniDecompositionMapping[
-                            self._unicode
-                        ]
-                except KeyError:
-                    self._dc_mapping = []
-            else:
-                self._dc_mapping = []
-
-        # Can it still be None? The type checker thinks so ...
-        if self._dc_mapping is None:
+        if self._unicode is None:
             return []
 
-        return self._dc_mapping
+        try:
+            dc = uniDecompositionMapping[self._unicode]
+        except KeyError:
+            dc = []
+        return dc
 
-    @property
+    @cached_property
     def lc_mapping(self) -> Optional[int]:
         """The lowercase mapping for the current codepoint."""
         if self._unicode is None:
             return None
 
-        if self._lc_mapping is None:
-            self._lc_mapping = uniLowerCaseMapping.get(self._unicode, None)
-        return self._lc_mapping
+        return uniLowerCaseMapping.get(self._unicode, None)
 
-    @property
+    @cached_property
     def uc_mapping(self) -> Optional[int]:
         """The uppercase mapping for the current codepoint."""
         if self._unicode is None:
             return None
 
-        if self._uc_mapping is None:
-            self._uc_mapping = uniUpperCaseMapping.get(self._unicode, None)
-        return self._uc_mapping
+        return uniUpperCaseMapping.get(self._unicode, None)
 
-    @property
+    @cached_property
     def script(self) -> Optional[str]:
-        if self._script is None:
-            if self._unicode is None:
-                return None
-            self._script = get_script(self._unicode)
-        return self._script
+        if self._unicode is None:
+            return None
 
-
-if __name__ == "__main__":
-    print("\n*** Test of jkUnicode.UniInfo ***")
-    for u in [9912, 80, 0x1E40]:
-        j = UniInfo(u)
-        print("Repr.:")
-        print(j)
-        print("- " * 20)
-        print("             Name:", j.name)
-        print("       Glyph Name:", j.glyphname)
-        print("         Category:", j.category)
-        print("           Script:", j.script)
-        print(
-            "    Decomposition:",
-            " ".join([hex(n) for n in j.decomposition_mapping]),
-        )
-        print("        Character:", j.char)
-        lc = j.lc_mapping
-        print("Lowercase Mapping:", lc)
-        if lc is not None:
-            j.unicode = lc
-            print(j)
-        print("-" * 40)
+        return get_script(self._unicode)
