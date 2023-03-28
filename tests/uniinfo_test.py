@@ -20,7 +20,7 @@ class TestUniInfo(unittest.TestCase):
         u.unicode = 4200
         assert u.category == "Mark, Spacing Combining"
         u.unicode = None
-        assert u.category is None
+        assert u.category == "<undefined>"
 
     def test_caching_category_short(self):
         u = UniInfo(42)
@@ -28,7 +28,7 @@ class TestUniInfo(unittest.TestCase):
         u.unicode = 4200
         assert u.category_short == "Mc"
         u.unicode = None
-        assert u.category_short is None
+        assert u.category_short == "<undefined>"
 
     def test_caching_glyphname(self):
         u = UniInfo(ord("Ä"))
@@ -150,5 +150,5 @@ class TestUniInfo(unittest.TestCase):
         assert str(u) == (
             "      Unicode: None\n"
             "         Name: None\n"
-            "     Category: None (None)"
+            "     Category: <undefined> (<undefined>)"
         )

@@ -140,9 +140,9 @@ class UniInfo:
                 delattr(self, attr)
 
         if self._unicode is None:
-            self._categoryShort = "<undefined>"
-            self._category = "<undefined>"
-            self._dc_mapping = []
+            self.category_short = "<undefined>"
+            self.category = "<undefined>"
+            self.decomposition_mapping = []
 
     def __repr__(self) -> str:
         if self.unicode is None:
