@@ -281,6 +281,11 @@ class UniInfo:
                     self._dc_mapping = []
             else:
                 self._dc_mapping = []
+
+        # Can it still be None? The type checker thinks so ...
+        if self._dc_mapping is None:
+            return []
+
         return self._dc_mapping
 
     @property
