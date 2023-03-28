@@ -219,6 +219,10 @@ class UniInfo:
 
         return getUnicodeChar(self.unicode)
 
+    @char.setter
+    def char(self, value: str) -> None:
+        self.unicode = ord(value)
+
     @property
     def glyphname(self) -> Optional[str]:
         """The AGLFN glyph name for the current codepoint."""
