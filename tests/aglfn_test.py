@@ -16,8 +16,6 @@ class TestAglfn(unittest.TestCase):
                 "universal": 0x2200,
                 "H18533": 0x25CF,
                 "SF080000": 0x251C,
-                "NULL": 0x0,
-                "CR": 0xD,
                 # "Scommaaccent": 0x218,
                 # "afii61352": 0x2116,
             }

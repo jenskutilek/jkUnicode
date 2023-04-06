@@ -5,15 +5,6 @@ import codecs
 import os
 from pathlib import Path
 
-aglfnAdditions = {
-    "NULL": 0x0000,
-    "CR": 0xD,
-    "twosuperior": 0x00B2,
-    "threesuperior": 0x00B3,
-    "onesuperior": 0x00B9,
-    "fi": 0xFB01,
-    "fl": 0xFB02,
-}
 
 module_path = Path(os.path.split(Path(__file__).resolve().parent)[0])
 data_path = module_path / "data"
@@ -256,10 +247,6 @@ def write_aglfn():
                                     elements[2].strip(),
                                 )
                             )
-            if aglfnAdditions:
-                outfile.write("\n    # Local additions:")
-            for k in sorted(aglfnAdditions.keys()):
-                outfile.write('\n    "%s": 0x%04X,' % (k, aglfnAdditions[k]))
             outfile.write("\n}\n")
         print("OK.")
     else:

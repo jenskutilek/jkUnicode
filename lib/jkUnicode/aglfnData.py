@@ -334,7 +334,7 @@ nameToUnicode = {
     "filledbox": 0x25A0,  # BLACK SQUARE
     "filledrect": 0x25AC,  # BLACK RECTANGLE
     "five": 0x0035,  # DIGIT FIVE
-    "fiveeighths": 0x215D,  # VULGAR FRACTION FIVE EIGHTHS
+    # "fiveeighths": 0x215D,  # VULGAR FRACTION FIVE EIGHTHS
     "florin": 0x0192,  # LATIN SMALL LETTER F WITH HOOK
     "four": 0x0034,  # DIGIT FOUR
     "fraction": 0x2044,  # FRACTION SLASH
@@ -444,7 +444,7 @@ nameToUnicode = {
     "omicrontonos": 0x03CC,  # GREEK SMALL LETTER OMICRON WITH TONOS
     "one": 0x0031,  # DIGIT ONE
     "onedotenleader": 0x2024,  # ONE DOT LEADER
-    "oneeighth": 0x215B,  # VULGAR FRACTION ONE EIGHTH
+    # "oneeighth": 0x215B,  # VULGAR FRACTION ONE EIGHTH
     "onehalf": 0x00BD,  # VULGAR FRACTION ONE HALF
     "onequarter": 0x00BC,  # VULGAR FRACTION ONE QUARTER
     "onethird": 0x2153,  # VULGAR FRACTION ONE THIRD
@@ -509,7 +509,7 @@ nameToUnicode = {
     "section": 0x00A7,  # SECTION SIGN
     "semicolon": 0x003B,  # SEMICOLON
     "seven": 0x0037,  # DIGIT SEVEN
-    "seveneighths": 0x215E,  # VULGAR FRACTION SEVEN EIGHTHS
+    # "seveneighths": 0x215E,  # VULGAR FRACTION SEVEN EIGHTHS
     "shade": 0x2592,  # MEDIUM SHADE
     "sigma": 0x03C3,  # GREEK SMALL LETTER SIGMA
     "sigma1": 0x03C2,  # GREEK SMALL LETTER FINAL SIGMA
@@ -532,7 +532,7 @@ nameToUnicode = {
     "theta1": 0x03D1,  # GREEK THETA SYMBOL
     "thorn": 0x00FE,  # LATIN SMALL LETTER THORN
     "three": 0x0033,  # DIGIT THREE
-    "threeeighths": 0x215C,  # VULGAR FRACTION THREE EIGHTHS
+    # "threeeighths": 0x215C,  # VULGAR FRACTION THREE EIGHTHS
     "threequarters": 0x00BE,  # VULGAR FRACTION THREE QUARTERS
     "tilde": 0x02DC,  # SMALL TILDE
     "tildecomb": 0x0303,  # COMBINING TILDE
@@ -587,12 +587,4 @@ nameToUnicode = {
     "zdotaccent": 0x017C,  # LATIN SMALL LETTER Z WITH DOT ABOVE
     "zero": 0x0030,  # DIGIT ZERO
     "zeta": 0x03B6,  # GREEK SMALL LETTER ZETA
-    # Local additions:
-    "CR": 0x000D,
-    "NULL": 0x0000,
-    "fi": 0xFB01,
-    "fl": 0xFB02,
-    "onesuperior": 0x00B9,
-    "threesuperior": 0x00B3,
-    "twosuperior": 0x00B2,
 }

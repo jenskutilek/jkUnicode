@@ -16,15 +16,16 @@ def getUnicodeForGlyphname(name: str) -> int | None:
     :param name: The glyph name.
     :type name: str"""
     ornName = compile("^orn[0-9]{3}$")
+    length = len(name)
     if "_" in name:
         return None
     elif "." in name[1:]:
         return None
     elif name in nameToUnicode.keys():
         return nameToUnicode[name]
-    elif name[0:3] == "uni" and len(name) == 7:
+    elif length == 7 and name.startswith("uni"):
         return int(name[3:], 16)
-    elif name[0] == "u" and len(name) == 6:
+    elif length == 6 and name.startswith("u"):
         try:
             return int(name[1:], 16)
         except ValueError:
