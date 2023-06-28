@@ -713,6 +713,28 @@ class OrthographyInfo:
             o for o in self.orthographies if o.almost_supported_punctuation()
         ]
 
+    def get_kern_list(self, include_optional=False) -> Set[Tuple[int, ...]]:
+        """
+        Return a list of character pairs that may appear in any supported
+        orthography for the current cmap.
+
+        :param include_optional: Include optional characters.
+        :type include_optional: bool
+        """
+        import itertools
+
+        m = self.get_supported_orthographies_minimum_inclusive()
+        possible_pairs = set()
+        for ot in m:
+            if include_optional:
+                unicodes = ot.unicodes_base | ot.unicodes_optional
+            else:
+                unicodes = ot.unicodes_base
+            ot_pairs = set(itertools.combinations_with_replacement(unicodes, 2))
+            possible_pairs |= ot_pairs
+        # print([(chr(L), chr(R)) for L, R in sorted(possible_pairs)])
+        return possible_pairs
+
     def __len__(self) -> int:
         """
         Return the number of known orthographies.
@@ -879,30 +901,15 @@ class OrthographyInfo:
         )
         self.print_report(m, "missing_base", bcp47=bcp47)
 
-    def report_kill_list(self, bcp47=False) -> None:
+    def report_kern_list(self, bcp47=False, include_optional=False) -> None:
         """
-        Print a list of character pairs that do not appear in any supported
+        Print a list of character pairs that may appear in any supported
         orthography for the current cmap.
 
         :param bcp47: Output BCP47 subtags instead of names
         :type bcp47: bool
         """
-        import itertools
-
-        m = self.get_supported_orthographies_minimum_inclusive()
-        possible_pairs = set()
-        for ot in m:
-            unicodes = ot.unicodes_base  # | ot.unicodes_optional
-            ot_pairs = set(itertools.combinations_with_replacement(unicodes, 2))
-            name = ot.identifier if bcp47 else ot.name
-            print(
-                f"{name}: {len(unicodes)} characters, "
-                f"{len(ot_pairs)} possible combinations"
-            )
-            possible_pairs |= ot_pairs
-        # for L, R in sorted(list(possible_pairs)):
-        #     print("%s%s" % (chr(L), chr(R)))
-        print(possible_pairs)
+        print(self.get_kern_list(include_optional))
 
     def split_bcp47(self, value: str) -> Tuple[str, str, str]:
         code = value
