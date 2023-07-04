@@ -136,8 +136,10 @@ class UniInfo:
             "script",
             "uc_mapping",
         ):
-            if hasattr(self, attr):
+            try:
                 delattr(self, attr)
+            except AttributeError:
+                pass
 
         if self._unicode is None:
             self.category_short = "<undefined>"
