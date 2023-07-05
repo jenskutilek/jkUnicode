@@ -3,7 +3,7 @@ from __future__ import annotations
 from jkUnicode import UniInfo
 from jkUnicode.tools.jsonhelpers import dict_from_file
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, FrozenSet, List, Optional, Set, Tuple
 
 
 class Orthography:
@@ -713,7 +713,7 @@ class OrthographyInfo:
             o for o in self.orthographies if o.almost_supported_punctuation()
         ]
 
-    def get_kern_list(self, include_optional=False) -> Set[Tuple[int, ...]]:
+    def get_kern_list(self, include_optional=False) -> Set[FrozenSet[int]]:
         """
         Return a list of character pairs that may appear in any supported
         orthography for the current cmap.
@@ -730,9 +730,21 @@ class OrthographyInfo:
                 unicodes = ot.unicodes_base | ot.unicodes_optional
             else:
                 unicodes = ot.unicodes_base
-            ot_pairs = set(itertools.combinations_with_replacement(unicodes, 2))
+            ot_pairs = frozenset(
+                [
+                    frozenset(sorted(list(pair)))
+                    for pair in itertools.combinations_with_replacement(
+                        unicodes, 2
+                    )
+                ]
+            )
             possible_pairs |= ot_pairs
-        # print([(chr(L), chr(R)) for L, R in sorted(possible_pairs)])
+        # for pair in sorted([sorted(p) for p in possible_pairs]):
+        #     try:
+        #         L, R = pair
+        #         print(chr(L), chr(R))
+        #     except ValueError:
+        #         print(chr(next(iter(pair))))
         return possible_pairs
 
     def __len__(self) -> int:
