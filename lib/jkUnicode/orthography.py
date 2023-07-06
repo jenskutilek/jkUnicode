@@ -724,7 +724,7 @@ class OrthographyInfo:
         import itertools
 
         m = self.get_supported_orthographies_minimum_inclusive()
-        possible_pairs = set()
+        possible_pairs: Set[FrozenSet[int]] = set()
         for ot in m:
             if include_optional:
                 unicodes = ot.unicodes_base | ot.unicodes_optional
