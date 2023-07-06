@@ -124,7 +124,6 @@ def unbreak_lines(lines: List[str]) -> List[str]:
 def generate_language_data(
     zip_path: Path, name_overrides_filename: str | None = None
 ) -> None:
-
     if not zip_path.exists():
         print(
             "Zip file with XML data not found.\nPlease use the shell script "
@@ -147,7 +146,6 @@ def generate_language_data(
             return
 
         with z.open(en_path) as en_xml:
-
             # Extract language, script and territory names from the English data file
 
             root = ET.parse(en_xml).getroot()
