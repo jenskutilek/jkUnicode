@@ -28,7 +28,7 @@ class OrthoCmdLine:
         elif args.full_only:
             self.o.report_supported(full_only=True, bcp47=args.bcp47)
         elif args.kill_list:
-            self.o.report_kill_list(bcp47=args.bcp47)
+            self.o.report_kern_list(bcp47=args.bcp47, include_optional=False)
         else:
             self.o.report_supported(full_only=False, bcp47=args.bcp47)
 
