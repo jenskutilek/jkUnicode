@@ -4,7 +4,9 @@ from setuptools import setup
 
 if __name__ == "__main__":
     setup(
-        # ext_modules=mypycify([
-        #     "lib/jkUnicode/tools/helpers.py",
-        # ]),
+        # ext_modules=mypycify(
+        #     [
+        #         "lib/jkUnicode/tools/helpers.py",
+        #     ]
+        # ),
     )
