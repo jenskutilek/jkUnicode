@@ -36,6 +36,7 @@ class Orthography:
         script: str,
         territory: str,
         info_dict: Dict[str, Any],
+        speakers: int,
     ) -> None:
         self._info = info_obj
         if self._info is None:
@@ -54,6 +55,7 @@ class Orthography:
         self.scan_ok = False
         self.from_dict(info_dict)
         self.forget_cmap()
+        self.speakers = speakers
 
     def from_dict(self, info_dict: Dict[str, Any]) -> None:
         """
@@ -336,6 +338,19 @@ class Orthography:
             return True
         return False
 
+    def speakers_supported_by_unicode(self, u: int) -> int:
+        """
+        If the character was removed from the font,
+        how many fewer speakers would the font support?
+        """
+        if self.num_missing_base != 0:
+            # Not even basic support, nothing to lose
+            return 0
+        if not u in self.unicodes_any:
+            # Not required at all
+            return 0
+        return self.speakers
+
     def scan_cmap(self) -> None:
         """
         Scan the orthography against the current parent cmap. This fills in a
@@ -496,6 +511,7 @@ class OrthographyInfo:
         json_file = {"CDLR": "language_characters", "Hyperglot": "language_characters_hyperglot"}[source]
         master = dict_from_file(data_path, json_file)
         self.source_display_name = "the\u00A0CLDR" if source == "CLDR" else source
+        language_speakers = dict_from_file(data_path, "language_speakers")
         self.ignored_unicodes = set(
             [
                 int(us, 16)
@@ -511,14 +527,20 @@ class OrthographyInfo:
                 # print(script, territory_dict)
                 for territory, info in territory_dict.items():
                     # print(territory, info)
+                    try:
+                        speakers = language_speakers[code]
+                    except KeyError:
+                        speakers = 0
                     self.orthographies.append(
-                        Orthography(self, code, script, territory, info)
+                        Orthography(self, code, script, territory, info, speakers)
                     )
                     self._index[(code, script, territory)] = i
                     i += 1
         for o in self.orthographies:
             o.fill_from_default_orthography()
-
+        if sort_by_speakers:
+            self.orthographies.sort(key=lambda o: o.speakers if o.script == "DFLT" else o.speakers / 2097152, reverse=True)
+            # ^ This divisor almost guarantees that non-DFLT orthographies appear at the end of the list
         self._language_names = dict_from_file(data_path, "languages")
         self._script_names = dict_from_file(data_path, "scripts")
         self._territory_names = dict_from_file(data_path, "territories")
@@ -714,6 +736,12 @@ class OrthographyInfo:
         return [
             o for o in self.orthographies if o.almost_supported_punctuation()
         ]
+
+    def speakers_supported_by_unicode(self, u: int) -> int:
+        speakers_supported = 0
+        for o in self.orthographies:
+            speakers_supported += o.speakers_supported_by_unicode(u)
+        return speakers_supported
 
     def get_kern_list(self, include_optional=False) -> Set[FrozenSet[int]]:
         """
