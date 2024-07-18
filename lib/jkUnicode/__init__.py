@@ -10,8 +10,6 @@ from jkUnicode.uniName import uniName
 from jkUnicode.uniNiceName import nice_name_rules
 from jkUnicode.uniScript import get_script
 
-from typing import List, Optional, Tuple
-
 
 categoryName = {
     "Lu": "Letter, Uppercase",

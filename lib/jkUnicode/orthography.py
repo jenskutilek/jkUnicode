@@ -3,7 +3,7 @@ from __future__ import annotations
 from jkUnicode import UniInfo
 from jkUnicode.tools.jsonhelpers import dict_from_file
 from pathlib import Path
-from typing import Any, Dict, FrozenSet, List, Optional, Set, Tuple
+from typing import Any
 
 
 class Orthography:

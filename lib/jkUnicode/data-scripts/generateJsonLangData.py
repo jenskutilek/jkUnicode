@@ -15,7 +15,6 @@ from jkUnicode.tools.jsonhelpers import (
     clean_json_dir,
 )
 from pathlib import Path
-from typing import Dict, List, Tuple
 from typing_extensions import NotRequired, TypeAlias, TypedDict
 from zipfile import ZipFile
 
@@ -31,7 +30,7 @@ class LanguageDict(TypedDict):
     unicodes: CharDict
 
 
-LanguageCharsDict: TypeAlias = Dict[str, Dict[str, Dict[str, LanguageDict]]]
+LanguageCharsDict: TypeAlias = dict[str, dict[str, dict[str, LanguageDict]]]
 
 
 # FIXME
