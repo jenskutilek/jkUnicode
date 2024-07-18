@@ -500,9 +500,6 @@ class OrthographyInfo:
     The main Orthography Info object. It reads the information for each
     orthography from the files in the `json` subfolder. The JSON data is
     generated from the specified data source via included Python scripts.
-
-    This object is expensive to instantiate due to disk access, so it is
-    recommended to instantiate it once and then reuse it.
     """
 
     def __init__(

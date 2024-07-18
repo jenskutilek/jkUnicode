@@ -1,7 +1,5 @@
 import unittest
 
-from time import time
-
 from jkUnicode import UniInfo
 
 
@@ -105,30 +103,39 @@ class TestUniInfo(unittest.TestCase):
         u.char = None
         assert u.unicode is None
 
-    def test_instatiation(self):
-        name = None
-        # Instantiation
-        a0 = time()
-        for c in range(10000):
-            u = UniInfo(c)
-            _ = u.category
-            _ = u.name
-            _ = u.script
-        a1 = time()
+    # I wanted to make sure that reusing an instance is much faster than
+    # re-instantiating the class each time. But if it was once true, now it isn't
+    # anymore. Times are very similar, and with Python 3.12, re-instantiation is even
+    # faster than reusing the object. So I deactivated this test.
 
-        # Reuse
-        b0 = time()
-        u = UniInfo()
-        for c in range(10000):
-            u.unicode = c
-            _ = u.category
-            name = u.name
-            _ = u.script
-        b1 = time()
-        assert b1 - b0 < a1 - a0
-        print("Instantiation:", a1 - a0, "s")
-        print("Reuse:", b1 - b0, "s")
-        assert name == "PENCIL"
+    # def test_instatiation(self):
+    #     from time import time
+    #     name = None
+    #     # Instantiation
+    #     a0 = time()
+    #     for c in range(10000):
+    #         u = UniInfo(c)
+    #         _ = u.category
+    #         _ = u.name
+    #         _ = u.script
+    #     a1 = time()
+
+    #     # Reuse
+    #     b0 = time()
+    #     u = UniInfo()
+    #     for c in range(10000):
+    #         u.unicode = c
+    #         _ = u.category
+    #         name = u.name
+    #         _ = u.script
+    #     b1 = time()
+    #     reinstantiate_time = a1 - a0
+    #     reuse_time = b1 - b0
+    #     # Reuse should be faster
+    #     print("Instantiation:", reinstantiate_time, "s")
+    #     print("Reuse:", reuse_time, "s")
+    #     assert reuse_time < reinstantiate_time
+    #     assert name == "PENCIL"
 
     def test_repr(self):
         u = UniInfo(ord("Ä"))
