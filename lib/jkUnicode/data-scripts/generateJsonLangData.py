@@ -21,9 +21,9 @@ from zipfile import ZipFile
 
 
 class CharDict(TypedDict):
-    base: NotRequired[List[str]]
-    optional: NotRequired[List[str]]
-    punctuation: NotRequired[List[str]]
+    base: NotRequired[list[str]]
+    optional: NotRequired[list[str]]
+    punctuation: NotRequired[list[str]]
 
 
 class LanguageDict(TypedDict):
@@ -87,7 +87,7 @@ def generate_language_tags(data_path: Path) -> None:
 
     lines = unbreak_lines(lines)
     languages = []
-    lang: Dict[str, str] | None = None
+    lang: dict[str, str] | None = None
     for line in lines:
         line = line.strip()
         if line == "%%":
@@ -105,9 +105,9 @@ def generate_language_tags(data_path: Path) -> None:
     pprint(languages)
 
 
-def unbreak_lines(lines: List[str]) -> List[str]:
+def unbreak_lines(lines: list[str]) -> list[str]:
     # Remove continued lines (marked by two spaces at the beginning)
-    long_lines: List[str] = []
+    long_lines: list[str] = []
     line_buffer = ""
     for line in lines:
         if line.startswith("  "):
@@ -268,7 +268,7 @@ def extract_characters(root) -> CharDict:
 
 def parse_lang_char_data(
     z, language_dict, script_dict, territory_dict
-) -> Tuple[LanguageCharsDict, List[str]]:
+) -> tuple[LanguageCharsDict, list[str]]:
     language_chars: LanguageCharsDict = {}
     ignored_languages = copy.deepcopy(language_dict)
 

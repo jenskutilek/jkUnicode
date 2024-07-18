@@ -31,11 +31,11 @@ class Orthography:
 
     def __init__(
         self,
-        info_obj: Optional[Any],
+        info_obj: Any | None,
         code: str,
         script: str,
         territory: str,
-        info_dict: Dict[str, Any],
+        info_dict: dict[str, Any],
         speakers: int,
     ) -> None:
         self._info = info_obj
@@ -47,17 +47,17 @@ class Orthography:
         self.script = script
         self.territory = territory
         self._name = "<Unknown>"
-        self.unicodes_any: Set[int] = set()
-        self.unicodes_base: Set[int] = set()
-        self.unicodes_optional: Set[int] = set()
-        self.unicodes_punctuation: Set[int] = set()
-        self.unicodes_base_punctuation: Set[int] = set()
+        self.unicodes_any: set[int] = set()
+        self.unicodes_base: set[int] = set()
+        self.unicodes_optional: set[int] = set()
+        self.unicodes_punctuation: set[int] = set()
+        self.unicodes_base_punctuation: set[int] = set()
         self.scan_ok = False
         self.from_dict(info_dict)
         self.forget_cmap()
         self.speakers = speakers
 
-    def from_dict(self, info_dict: Dict[str, Any]) -> None:
+    def from_dict(self, info_dict: dict[str, Any]) -> None:
         """
         Read information for the current orthography from a dictionary. This
         method is called during initialization of the object and fills in a
@@ -82,7 +82,7 @@ class Orthography:
             pass
 
         try:
-            uni_info: Dict[str, List] = info_dict["unicodes"]
+            uni_info: dict[str, list] = info_dict["unicodes"]
         except KeyError:
             print(f"WARNING: No Unicode info found for language {self.name}")
             return
@@ -90,7 +90,7 @@ class Orthography:
         # Add the unicode points, and also the cased variants of the unicode
         # points of each category.
         try:
-            u_list: List[int] = uni_info["base"]
+            u_list: list[int] = uni_info["base"]
         except KeyError:
             u_list = []
         self.unicodes_base = (
@@ -137,7 +137,7 @@ class Orthography:
         return self._ui
 
     @property
-    def ignored_unicodes(self) -> Set[int]:
+    def ignored_unicodes(self) -> set[int]:
         """
         The set of ignored codepoints. If a parent
         :py:class:`jkUnicode.orthography.OrthographyInfo` object exists, it is
@@ -147,7 +147,7 @@ class Orthography:
             return set()
         return self.info.ignored_unicodes
 
-    def cased(self, codepoint_list: List[int]) -> List[int]:
+    def cased(self, codepoint_list: list[int]) -> list[int]:
         """
         Return a list with its Unicode case mapping toggled. If a codepoint has
         no lowercase or uppercase mapping, it is dropped from the list.
@@ -282,7 +282,7 @@ class Orthography:
             return True
         return False
 
-    def get_missing(self, minimum: bool = False, punctuation: bool = False) -> Set[int]:
+    def get_missing(self, minimum: bool = False, punctuation: bool = False) -> set[int]:
         """
         Return a set of missing characters for support of the orthography. If
         `minimum` is true, only required characters are listed. If `punctuation`
@@ -435,7 +435,7 @@ class Orthography:
         self.scan_ok = False
 
     @property
-    def info(self) -> Optional["OrthographyInfo"]:
+    def info(self) -> OrthographyInfo | None:
         """
         The parent :py:class:`jkUnicode.orthography.OrthographyInfo` object
         (read-only).
@@ -502,7 +502,7 @@ class OrthographyInfo:
     """
 
     def __init__(
-        self, ui: Optional[UniInfo] = None, source="CDLR", sort_by_speakers=True
+        self, ui: UniInfo | None = None, source="CDLR", sort_by_speakers=True
     ) -> None:
         # We need a UniInfo object
         if ui is None:
@@ -553,12 +553,12 @@ class OrthographyInfo:
         self._script_names = dict_from_file(data_path, "scripts")
         self._territory_names = dict_from_file(data_path, "territories")
 
-        self._cmap: Dict[int, str] = {}
-        self._codepoints: Set[int] = set()
-        self._reverse_cmap: Dict[int, List[int]] = {}
+        self._cmap: dict[int, str] = {}
+        self._codepoints: set[int] = set()
+        self._reverse_cmap: dict[int, list[int]] = {}
 
     @property
-    def cmap(self) -> Dict[int, str]:
+    def cmap(self) -> dict[int, str]:
         """
         The codepoint to glyph name mapping. When you set the cmap, it is
         scanned against all orthographies belonging to the OrthographyInfo
@@ -573,7 +573,7 @@ class OrthographyInfo:
         return self._cmap
 
     @cmap.setter
-    def cmap(self, value: Optional[Dict[int, str]] = None) -> None:
+    def cmap(self, value: dict[int, str] | None = None) -> None:
         if value is None:
             self._cmap = dict()
             self._codepoints = set()
@@ -588,7 +588,7 @@ class OrthographyInfo:
                     o.scan_cmap()
 
     @property
-    def codepoints(self) -> Set[int]:
+    def codepoints(self) -> set[int]:
         return self._codepoints
 
     def build_reverse_cmap(self) -> None:
@@ -607,7 +607,7 @@ class OrthographyInfo:
 
     def orthography(
         self, code: str, script: str = "DFLT", territory: str = "dflt"
-    ) -> Optional[Orthography]:
+    ) -> Orthography | None:
         """
         Access a particular orthography by its language, script and territory
         code.
@@ -624,7 +624,7 @@ class OrthographyInfo:
             return None
         return self.orthographies[i]
 
-    def get_orthographies_for_char(self, char: str) -> List[Orthography]:
+    def get_orthographies_for_char(self, char: str) -> list[Orthography]:
         """
         Get a list of orthographies which use a supplied character at base
         level.
@@ -637,7 +637,7 @@ class OrthographyInfo:
         ol = self._reverse_cmap.get(ord(char), [])
         return [self.orthographies[i] for i in ol]
 
-    def get_orthographies_for_unicode(self, u: int) -> List[Orthography]:
+    def get_orthographies_for_unicode(self, u: int) -> list[Orthography]:
         """
         Get a list of orthographies which use a supplied codepoint at base
         level.
@@ -650,7 +650,7 @@ class OrthographyInfo:
         ol = self._reverse_cmap.get(u, [])
         return [self.orthographies[i] for i in ol]
 
-    def get_orthographies_for_unicode_any(self, u: int) -> List[Orthography]:
+    def get_orthographies_for_unicode_any(self, u: int) -> list[Orthography]:
         """
         Get a list of orthographies which use a supplied codepoint at any
         level.
@@ -697,7 +697,7 @@ class OrthographyInfo:
 
     # Convenience functions
 
-    def get_supported_orthographies(self, full_only: bool = False) -> List[Orthography]:
+    def get_supported_orthographies(self, full_only: bool = False) -> list[Orthography]:
         """
         Get a list of supported orthographies for a character list.
 
@@ -711,21 +711,21 @@ class OrthographyInfo:
 
     def get_supported_orthographies_minimum_inclusive(
         self,
-    ) -> List[Orthography]:
+    ) -> list[Orthography]:
         """
         Get a list of orthographies with minimal or better support for the
         current cmap.
         """
         return [o for o in self.orthographies if o.support_minimal_inclusive]
 
-    def get_supported_orthographies_minimum(self) -> List[Orthography]:
+    def get_supported_orthographies_minimum(self) -> list[Orthography]:
         """
         Get a list of orthographies with minimal support for the current cmap
         only.
         """
         return [o for o in self.orthographies if o.support_minimal]
 
-    def get_almost_supported(self, max_missing: int = 5) -> List[Orthography]:
+    def get_almost_supported(self, max_missing: int = 5) -> list[Orthography]:
         """
         Return a list of almost supported orthographies for the current cmap.
 
@@ -734,7 +734,7 @@ class OrthographyInfo:
         """
         return [o for o in self.orthographies if o.almost_supported_basic(max_missing)]
 
-    def get_almost_supported_punctuation(self) -> List[Orthography]:
+    def get_almost_supported_punctuation(self) -> list[Orthography]:
         return [o for o in self.orthographies if o.almost_supported_punctuation()]
 
     def speakers_supported_by_unicode(self, u: int) -> int:
@@ -743,7 +743,7 @@ class OrthographyInfo:
             speakers_supported += o.speakers_supported_by_unicode(u)
         return speakers_supported
 
-    def get_kern_list(self, include_optional=False) -> Set[FrozenSet[int]]:
+    def get_kern_list(self, include_optional=False) -> set[frozenset[int]]:
         """
         Return a list of character pairs that may appear in any supported
         orthography for the current cmap.
@@ -754,7 +754,7 @@ class OrthographyInfo:
         import itertools
 
         m = self.get_supported_orthographies_minimum_inclusive()
-        possible_pairs: Set[FrozenSet[int]] = set()
+        possible_pairs: set[frozenset[int]] = set()
         for ot in m:
             if include_optional:
                 unicodes = ot.unicodes_base | ot.unicodes_optional
@@ -787,7 +787,7 @@ class OrthographyInfo:
     # Very convenient convenience functions
 
     def print_report(
-        self, otlist: List[Orthography], attr: str, bcp47: bool = False
+        self, otlist: list[Orthography], attr: str, bcp47: bool = False
     ) -> None:
         """
         Print a formatted report for a given list of orthographies.
@@ -868,7 +868,7 @@ class OrthographyInfo:
                 print(ot.name)
 
     def report_missing(
-        self, codes: List[str], minimum=False, punctuation=False, bcp47=False
+        self, codes: list[str], minimum=False, punctuation=False, bcp47=False
     ) -> None:
         """
         Print a report of missing characters for the given BCP47 language
@@ -942,7 +942,7 @@ class OrthographyInfo:
         """
         print(self.get_kern_list(include_optional))
 
-    def split_bcp47(self, value: str) -> Tuple[str, str, str]:
+    def split_bcp47(self, value: str) -> tuple[str, str, str]:
         code = value
         script = "DFLT"
         territory = "dflt"

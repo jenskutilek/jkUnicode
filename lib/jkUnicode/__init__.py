@@ -48,8 +48,8 @@ categoryName = {
 
 
 def get_expanded_glyph_list(
-    unicodes: List[int], ui: Optional["UniInfo"] = None
-) -> List[Tuple[int, Optional[str]]]:
+    unicodes: list[int], ui: UniInfo | None = None
+) -> list[tuple[int, str | None]]:
     """ "Expand" or annotate a list of codepoints.
 
     For codepoints that have a case mapping (UC or LC), the target codepoint of
@@ -92,7 +92,7 @@ class UniInfo:
     find tools to download and regenerate the data in the `tools` subfolder.
     """
 
-    def __init__(self, uni: Optional[int] = None) -> None:
+    def __init__(self, uni: int | None = None) -> None:
         """The Unicode Info object is meant to be instantiated once and then
         reused to get information about different codepoints. Avoid to
         instantiate it often, because it is rather expensive.
@@ -110,14 +110,14 @@ class UniInfo:
             self.unicode = uni
 
     @property
-    def unicode(self) -> Optional[int]:
+    def unicode(self) -> int | None:
         """The Unicode codepoint. Setting this value will look up and fill the
         other pieces of information, like category, range, decomposition
         mapping, and case mapping."""
         return self._unicode
 
     @unicode.setter
-    def unicode(self, value: Optional[int]):
+    def unicode(self, value: int | None):
         if value == self._unicode:
             return
 
@@ -167,12 +167,12 @@ class UniInfo:
         return s
 
     @cached_property
-    def block(self) -> Optional[str]:
+    def block(self) -> str | None:
         """The name of the block for the current codepoint."""
         return get_block(self._unicode)
 
     @cached_property
-    def category(self) -> Optional[str]:
+    def category(self) -> str | None:
         """The name of the category for the current codepoint."""
         if self._unicode is None:
             return None
@@ -183,7 +183,7 @@ class UniInfo:
         return categoryName.get(self.category_short, "<undefined>")
 
     @cached_property
-    def category_short(self) -> Optional[str]:
+    def category_short(self) -> str | None:
         """The short name of the category for the current codepoint."""
         if self._unicode is None:
             return None
@@ -191,7 +191,7 @@ class UniInfo:
         return uniCat.get(self._unicode, "<undefined>")
 
     @property
-    def char(self) -> Optional[str]:
+    def char(self) -> str | None:
         """The character for the current codepoint."""
         if self.unicode is None:
             return None
@@ -199,20 +199,20 @@ class UniInfo:
         return getUnicodeChar(self.unicode)
 
     @char.setter
-    def char(self, value: Optional[str]) -> None:
+    def char(self, value: str | None) -> None:
         if value is None:
             self.unicode = None
         else:
             self.unicode = ord(value)
 
     @cached_property
-    def glyphname(self) -> Optional[str]:
+    def glyphname(self) -> str | None:
         """The AGLFN glyph name for the current codepoint."""
 
         return getGlyphnameForUnicode(self.unicode)
 
     @cached_property
-    def name(self) -> Optional[str]:
+    def name(self) -> str | None:
         """The Unicode name for the current codepoint."""
         if self._unicode is None:
             return None
@@ -234,7 +234,7 @@ class UniInfo:
         return name
 
     @cached_property
-    def nice_name(self) -> Optional[str]:
+    def nice_name(self) -> str | None:
         """A more human-readable Unicode name for the current codepoint."""
         if self.name is None:
             return None
@@ -247,7 +247,7 @@ class UniInfo:
         return self.name.capitalize()
 
     @cached_property
-    def decomposition_mapping(self) -> List[int]:
+    def decomposition_mapping(self) -> list[int]:
         """The decomposition mapping for the current codepoint."""
         if self._unicode is None:
             return []
@@ -259,7 +259,7 @@ class UniInfo:
         return dc
 
     @cached_property
-    def lc_mapping(self) -> Optional[int]:
+    def lc_mapping(self) -> int | None:
         """The lowercase mapping for the current codepoint."""
         if self._unicode is None:
             return None
@@ -267,7 +267,7 @@ class UniInfo:
         return uniLowerCaseMapping.get(self._unicode, None)
 
     @cached_property
-    def uc_mapping(self) -> Optional[int]:
+    def uc_mapping(self) -> int | None:
         """The uppercase mapping for the current codepoint."""
         if self._unicode is None:
             return None
@@ -275,7 +275,7 @@ class UniInfo:
         return uniUpperCaseMapping.get(self._unicode, None)
 
     @cached_property
-    def script(self) -> Optional[str]:
+    def script(self) -> str | None:
         if self._unicode is None:
             return None
 
