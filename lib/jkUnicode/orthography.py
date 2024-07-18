@@ -554,6 +554,10 @@ class OrthographyInfo:
             )
             # ^ This divisor almost guarantees that non-DFLT orthographies appear at the
             # end of the list
+            # Update the index
+            self._index = {}
+            for i, o in enumerate(self.orthographies):
+                self._index[(o.code, o.script, o.territory)] = i
         self._language_names = dict_from_file(data_path, "languages")
         self._script_names = dict_from_file(data_path, "scripts")
         self._territory_names = dict_from_file(data_path, "territories")
