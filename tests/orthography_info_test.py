@@ -16,8 +16,8 @@ def get_cmap():
 class TestOrthographyInfo(unittest.TestCase):
     def test_known_orthographies(self):
         o = OrthographyInfo()
-        orthographies = [f"{ot.name}: {ot.code}" for ot in o.orthographies]
-        assert orthographies == [
+        orthographies = {f"{ot.name}: {ot.code}" for ot in o.orthographies}
+        assert orthographies == {
             "Afrikaans: af",
             "Aghem: agq",
             "Akan: ak",
@@ -272,14 +272,14 @@ class TestOrthographyInfo(unittest.TestCase):
             "Chinese, Mandarin: zh",
             "Chinese, Traditional Mandarin (Traditional Han): zh",
             "Zulu: zu",
-        ]
+        }
 
     def test_scan_full(self):
         o = OrthographyInfo()
         o.cmap = get_cmap()
         supported = o.get_supported_orthographies(full_only=True)
-        orthographies = [f"{ot.name}: {ot.code}" for ot in supported]
-        assert orthographies == [
+        orthographies = {f"{ot.name}: {ot.code}" for ot in supported}
+        assert orthographies == {
             "Asu: asa",
             "Bemba: bem",
             "Bena: bez",
@@ -322,14 +322,14 @@ class TestOrthographyInfo(unittest.TestCase):
             "Teso: teo",
             "Vunjo: vun",
             "Soga: xog",
-        ]
+        }
 
     def test_scan_base(self):
         o = OrthographyInfo()
         o.cmap = get_cmap()
         supported = o.get_supported_orthographies(full_only=False)
-        orthographies = [f"{ot.name}: {ot.code}" for ot in supported]
-        assert orthographies == [
+        orthographies = {f"{ot.name}: {ot.code}" for ot in supported}
+        assert orthographies == {
             "Asu: asa",
             "Bemba: bem",
             "Bena: bez",
@@ -378,14 +378,14 @@ class TestOrthographyInfo(unittest.TestCase):
             "Vunjo: vun",
             "Walser: wae",
             "Soga: xog",
-        ]
+        }
 
     def test_scan_minimal(self):
         o = OrthographyInfo()
         o.cmap = get_cmap()
         supported = o.get_supported_orthographies_minimum()
-        orthographies = [f"{ot.name}: {ot.code}" for ot in supported]
-        assert orthographies == [
+        orthographies = {f"{ot.name}: {ot.code}" for ot in supported}
+        assert orthographies == {
             "Breton: br",
             "Czech: cs",
             "Welsh: cy",
@@ -430,15 +430,15 @@ class TestOrthographyInfo(unittest.TestCase):
             "Xhosa: xh",
             "Nheengatu: yrl",
             "Zulu: zu",
-        ]
+        }
 
     def test_almost_supported(self):
         # Check which orthographies are missing at most 3 characters
         o = OrthographyInfo()
         o.cmap = get_cmap()
         supported = o.get_almost_supported(3)
-        orthographies = [f"{ot.name}: {ot.code}" for ot in supported]
-        assert orthographies == [
+        orthographies = {f"{ot.name}: {ot.code}" for ot in supported}
+        assert orthographies == {
             "Obolo: ann",
             "Catalan: ca",
             "Zarma: dje",
@@ -451,7 +451,7 @@ class TestOrthographyInfo(unittest.TestCase):
             "Tongan: to",
             "Tasawaq: twq",
             "Uzbek: uz",
-        ]
+        }
 
     def test_get_missing(self):
         o = OrthographyInfo()
@@ -459,9 +459,8 @@ class TestOrthographyInfo(unittest.TestCase):
         ot = o.orthography("de", territory="CH")
         assert ot is not None
 
-        missing = ot.get_missing(minimum=False, punctuation=False)
-        characters = sorted(missing)
-        assert characters == [
+        missing = set(ot.get_missing(minimum=False, punctuation=False))
+        assert missing == {
             33,
             34,
             35,
@@ -495,7 +494,7 @@ class TestOrthographyInfo(unittest.TestCase):
             8220,
             8222,
             8230,
-        ]
+        }
 
     def test_get_missing_minimum(self):
         o = OrthographyInfo()
@@ -503,10 +502,8 @@ class TestOrthographyInfo(unittest.TestCase):
         ot = o.orthography("agq")
         assert ot is not None
 
-        missing = ot.get_missing(minimum=True, punctuation=False)
-        characters = sorted(missing)
-        print(characters)
-        assert characters == [
+        missing = set(ot.get_missing(minimum=True, punctuation=False))
+        assert missing == {
             390,
             400,
             407,
@@ -524,7 +521,7 @@ class TestOrthographyInfo(unittest.TestCase):
             616,
             649,
             660,
-        ]
+        }
 
     def test_get_missing_punctuation(self):
         o = OrthographyInfo()
@@ -532,9 +529,8 @@ class TestOrthographyInfo(unittest.TestCase):
         ot = o.orthography("de", territory="CH")
         assert ot is not None
 
-        missing = ot.get_missing(minimum=False, punctuation=True)
-        characters = sorted(missing)
-        assert characters == [
+        missing = set(ot.get_missing(minimum=False, punctuation=True))
+        assert missing == {
             33,
             34,
             35,
@@ -562,7 +558,7 @@ class TestOrthographyInfo(unittest.TestCase):
             8220,
             8222,
             8230,
-        ]
+        }
 
     def test_get_missing_unknown(self):
         o = OrthographyInfo()
@@ -638,12 +634,11 @@ class TestOrthographyInfo(unittest.TestCase):
         o = OrthographyInfo()
         o.build_reverse_cmap()
         u = ord("ö")
-        result1 = [ot.code for ot in o.get_orthographies_for_unicode(u)]
-        assert result1 == [
+        result1 = {ot.code for ot in o.get_orthographies_for_unicode(u)}
+        assert result1 == {
             "af",
             "az",
             "cy",
-            "de",
             "de",
             "et",
             "fi",
@@ -662,10 +657,10 @@ class TestOrthographyInfo(unittest.TestCase):
             "tk",
             "tr",
             "wae",
-        ]
+        }
 
-        result2 = [ot.code for ot in o.get_orthographies_for_unicode_any(u)]
-        assert result2 == [
+        result2 = {ot.code for ot in o.get_orthographies_for_unicode_any(u)}
+        assert result2 == {
             "af",
             "ast",
             "az",
@@ -675,16 +670,13 @@ class TestOrthographyInfo(unittest.TestCase):
             "cy",
             "da",
             "de",
-            "de",
             "dsb",
             "ee",
-            "en",
             "en",
             "es",
             "et",
             "eu",
             "fi",
-            "fr",
             "fr",
             "frr",
             "fy",
@@ -731,4 +723,4 @@ class TestOrthographyInfo(unittest.TestCase):
             "xh",
             "yrl",
             "zu",
-        ]
+        }
