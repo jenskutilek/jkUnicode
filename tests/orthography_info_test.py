@@ -1,10 +1,10 @@
 import unittest
 from jkUnicode.orthography import OrthographyInfo
-from os.path import dirname, join
+from pathlib import Path
 
 
 def get_font_path(filename="Empty-Regular.ttf"):
-    return join(dirname(__file__), "data", filename)
+    return Path(__file__).parent / "data" / filename
 
 
 def get_cmap():
