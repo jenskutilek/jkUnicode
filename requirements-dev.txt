@@ -1,0 +1,11 @@
+click==8.1.7
+colorlog==6.8.2
+hyperglot==0.6.4
+iniconfig==2.0.0
+packaging==24.1
+pluggy==1.5.0
+pytest==8.2.2
+PyYAML==6.0.1
+typing_extensions==4.12.2
+uharfbuzz==0.39.3
+unicodedata2==15.1.0
