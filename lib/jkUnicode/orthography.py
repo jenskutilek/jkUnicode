@@ -27,6 +27,9 @@ class Orthography:
     :param info_dict: The dictionary which contains the rest of the information
                       about the orthography.
     :type info_dict: dict
+
+    :param speakers: The number of speakers for the orthography.
+    :type speakers: int
     """
 
     def __init__(
