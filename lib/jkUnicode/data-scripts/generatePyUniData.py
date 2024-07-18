@@ -71,7 +71,8 @@ def write_case_mappings():
         print("OK.")
     else:
         print(
-            "WARNING: File UnicodeData.txt not found, Unicode case mapping data not regenerated."
+            "WARNING: File UnicodeData.txt not found, Unicode case mapping data not "
+            "regenerated."
         )
 
 
@@ -93,7 +94,8 @@ def write_category():
         print("OK.")
     else:
         print(
-            "WARNING: File UnicodeData.txt not found, Unicode category data not regenerated."
+            "WARNING: File UnicodeData.txt not found, Unicode category data not "
+            "regenerated."
         )
 
 
@@ -180,7 +182,8 @@ def write_decomposition():
         print("OK.")
     else:
         print(
-            "WARNING: File UnicodeData.txt not found, Unicode name data not regenerated."
+            "WARNING: File UnicodeData.txt not found, Unicode name data not "
+            "regenerated."
         )
 
 
@@ -207,7 +210,9 @@ def write_scripts():
                     else:
                         start = rng
                         end = rng
-                    outfile.write('\n    (0x{}, 0x{}): "{}",'.format(start, end, script))
+                    outfile.write(
+                        '\n    (0x{}, 0x{}): "{}",'.format(start, end, script)
+                    )
             outfile.write("\n}\n")
         print("OK.")
     else:

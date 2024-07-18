@@ -53,7 +53,9 @@ def ortho():
         "--full-only",
         action="store_true",
         default=False,
-        help="Report only orthographies that are supported with all optional characters",
+        help=(
+            "Report only orthographies that are supported with all optional characters"
+        ),
     )
     parser.add_argument(
         "-i",
@@ -67,14 +69,20 @@ def ortho():
         "--kill-list",
         action="store_true",
         default=False,
-        help="Output a list of letters that don't appear together in any supported orthography.",
+        help=(
+            "Output a list of letters that don't appear together in any supported "
+            "orthography."
+        ),
     )
     parser.add_argument(
         "-m",
         "--minimum",
         action="store_true",
         default=False,
-        help="Report orthographies that have only basic support, i.e. no optional characters and no punctuation present",
+        help=(
+            "Report orthographies that have only basic support, i.e. no optional "
+            "characters and no punctuation present"
+        ),
     )
     parser.add_argument(
         "-p",
@@ -88,14 +96,20 @@ def ortho():
         "--near-miss",
         type=int,
         nargs=1,
-        help="Report almost supported orthographies with maximum number of missing characters",
+        help=(
+            "Report almost supported orthographies with maximum number of missing "
+            "characters"
+        ),
     )
     parser.add_argument(
         "-s",
         "--support",
         type=str,
         nargs=1,
-        help="List Unicode characters missing from font to support the provided BCP47 language code",
+        help=(
+            "List Unicode characters missing from font to support the provided BCP47 "
+            "language code"
+        ),
     )
     parser.add_argument("font", type=str, nargs="+", help="One or more fonts")
 

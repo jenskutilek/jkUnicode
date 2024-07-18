@@ -96,7 +96,8 @@ class Orthography:
         self.unicodes_base = (
             set(u_list + self.cased(u_list))
             - self.ignored_unicodes
-            # TODO: For some characters we are currently not generating the all-caps version.
+            # TODO: For some characters we are currently not generating the all-caps
+            # version.
             # example: ǆ (LATIN SMALL LETTER DZ WITH CARON)
             #          should be converted to
             #          ǅ (LATIN CAPITAL LETTER D WITH SMALL LETTER Z WITH CARON)
@@ -548,7 +549,8 @@ class OrthographyInfo:
                 ),
                 reverse=True,
             )
-            # ^ This divisor almost guarantees that non-DFLT orthographies appear at the end of the list
+            # ^ This divisor almost guarantees that non-DFLT orthographies appear at the
+            # end of the list
         self._language_names = dict_from_file(data_path, "languages")
         self._script_names = dict_from_file(data_path, "scripts")
         self._territory_names = dict_from_file(data_path, "territories")
@@ -812,7 +814,11 @@ class OrthographyInfo:
             print("\n%s" % name)
             for u in sorted(list(getattr(ot, attr))):
                 self.ui.unicode = u
-                print("    0x{:04X}\t{}\t{}".format(u, self.ui.glyphname, self.ui.nice_name))
+                print(
+                    "    0x{:04X}\t{}\t{}".format(
+                        u, self.ui.glyphname, self.ui.nice_name
+                    )
+                )
 
     def report_supported_minimum_inclusive(self, bcp47=False) -> None:
         """
@@ -900,7 +906,9 @@ class OrthographyInfo:
                 for u in sorted(missing):
                     self.ui.unicode = u
                     print(
-                        "    0x{:04X}\t{}\t{}".format(u, self.ui.glyphname, self.ui.nice_name)
+                        "    0x{:04X}\t{}\t{}".format(
+                            u, self.ui.glyphname, self.ui.nice_name
+                        )
                     )
 
     def report_missing_punctuation(self, bcp47=False) -> None:

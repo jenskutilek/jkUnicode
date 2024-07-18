@@ -359,7 +359,9 @@ def parse_lang_char_data(
                 "unicodes": char_dict,
             }
             # if territory in territory_dict:
-            #   language_chars[code][script][territory]["territory"] = territory_dict[territory]
+            #     language_chars[code][script][territory]["territory"] = territory_dict[
+            #         territory
+            #     ]
 
     print(f"Parsed {i} files.")
     return language_chars, ignored_languages
