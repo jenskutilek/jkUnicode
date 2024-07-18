@@ -142,7 +142,7 @@ def generate_language_data(
     with ZipFile(zip_path, "r") as z:
         names = z.namelist()
         if en_path not in names:
-            print("'%s' not found in zip file." % en_path)
+            print(f"'{en_path}' not found in zip file.")
             return
 
         with z.open(en_path) as en_xml:
@@ -152,22 +152,18 @@ def generate_language_data(
 
             # Language names
 
-            language_dict = extract_dict(
-                root, "localeDisplayNames/languages/language"
-            )
+            language_dict = extract_dict(root, "localeDisplayNames/languages/language")
             try:
                 # Root is not a language, but the template file
                 del language_dict["root"]
             except KeyError:
                 pass
-            print("OK: Read %i language names." % len(language_dict))
+            print(f"OK: Read {len(language_dict)} language names.")
 
             # Script names
 
-            script_dict = extract_dict(
-                root, "localeDisplayNames/scripts/script"
-            )
-            print("OK: Read %i script names." % len(script_dict))
+            script_dict = extract_dict(root, "localeDisplayNames/scripts/script")
+            print(f"OK: Read {len(script_dict)} script names.")
 
             json_to_file(json_path, "scripts", script_dict)
 
@@ -176,7 +172,7 @@ def generate_language_data(
             territory_dict = extract_dict(
                 root, "localeDisplayNames/territories/territory"
             )
-            print("OK: Read %i territory names." % len(territory_dict))
+            print(f"OK: Read {len(territory_dict)} territory names.")
 
             json_to_file(json_path, "territories", territory_dict)
 
@@ -205,20 +201,20 @@ def generate_language_data(
         json_to_file(json_path, "languages", language_dict)
         json_to_file(json_path, "ignored_languages", ignored_languages)
         for code, v in language_chars.items():
-            # print("json_to_file:", "%s" % code)
-            json_to_file(sep_path, "%s" % code, v)
+            # print("json_to_file:", code)
+            json_to_file(sep_path, str(code), v)
 
 
 def extract_lang_code(internal_path: str, root) -> str | None:
     # Extract code
     code = root.findall("identity/language")
     if len(code) == 0:
-        print("ERROR: Language code not found in file '%s'" % internal_path)
+        print(f"ERROR: Language code not found in file '{internal_path}'")
         return None
     elif len(code) == 1:
         return code[0].attrib["type"]
     else:
-        print("ERROR: Language code ambiguous in file '%s'" % internal_path)
+        print(f"ERROR: Language code ambiguous in file '{internal_path}'")
     return None
 
 
@@ -226,12 +222,12 @@ def extract_script_code(internal_path, root) -> str | None:
     # Extract script
     script = root.findall("identity/script")
     if len(script) == 0:
-        # print("WARNING: Script not found in file '%s'" % internal_path)
+        # print(f"WARNING: Script not found in file '{internal_path}'")
         return "DFLT"
     elif len(script) == 1:
         return script[0].attrib["type"]
     else:
-        print("ERROR: Script ambiguous in file '%s'" % internal_path)
+        print(f"ERROR: Script ambiguous in file '{internal_path}'")
     return None
 
 
@@ -239,12 +235,12 @@ def extract_territory_code(internal_path, root) -> str | None:
     # Extract territory
     territory = root.findall("identity/territory")
     if len(territory) == 0:
-        # print("WARNING: Territory not found in file '%s'" % internal_path)
+        # print(f"WARNING: Territory not found in file '{internal_path}'")
         return "dflt"
     elif len(territory) == 1:
         return territory[0].attrib["type"]
     else:
-        print("ERROR: Territory ambiguous in file '%s'" % internal_path)
+        print(f"ERROR: Territory ambiguous in file '{internal_path}'")
     return None
 
 
@@ -295,10 +291,10 @@ def parse_lang_char_data(
             char_dict = extract_characters(root)
 
             if not char_dict:
-                # print(
-                #     "    XML for %s (%s/%s/%s) contains no character information"
-                #     % (language_dict[code], script, code, territory)
-                # )
+                print(
+                    f"    XML for {language_dict[code]} ({script}/{code}/{territory}) "
+                    f"contains no character information"
+                )
                 continue
 
             if code not in language_dict:
@@ -318,9 +314,9 @@ def parse_lang_char_data(
                 language_chars[code][script] = {}
 
             # Found best matching entry from language_dict
-            c_t_key = "%s_%s" % (code, territory)
-            c_s_key = "%s_%s" % (code, script)
-            all_key = "%s_%s_%s" % (code, script, territory)
+            c_t_key = f"{code}_{territory}"
+            c_s_key = f"{code}_{script}"
+            all_key = f"{code}_{script}_{territory}"
             found = False
             name = "Unknown"
             for key in [all_key, c_t_key, c_s_key, code]:
@@ -333,35 +329,29 @@ def parse_lang_char_data(
                         pass
                     break
             if not found:
-                print(
-                    "Could not determine name for %s/%s/%s"
-                    % (script, code, territory)
-                )
+                print(f"Could not determine name for {script}/{code}/{territory}")
 
             # Build name including script or territory
             if script == "DFLT":
                 if territory != "dflt":
-                    name += " (%s)" % (
+                    tn = (
                         territory_dict[territory]
                         if territory in territory_dict
-                        else territory,
+                        else territory
                     )
+                    name += f" ({tn})"
             else:
                 if territory == "dflt":
-                    name += " (%s)" % (
-                        script_dict[script]
-                        if script in script_dict
-                        else script,
-                    )
+                    sn = script_dict[script] if script in script_dict else script
+                    name += f" ({sn})"
                 else:
-                    name += " (%s, %s)" % (
-                        script_dict[script]
-                        if script in script_dict
-                        else script,
+                    sn = script_dict[script] if script in script_dict else script
+                    tn = (
                         territory_dict[territory]
                         if territory in territory_dict
-                        else territory,
+                        else territory
                     )
+                    name += f" ({sn}, {tn})"
 
             assert territory is not None
             language_chars[code][script][territory] = {

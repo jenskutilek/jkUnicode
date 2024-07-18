@@ -16,9 +16,7 @@ class RangeDict(dict):
         for k, v in self.items():
             if k[0] <= key <= k[1]:
                 return v
-        raise KeyError(
-            f"Key '{key}' is not between any values in the RangeDict"
-        )
+        raise KeyError(f"Key '{key}' is not between any values in the RangeDict")
 
     def __setitem__(self, key: Any, value: Any) -> None:
         try:
@@ -35,9 +33,7 @@ class RangeDict(dict):
                     "Key of a RangeDict must be an iterable with length two"
                 )
         except TypeError:
-            raise TypeError(
-                "Key of a RangeDict must be an iterable with length two"
-            )
+            raise TypeError("Key of a RangeDict must be an iterable with length two")
 
     def __contains__(self, key: Any) -> bool:
         try:

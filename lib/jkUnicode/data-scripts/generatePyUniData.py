@@ -140,15 +140,11 @@ def write_blocks():
                                     )
                                 )
                                 if False:
-                                    outfile.write(
-                                        f"  # {end - start + 1} chars"
-                                    )
+                                    outfile.write(f"  # {end - start + 1} chars")
             outfile.write("\n}\n")
         print("OK.")
     else:
-        print(
-            "WARNING: File Blocks.txt not found, Unicode block data not regenerated."
-        )
+        print("WARNING: File Blocks.txt not found, Unicode block data not regenerated.")
 
 
 def write_decomposition():
@@ -211,9 +207,7 @@ def write_scripts():
                     else:
                         start = rng
                         end = rng
-                    outfile.write(
-                        '\n    (0x%s, 0x%s): "%s",' % (start, end, script)
-                    )
+                    outfile.write('\n    (0x%s, 0x%s): "%s",' % (start, end, script))
             outfile.write("\n}\n")
         print("OK.")
     else:

@@ -94,7 +94,8 @@ class Orthography:
         except KeyError:
             u_list = []
         self.unicodes_base = (
-            set(u_list + self.cased(u_list)) - self.ignored_unicodes
+            set(u_list + self.cased(u_list))
+            - self.ignored_unicodes
             # TODO: For some characters we are currently not generating the all-caps version.
             # example: ǆ (LATIN SMALL LETTER DZ WITH CARON)
             #          should be converted to
@@ -122,13 +123,9 @@ class Orthography:
         )
 
         # Additional sets to speed up later calculations
-        self.unicodes_base_punctuation = (
-            self.unicodes_base | self.unicodes_punctuation
-        )
+        self.unicodes_base_punctuation = self.unicodes_base | self.unicodes_punctuation
         self.unicodes_any = (
-            self.unicodes_base
-            | self.unicodes_optional
-            | self.unicodes_punctuation
+            self.unicodes_base | self.unicodes_optional | self.unicodes_punctuation
         )
 
     @property
@@ -285,9 +282,7 @@ class Orthography:
             return True
         return False
 
-    def get_missing(
-        self, minimum: bool = False, punctuation: bool = False
-    ) -> Set[int]:
+    def get_missing(self, minimum: bool = False, punctuation: bool = False) -> Set[int]:
         """
         Return a set of missing characters for support of the orthography. If
         `minimum` is true, only required characters are listed. If `punctuation`
@@ -352,7 +347,7 @@ class Orthography:
         if self.num_missing_base != 0:
             # Not even basic support, nothing to lose
             return 0
-        if not u in self.unicodes_any:
+        if u not in self.unicodes_any:
             # Not required at all
             return 0
         return self.speakers
@@ -506,7 +501,9 @@ class OrthographyInfo:
     recommended to instantiate it once and then reuse it.
     """
 
-    def __init__(self, ui: Optional[UniInfo] = None, source="CDLR", sort_by_speakers=True) -> None:
+    def __init__(
+        self, ui: Optional[UniInfo] = None, source="CDLR", sort_by_speakers=True
+    ) -> None:
         # We need a UniInfo object
         if ui is None:
             self.ui = UniInfo()
@@ -514,15 +511,15 @@ class OrthographyInfo:
             self.ui = ui
 
         data_path = Path(__file__).resolve().parent / "json"
-        json_file = {"CDLR": "language_characters", "Hyperglot": "language_characters_hyperglot"}[source]
+        json_file = {
+            "CDLR": "language_characters",
+            "Hyperglot": "language_characters_hyperglot",
+        }[source]
         master = dict_from_file(data_path, json_file)
         self.source_display_name = "the\u00A0CLDR" if source == "CLDR" else source
         language_speakers = dict_from_file(data_path, "language_speakers")
         self.ignored_unicodes = set(
-            [
-                int(us, 16)
-                for us in dict_from_file(data_path, "ignored_characters")
-            ]
+            [int(us, 16) for us in dict_from_file(data_path, "ignored_characters")]
         )
         self.orthographies = []
         self._index = {}
@@ -545,7 +542,12 @@ class OrthographyInfo:
         for o in self.orthographies:
             o.fill_from_default_orthography()
         if sort_by_speakers:
-            self.orthographies.sort(key=lambda o: o.speakers if o.script == "DFLT" else o.speakers / 2097152, reverse=True)
+            self.orthographies.sort(
+                key=lambda o: (
+                    o.speakers if o.script == "DFLT" else o.speakers / 2097152
+                ),
+                reverse=True,
+            )
             # ^ This divisor almost guarantees that non-DFLT orthographies appear at the end of the list
         self._language_names = dict_from_file(data_path, "languages")
         self._script_names = dict_from_file(data_path, "scripts")
@@ -695,9 +697,7 @@ class OrthographyInfo:
 
     # Convenience functions
 
-    def get_supported_orthographies(
-        self, full_only: bool = False
-    ) -> List[Orthography]:
+    def get_supported_orthographies(self, full_only: bool = False) -> List[Orthography]:
         """
         Get a list of supported orthographies for a character list.
 
@@ -732,16 +732,10 @@ class OrthographyInfo:
         :param max_missing: The maximum allowed number of missing characters.
         :type max_missing: int
         """
-        return [
-            o
-            for o in self.orthographies
-            if o.almost_supported_basic(max_missing)
-        ]
+        return [o for o in self.orthographies if o.almost_supported_basic(max_missing)]
 
     def get_almost_supported_punctuation(self) -> List[Orthography]:
-        return [
-            o for o in self.orthographies if o.almost_supported_punctuation()
-        ]
+        return [o for o in self.orthographies if o.almost_supported_punctuation()]
 
     def speakers_supported_by_unicode(self, u: int) -> int:
         speakers_supported = 0
@@ -769,9 +763,7 @@ class OrthographyInfo:
             ot_pairs = frozenset(
                 [
                     frozenset(sorted(list(pair)))
-                    for pair in itertools.combinations_with_replacement(
-                        unicodes, 2
-                    )
+                    for pair in itertools.combinations_with_replacement(unicodes, 2)
                 ]
             )
             possible_pairs |= ot_pairs
@@ -820,10 +812,7 @@ class OrthographyInfo:
             print("\n%s" % name)
             for u in sorted(list(getattr(ot, attr))):
                 self.ui.unicode = u
-                print(
-                    "    0x%04X\t%s\t%s"
-                    % (u, self.ui.glyphname, self.ui.nice_name)
-                )
+                print("    0x%04X\t%s\t%s" % (u, self.ui.glyphname, self.ui.nice_name))
 
     def report_supported_minimum_inclusive(self, bcp47=False) -> None:
         """
@@ -834,10 +823,7 @@ class OrthographyInfo:
         :type bcp47: bool
         """
         m = self.get_supported_orthographies_minimum_inclusive()
-        print(
-            "The font has minimal or better support for %i orthographies:"
-            % len(m)
-        )
+        print("The font has minimal or better support for %i orthographies:" % len(m))
         m.sort()
         for ot in m:
             if bcp47:
@@ -914,8 +900,7 @@ class OrthographyInfo:
                 for u in sorted(missing):
                     self.ui.unicode = u
                     print(
-                        "    0x%04X\t%s\t%s"
-                        % (u, self.ui.glyphname, self.ui.nice_name)
+                        "    0x%04X\t%s\t%s" % (u, self.ui.glyphname, self.ui.nice_name)
                     )
 
     def report_missing_punctuation(self, bcp47=False) -> None:
@@ -927,9 +912,7 @@ class OrthographyInfo:
         :type bcp47: bool
         """
         m = self.get_almost_supported_punctuation()
-        print(
-            "Orthographies which can be supported by adding punctuation characters:"
-        )
+        print("Orthographies which can be supported by adding punctuation characters:")
         self.print_report(m, "missing_punctuation", bcp47=bcp47)
 
     def report_near_misses(self, n: int = 5, bcp47=False) -> None:

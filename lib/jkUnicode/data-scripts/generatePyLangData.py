@@ -19,14 +19,11 @@ def update_language_dict(language_dict, override_dict):
                                 language_dict[script][territory]["name"] = v
                             elif k == "unicodes":
                                 for cat, contents in v.items():
-                                    language_dict[script][territory][
-                                        "unicodes"
-                                    ][cat] = contents
+                                    language_dict[script][territory]["unicodes"][
+                                        cat
+                                    ] = contents
                             else:
-                                print(
-                                    "WARNING: Unknown key in territory "
-                                    f"ignored: {k}"
-                                )
+                                print(f"WARNING: Unknown key in territory ignored: {k}")
                         else:
                             language_dict[script][territory][k] = v
                 else:
@@ -44,19 +41,14 @@ if not (json_path / "languages.json").exists():
     )
 else:
     language_names = dict_from_file(json_path, "languages")
-    print("OK: Read %i language names." % len(language_names))
+    print(f"OK: Read {len(language_names)} language names.")
     # print([name for name in sorted(language_names.keys())])
 
     if (json_path / "languages_additional.json").exists():
         # Read additional languages which are only added via override file
         try:
-            add_language_names = dict_from_file(
-                json_path, "languages_additional"
-            )
-            print(
-                "OK: Read %i additional language names."
-                % len(add_language_names)
-            )
+            add_language_names = dict_from_file(json_path, "languages_additional")
+            print(f"OK: Read {len(add_language_names)} additional language names.")
             for key, value in add_language_names.items():
                 language_names[key] = value
         except ValueError:
@@ -82,28 +74,24 @@ else:
     master = {}
 
     for code in sorted(language_names.keys()):
-        file_name = "%s.json" % code
+        file_name = f"{code}.json"
         if (languages_path / file_name).exists():
             language_dict = dict_from_file(languages_path, code)
             if (overrides_path / file_name).exists():
-                print("INFO: Using override JSON file for '%s'" % code)
+                print(f"INFO: Using override JSON file for '{code}'")
                 update_language_dict(
                     language_dict, dict_from_file(overrides_path, code)
                 )
         else:
             language_dict = {}
             if (overrides_path / file_name).exists():
-                print(
-                    "INFO: Using override JSON file for custom definition "
-                    f"'{code}'"
-                )
+                print(f"INFO: Using override JSON file for custom definition '{code}'")
                 language_dict = dict_from_file(overrides_path, code)
             elif "_" not in code or code.split("_")[0] not in language_names:
                 # The language code is territory or script specific, but the
                 # parent language file is not found.
                 print(
-                    f"WARNING: Language '{code}' requested, but JSON file "
-                    "not found."
+                    f"WARNING: Language '{code}' requested, but JSON file " "not found."
                 )
 
         if language_dict:

@@ -227,9 +227,7 @@ class UniInfo:
                     self._unicode - 0xD8000
                 )
             if 0xDB80 <= self._unicode < 0xDBFF:
-                return "<Private Use High Surrogate #%i>" % (
-                    self._unicode - 0xDB80
-                )
+                return "<Private Use High Surrogate #%i>" % (self._unicode - 0xDB80)
             if 0xDC00 <= self._unicode < 0xDFFF:
                 return "<Low Surrogate #%i>" % (self._unicode - 0xDC00)
             return "<undefined>"
