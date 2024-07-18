@@ -6,6 +6,6 @@ lib/jkUnicode/data/core.zip
 lib/jkUnicode/data/UnicodeData.txt
 .tox/
 *.egg-info/
-env/*
+venv/*
 _version.py
 doc/_build/*
