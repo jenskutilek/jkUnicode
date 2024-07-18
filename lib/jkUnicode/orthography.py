@@ -518,9 +518,9 @@ class OrthographyInfo:
         master = dict_from_file(data_path, json_file)
         self.source_display_name = "the\u00A0CLDR" if source == "CLDR" else source
         language_speakers = dict_from_file(data_path, "language_speakers")
-        self.ignored_unicodes = set(
-            [int(us, 16) for us in dict_from_file(data_path, "ignored_characters")]
-        )
+        self.ignored_unicodes = {
+            int(us, 16) for us in dict_from_file(data_path, "ignored_characters")
+        }
         self.orthographies = []
         self._index = {}
         i = 0
