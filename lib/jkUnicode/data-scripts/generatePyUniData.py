@@ -207,7 +207,7 @@ def write_scripts():
                     else:
                         start = rng
                         end = rng
-                    outfile.write('\n    (0x%s, 0x%s): "%s",' % (start, end, script))
+                    outfile.write('\n    (0x{}, 0x{}): "{}",'.format(start, end, script))
             outfile.write("\n}\n")
         print("OK.")
     else:

@@ -812,7 +812,7 @@ class OrthographyInfo:
             print("\n%s" % name)
             for u in sorted(list(getattr(ot, attr))):
                 self.ui.unicode = u
-                print("    0x%04X\t%s\t%s" % (u, self.ui.glyphname, self.ui.nice_name))
+                print("    0x{:04X}\t{}\t{}".format(u, self.ui.glyphname, self.ui.nice_name))
 
     def report_supported_minimum_inclusive(self, bcp47=False) -> None:
         """
@@ -900,7 +900,7 @@ class OrthographyInfo:
                 for u in sorted(missing):
                     self.ui.unicode = u
                     print(
-                        "    0x%04X\t%s\t%s" % (u, self.ui.glyphname, self.ui.nice_name)
+                        "    0x{:04X}\t{}\t{}".format(u, self.ui.glyphname, self.ui.nice_name)
                     )
 
     def report_missing_punctuation(self, bcp47=False) -> None:

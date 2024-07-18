@@ -68,7 +68,7 @@ def extract_char_dict(root, key):
 
 def format_char_list(char_list):
     return [
-        "0x%04X %s %s" % (ord(cc), cc, getGlyphnameForUnicode(ord(cc)))
+        "0x{:04X} {} {}".format(ord(cc), cc, getGlyphnameForUnicode(ord(cc)))
         for cc in char_list
     ]
 

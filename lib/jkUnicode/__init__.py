@@ -150,12 +150,12 @@ class UniInfo:
         if self.unicode is None:
             s = "      Unicode: None"
         else:
-            s = "      Unicode: 0x%04X (dec. %s)" % (
+            s = "      Unicode: 0x{:04X} (dec. {})".format(
                 self.unicode,
                 self.unicode,
             )
         s += "\n         Name: %s" % self.name
-        s += "\n     Category: %s (%s)" % (self.category_short, self.category)
+        s += "\n     Category: {} ({})".format(self.category_short, self.category)
         if self.uc_mapping:
             s += "\n    Uppercase: 0x%04X" % self.uc_mapping
         if self.lc_mapping:

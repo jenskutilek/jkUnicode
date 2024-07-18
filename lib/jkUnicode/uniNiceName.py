@@ -62,7 +62,7 @@ def transform_capital_letter(name):
 def transform_allah(name):
     m = re_allah.match(name)
     if m:
-        result = "%s%s" % (m.group(1).capitalize(), m.group(2).title())
+        result = "{}{}".format(m.group(1).capitalize(), m.group(2).title())
         if m.group(3) is not None:
             result += "%s" % m.group(3).lower()
         # print(result)
