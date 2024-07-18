@@ -1,6 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-from jkUnicode.tools.jsonhelpers import json_path, json_to_file, dict_from_file
+from jkUnicode.tools.jsonhelpers import json_to_file, dict_from_file
+
+from pathlib import Path
+
+base_path = Path(__file__).parent.parent
+module_path = base_path / "lib" / "jkUnicode"
+json_path = module_path / "json"  # Output path for JSON files
 
 print(f"JSON path: {json_path}")
 languages_path = json_path / "languages"

@@ -2,12 +2,14 @@
 
 import argparse
 import codecs
-import os
+
 from pathlib import Path
 
+base_path = Path(__file__).parent.parent
+module_path = base_path / "lib" / "jkUnicode"
+json_path = module_path / "json"  # Output path for JSON files
 
-module_path = Path(os.path.split(Path(__file__).resolve().parent)[0])
-data_path = module_path / "data"
+data_path = base_path / "data"
 gen_message = (
     "# This is a generated file, use data-scripts/generatePyUniData.py "
     "to edit and regenerate.\n\n"

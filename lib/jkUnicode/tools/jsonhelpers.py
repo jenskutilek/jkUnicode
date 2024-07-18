@@ -7,9 +7,6 @@ import os
 from pathlib import Path
 from typing import Any
 
-base_path = Path(os.path.split(Path(__file__).resolve().parent)[0])
-json_path = base_path / "json"
-
 
 def json_to_file(
     path: Path, file_name: str, obj: Any, human_readable: bool = True

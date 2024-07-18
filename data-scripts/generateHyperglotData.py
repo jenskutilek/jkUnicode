@@ -1,10 +1,16 @@
-# This script loads some data from Hyperglot and stores it in a format compatible to jkUnicode
+# This script loads some data from Hyperglot and stores it in a format compatible to
+# jkUnicode
 
 import hyperglot
 
-# import pprint
-import json
+from jkUnicode.tools.jsonhelpers import json_to_file
 from jkUnicode.uniCase import uniUpperCaseMapping, uniLowerCaseMapping
+from pathlib import Path
+
+base_path = Path(__file__).parent.parent
+module_path = base_path / "lib" / "jkUnicode"
+json_path = module_path / "json"  # Output path for JSON files
+
 
 language_speakers_CLDR = {
     "aa": 2119662,
@@ -1008,7 +1014,8 @@ for code, data in languages:
             # different from the one already processed.
             # In some cases, the only difference between two orthographies is the note.
 
-            # The best we can do is to add this orthography (i.e. the possible surplus) as optional characters:
+            # The best we can do is to add this orthography (i.e. the possible surplus)
+            # as optional characters:
             unicodes_dict = language_dict[script][territory]["unicodes"]
             combined_full = set(code_points_reduced(orthography["base"]))
             if "auxiliary" in orthography:
@@ -1064,7 +1071,7 @@ for code, data in languages:
         # let’s apply a minimum (i.e. the average of CLDR and 1/3 of it):
         language_speakers_combined[code] = int(speakers_CLDR * 2 / 3)
 
-with open("jkUnicode/json/language_characters_hyperglot.json", "w") as text_file:
-    text_file.write(json.dumps(language_characters_hyperglot, indent=4))
-with open("jkUnicode/json/language_speakers.json", "w") as text_file:
-    text_file.write(json.dumps(language_speakers_combined, indent=4))
+json_to_file(
+    json_path, "language_characters_hyperglot.json", language_characters_hyperglot
+)
+json_to_file(json_path, "language_speakers.json", language_speakers_combined)

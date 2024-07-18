@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
 import codecs
 import copy
-import os
 import re
 import xml.etree.ElementTree as ET
 
@@ -17,6 +15,10 @@ from jkUnicode.tools.jsonhelpers import (
 from pathlib import Path
 from typing_extensions import NotRequired, TypeAlias, TypedDict
 from zipfile import ZipFile
+
+base_path = Path(__file__).parent.parent
+module_path = base_path / "lib" / "jkUnicode"
+json_path = module_path / "json"  # Output path for JSON files
 
 
 class CharDict(TypedDict):
@@ -32,18 +34,11 @@ class LanguageDict(TypedDict):
 
 LanguageCharsDict: TypeAlias = dict[str, dict[str, dict[str, LanguageDict]]]
 
-
-# FIXME
-base_path = Path(os.path.split(Path(__file__).resolve().parent)[0])
-
 # Input path for the CLDR zip file
 zip_path = base_path / "data" / "core.zip"
 
 # Input path for BCP47 language subtag data
 tags_path = base_path / "data" / "language-subtag-registry"
-
-# Output path for JSON files
-json_path = base_path / "json"
 
 # Language names override file name inside json_path
 language_names_override_filename = "override_names"

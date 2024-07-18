@@ -1,8 +1,8 @@
 # Updating the base data
 
-The module takes its information from the official data of the Unicode standard, the Unicode CLDR (Common Local Data Repository), and Adobe’s AGLFN standard. If you wish to update or customize this data, you must install the package from source code.
+The module takes its information from the official data of the Unicode standard, the Unicode CLDR (Common Locale Data Repository), and Adobe’s AGLFN standard. If you wish to update or customize this data, you must install the package from source code.
 
-The downloaded data from the official sources must be converted to a format that is useable with this module. Scripts are included in the source code to aid this conversion. They can be found in `lib/jkUnicode/data` and `lib/jkUnicode/data-scripts`.
+The downloaded data from the official sources must be converted to a format that is useable with this module. Scripts are included in the source code to aid this conversion. They can be found in `data` and `data-scripts`.
 
 ## Unicode and AGLFN data
 
@@ -13,6 +13,7 @@ The downloaded data from the official sources must be converted to a format that
 
 - `data/updateLangData.sh` – Download of the Unicode CLDR data.
 - `data-scripts/generateJsonLangData.py` – Convert the CLDR data to the JSON format.
+- `data-scripts/generateHyperglotData.py` – Convert the Hyperglot data to the JSON format.
 - `data-scripts/generatePyLangData.py` – Update the Python module based on the JSON data.
 
 The scripts should be executed in the given order. Before running `generateJsonLangData.py`, you can customize the display names by editing `json/override_names.json`.
