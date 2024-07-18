@@ -8,6 +8,7 @@ class TestOrthography(unittest.TestCase):
             info_obj=None,
             code="de",
             script="LATN",
+            speakers=100000000,
             territory="DE",
             info_dict={
                 "name": "Deutsch",
