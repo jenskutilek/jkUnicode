@@ -1071,7 +1071,5 @@ for code, data in languages:
         # let’s apply a minimum (i.e. the average of CLDR and 1/3 of it):
         language_speakers_combined[code] = int(speakers_CLDR * 2 / 3)
 
-json_to_file(
-    json_path, "language_characters_hyperglot.json", language_characters_hyperglot
-)
-json_to_file(json_path, "language_speakers.json", language_speakers_combined)
+json_to_file(json_path, "language_characters_hyperglot", language_characters_hyperglot)
+json_to_file(json_path, "language_speakers", language_speakers_combined)
