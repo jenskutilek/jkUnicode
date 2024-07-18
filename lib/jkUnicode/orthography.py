@@ -506,7 +506,7 @@ class OrthographyInfo:
     """
 
     def __init__(
-        self, ui: UniInfo | None = None, source="CDLR", sort_by_speakers=True
+        self, ui: UniInfo | None = None, source="CLDR", sort_by_speakers=True
     ) -> None:
         # We need a UniInfo object
         if ui is None:
@@ -516,7 +516,7 @@ class OrthographyInfo:
 
         data_path = Path(__file__).resolve().parent / "json"
         json_file = {
-            "CDLR": "language_characters",
+            "CLDR": "language_characters",
             "Hyperglot": "language_characters_hyperglot",
         }[source]
         master = dict_from_file(data_path, json_file)
