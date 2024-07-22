@@ -206,6 +206,15 @@ class Orthography:
                         if parent_set:
                             # print("    Filled from parent:", attr)
                             setattr(self, attr, parent_set)
+                # Recalculate the combined sets
+                self.unicodes_base_punctuation = (
+                    self.unicodes_base | self.unicodes_punctuation
+                )
+                self.unicodes_any = (
+                    self.unicodes_base
+                    | self.unicodes_optional
+                    | self.unicodes_punctuation
+                )
 
     @property
     def support_full(self) -> bool:
