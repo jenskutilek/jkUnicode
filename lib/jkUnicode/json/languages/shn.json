@@ -1,0 +1,72 @@
+{
+    "DFLT": {
+        "dflt": {
+            "name": "Shan",
+            "unicodes": {
+                "base": [
+                    "0x1004 င uni1004",
+                    "0x1010 တ uni1010",
+                    "0x1011 ထ uni1011",
+                    "0x1015 ပ uni1015",
+                    "0x1019 မ uni1019",
+                    "0x101A ယ uni101A",
+                    "0x101B ရ uni101B",
+                    "0x101C လ uni101C",
+                    "0x101D ဝ uni101D",
+                    "0x101E သ uni101E",
+                    "0x1022 ဢ uni1022",
+                    "0x102D ိ uni102D",
+                    "0x102E ီ uni102E",
+                    "0x102F ု uni102F",
+                    "0x1030 ူ uni1030",
+                    "0x1031 ေ uni1031",
+                    "0x103A ် uni103A",
+                    "0x103B ျ uni103B",
+                    "0x103C ြ uni103C",
+                    "0x103D ွ uni103D",
+                    "0x1075 ၵ uni1075",
+                    "0x1076 ၶ uni1076",
+                    "0x1077 ၷ uni1077",
+                    "0x1078 ၸ uni1078",
+                    "0x107A ၺ uni107A",
+                    "0x107B ၻ uni107B",
+                    "0x107C ၼ uni107C",
+                    "0x107D ၽ uni107D",
+                    "0x107E ၾ uni107E",
+                    "0x107F ၿ uni107F",
+                    "0x1080 ႀ uni1080",
+                    "0x1081 ႁ uni1081",
+                    "0x1082 ႂ uni1082",
+                    "0x1083 ႃ uni1083",
+                    "0x1084 ႄ uni1084",
+                    "0x1087 ႇ uni1087",
+                    "0x1088 ႈ uni1088",
+                    "0x1089 ႉ uni1089",
+                    "0x108A ႊ uni108A",
+                    "0x109E ႞ uni109E",
+                    "0x109F ႟ uni109F",
+                    "0x200B ​ uni200B",
+                    "0xA9E3 ꧣ uniA9E3",
+                    "0xA9E4 ꧤ uniA9E4",
+                    "0xA9E5 ꧥ uniA9E5"
+                ],
+                "optional": [
+                    "0xAA61 ꩡ uniAA61",
+                    "0xAA66 ꩦ uniAA66",
+                    "0xAA67 ꩧ uniAA67",
+                    "0xAA68 ꩨ uniAA68",
+                    "0xAA69 ꩩ uniAA69",
+                    "0xAA6E ꩮ uniAA6E"
+                ],
+                "punctuation": [
+                    "0x104A ၊ uni104A",
+                    "0x104B ။ uni104B",
+                    "0x2018 ‘ quoteleft",
+                    "0x2019 ’ quoteright",
+                    "0x201C “ quotedblleft",
+                    "0x201D ” quotedblright"
+                ]
+            }
+        }
+    }
+}

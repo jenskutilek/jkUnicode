@@ -43,5 +43,68 @@
                 ]
             }
         }
+    },
+    "Deva": {
+        "dflt": {
+            "name": "Santali (Devanagari)",
+            "unicodes": {
+                "base": [
+                    "0x0902 ं uni0902",
+                    "0x0905 अ uni0905",
+                    "0x0906 आ uni0906",
+                    "0x0908 ई uni0908",
+                    "0x0909 उ uni0909",
+                    "0x090F ए uni090F",
+                    "0x0913 ओ uni0913",
+                    "0x0915 क uni0915",
+                    "0x0917 ग uni0917",
+                    "0x091A च uni091A",
+                    "0x091C ज uni091C",
+                    "0x091E ञ uni091E",
+                    "0x091F ट uni091F",
+                    "0x0921 ड uni0921",
+                    "0x0923 ण uni0923",
+                    "0x0924 त uni0924",
+                    "0x0926 द uni0926",
+                    "0x0928 न uni0928",
+                    "0x092A प uni092A",
+                    "0x092C ब uni092C",
+                    "0x092E म uni092E",
+                    "0x092F य uni092F",
+                    "0x0930 र uni0930",
+                    "0x0932 ल uni0932",
+                    "0x0935 व uni0935",
+                    "0x0938 स uni0938",
+                    "0x0939 ह uni0939",
+                    "0x093C ़ uni093C",
+                    "0x093E ा uni093E",
+                    "0x0940 ी uni0940",
+                    "0x0941 ु uni0941",
+                    "0x0947 े uni0947",
+                    "0x094B ो uni094B"
+                ],
+                "punctuation": [
+                    "0x0021 ! exclam",
+                    "0x0028 ( parenleft",
+                    "0x0029 ) parenright",
+                    "0x002C , comma",
+                    "0x002D - hyphen",
+                    "0x002E . period",
+                    "0x003A : colon",
+                    "0x003B ; semicolon",
+                    "0x003F ? question",
+                    "0x005B [ bracketleft",
+                    "0x005D ] bracketright",
+                    "0x007B { braceleft",
+                    "0x007D } braceright",
+                    "0x0970 ॰ uni0970",
+                    "0x2011 ‑ uni2011",
+                    "0x2018 ‘ quoteleft",
+                    "0x2019 ’ quoteright",
+                    "0x201C “ quotedblleft",
+                    "0x201D ” quotedblright"
+                ]
+            }
+        }
     }
 }

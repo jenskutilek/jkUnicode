@@ -1,4 +1,38 @@
 {
+    "Arab": {
+        "dflt": {
+            "name": "Hausa (Perso-Arabic)",
+            "unicodes": {
+                "base": [
+                    "0x0627 ا uni0627",
+                    "0x0628 ب uni0628",
+                    "0x062A ت uni062A",
+                    "0x062B ث uni062B",
+                    "0x062C ج uni062C",
+                    "0x062D ح uni062D",
+                    "0x062E خ uni062E",
+                    "0x062F د uni062F",
+                    "0x0630 ذ uni0630",
+                    "0x0631 ر uni0631",
+                    "0x0632 ز uni0632",
+                    "0x0633 س uni0633",
+                    "0x0634 ش uni0634",
+                    "0x0635 ص uni0635",
+                    "0x0636 ض uni0636",
+                    "0x0637 ط uni0637",
+                    "0x0638 ظ uni0638",
+                    "0x0639 ع uni0639",
+                    "0x063A غ uni063A",
+                    "0x0641 ف uni0641",
+                    "0x0643 ك uni0643",
+                    "0x0644 ل uni0644",
+                    "0x0645 م uni0645",
+                    "0x0646 ن uni0646",
+                    "0x06A2 ڢ uni06A2"
+                ]
+            }
+        }
+    },
     "DFLT": {
         "NE": {
             "name": "Hausa (Niger)",

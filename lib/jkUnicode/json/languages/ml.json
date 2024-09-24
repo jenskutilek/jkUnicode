@@ -5,7 +5,6 @@
             "unicodes": {
                 "base": [
                     "0x0D02 ം uni0D02",
-                    "0x0D03 ഃ uni0D03",
                     "0x0D05 അ uni0D05",
                     "0x0D06 ആ uni0D06",
                     "0x0D07 ഇ uni0D07",
@@ -13,7 +12,6 @@
                     "0x0D09 ഉ uni0D09",
                     "0x0D0A ഊ uni0D0A",
                     "0x0D0B ഋ uni0D0B",
-                    "0x0D0C ഌ uni0D0C",
                     "0x0D0E എ uni0D0E",
                     "0x0D0F ഏ uni0D0F",
                     "0x0D10 ഐ uni0D10",
@@ -70,13 +68,16 @@
                     "0x0D4C ൌ uni0D4C",
                     "0x0D4D ് uni0D4D",
                     "0x0D57 ൗ uni0D57",
-                    "0x0D60 ൠ uni0D60",
-                    "0x0D61 ൡ uni0D61",
                     "0x0D7A ൺ uni0D7A",
                     "0x0D7B ൻ uni0D7B",
                     "0x0D7C ർ uni0D7C",
                     "0x0D7D ൽ uni0D7D",
-                    "0x0D7E ൾ uni0D7E",
+                    "0x0D7E ൾ uni0D7E"
+                ],
+                "optional": [
+                    "0x0D0C ഌ uni0D0C",
+                    "0x0D60 ൠ uni0D60",
+                    "0x0D61 ൡ uni0D61",
                     "0x0D7F ൿ uni0D7F",
                     "0x200C ‌ uni200C",
                     "0x200D ‍ uni200D"

@@ -39,9 +39,7 @@
                     "0x03CB ϋ upsilondieresis",
                     "0x03CC ό omicrontonos",
                     "0x03CD ύ upsilontonos",
-                    "0x03CE ώ omegatonos"
-                ],
-                "optional": [
+                    "0x03CE ώ omegatonos",
                     "0x1F00 ἀ uni1F00",
                     "0x1F01 ἁ uni1F01",
                     "0x1F02 ἂ uni1F02",
@@ -105,31 +103,6 @@
                     "0x1FE6 ῦ uni1FE6",
                     "0x1FE7 ῧ uni1FE7",
                     "0x1FF6 ῶ uni1FF6"
-                ],
-                "punctuation": [
-                    "0x0021 ! exclam",
-                    "0x0022 \" quotedbl",
-                    "0x0026 & ampersand",
-                    "0x0028 ( parenleft",
-                    "0x0029 ) parenright",
-                    "0x002A * asterisk",
-                    "0x002C , comma",
-                    "0x002D - hyphen",
-                    "0x002E . period",
-                    "0x002F / slash",
-                    "0x003A : colon",
-                    "0x003B ; semicolon",
-                    "0x0040 @ at",
-                    "0x005B [ bracketleft",
-                    "0x005C \\ backslash",
-                    "0x005D ] bracketright",
-                    "0x00A7 § section",
-                    "0x00AB « guillemotleft",
-                    "0x00BB » guillemotright",
-                    "0x2011 ‑ uni2011",
-                    "0x2013 – endash",
-                    "0x2014 — emdash",
-                    "0x2026 … ellipsis"
                 ]
             }
         }

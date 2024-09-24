@@ -103,5 +103,82 @@
                 ]
             }
         }
+    },
+    "Mtei": {
+        "dflt": {
+            "name": "Manipuri (Meitei Mayek)",
+            "unicodes": {
+                "base": [
+                    "0xABC0 ꯀ uniABC0",
+                    "0xABC1 ꯁ uniABC1",
+                    "0xABC2 ꯂ uniABC2",
+                    "0xABC3 ꯃ uniABC3",
+                    "0xABC4 ꯄ uniABC4",
+                    "0xABC5 ꯅ uniABC5",
+                    "0xABC6 ꯆ uniABC6",
+                    "0xABC7 ꯇ uniABC7",
+                    "0xABC8 ꯈ uniABC8",
+                    "0xABC9 ꯉ uniABC9",
+                    "0xABCA ꯊ uniABCA",
+                    "0xABCB ꯋ uniABCB",
+                    "0xABCC ꯌ uniABCC",
+                    "0xABCD ꯍ uniABCD",
+                    "0xABCE ꯎ uniABCE",
+                    "0xABCF ꯏ uniABCF",
+                    "0xABD0 ꯐ uniABD0",
+                    "0xABD1 ꯑ uniABD1",
+                    "0xABD2 ꯒ uniABD2",
+                    "0xABD3 ꯓ uniABD3",
+                    "0xABD4 ꯔ uniABD4",
+                    "0xABD5 ꯕ uniABD5",
+                    "0xABD6 ꯖ uniABD6",
+                    "0xABD7 ꯗ uniABD7",
+                    "0xABD8 ꯘ uniABD8",
+                    "0xABD9 ꯙ uniABD9",
+                    "0xABDA ꯚ uniABDA",
+                    "0xABDB ꯛ uniABDB",
+                    "0xABDC ꯜ uniABDC",
+                    "0xABDD ꯝ uniABDD",
+                    "0xABDE ꯞ uniABDE",
+                    "0xABDF ꯟ uniABDF",
+                    "0xABE0 ꯠ uniABE0",
+                    "0xABE1 ꯡ uniABE1",
+                    "0xABE2 ꯢ uniABE2",
+                    "0xABE3 ꯣ uniABE3",
+                    "0xABE4 ꯤ uniABE4",
+                    "0xABE5 ꯥ uniABE5",
+                    "0xABE6 ꯦ uniABE6",
+                    "0xABE7 ꯧ uniABE7",
+                    "0xABE8 ꯨ uniABE8",
+                    "0xABE9 ꯩ uniABE9",
+                    "0xABEA ꯪ uniABEA",
+                    "0xABEC ꯬ uniABEC",
+                    "0xABED ꯭ uniABED"
+                ],
+                "punctuation": [
+                    "0x0021 ! exclam",
+                    "0x0022 \" quotedbl",
+                    "0x0023 # numbersign",
+                    "0x0026 & ampersand",
+                    "0x0027 ' quotesingle",
+                    "0x0028 ( parenleft",
+                    "0x0029 ) parenright",
+                    "0x002A * asterisk",
+                    "0x002C , comma",
+                    "0x002D - hyphen",
+                    "0x002E . period",
+                    "0x002F / slash",
+                    "0x003A : colon",
+                    "0x003B ; semicolon",
+                    "0x003F ? question",
+                    "0x0040 @ at",
+                    "0x005B [ bracketleft",
+                    "0x005D ] bracketright",
+                    "0x2011 ‑ uni2011",
+                    "0x2026 … ellipsis",
+                    "0xABEB ꯫ uniABEB"
+                ]
+            }
+        }
     }
 }

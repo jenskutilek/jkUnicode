@@ -1,0 +1,72 @@
+{
+    "DFLT": {
+        "dflt": {
+            "name": "Rohingya",
+            "unicodes": {
+                "base": [
+                    "0x10D00 𐴀 u10D00",
+                    "0x10D01 𐴁 u10D01",
+                    "0x10D02 𐴂 u10D02",
+                    "0x10D03 𐴃 u10D03",
+                    "0x10D04 𐴄 u10D04",
+                    "0x10D05 𐴅 u10D05",
+                    "0x10D06 𐴆 u10D06",
+                    "0x10D07 𐴇 u10D07",
+                    "0x10D08 𐴈 u10D08",
+                    "0x10D09 𐴉 u10D09",
+                    "0x10D0A 𐴊 u10D0A",
+                    "0x10D0B 𐴋 u10D0B",
+                    "0x10D0C 𐴌 u10D0C",
+                    "0x10D0D 𐴍 u10D0D",
+                    "0x10D0E 𐴎 u10D0E",
+                    "0x10D0F 𐴏 u10D0F",
+                    "0x10D10 𐴐 u10D10",
+                    "0x10D11 𐴑 u10D11",
+                    "0x10D12 𐴒 u10D12",
+                    "0x10D13 𐴓 u10D13",
+                    "0x10D14 𐴔 u10D14",
+                    "0x10D15 𐴕 u10D15",
+                    "0x10D16 𐴖 u10D16",
+                    "0x10D17 𐴗 u10D17",
+                    "0x10D18 𐴘 u10D18",
+                    "0x10D19 𐴙 u10D19",
+                    "0x10D1A 𐴚 u10D1A",
+                    "0x10D1B 𐴛 u10D1B",
+                    "0x10D1D 𐴝 u10D1D",
+                    "0x10D1E 𐴞 u10D1E",
+                    "0x10D1F 𐴟 u10D1F",
+                    "0x10D20 𐴠 u10D20",
+                    "0x10D21 𐴡 u10D21",
+                    "0x10D22 𐴢 u10D22",
+                    "0x10D23 𐴣 u10D23",
+                    "0x10D24 𐴤 u10D24",
+                    "0x10D25 𐴥 u10D25",
+                    "0x10D26 𐴦 u10D26",
+                    "0x10D27 𐴧 u10D27"
+                ],
+                "optional": [
+                    "0x0640 ـ uni0640"
+                ],
+                "punctuation": [
+                    "0x0021 ! exclam",
+                    "0x0022 \" quotedbl",
+                    "0x0027 ' quotesingle",
+                    "0x0028 ( parenleft",
+                    "0x0029 ) parenright",
+                    "0x002D - hyphen",
+                    "0x002E . period",
+                    "0x003A : colon",
+                    "0x005B [ bracketleft",
+                    "0x005D ] bracketright",
+                    "0x060C ، uni060C",
+                    "0x061B ؛ uni061B",
+                    "0x061F ؟ uni061F",
+                    "0x2011 ‑ uni2011",
+                    "0x2013 – endash",
+                    "0x2014 — emdash",
+                    "0x2026 … ellipsis"
+                ]
+            }
+        }
+    }
+}
