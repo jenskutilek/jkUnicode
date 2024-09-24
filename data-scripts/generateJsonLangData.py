@@ -171,12 +171,11 @@ def generate_language_data(
             json_to_file(json_path, "territories", territory_dict)
 
         for code, name in name_overrides.items():
-            if code in language_dict:
-                print(
-                    f"Overriding name for language '{code}': "
-                    f"{language_dict[code]} → {name}"
-                )
-                language_dict[code] = name
+            print(
+                f"Overriding name for language '{code}': "
+                f"{language_dict.get(code, "(not present)")} → {name}"
+            )
+            language_dict[code] = name
 
         # Now parse all the separate language XML files
 
@@ -186,7 +185,8 @@ def generate_language_data(
         )
 
         for code in ignored_languages:
-            del language_dict[code]
+            if code not in name_overrides:
+                del language_dict[code]
 
         sep_path = json_path / "languages"
 
@@ -286,8 +286,8 @@ def parse_lang_char_data(
 
             if not char_dict:
                 print(
-                    f"    XML for {language_dict[code]} ({script}/{code}/{territory}) "
-                    f"contains no character information"
+                    f"    XML for {language_dict.get(code, "unknown")} ({script}/{code}"
+                    f"/{territory}) contains no character information"
                 )
                 continue
 
