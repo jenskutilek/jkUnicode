@@ -7,7 +7,7 @@ from jkUnicode.orthography import OrthographyInfo
 
 class OrthoCmdLine:
     def __init__(self, font_path, args) -> None:
-        self.o = OrthographyInfo()
+        self.o = OrthographyInfo(source=args.source[0])
         self.o.cmap = self.get_cmap(font_path)
         if args.support:
             self.o.report_missing(
@@ -112,6 +112,13 @@ def ortho():
             "List Unicode characters missing from font to support the provided BCP47 "
             "language code"
         ),
+    )
+    parser.add_argument(
+        "--source",
+        type=str,
+        default="CLDR",
+        nargs=1,
+        help=("Specify the source of orthography data, CLDR (default) or Hyperglot"),
     )
     parser.add_argument("font", type=str, nargs="+", help="One or more fonts")
 
