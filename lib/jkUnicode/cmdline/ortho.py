@@ -1,5 +1,7 @@
 import argparse
+
 from fontTools.ttLib import TTFont
+
 from jkUnicode.orthography import OrthographyInfo
 
 
