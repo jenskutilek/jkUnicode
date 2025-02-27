@@ -116,7 +116,7 @@ def ortho():
     parser.add_argument(
         "--source",
         type=str,
-        default="CLDR",
+        default=["CLDR"],
         nargs=1,
         help=("Specify the source of orthography data, CLDR (default) or Hyperglot"),
     )
