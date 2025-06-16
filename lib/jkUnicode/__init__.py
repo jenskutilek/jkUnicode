@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from functools import cached_property
+
 from jkUnicode.aglfn import getGlyphnameForUnicode
 from jkUnicode.uniBlock import get_block
 from jkUnicode.uniCase import uniLowerCaseMapping, uniUpperCaseMapping
@@ -9,7 +10,6 @@ from jkUnicode.uniDecomposition import uniDecompositionMapping
 from jkUnicode.uniName import uniName
 from jkUnicode.uniNiceName import nice_name_rules
 from jkUnicode.uniScript import get_script
-
 
 categoryName = {
     "Lu": "Letter, Uppercase",
@@ -103,7 +103,7 @@ class UniInfo:
 
         :param uni: The codepoint.
         :type uni: int"""
-        self._unicode = None
+        self._unicode: int | None = None
         if uni is not None:
             self.unicode = uni
 
