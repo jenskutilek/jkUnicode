@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-from jkUnicode import UniInfo
-from jkUnicode.tools.jsonhelpers import dict_from_file
 from pathlib import Path
 from typing import Any
+
+from jkUnicode import UniInfo
+from jkUnicode.tools.jsonhelpers import dict_from_file
 
 
 class Orthography:
@@ -526,7 +527,7 @@ class OrthographyInfo:
             "Hyperglot": "language_characters_hyperglot",
         }[source]
         master = dict_from_file(data_path, json_file)
-        self.source_display_name = "the\u00A0CLDR" if source == "CLDR" else source
+        self.source_display_name = "the\u00a0CLDR" if source == "CLDR" else source
         language_speakers = dict_from_file(data_path, "language_speakers")
         self.ignored_unicodes = {
             int(us, 16) for us in dict_from_file(data_path, "ignored_characters")
