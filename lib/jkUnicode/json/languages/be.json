@@ -35,8 +35,38 @@
                     "0x044F я uni044F",
                     "0x0451 ё uni0451",
                     "0x0456 і uni0456",
-                    "0x045E ў uni045E",
-                    "0x0491 ґ uni0491"
+                    "0x045E ў uni045E"
+                ],
+                "optional": [
+                    "0x0301 ́ acutecomb",
+                    "0x0430 а uni0430",
+                    "0x0435 е uni0435",
+                    "0x043E о uni043E",
+                    "0x0443 у uni0443",
+                    "0x044B ы uni044B",
+                    "0x044D э uni044D",
+                    "0x044E ю uni044E",
+                    "0x044F я uni044F",
+                    "0x0451 ё uni0451",
+                    "0x0456 і uni0456"
+                ],
+                "punctuation": [
+                    "0x0021 ! exclam",
+                    "0x0028 ( parenleft",
+                    "0x0029 ) parenright",
+                    "0x002C , comma",
+                    "0x002D - hyphen",
+                    "0x002E . period",
+                    "0x003A : colon",
+                    "0x003B ; semicolon",
+                    "0x003F ? question",
+                    "0x005B [ bracketleft",
+                    "0x005D ] bracketright",
+                    "0x007B { braceleft",
+                    "0x007D } braceright",
+                    "0x00AB « guillemotleft",
+                    "0x00BB » guillemotright",
+                    "0x2011 ‑ uni2011"
                 ]
             }
         }

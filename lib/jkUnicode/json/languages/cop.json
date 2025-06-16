@@ -1,0 +1,66 @@
+{
+    "DFLT": {
+        "dflt": {
+            "name": "Coptic",
+            "unicodes": {
+                "base": [
+                    "0x03E3 ϣ uni03E3",
+                    "0x03E5 ϥ uni03E5",
+                    "0x03E7 ϧ uni03E7",
+                    "0x03E9 ϩ uni03E9",
+                    "0x03EB ϫ uni03EB",
+                    "0x03ED ϭ uni03ED",
+                    "0x03EF ϯ uni03EF",
+                    "0x2C81 ⲁ uni2C81",
+                    "0x2C83 ⲃ uni2C83",
+                    "0x2C85 ⲅ uni2C85",
+                    "0x2C87 ⲇ uni2C87",
+                    "0x2C89 ⲉ uni2C89",
+                    "0x2C8B ⲋ uni2C8B",
+                    "0x2C8D ⲍ uni2C8D",
+                    "0x2C8F ⲏ uni2C8F",
+                    "0x2C91 ⲑ uni2C91",
+                    "0x2C93 ⲓ uni2C93",
+                    "0x2C95 ⲕ uni2C95",
+                    "0x2C97 ⲗ uni2C97",
+                    "0x2C99 ⲙ uni2C99",
+                    "0x2C9B ⲛ uni2C9B",
+                    "0x2C9D ⲝ uni2C9D",
+                    "0x2C9F ⲟ uni2C9F",
+                    "0x2CA1 ⲡ uni2CA1",
+                    "0x2CA3 ⲣ uni2CA3",
+                    "0x2CA5 ⲥ uni2CA5",
+                    "0x2CA7 ⲧ uni2CA7",
+                    "0x2CA9 ⲩ uni2CA9",
+                    "0x2CAB ⲫ uni2CAB",
+                    "0x2CAD ⲭ uni2CAD",
+                    "0x2CAF ⲯ uni2CAF",
+                    "0x2CB1 ⲱ uni2CB1"
+                ],
+                "optional": [
+                    "0x2CE4 ⳤ uni2CE4",
+                    "0x2CE5 ⳥ uni2CE5",
+                    "0x2CE6 ⳦ uni2CE6",
+                    "0x2CE7 ⳧ uni2CE7",
+                    "0x2CE8 ⳨ uni2CE8",
+                    "0x2CE9 ⳩ uni2CE9",
+                    "0x2CEA ⳪ uni2CEA"
+                ],
+                "punctuation": [
+                    "0x0028 ( parenleft",
+                    "0x0029 ) parenright",
+                    "0x002C , comma",
+                    "0x002E . period",
+                    "0x003A : colon",
+                    "0x003B ; semicolon",
+                    "0x2013 – endash",
+                    "0x2CF9 ⳹ uni2CF9",
+                    "0x2CFC ⳼ uni2CFC",
+                    "0x2CFE ⳾ uni2CFE",
+                    "0x2CFF ⳿ uni2CFF",
+                    "0x2E17 ⸗ uni2E17"
+                ]
+            }
+        }
+    }
+}

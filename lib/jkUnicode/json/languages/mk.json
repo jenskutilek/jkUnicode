@@ -42,6 +42,7 @@
                 ],
                 "punctuation": [
                     "0x0021 ! exclam",
+                    "0x0027 ' quotesingle",
                     "0x0028 ( parenleft",
                     "0x0029 ) parenright",
                     "0x002C , comma",

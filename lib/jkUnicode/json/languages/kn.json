@@ -74,17 +74,7 @@
                     "0x0CD5 ೕ uni0CD5",
                     "0x0CD6 ೖ uni0CD6",
                     "0x0CE0 ೠ uni0CE0",
-                    "0x0CE1 ೡ uni0CE1",
-                    "0x0CE6 ೦ uni0CE6",
-                    "0x0CE7 ೧ uni0CE7",
-                    "0x0CE8 ೨ uni0CE8",
-                    "0x0CE9 ೩ uni0CE9",
-                    "0x0CEA ೪ uni0CEA",
-                    "0x0CEB ೫ uni0CEB",
-                    "0x0CEC ೬ uni0CEC",
-                    "0x0CED ೭ uni0CED",
-                    "0x0CEE ೮ uni0CEE",
-                    "0x0CEF ೯ uni0CEF"
+                    "0x0CE1 ೡ uni0CE1"
                 ],
                 "optional": [
                     "0x0CDE ೞ uni0CDE",
@@ -110,6 +100,7 @@
                     "0x0040 @ at",
                     "0x005B [ bracketleft",
                     "0x005D ] bracketright",
+                    "0x00A7 § section",
                     "0x2011 ‑ uni2011",
                     "0x2013 – endash",
                     "0x2014 — emdash",
@@ -117,6 +108,8 @@
                     "0x2019 ’ quoteright",
                     "0x201C “ quotedblleft",
                     "0x201D ” quotedblright",
+                    "0x2020 † dagger",
+                    "0x2021 ‡ daggerdbl",
                     "0x2026 … ellipsis",
                     "0x2032 ′ minute",
                     "0x2033 ″ second"

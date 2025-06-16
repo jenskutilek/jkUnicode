@@ -52,6 +52,7 @@
                     "0x002C , comma",
                     "0x002D - hyphen",
                     "0x002E . period",
+                    "0x002F / slash",
                     "0x003A : colon",
                     "0x003B ; semicolon",
                     "0x003F ? question",
@@ -61,9 +62,8 @@
                     "0x007D } braceright",
                     "0x2011 ‑ uni2011",
                     "0x2013 – endash",
-                    "0x2018 ‘ quoteleft",
-                    "0x201A ‚ quotesinglbase",
-                    "0x201C “ quotedblleft",
+                    "0x2019 ’ quoteright",
+                    "0x201D ” quotedblright",
                     "0x201E „ quotedblbase",
                     "0x2026 … ellipsis"
                 ]

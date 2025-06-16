@@ -32,7 +32,16 @@
                     "0x006A j j",
                     "0x0071 q q",
                     "0x0076 v v",
-                    "0x007A z z"
+                    "0x007A z z",
+                    "0x00E1 á aacute",
+                    "0x00E3 ã atilde",
+                    "0x00E4 ä adieresis",
+                    "0x00E9 é eacute",
+                    "0x00EB ë edieresis",
+                    "0x00ED í iacute",
+                    "0x00F3 ó oacute",
+                    "0x00F6 ö odieresis",
+                    "0x00FC ü udieresis"
                 ]
             }
         }

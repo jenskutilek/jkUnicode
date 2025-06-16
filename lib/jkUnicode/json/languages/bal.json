@@ -91,6 +91,7 @@
                     "0x0063 c c",
                     "0x0064 d d",
                     "0x0065 e e",
+                    "0x0066 f f",
                     "0x0067 g g",
                     "0x0068 h h",
                     "0x0069 i i",
@@ -105,7 +106,6 @@
                     "0x0073 s s",
                     "0x0074 t t",
                     "0x0075 u u",
-                    "0x0076 v v",
                     "0x0077 w w",
                     "0x0079 y y",
                     "0x007A z z",
@@ -114,17 +114,17 @@
                     "0x00F3 ó oacute"
                 ],
                 "optional": [
-                    "0x0066 f f",
-                    "0x0071 q q",
-                    "0x0078 x x",
                     "0x0144 ń nacute"
                 ],
                 "punctuation": [
+                    "0x0021 ! exclam",
                     "0x002C , comma",
+                    "0x002D - hyphen",
                     "0x002E . period",
                     "0x003A : colon",
                     "0x003B ; semicolon",
                     "0x003F ? question",
+                    "0x2011 ‑ uni2011",
                     "0x2018 ‘ quoteleft",
                     "0x2019 ’ quoteright",
                     "0x201C “ quotedblleft",

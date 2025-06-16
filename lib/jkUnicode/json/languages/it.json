@@ -35,7 +35,6 @@
                     "0x00E9 é eacute",
                     "0x00EC ì igrave",
                     "0x00F2 ò ograve",
-                    "0x00F3 ó oacute",
                     "0x00F9 ù ugrave"
                 ],
                 "optional": [
@@ -55,6 +54,7 @@
                     "0x00EE î icircumflex",
                     "0x00EF ï idieresis",
                     "0x00F1 ñ ntilde",
+                    "0x00F3 ó oacute",
                     "0x00F4 ô ocircumflex",
                     "0x00F5 õ otilde",
                     "0x00F6 ö odieresis",
