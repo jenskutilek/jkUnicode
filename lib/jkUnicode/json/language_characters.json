@@ -32237,7 +32237,7 @@
     "mic": {
         "DFLT": {
             "dflt": {
-                "name": "Mi'kmaw",
+                "name": "Mi’kmaw",
                 "unicodes": {
                     "base": [
                         97,
@@ -34437,7 +34437,7 @@
     "nr": {
         "DFLT": {
             "dflt": {
-                "name": "South Ndebele",
+                "name": "Ndebele, South",
                 "unicodes": {
                     "base": [
                         97,
@@ -34476,7 +34476,7 @@
     "nso": {
         "DFLT": {
             "dflt": {
-                "name": "Northern Sotho",
+                "name": "Sotho, Northern",
                 "unicodes": {
                     "base": [
                         97,
@@ -39208,7 +39208,7 @@
     "st": {
         "DFLT": {
             "dflt": {
-                "name": "Southern Sotho",
+                "name": "Sotho, Southern",
                 "unicodes": {
                     "base": [
                         97,
