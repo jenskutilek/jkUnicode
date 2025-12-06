@@ -2,7 +2,6 @@
 
 import argparse
 import codecs
-
 from pathlib import Path
 
 base_path = Path(__file__).parent.parent

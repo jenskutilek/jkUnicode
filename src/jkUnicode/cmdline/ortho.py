@@ -1,6 +1,16 @@
-import argparse
+from __future__ import annotations
 
-from fontTools.ttLib import TTFont
+import argparse
+from sys import exit
+
+try:
+    from fontTools.ttLib import TTFont
+except ImportError:
+    print(
+        "Please install the jkUnicode Python package with the 'sfnt' or 'woff' extras "
+        "to use this command."
+    )
+    exit(1)
 
 from jkUnicode.orthography import OrthographyInfo
 
@@ -8,7 +18,12 @@ from jkUnicode.orthography import OrthographyInfo
 class OrthoCmdLine:
     def __init__(self, font_path, args) -> None:
         self.o = OrthographyInfo(source=args.source[0])
-        self.o.cmap = self.get_cmap(font_path)
+        cmap = self.get_cmap(font_path)
+        if cmap is None:
+            print("No suitable cmap table was found in the font.")
+            exit(1)
+
+        self.o.cmap = cmap
         if args.support:
             self.o.report_missing(
                 codes=args.support,
@@ -31,7 +46,7 @@ class OrthoCmdLine:
         else:
             self.o.report_supported(full_only=False, bcp47=args.bcp47)
 
-    def get_cmap(self, font_path):
+    def get_cmap(self, font_path) -> dict[int, str] | None:
         # Get a cmap from a given font path
         f = TTFont(font_path)
         cmap = f.getBestCmap()
@@ -39,7 +54,7 @@ class OrthoCmdLine:
         return cmap
 
 
-def ortho():
+def ortho() -> None:
     parser = argparse.ArgumentParser(
         description="Query fonts about orthographic support."
     )

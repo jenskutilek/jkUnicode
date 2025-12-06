@@ -1,7 +1,80 @@
-[tool.black]
-line-length = 88
-target-version = ["py38"]
+[project]
+name = "jkUnicode"
+dynamic = ["version"]
+description = "Unicode support libraries"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Jens Kutílek", email = "webmail@kutilek.de" }]
+classifiers = [
+    "Environment :: Console",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+sfnt = ["fonttools >= 4.60.2"]
+woff = ["fonttools[woff] >= 4.60.2"]
+all = ["jkUnicode[sfnt]", "jkUnicode[woff]"]
+test = [
+    "coverage",
+    "flake8",
+    # "mypy",
+    "pytest",
+    "ruff",
+]
+dev = [
+    "hyperglot >= 0.7.2",
+    "build",
+    "flake8",
+    "wheel",
+    "ruff",
+    "setuptools-scm[toml]",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/jenskutilek/jkUnicode"
+"Documentation" = "https://jkunicode.readthedocs.io/en/latest/"
+"Bug Tracker" = "https://github.com/jenskutilek/jkUnicode/issues"
+"Changelog" = "https://github.com/jenskutilek/jkUnicode/blob/master/CHANGELOG.md"
+
+[project.scripts]
+ortho = "jkUnicode.cmdline.ortho:ortho"
+uniinfo = "jkUnicode.cmdline.uniinfo:uniinfo"
 
 [build-system]
-requires = ["setuptools>=45", "wheel"]
+requires = ["setuptools>=80.9.0", "setuptools-scm[toml]>=9.2.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-data]
+"jkUnicode" = [
+    "py.typed",
+    "json/ignored_characters.json",
+    "json/ignored_languages.json",
+    "json/language_characters.json",
+    "json/language_characters_hyperglot.json",
+    "json/language_speakers.json",
+    "json/languages.json",
+    "json/scripts.json",
+    "json/territories.json",
+    # "json/tags.json"
+]
+
+[tool.setuptools_scm]
+version_scheme = "no-guess-dev"
+write_to = "src/jkUnicode/_version.py"
+
+[tool.black]
+line-length = 88
+target-version = ["py310"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["jkUnicode"]

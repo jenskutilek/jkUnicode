@@ -1,8 +1,10 @@
-from typing import Any, Dict, Optional
+from __future__ import annotations
+
+from typing import Any
 
 
 class RangeDict(dict):
-    def __init__(self, d: Optional[Dict] = None):
+    def __init__(self, d: dict | None = None) -> None:
         if d is None:
             return
 

@@ -4,17 +4,18 @@ import codecs
 import copy
 import re
 import xml.etree.ElementTree as ET
+from pathlib import Path
+from zipfile import ZipFile
 
-from jkUnicode.tools.xmlhelpers import filtered_char_list
+from typing_extensions import NotRequired, TypeAlias, TypedDict
+
 from jkUnicode.aglfn import getGlyphnameForUnicode
 from jkUnicode.tools.jsonhelpers import (
+    clean_json_dir,
     dict_from_file,
     json_to_file,
-    clean_json_dir,
 )
-from pathlib import Path
-from typing_extensions import NotRequired, TypeAlias, TypedDict
-from zipfile import ZipFile
+from jkUnicode.tools.xmlhelpers import filtered_char_list
 
 base_path = Path(__file__).parent.parent
 module_path = base_path / "lib" / "jkUnicode"
@@ -173,7 +174,7 @@ def generate_language_data(
         for code, name in name_overrides.items():
             print(
                 f"Overriding name for language '{code}': "
-                f"{language_dict.get(code, "(not present)")} → {name}"
+                f"{language_dict.get(code, '(not present)')} → {name}"
             )
             language_dict[code] = name
 
@@ -286,7 +287,7 @@ def parse_lang_char_data(
 
             if not char_dict:
                 print(
-                    f"    XML for {language_dict.get(code, "unknown")} ({script}/{code}"
+                    f"    XML for {language_dict.get(code, 'unknown')} ({script}/{code}"
                     f"/{territory}) contains no character information"
                 )
                 continue

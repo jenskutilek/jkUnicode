@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from re import compile
+
 from .aglfnData import nameToUnicode
 
 # Build reverse dictionary

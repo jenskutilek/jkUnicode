@@ -1,11 +1,12 @@
 # This script loads some data from Hyperglot and stores it in a format compatible to
 # jkUnicode
 
+from pathlib import Path
+
 import hyperglot
 
 from jkUnicode.tools.jsonhelpers import json_to_file
-from jkUnicode.uniCase import uniUpperCaseMapping, uniLowerCaseMapping
-from pathlib import Path
+from jkUnicode.uniCase import uniLowerCaseMapping, uniUpperCaseMapping
 
 base_path = Path(__file__).parent.parent
 module_path = base_path / "lib" / "jkUnicode"
