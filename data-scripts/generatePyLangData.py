@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-from jkUnicode.tools.jsonhelpers import json_to_file, dict_from_file
-
 from pathlib import Path
+
+from jkUnicode.tools.jsonhelpers import dict_from_file, json_to_file
 
 base_path = Path(__file__).parent.parent
 module_path = base_path / "lib" / "jkUnicode"
@@ -96,9 +96,7 @@ else:
             elif "_" not in code or code.split("_")[0] not in language_names:
                 # The language code is territory or script specific, but the
                 # parent language file is not found.
-                print(
-                    f"WARNING: Language '{code}' requested, but JSON file " "not found."
-                )
+                print(f"WARNING: Language '{code}' requested, but JSON file not found.")
 
         if language_dict:
             for script, territory_dict in language_dict.items():
