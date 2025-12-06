@@ -25,7 +25,13 @@ def uniinfo() -> None:
         description="Show information about Unicode codepoints."
     )
     parser.add_argument(
-        "codepoint", type=str, nargs="+", help="One or more Unicode codepoints"
+        "codepoint",
+        type=str,
+        nargs="+",
+        help=(
+            "One or more Unicode codepoints in U+XXXX, hexadecimal (0xXXXX), "
+            "or decimal notation."
+        ),
     )
 
     args = parser.parse_args()

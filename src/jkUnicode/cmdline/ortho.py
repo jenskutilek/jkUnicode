@@ -1,8 +1,16 @@
 from __future__ import annotations
 
 import argparse
+from sys import exit
 
-from fontTools.ttLib import TTFont
+try:
+    from fontTools.ttLib import TTFont
+except ImportError:
+    print(
+        "Please install the jkUnicode Python package with the 'sfnt' or 'woff' extras "
+        "to use this command."
+    )
+    exit(1)
 
 from jkUnicode.orthography import OrthographyInfo
 
@@ -10,7 +18,12 @@ from jkUnicode.orthography import OrthographyInfo
 class OrthoCmdLine:
     def __init__(self, font_path, args) -> None:
         self.o = OrthographyInfo(source=args.source[0])
-        self.o.cmap = self.get_cmap(font_path)
+        cmap = self.get_cmap(font_path)
+        if cmap is None:
+            print("No suitable cmap table was found in the font.")
+            exit(1)
+
+        self.o.cmap = cmap
         if args.support:
             self.o.report_missing(
                 codes=args.support,
