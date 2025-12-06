@@ -1,8 +1,11 @@
+from __future__ import annotations
+
 import argparse
+
 from jkUnicode import UniInfo
 
 
-def get_codepoint_from_str(s):
+def get_codepoint_from_str(s) -> int:
     """
     Convert different Unicode codepoint representations to int, e.g.
        U+1E9E
@@ -17,7 +20,7 @@ def get_codepoint_from_str(s):
         return int(sl)
 
 
-def uniinfo():
+def uniinfo() -> None:
     parser = argparse.ArgumentParser(
         description="Show information about Unicode codepoints."
     )

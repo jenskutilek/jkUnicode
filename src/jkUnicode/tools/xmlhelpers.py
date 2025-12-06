@@ -1,9 +1,9 @@
 # The dirty hacky stuff is outsourced into this file
 
 from re import compile
-from jkUnicode import getUnicodeChar
-
 from typing import Any, List
+
+from jkUnicode import getUnicodeChar
 
 # Regex to match unicode sequences, e.g. \u0302
 unicode_seq = compile("^u([0-9A-F]+)")

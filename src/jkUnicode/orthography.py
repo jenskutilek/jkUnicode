@@ -98,8 +98,7 @@ class Orthography:
         except KeyError:
             u_list = []
         self.unicodes_base = (
-            set(u_list + self.cased(u_list))
-            - self.ignored_unicodes
+            set(u_list + self.cased(u_list)) - self.ignored_unicodes
             # TODO: For some characters we are currently not generating the all-caps
             # version.
             # example: ǆ (LATIN SMALL LETTER DZ WITH CARON)

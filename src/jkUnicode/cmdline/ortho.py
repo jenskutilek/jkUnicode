@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import argparse
 
 from fontTools.ttLib import TTFont
@@ -31,7 +33,7 @@ class OrthoCmdLine:
         else:
             self.o.report_supported(full_only=False, bcp47=args.bcp47)
 
-    def get_cmap(self, font_path):
+    def get_cmap(self, font_path) -> dict[int, str] | None:
         # Get a cmap from a given font path
         f = TTFont(font_path)
         cmap = f.getBestCmap()
@@ -39,7 +41,7 @@ class OrthoCmdLine:
         return cmap
 
 
-def ortho():
+def ortho() -> None:
     parser = argparse.ArgumentParser(
         description="Query fonts about orthographic support."
     )
