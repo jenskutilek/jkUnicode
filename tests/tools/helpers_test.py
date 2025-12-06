@@ -1,5 +1,7 @@
-import pytest
 import unittest
+
+import pytest
+
 from jkUnicode.tools.helpers import RangeDict
 
 

@@ -1,4 +1,5 @@
 import unittest
+
 from jkUnicode.aglfn import getUnicodeForGlyphname
 
 
