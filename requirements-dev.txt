@@ -7,5 +7,5 @@ pluggy==1.6.0
 pytest==8.4.0
 PyYAML==6.0.2
 typing_extensions==4.14.0
-uharfbuzz==0.50.2
+uharfbuzz==0.52.0
 unicodedata2==16.0.0
