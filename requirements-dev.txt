@@ -11,7 +11,7 @@ pyflakes==3.4.0
 pyproject-hooks==1.2.0
 pyyaml==6.0.3
 ruff==0.14.14
-setuptools==80.9.0
+setuptools==80.10.2
 setuptools-scm==9.2.2
 uharfbuzz==0.53.3
 wheel==0.46.2
