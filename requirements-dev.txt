@@ -14,4 +14,4 @@ ruff==0.14.14
 setuptools==80.9.0
 setuptools-scm==9.2.2
 uharfbuzz==0.53.3
-wheel==0.46.2
+wheel==0.46.3
