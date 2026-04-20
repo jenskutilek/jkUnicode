@@ -5,7 +5,7 @@ flake8==7.3.0
 fonttools==4.62.1
 hyperglot==0.8.1
 mccabe==0.7.0
-packaging==26.0
+packaging==26.1
 pycodestyle==2.14.0
 pyflakes==3.4.0
 pyproject-hooks==1.2.0
