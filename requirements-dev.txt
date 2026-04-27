@@ -1,5 +1,5 @@
 build==1.4.3
-click==8.3.2
+click==8.3.3
 colorlog==6.10.1
 flake8==7.3.0
 fonttools==4.62.1
