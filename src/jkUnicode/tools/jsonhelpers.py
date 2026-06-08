@@ -1,4 +1,3 @@
-import codecs
 import json
 import os
 from pathlib import Path
@@ -8,7 +7,7 @@ from typing import Any
 def json_to_file(
     path: Path, file_name: str, obj: Any, human_readable: bool = True
 ) -> None:
-    with codecs.open(str(path / f"{file_name}.json"), "w", "utf-8") as f:
+    with open(str(path / f"{file_name}.json"), "w", encoding="utf-8") as f:
         if human_readable:
             indent = 4
         else:
@@ -17,7 +16,7 @@ def json_to_file(
 
 
 def dict_from_file(path: Path, file_name: str) -> Any:
-    with codecs.open(str(path / f"{file_name}.json"), "r", "utf-8") as f:
+    with open(str(path / f"{file_name}.json"), "r", encoding="utf-8") as f:
         return json.load(f)
 
 
