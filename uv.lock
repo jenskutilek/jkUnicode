@@ -600,9 +600,9 @@ test = [
     { name = "pytest", specifier = ">=9.0.3" },
     { name = "pytest-cov", specifier = ">=7.1.0" },
     { name = "ruff", specifier = ">=0.15.16" },
-    { name = "tox", specifier = ">=4.53.0" },
+    { name = "tox", specifier = ">=4.55.1" },
     { name = "tox-gh", specifier = ">=1.7.1" },
-    { name = "tox-uv", specifier = ">=1.35.1" },
+    { name = "tox-uv", specifier = ">=1.35.2" },
 ]
 
 [[package]]
