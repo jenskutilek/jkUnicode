@@ -44,7 +44,3 @@ class TestAglfn(unittest.TestCase):
 
     def test_ligatures(self):
         self._check_dict({"f_l": None, "uni0162_h": None})
-
-
-if __name__ == "__main__":
-    unittest.main()
