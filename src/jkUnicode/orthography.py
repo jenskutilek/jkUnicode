@@ -444,7 +444,7 @@ class Orthography:
         self.scan_ok = False
 
     @property
-    def info(self) -> OrthographyInfo | None:
+    def info(self) -> "OrthographyInfo | None":
         """
         The parent :py:class:`jkUnicode.orthography.OrthographyInfo` object
         (read-only).
