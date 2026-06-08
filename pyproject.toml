@@ -21,7 +21,7 @@ dependencies = []
 [dependency-groups]
 dev = [
     "flake8 >= 7.3.0",
-    "hyperglot >= 0.7.2",
+    "hyperglot >= 0.8.1",
     "mypy >= 2.1.0",
     "ruff >= 0.15.16",
 ]

@@ -585,7 +585,7 @@ provides-extras = ["sfnt", "woff", "all"]
 [package.metadata.requires-dev]
 dev = [
     { name = "flake8", specifier = ">=7.3.0" },
-    { name = "hyperglot", specifier = ">=0.7.2" },
+    { name = "hyperglot", specifier = ">=0.8.1" },
     { name = "mypy", specifier = ">=2.1.0" },
     { name = "ruff", specifier = ">=0.15.16" },
 ]
@@ -595,7 +595,7 @@ doc = [
 ]
 test = [
     { name = "flake8", specifier = ">=7.3.0" },
-    { name = "hyperglot", specifier = ">=0.7.2" },
+    { name = "hyperglot", specifier = ">=0.8.1" },
     { name = "mypy", specifier = ">=2.1.0" },
     { name = "pytest", specifier = ">=9.0.3" },
     { name = "pytest-cov", specifier = ">=7.1.0" },
