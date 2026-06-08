@@ -537,7 +537,7 @@ wheels = [
 [[package]]
 name = "jkunicode"
 version = "2.5.0"
-source = { virtual = "." }
+source = { editable = "." }
 
 [package.optional-dependencies]
 all = [
