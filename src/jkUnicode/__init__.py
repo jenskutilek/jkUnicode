@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from functools import cached_property
 
 from jkUnicode.aglfn import getGlyphnameForUnicode
@@ -46,7 +44,7 @@ categoryName = {
 
 
 def get_expanded_glyph_list(
-    unicodes: list[int], ui: UniInfo | None = None
+    unicodes: list[int], ui: "UniInfo | None" = None
 ) -> list[tuple[int, str | None]]:
     """ "Expand" or annotate a list of codepoints.
 

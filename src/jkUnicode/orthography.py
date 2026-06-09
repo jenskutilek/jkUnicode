@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from pathlib import Path
 from typing import Any
 
@@ -446,7 +444,7 @@ class Orthography:
         self.scan_ok = False
 
     @property
-    def info(self) -> OrthographyInfo | None:
+    def info(self) -> "OrthographyInfo | None":
         """
         The parent :py:class:`jkUnicode.orthography.OrthographyInfo` object
         (read-only).

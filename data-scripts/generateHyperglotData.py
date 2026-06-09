@@ -9,7 +9,7 @@ from jkUnicode.tools.jsonhelpers import json_to_file
 from jkUnicode.uniCase import uniLowerCaseMapping, uniUpperCaseMapping
 
 base_path = Path(__file__).parent.parent
-module_path = base_path / "lib" / "jkUnicode"
+module_path = base_path / "src" / "jkUnicode"
 json_path = module_path / "json"  # Output path for JSON files
 
 
@@ -1046,7 +1046,7 @@ for code, data in languages:
     language_characters_hyperglot[code] = language_dict
     # speakers:
     try:
-        speakers = data["speakers"]
+        speakers: int | str = data["speakers"]
         # Apparently, Hyperglot counts only L1 speakers
         # so this is usually smaller than CLDR.
     except KeyError:
@@ -1057,19 +1057,24 @@ for code, data in languages:
     try:
         speakers_CLDR = language_speakers_combined[code]
     except KeyError:
-        language_speakers_combined[code] = speakers
+        if isinstance(speakers, int):
+            language_speakers_combined[code] = speakers
         continue
-    if speakers > speakers_CLDR:
-        # larger figure from Hyperglot, probably newer data.
-        # let’s use this Hyperglot:
-        language_speakers_combined[code] = speakers
-    elif speakers > speakers_CLDR / 3:
-        # somewhat smaller figure from Hyperglot, probably because only L1.
-        # let’s use the average:
-        language_speakers_combined[code] = int((speakers_CLDR + speakers) / 2)
+    if isinstance(speakers, int):
+        if speakers > speakers_CLDR:
+            # larger figure from Hyperglot, probably newer data.
+            # let’s use this Hyperglot:
+            language_speakers_combined[code] = speakers
+        elif speakers > speakers_CLDR / 3:
+            # somewhat smaller figure from Hyperglot, probably because only L1.
+            # let’s use the average:
+            language_speakers_combined[code] = int((speakers_CLDR + speakers) / 2)
+        else:
+            # much smaller figure from Hyperglot, probably because only L1.
+            # let’s apply a minimum (i.e. the average of CLDR and 1/3 of it):
+            language_speakers_combined[code] = int(speakers_CLDR * 2 / 3)
     else:
-        # much smaller figure from Hyperglot, probably because only L1.
-        # let’s apply a minimum (i.e. the average of CLDR and 1/3 of it):
+        # Hyperglot speakers is "unknown", also assume smaller number than CLDR
         language_speakers_combined[code] = int(speakers_CLDR * 2 / 3)
 
 json_to_file(json_path, "language_characters_hyperglot", language_characters_hyperglot)

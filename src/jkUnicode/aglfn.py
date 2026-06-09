@@ -1,8 +1,6 @@
-from __future__ import annotations
-
 from re import compile
 
-from .aglfnData import nameToUnicode
+from jkUnicode.aglfnData import nameToUnicode
 
 # Build reverse dictionary
 unicodeToName = {value: key for key, value in nameToUnicode.items()}
