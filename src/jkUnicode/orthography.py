@@ -611,9 +611,9 @@ class OrthographyInfo:
             return None
         return self.orthographies[i]
 
-    def get_orthographies_for_char(self, char: str) -> list[Orthography]:
+    def get_orthographies_for_char(self, char: str) -> set[Orthography]:
         """
-        Get a list of orthographies which use a supplied character at base
+        Get a set of orthographies which use a supplied character at base
         level.
 
         :param char: The character.
@@ -622,11 +622,11 @@ class OrthographyInfo:
         if not self._reverse_cmap:
             self.build_reverse_cmap()
         ol = self._reverse_cmap.get(ord(char), [])
-        return [self.orthographies[i] for i in ol]
+        return {self.orthographies[i] for i in ol}
 
-    def get_orthographies_for_unicode(self, u: int) -> list[Orthography]:
+    def get_orthographies_for_unicode(self, u: int) -> set[Orthography]:
         """
-        Get a list of orthographies which use a supplied codepoint at base
+        Get a set of orthographies which use a supplied codepoint at base
         level.
 
         :param u: The codepoint.
@@ -635,17 +635,17 @@ class OrthographyInfo:
         if not self._reverse_cmap:
             self.build_reverse_cmap()
         ol = self._reverse_cmap.get(u, [])
-        return [self.orthographies[i] for i in ol]
+        return {self.orthographies[i] for i in ol}
 
-    def get_orthographies_for_unicode_any(self, u: int) -> list[Orthography]:
+    def get_orthographies_for_unicode_any(self, u: int) -> set[Orthography]:
         """
-        Get a list of orthographies which use a supplied codepoint at any
+        Get a set of orthographies which use a supplied codepoint at any
         level.
 
         :param u: The codepoint.
         :type u: int
         """
-        return [o for o in self.orthographies if o.uses_unicode_any(u)]
+        return {o for o in self.orthographies if o.uses_unicode_any(u)}
 
     # Nice names for language, script, territory
 
@@ -684,45 +684,45 @@ class OrthographyInfo:
 
     # Convenience functions
 
-    def get_supported_orthographies(self, full_only: bool = False) -> list[Orthography]:
+    def get_supported_orthographies(self, full_only: bool = False) -> set[Orthography]:
         """
-        Get a list of supported orthographies for a character list.
+        Get a set of supported orthographies for a character list.
 
         :param full_only: Return only orthographies which have both basic and
                           optional characters present for the current cmap.
         :type full_only: bool
         """
         if full_only:
-            return [o for o in self.orthographies if o.support_full]
-        return [o for o in self.orthographies if o.support_basic]
+            return {o for o in self.orthographies if o.support_full}
+        return {o for o in self.orthographies if o.support_basic}
 
     def get_supported_orthographies_minimum_inclusive(
         self,
-    ) -> list[Orthography]:
+    ) -> set[Orthography]:
         """
-        Get a list of orthographies with minimal or better support for the
+        Get a set of orthographies with minimal or better support for the
         current cmap.
         """
-        return [o for o in self.orthographies if o.support_minimal_inclusive]
+        return {o for o in self.orthographies if o.support_minimal_inclusive}
 
-    def get_supported_orthographies_minimum(self) -> list[Orthography]:
+    def get_supported_orthographies_minimum(self) -> set[Orthography]:
         """
-        Get a list of orthographies with minimal support for the current cmap
+        Get a set of orthographies with minimal support for the current cmap
         only.
         """
-        return [o for o in self.orthographies if o.support_minimal]
+        return {o for o in self.orthographies if o.support_minimal}
 
-    def get_almost_supported(self, max_missing: int = 5) -> list[Orthography]:
+    def get_almost_supported(self, max_missing: int = 5) -> set[Orthography]:
         """
-        Return a list of almost supported orthographies for the current cmap.
+        Return a set of almost supported orthographies for the current cmap.
 
         :param max_missing: The maximum allowed number of missing characters.
         :type max_missing: int
         """
-        return [o for o in self.orthographies if o.almost_supported_basic(max_missing)]
+        return {o for o in self.orthographies if o.almost_supported_basic(max_missing)}
 
-    def get_almost_supported_punctuation(self) -> list[Orthography]:
-        return [o for o in self.orthographies if o.almost_supported_punctuation()]
+    def get_almost_supported_punctuation(self) -> set[Orthography]:
+        return {o for o in self.orthographies if o.almost_supported_punctuation()}
 
     def speakers_supported_by_unicode(self, u: int) -> int:
         speakers_supported = 0
