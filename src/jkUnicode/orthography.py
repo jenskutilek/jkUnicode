@@ -942,13 +942,3 @@ class OrthographyInfo:
                     territory = part
                     break
         return code, script, territory
-
-
-# o = Orthography(
-#     info_obj=None,
-#     code="COD",
-#     script="dflt",
-#     territory="DE",
-#     info_dict={"name": "MyName"},
-# )
-# print(o)
