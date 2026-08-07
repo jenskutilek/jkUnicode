@@ -37,7 +37,7 @@ class OrthoCmdLine:
             for o in sorted(slng):
                 if o in dlng:
                     continue
-                basic_supported.append(f'.   - "{o.identifier}" # {o.name}')
+                basic_supported.append(f'    - "{o.identifier}" # {o.name}')
             if basic_supported:
                 meta += "  slng:\n" + "\n".join(basic_supported) + "\n"
 
