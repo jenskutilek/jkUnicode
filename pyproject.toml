@@ -3,70 +3,68 @@ name = "jkUnicode"
 version = "2.5.0"
 description = "Unicode support libraries"
 readme = "README.md"
+requires-python = ">=3.12"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "Jens Kutílek", email = "webmail@kutilek.de" }]
 classifiers = [
-    "Environment :: Console",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
-    "Programming Language :: Python :: 3.14",
+  "Environment :: Console",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
 ]
-requires-python = ">=3.12"
 dependencies = []
 
-[dependency-groups]
-dev = [
-    "flake8 >= 7.3.0",
-    "hyperglot >= 0.8.1",
-    "mypy >= 2.1.0",
-    "ruff >= 0.15.16",
-]
-doc = [
-    "sphinx >= 9.1.0",
-    "sphinx_rtd_theme >= 3.1.0",
-]
-test = [
-    { include-group = "dev"},
-    "pytest >= 9.0.3",
-    "pytest-cov >= 7.1.0",
-    "tox >= 4.55.1",
-    "tox-gh >= 1.7.1",
-    "tox-uv >= 1.35.2",
-]
-
-[project.optional-dependencies]
-sfnt = ["fonttools >= 4.63.0"]
-woff = ["fonttools[woff] >= 4.63.0"]
-all = [
-    "jkUnicode[sfnt]",
-    "jkUnicode[woff]",
-]
-
 [project.urls]
-"Homepage" = "https://github.com/jenskutilek/jkUnicode"
-"Documentation" = "https://jkunicode.readthedocs.io/en/latest/"
 "Bug Tracker" = "https://github.com/jenskutilek/jkUnicode/issues"
 "Changelog" = "https://github.com/jenskutilek/jkUnicode/blob/master/CHANGELOG.md"
+"Documentation" = "https://jkunicode.readthedocs.io/en/latest/"
+"Homepage" = "https://github.com/jenskutilek/jkUnicode"
 
 [project.scripts]
 ortho = "jkUnicode.cmdline.ortho:ortho"
 uniinfo = "jkUnicode.cmdline.uniinfo:uniinfo"
 
+[project.optional-dependencies]
+all = [
+  "jkUnicode[sfnt]",
+  "jkUnicode[woff]",
+]
+sfnt = ["fonttools >= 4.63.0"]
+woff = ["fonttools[woff] >= 4.63.0"]
+
+[dependency-groups]
+dev = [
+  "flake8 >= 7.3.0",
+  "hyperglot >= 0.8.1",
+  "mypy >= 2.1.0",
+  "ruff >= 0.15.16",
+]
+doc = [
+  "sphinx_rtd_theme >= 3.1.0",
+  "sphinx >= 9.1.0",
+]
+test = [
+  "pytest-cov >= 7.1.0",
+  "pytest >= 9.0.3",
+  "tox-gh >= 1.7.1",
+  "tox-uv >= 1.35.2",
+  "tox >= 4.55.1",
+  { include-group = "dev" },
+]
+
 [build-system]
 requires = ["uv_build>=0.11.8,<0.13"]
 build-backend = "uv_build"
 
-
 [tool.ruff]
-extend-exclude =  ["stubs"]
+extend-exclude = ["stubs"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["jkUnicode"]
-
 
 [tool.uv.build-backend]
 module-name = "jkUnicode"
