@@ -14,7 +14,7 @@ from jkUnicode.orthography import OrthographyInfo
 
 
 class OrthoCmdLine:
-    def __init__(self, font_path, args) -> None:
+    def __init__(self, font_path: str, args: argparse.Namespace) -> None:
         self.o = OrthographyInfo(source=args.source[0])
         cmap = self.get_cmap(font_path)
         if cmap is None:
@@ -22,7 +22,27 @@ class OrthoCmdLine:
             exit(1)
 
         self.o.cmap = cmap
-        if args.support:
+        if args.meta:
+            meta = "meta:\n"
+
+            dlng = self.o.get_supported_orthographies(full_only=True)
+            fully_supported = []
+            for o in sorted(dlng):
+                fully_supported.append(f'    - "{o.identifier}" # {o.name}')
+            if fully_supported:
+                meta += "  dlng:\n" + "\n".join(fully_supported) + "\n"
+
+            slng = self.o.get_supported_orthographies(full_only=False)
+            basic_supported = []
+            for o in sorted(slng):
+                if o in dlng:
+                    continue
+                basic_supported.append(f'.   - "{o.identifier}" # {o.name}')
+            if basic_supported:
+                meta += "  slng:\n" + "\n".join(basic_supported) + "\n"
+
+            print(meta)
+        elif args.support:
             self.o.report_missing(
                 codes=args.support,
                 minimum=args.minimum,
@@ -44,7 +64,7 @@ class OrthoCmdLine:
         else:
             self.o.report_supported(full_only=False, bcp47=args.bcp47)
 
-    def get_cmap(self, font_path) -> dict[int, str] | None:
+    def get_cmap(self, font_path: str) -> dict[int, str] | None:
         # Get a cmap from a given font path
         f = TTFont(font_path)
         cmap = f.getBestCmap()
@@ -98,6 +118,12 @@ def ortho() -> None:
             "Report orthographies that have only basic support, i.e. no optional "
             "characters and no punctuation present"
         ),
+    )
+    parser.add_argument(
+        "--meta",
+        action="store_true",
+        default=False,
+        help="Output a meta table in YAML format. Ignores most other options.",
     )
     parser.add_argument(
         "-p",
