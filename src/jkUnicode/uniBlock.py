@@ -32,10 +32,3 @@ def get_codepoints(block_name):
         return range(low, high + 1)
     except KeyError:
         return []
-
-
-if __name__ == "__main__":
-    print(get_block(0x4FF))
-    print(get_block(0x500))
-    print(get_codepoints_min_max("Cyrillic Supplement"))
-    print(get_codepoints("Cyrillic Supplement"))
