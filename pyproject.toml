@@ -1,6 +1,6 @@
 [project]
 name = "jkUnicode"
-version = "2.5.0"
+version = "2.6.0"
 description = "Unicode support libraries"
 readme = "README.md"
 requires-python = ">=3.12"

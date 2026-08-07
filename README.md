@@ -23,7 +23,7 @@ Codepoints can be given in decimal (e.g. `7838`), hexadecimal (e.g. `0x1e9e`), o
 
 ### Usage
 
-`usage: ortho [-h] [-b] [-f] [-i] [-k] [-m] [-p] [-n NEAR_MISS] [-s SUPPORT] font [font ...]`
+`usage: ortho [-h] [-b] [-f] [-i] [-k] [-m] [--meta] [-p] [-n NEAR_MISS] [-s SUPPORT] [--source SOURCE] font [font ...]`
 
 ### Options
 
@@ -100,8 +100,32 @@ Output a list of letters that don't appear together in any supported orthography
 
 `m | --minimum`
 
-Report orthographies that have only basic support, i.e. no optional characters and no punctuation present.
+Report orthographies that have only minmal support, i.e. no optional characters and no
+punctuation present.
 
+
+#### --meta
+
+Output a meta table in YAML format. Ignores most other options. Orthographies with full
+support are listed under the `dlng` (design languages) key, and orthographies with
+basic support are listed under the `slng` (supported languages) key. You will most
+certainly not warnt to rely on this classification to build a meta table for a font
+directly, as the tool has no way of detecting actual fitness for typesetting a certain
+orthography.
+
+##### Example
+
+```bash
+ortho --meta myfont.ttf
+meta:
+  dlng:
+    - "sq" # Albanian
+    - "az" # Azeri
+    - "bs" # Bosnian
+    # ...
+  slng:
+    - "trv" # Taroko
+```
 
 #### -p
 
@@ -170,3 +194,9 @@ Aghem
     0x0289	uni0289	Latin small letter u bar
     0x0294	uni0294	Latin letter glottal stop
 ```
+
+#### --source
+
+`--source SOURCE`
+
+Specify the source of orthography data, CLDR (default) or Hyperglot.
