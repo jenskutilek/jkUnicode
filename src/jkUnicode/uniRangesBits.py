@@ -254,21 +254,3 @@ def getNameForRangeBit(b):
     for i in range(len(records)):
         name += records[i][0] + ", "
     return name[:-2]
-
-
-def __test__():
-    myRangeBits = [0, 4]
-    for b in myRangeBits:
-        print("\nBit %3i:" % b)
-        codes = getUnicodesForRangeBit(b)
-        print(
-            "Codes:",
-        )
-        for c in codes:
-            print(
-                hex(c),
-            )
-
-
-if __name__ == "__main__":
-    __test__()
