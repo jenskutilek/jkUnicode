@@ -5,14 +5,13 @@ from typing import Any
 from jkUnicode import UniInfo
 from jkUnicode.tools.jsonhelpers import dict_from_file
 
-
 logger = logging.getLogger(__name__)
 
 
 class Orthography:
     """
-    The Orthography object represents an orthography. You usually don't deal
-    with this object directly, it is used internally by the
+    The Orthography object represents an orthography. You usually don't deal with this
+    object directly, it is used internally by the
     :py:class:`jkUnicode.orthography.OrthographyInfo` object.
 
     :param info_obj: The parent info object.
@@ -27,8 +26,8 @@ class Orthography:
     :param territory: The territory code of the orthography.
     :type territory: str
 
-    :param info_dict: The dictionary which contains the rest of the information
-                      about the orthography.
+    :param info_dict: The dictionary which contains the rest of the information about
+        the orthography.
     :type info_dict: dict
 
     :param speakers: The number of speakers for the orthography.
@@ -65,9 +64,9 @@ class Orthography:
 
     def from_dict(self, info_dict: dict[str, Any]) -> None:
         """
-        Read information for the current orthography from a dictionary. This
-        method is called during initialization of the object and fills in a
-        number of instance attributes:
+        Read information for the current orthography from a dictionary. This method is
+        called during initialization of the object and fills in a number of instance
+        attributes:
 
         `name`: The orthography name.
 
@@ -144,8 +143,8 @@ class Orthography:
     def ignored_unicodes(self) -> set[int]:
         """
         The set of ignored codepoints. If a parent
-        :py:class:`jkUnicode.orthography.OrthographyInfo` object exists, it is
-        taken from there.
+        :py:class:`jkUnicode.orthography.OrthographyInfo` object exists, it is taken
+        from there.
         """
         if self.info is None:
             return set()
@@ -153,8 +152,8 @@ class Orthography:
 
     def cased(self, codepoint_list: list[int]) -> list[int]:
         """
-        Return a list with its Unicode case mapping toggled. If a codepoint has
-        no lowercase or uppercase mapping, it is dropped from the list.
+        Return a list with its Unicode case mapping toggled. If a codepoint has no
+        lowercase or uppercase mapping, it is dropped from the list.
 
         :param codepoint_list: The list of codepoints.
         :type codepoint_list: list
@@ -170,11 +169,11 @@ class Orthography:
 
     def fill_from_default_orthography(self) -> None:
         """
-        Sometimes the base codepoints are empty for a variant of an
-        orthography. Try to fill them in from the default variant.
+        Sometimes the base codepoints are empty for a variant of an orthography. Try to
+        fill them in from the default variant.
 
-        Call this only after the whole list of orthographies is present, or it
-        will fail, because the default orthography may not be present until the
+        Call this only after the whole list of orthographies is present, or it will
+        fail, because the default orthography may not be present until the
         whole list has been built.
         """
         if self.territory != "dflt":
@@ -217,8 +216,8 @@ class Orthography:
     @property
     def support_full(self) -> bool:
         """
-        Is the orthography supported (base, optional and punctuation
-        characters) for the current parent cmap?
+        Is the orthography supported (base, optional and punctuation characters) for the
+        current parent cmap?
         """
         return bool(
             self.num_missing_base == 0
@@ -229,16 +228,15 @@ class Orthography:
     @property
     def support_basic(self) -> bool:
         """
-        Is the orthography supported (base and punctuation characters) for the
-        current parent cmap?
+        Is the orthography supported (base and punctuation characters) for the current
+        parent cmap?
         """
         return bool(self.num_missing_base == 0 and self.num_missing_punctuation == 0)
 
     @property
     def support_minimal(self) -> bool:
         """
-        Is the orthography supported (base characters) for the current parent
-        cmap?
+        Is the orthography supported (base characters) for the current parent cmap?
         """
         return bool(
             self.num_missing_base == 0
@@ -249,30 +247,28 @@ class Orthography:
     @property
     def support_minimal_inclusive(self) -> bool:
         """
-        Is the orthography supported (base characters only) for the current
-        parent cmap?
+        Is the orthography supported (base characters only) for the current parent cmap?
         """
         return self.num_missing_base == 0
 
     def almost_supported_full(self, max_missing: int = 5) -> bool:
         """
-        Is the orthography supported with a maximum of `max_missing` characters
-        (base, optional and punctuation characters) for the current parent
-        cmap?
+        Is the orthography supported with a maximum of `max_missing` characters (base,
+        optional and punctuation characters) for the current parent cmap?
         """
         return 0 < self.num_missing_all <= max_missing
 
     def almost_supported_basic(self, max_missing: int = 5) -> bool:
         """
-        Is the orthography supported with a maximum of `max_missing` base
-        characters for the current parent cmap?
+        Is the orthography supported with a maximum of `max_missing` base characters for
+        the current parent cmap?
         """
         return 0 < self.num_missing_base <= max_missing
 
     def almost_supported_punctuation(self, max_missing: int = 5) -> bool:
         """
-        Is the orthography supported with a maximum of `max_missing`
-        punctuation characters for the current parent cmap?
+        Is the orthography supported with a maximum of `max_missing` punctuation
+        characters for the current parent cmap?
         """
         return bool(
             self.num_missing_base == 0
@@ -281,11 +277,11 @@ class Orthography:
 
     def get_missing(self, minimum: bool = False, punctuation: bool = False) -> set[int]:
         """
-        Return a set of missing characters for support of the orthography. If
-        `minimum` is true, only required characters are listed. If `punctuation`
-        is true, only punctuation characters are listed. If both are true, both
-        required and punctuation characters are listed. If both are false, all
-        required, optional, and punctuation characters are listed.
+        Return a set of missing characters for support of the orthography. If `minimum`
+        is true, only required characters are listed. If `punctuation` is true, only
+        punctuation characters are listed. If both are true, both required and
+        punctuation characters are listed. If both are false, all required, optional,
+        and punctuation characters are listed.
 
         :param minimum: Only report missing required characters
         :type minimum: bool
@@ -310,9 +306,8 @@ class Orthography:
 
     def uses_unicode_base(self, u: int) -> bool:
         """
-        Is the codepoint used by this orthography in the base set? This is
-        relatively slow. Use
-        :py:func:`jkUnicode.orthography.OrthographyInfo.build_reverse_cmap` if
+        Is the codepoint used by this orthography in the base set? This is relatively
+        slow. Use :py:func:`jkUnicode.orthography.OrthographyInfo.build_reverse_cmap` if
         you need to access this information more often.
 
         :param u: The codepoint.
@@ -322,10 +317,9 @@ class Orthography:
 
     def uses_unicode_any(self, u: int) -> bool:
         """
-        Is the codepoint used by this orthography in any set? This is
-        relatively slow. Use
-        :py:func:`jkUnicode.orthography.OrthographyInfo.build_reverse_cmap` if
-        you need to access this information more often.
+        Is the codepoint used by this orthography in any set? This is relatively slow.
+        Use :py:func:`jkUnicode.orthography.OrthographyInfo.build_reverse_cmap` if you
+        need to access this information more often.
 
         :param u: The codepoint.
         :type u: int
@@ -334,8 +328,8 @@ class Orthography:
 
     def speakers_supported_by_unicode(self, u: int) -> int:
         """
-        If the character was removed from the font,
-        how many fewer speakers would the font support?
+        If the character was removed from the font, how many fewer speakers would the
+        font support?
         """
         if self.num_missing_base != 0:
             # Not even basic support, nothing to lose
@@ -347,26 +341,25 @@ class Orthography:
 
     def scan_cmap(self) -> None:
         """
-        Scan the orthography against the current parent cmap. This fills in a
-        number of instance attributes:
+        Scan the orthography against the current parent cmap. This fills in a number of
+        instance attributes:
 
         `missing_base`: A set of unicode values that are missing from the basic
         characters of the orthography.
 
-        `missing_optional`: A set of unicode values that are missing from the
-        optional characters of the orthography.
+        `missing_optional`: A set of unicode values that are missing from the optional
+        characters of the orthography.
 
-        `missing_punctuation`: A set of unicode values that are missing from
-        the punctuation characters of the orthography.
+        `missing_punctuation`: A set of unicode values that are missing from the
+        punctuation characters of the orthography.
 
         `missing_all`: A set of all the previous combined.
 
         `num_missing_base, num_missing_optional, num_missing_punctuation,
-        num_missing_all`: The number of missing characters for the previous
-        attributes
+        num_missing_all`: The number of missing characters for the previous attributes
 
-        `base_pc, optional_pc, punctuation_pc`: The percentage values of
-        support for the categories basic, optional, and punctuation characters.
+        `base_pc, optional_pc, punctuation_pc`: The percentage values of support for the
+        categories basic, optional, and punctuation characters.
 
         The names of these attributes can be used in
         :py:class:`jkUnicode.orthography.OrthographyInfo.print_report`.
@@ -430,8 +423,7 @@ class Orthography:
     @property
     def info(self) -> "OrthographyInfo | None":
         """
-        The parent :py:class:`jkUnicode.orthography.OrthographyInfo` object
-        (read-only).
+        The parent :py:class:`jkUnicode.orthography.OrthographyInfo` object (read-only).
         """
         # self._info is a weakref, call it to return its object
         # return self._info()
@@ -478,9 +470,9 @@ class Orthography:
 
 class OrthographyInfo:
     """
-    The main Orthography Info object. It reads the information for each
-    orthography from the files in the `json` subfolder. The JSON data is
-    generated from the specified data source via included Python scripts.
+    The main Orthography Info object. It reads the information for each orthography from
+    the files in the `json` subfolder. The JSON data is generated from the specified
+    data source via included Python scripts.
     """
 
     def __init__(
@@ -547,15 +539,16 @@ class OrthographyInfo:
     @property
     def cmap(self) -> dict[int, str]:
         """
-        The codepoint to glyph name mapping. When you set the cmap, it is
-        scanned against all orthographies belonging to the OrthographyInfo
-        object.
+        The codepoint to glyph name mapping. When you set the cmap, it is scanned
+        against all orthographies belonging to the OrthographyInfo object.
 
         You set the cmap by passing a dictionary, usually from a font. E.g.:
 
+        ```
         TTFont("myfont.ttf")
         o = OrthographyInfo()
         o.cmap = TTFont("myfont.ttf").getBestCmap()
+        ```
         """
         return self._cmap
 
@@ -580,9 +573,8 @@ class OrthographyInfo:
 
     def build_reverse_cmap(self) -> None:
         """
-        Build a map from each unicode to a list of indices into the
-        orthographies list for all orthographies that are using it as base or
-        punctuation character.
+        Build a map from each unicode to a list of indices into the orthographies list
+        for all orthographies that are using it as base or punctuation character.
         """
         self._reverse_cmap = {}
         for i, o in enumerate(self.orthographies):
@@ -596,8 +588,7 @@ class OrthographyInfo:
         self, code: str, script: str = "DFLT", territory: str = "dflt"
     ) -> Orthography | None:
         """
-        Access a particular orthography by its language, script and territory
-        code.
+        Access a particular orthography by its language, script and territory code.
 
         :param code: The language code.
         :type code: str
@@ -613,8 +604,7 @@ class OrthographyInfo:
 
     def get_orthographies_for_char(self, char: str) -> set[Orthography]:
         """
-        Get a set of orthographies which use a supplied character at base
-        level.
+        Get a set of orthographies which use a supplied character at base level.
 
         :param char: The character.
         :type char: char
@@ -626,8 +616,7 @@ class OrthographyInfo:
 
     def get_orthographies_for_unicode(self, u: int) -> set[Orthography]:
         """
-        Get a set of orthographies which use a supplied codepoint at base
-        level.
+        Get a set of orthographies which use a supplied codepoint at base level.
 
         :param u: The codepoint.
         :type u: int
@@ -639,8 +628,7 @@ class OrthographyInfo:
 
     def get_orthographies_for_unicode_any(self, u: int) -> set[Orthography]:
         """
-        Get a set of orthographies which use a supplied codepoint at any
-        level.
+        Get a set of orthographies which use a supplied codepoint at any level.
 
         :param u: The codepoint.
         :type u: int
@@ -688,8 +676,8 @@ class OrthographyInfo:
         """
         Get a set of supported orthographies for a character list.
 
-        :param full_only: Return only orthographies which have both basic and
-                          optional characters present for the current cmap.
+        :param full_only: Return only orthographies which have both basic and optional
+            characters present for the current cmap.
         :type full_only: bool
         """
         if full_only:
@@ -700,8 +688,7 @@ class OrthographyInfo:
         self,
     ) -> set[Orthography]:
         """
-        Get a set of orthographies with minimal or better support for the
-        current cmap.
+        Get a set of orthographies with minimal or better support for the current cmap.
         """
         return {o for o in self.orthographies if o.support_minimal_inclusive}
 
@@ -732,8 +719,8 @@ class OrthographyInfo:
 
     def get_kern_list(self, include_optional=False) -> set[frozenset[int]]:
         """
-        Return a list of character pairs that may appear in any supported
-        orthography for the current cmap.
+        Return a list of character pairs that may appear in any supported orthography
+        for the current cmap.
 
         :param include_optional: Include optional characters.
         :type include_optional: bool
@@ -782,12 +769,11 @@ class OrthographyInfo:
         :param otlist: The list of orthographies.
         :type otlist: List[Orthography]
 
-        :param attr: The name of the attribute of the orthography object that
-            will be shown in the report (missing_base, missing_optional,
-            missing_punctuation, missing_all, num_missing_base,
-            num_missing_optional, num_missing_punctuation, base_pc, optional_pc,
-            punctuation_pc, unicodes_base, unicodes_optional,
-            unicodes_punctuation).
+        :param attr: The name of the attribute of the orthography object that will be
+            shown in the report (missing_base, missing_optional, missing_punctuation,
+            missing_all, num_missing_base, num_missing_optional,
+            num_missing_punctuation, base_pc, optional_pc, punctuation_pc,
+            unicodes_base, unicodes_optional, unicodes_punctuation).
         :type attr: str
 
         :param bcp47: Output BCP47 subtags instead of names
@@ -803,8 +789,8 @@ class OrthographyInfo:
 
     def report_supported_minimum_inclusive(self, bcp47=False) -> None:
         """
-        Print a report of minimally supported orthographies for the current
-        cmap (no punctuation, no optional characters required).
+        Print a report of minimally supported orthographies for the current cmap (no
+        punctuation, no optional characters required).
 
         :param bcp47: Output BCP47 subtags instead of names
         :type bcp47: bool
@@ -820,8 +806,8 @@ class OrthographyInfo:
 
     def report_supported_minimum(self, bcp47=False) -> None:
         """
-        Print a report of minimally supported orthographies for the current
-        cmap (no punctuation, no optional characters present).
+        Print a report of minimally supported orthographies for the current cmap (no
+        punctuation, no optional characters present).
 
         :param bcp47: Output BCP47 subtags instead of names
         :type bcp47: bool
@@ -839,8 +825,8 @@ class OrthographyInfo:
         """
         Print a report of supported orthographies for the current cmap.
 
-        :param full_only: Only report orthographies which have both basic and
-            optional characters present
+        :param full_only: Only report orthographies which have both basic and optional
+            characters present
         :type full_only: bool
         :param bcp47: Output BCP47 subtags instead of names
         :type bcp47: bool
@@ -858,15 +844,14 @@ class OrthographyInfo:
         self, codes: list[str], minimum=False, punctuation=False, bcp47=False
     ) -> None:
         """
-        Print a report of missing characters for the given BCP47 language
-        subtags. If `minimum` is true, only required characters are listed. If
-        `punctuation` is true, only punctuation characters are listed. If both
-        are true, both required and punctuation characters are listed. If both
-        are false, all required, optional, and punctuation characters are
-        listed.
+        Print a report of missing characters for the given BCP47 language subtags. If
+        `minimum` is true, only required characters are listed. If `punctuation` is
+        true, only punctuation characters are listed. If both are true, both required
+        and punctuation characters are listed. If both are false, all required,
+        optional, and punctuation characters are listed.
 
         :param codes: BCP47 language subtags
-        :type codes: List[str]
+        :type codes: list[str]
         :param minimum: Only report missing required characters
         :type minimum: bool
         :param punctuation: Only report missing punctuation
@@ -890,8 +875,8 @@ class OrthographyInfo:
 
     def report_missing_punctuation(self, bcp47=False) -> None:
         """
-        Print a report of orthographies which have all basic letters present,
-        but are missing puncuation characters.
+        Print a report of orthographies which have all basic letters present, but are
+        missing puncuation characters.
 
         :param bcp47: Output BCP47 subtags instead of names
         :type bcp47: bool
@@ -902,8 +887,7 @@ class OrthographyInfo:
 
     def report_near_misses(self, n: int = 5, bcp47=False) -> None:
         """
-        Print a report of orthographies which a maximum number of n characters
-        missing.
+        Print a report of orthographies which a maximum number of n characters missing.
 
         :param n: The maximum number of missing characters
         :type n: int
@@ -919,8 +903,8 @@ class OrthographyInfo:
 
     def report_kern_list(self, bcp47=False, include_optional=False) -> None:
         """
-        Print a list of character pairs that may appear in any supported
-        orthography for the current cmap.
+        Print a list of character pairs that may appear in any supported orthography for
+        the current cmap.
 
         :param bcp47: Output BCP47 subtags instead of names
         :type bcp47: bool
