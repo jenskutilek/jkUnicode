@@ -28,7 +28,7 @@ def transform_small_letter(name):
         else:
             result += letter_names.get(m.group(2), m.group(2).lower())
         if m.group(3) is not None:
-            result += "%s" % m.group(3).lower()
+            result += f"{m.group(3).lower()}"
         # print("Result:", result)
         return result
     return False
@@ -53,7 +53,7 @@ def transform_capital_letter(name):
         else:
             result += letter_names.get(m.group(2), m.group(2).title())
         if m.group(3) is not None:
-            result += "%s" % m.group(3).lower()
+            result += f"{m.group(3).lower()}"
         # print("Result:", result)
         return result
     return False
@@ -62,9 +62,9 @@ def transform_capital_letter(name):
 def transform_allah(name):
     m = re_allah.match(name)
     if m:
-        result = "{}{}".format(m.group(1).capitalize(), m.group(2).title())
+        result = f"{m.group(1).capitalize()}{m.group(2).title()}"
         if m.group(3) is not None:
-            result += "%s" % m.group(3).lower()
+            result += f"{m.group(3).lower()}"
         # print(result)
         return result
     return False

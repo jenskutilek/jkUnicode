@@ -9,7 +9,7 @@ for k, v in uniBlockToName.items():
     if v not in uniNameToBlock:
         uniNameToBlock[v] = k
     else:
-        print("ERROR: Duplicate block name: %s" % v)
+        print(f"ERROR: Duplicate block name: {v}")
 
 
 def get_block(codepoint):

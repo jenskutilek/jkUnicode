@@ -70,7 +70,7 @@ def get_expanded_glyph_list(
         elif ui.uc_mapping is not None:
             ui.unicode = ui.uc_mapping
             glyphs.append((ui.unicode, ui.glyphname))
-    return sorted(list(set(glyphs)))
+    return sorted(set(glyphs))
 
 
 def getUnicodeChar(code: int) -> str:
@@ -146,19 +146,16 @@ class UniInfo:
         if self.unicode is None:
             s = "      Unicode: None"
         else:
-            s = "      Unicode: 0x{:04X} (dec. {})".format(
-                self.unicode,
-                self.unicode,
-            )
-        s += "\n         Name: %s" % self.name
-        s += "\n     Category: {} ({})".format(self.category_short, self.category)
+            s = f"      Unicode: 0x{self.unicode:04X} (dec. {self.unicode})"
+        s += f"\n         Name: {self.name}"
+        s += f"\n     Category: {self.category_short} ({self.category})"
         if self.uc_mapping:
-            s += "\n    Uppercase: 0x%04X" % self.uc_mapping
+            s += f"\n    Uppercase: 0x{self.uc_mapping:04X}"
         if self.lc_mapping:
-            s += "\n    Lowercase: 0x%04X" % self.lc_mapping
+            s += f"\n    Lowercase: 0x{self.lc_mapping:04X}"
         if self.decomposition_mapping:
-            s += "\nDecomposition: %s" % (
-                " ".join(["0x%04X" % m for m in self.decomposition_mapping])
+            s += "\nDecomposition: {}".format(
+                " ".join([f"0x{m:04X}" for m in self.decomposition_mapping])
             )
         return s
 
@@ -219,13 +216,11 @@ class UniInfo:
             if 0xE000 <= self._unicode < 0xF8FF:
                 return "<Private Use>"
             if 0xD800 <= self._unicode < 0xDB7F:
-                return "<Non Private Use High Surrogate #%i>" % (
-                    self._unicode - 0xD8000
-                )
+                return f"<Non Private Use High Surrogate #{self._unicode - 0xD8000}>"
             if 0xDB80 <= self._unicode < 0xDBFF:
-                return "<Private Use High Surrogate #%i>" % (self._unicode - 0xDB80)
+                return f"<Private Use High Surrogate #{self._unicode - 0xDB80}>"
             if 0xDC00 <= self._unicode < 0xDFFF:
-                return "<Low Surrogate #%i>" % (self._unicode - 0xDC00)
+                return f"<Low Surrogate #{self._unicode - 0xDC00}>"
             return "<undefined>"
         return name
 

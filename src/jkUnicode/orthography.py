@@ -162,7 +162,7 @@ class Orthography:
                 result.add(self.ui.lc_mapping)
             elif self.ui.uc_mapping:
                 result.add(self.ui.uc_mapping)
-        return sorted(list(result))
+        return sorted(result)
 
     def fill_from_default_orthography(self) -> None:
         """
@@ -176,8 +176,7 @@ class Orthography:
         if self.territory != "dflt":
             if self.info is None:
                 print(
-                    "WARNING: No parent orthography found for %s/%s/%s"
-                    % (self.code, self.script, self.territory)
+                    f"WARNING: No parent orthography found for {self.code}/{self.script}/{self.territory}"
                 )
                 return
 
@@ -185,8 +184,7 @@ class Orthography:
             parent = self.info.orthography(self.code, self.script)
             if parent is None:
                 print(
-                    "WARNING: No parent orthography found for %s/%s/%s"
-                    % (self.code, self.script, self.territory)
+                    f"WARNING: No parent orthography found for {self.code}/{self.script}/{self.territory}"
                 )
             else:
                 # print("    Parent:", parent.code, parent.script, parent.territory)
@@ -218,13 +216,11 @@ class Orthography:
         Is the orthography supported (base, optional and punctuation
         characters) for the current parent cmap?
         """
-        if (
+        return bool(
             self.num_missing_base == 0
             and self.num_missing_optional == 0
             and self.num_missing_punctuation == 0
-        ):
-            return True
-        return False
+        )
 
     @property
     def support_basic(self) -> bool:
@@ -232,9 +228,7 @@ class Orthography:
         Is the orthography supported (base and punctuation characters) for the
         current parent cmap?
         """
-        if self.num_missing_base == 0 and self.num_missing_punctuation == 0:
-            return True
-        return False
+        return bool(self.num_missing_base == 0 and self.num_missing_punctuation == 0)
 
     @property
     def support_minimal(self) -> bool:
@@ -242,13 +236,11 @@ class Orthography:
         Is the orthography supported (base characters) for the current parent
         cmap?
         """
-        if (
+        return bool(
             self.num_missing_base == 0
             and self.num_missing_optional != 0
             and self.num_missing_punctuation != 0
-        ):
-            return True
-        return False
+        )
 
     @property
     def support_minimal_inclusive(self) -> bool:
@@ -256,9 +248,7 @@ class Orthography:
         Is the orthography supported (base characters only) for the current
         parent cmap?
         """
-        if self.num_missing_base == 0:
-            return True
-        return False
+        return self.num_missing_base == 0
 
     def almost_supported_full(self, max_missing: int = 5) -> bool:
         """
@@ -266,30 +256,24 @@ class Orthography:
         (base, optional and punctuation characters) for the current parent
         cmap?
         """
-        if 0 < self.num_missing_all <= max_missing:
-            return True
-        return False
+        return 0 < self.num_missing_all <= max_missing
 
     def almost_supported_basic(self, max_missing: int = 5) -> bool:
         """
         Is the orthography supported with a maximum of `max_missing` base
         characters for the current parent cmap?
         """
-        if 0 < self.num_missing_base <= max_missing:
-            return True
-        return False
+        return 0 < self.num_missing_base <= max_missing
 
     def almost_supported_punctuation(self, max_missing: int = 5) -> bool:
         """
         Is the orthography supported with a maximum of `max_missing`
         punctuation characters for the current parent cmap?
         """
-        if (
+        return bool(
             self.num_missing_base == 0
             and 0 < self.num_missing_punctuation <= max_missing
-        ):
-            return True
-        return False
+        )
 
     def get_missing(self, minimum: bool = False, punctuation: bool = False) -> set[int]:
         """
@@ -330,9 +314,7 @@ class Orthography:
         :param u: The codepoint.
         :type u: int
         """
-        if u in self.unicodes_base_punctuation:
-            return True
-        return False
+        return u in self.unicodes_base_punctuation
 
     def uses_unicode_any(self, u: int) -> bool:
         """
@@ -344,9 +326,7 @@ class Orthography:
         :param u: The codepoint.
         :type u: int
         """
-        if u in self.unicodes_any:
-            return True
-        return False
+        return u in self.unicodes_any
 
     def speakers_supported_by_unicode(self, u: int) -> int:
         """
@@ -460,9 +440,9 @@ class Orthography:
         """
         _id = self.code
         if self.script != "DFLT":
-            _id += "-%s" % self.script
+            _id += f"-{self.script}"
         if self.territory != "dflt":
-            _id += "-%s" % self.territory
+            _id += f"-{self.territory}"
         return _id
 
     @property
@@ -477,24 +457,16 @@ class Orthography:
         self._name = value
 
     def __gt__(self, other) -> bool:
-        if self.name > other.name:
-            return True
-        return False
+        return self.name > other.name
 
     def __eq__(self, other) -> bool:
-        if self.name == other.name:
-            return True
-        return False
+        return self.name == other.name
 
     def __lt__(self, other) -> bool:
-        if self.name < other.name:
-            return True
-        return False
+        return self.name < other.name
 
     def __ne__(self, other) -> bool:
-        if self.name == other.name:
-            return False
-        return True
+        return self.name != other.name
 
     def __repr__(self) -> str:
         return f'<Orthography "{self.name}">'
@@ -586,7 +558,7 @@ class OrthographyInfo:
     @cmap.setter
     def cmap(self, value: dict[int, str] | None = None) -> None:
         if value is None:
-            self._cmap = dict()
+            self._cmap = {}
             self._codepoints = set()
             for o in self.orthographies:
                 o.forget_cmap()
@@ -773,7 +745,7 @@ class OrthographyInfo:
                 unicodes = ot.unicodes_base
             ot_pairs = frozenset(
                 [
-                    frozenset(sorted(list(pair)))
+                    frozenset(sorted(pair))
                     for pair in itertools.combinations_with_replacement(unicodes, 2)
                 ]
             )
@@ -793,7 +765,7 @@ class OrthographyInfo:
         return len(self.orthographies)
 
     def __repr__(self) -> str:
-        return "<OrthographyInfo with %i orthographies>" % len(self)
+        return f"<OrthographyInfo with {len(self)} orthographies>"
 
     # Very convenient convenience functions
 
@@ -820,14 +792,10 @@ class OrthographyInfo:
         otlist.sort()
         for ot in otlist:
             name = ot.identifier if bcp47 else ot.name
-            print("\n%s" % name)
-            for u in sorted(list(getattr(ot, attr))):
+            print(f"\n{name}")
+            for u in sorted(getattr(ot, attr)):
                 self.ui.unicode = u
-                print(
-                    "    0x{:04X}\t{}\t{}".format(
-                        u, self.ui.glyphname, self.ui.nice_name
-                    )
-                )
+                print(f"    0x{u:04X}\t{self.ui.glyphname}\t{self.ui.nice_name}")
 
     def report_supported_minimum_inclusive(self, bcp47=False) -> None:
         """
@@ -838,7 +806,7 @@ class OrthographyInfo:
         :type bcp47: bool
         """
         m = self.get_supported_orthographies_minimum_inclusive()
-        print("The font has minimal or better support for %i orthographies:" % len(m))
+        print(f"The font has minimal or better support for {len(m)} orthographies:")
         m.sort()
         for ot in m:
             if bcp47:
@@ -855,7 +823,7 @@ class OrthographyInfo:
         :type bcp47: bool
         """
         m = self.get_supported_orthographies_minimum()
-        print("The font has minimal support for %i orthographies:" % len(m))
+        print(f"The font has minimal support for {len(m)} orthographies:")
         m.sort()
         for ot in m:
             if bcp47:
@@ -874,7 +842,7 @@ class OrthographyInfo:
         :type bcp47: bool
         """
         m = self.get_supported_orthographies(full_only)
-        print("The font supports %i orthographies:" % len(m))
+        print(f"The font supports {len(m)} orthographies:")
         m.sort()
         for ot in m:
             if bcp47:
@@ -914,11 +882,7 @@ class OrthographyInfo:
                 print(o.identifier if bcp47 else o.name)
                 for u in sorted(missing):
                     self.ui.unicode = u
-                    print(
-                        "    0x{:04X}\t{}\t{}".format(
-                            u, self.ui.glyphname, self.ui.nice_name
-                        )
-                    )
+                    print(f"    0x{u:04X}\t{self.ui.glyphname}\t{self.ui.nice_name}")
 
     def report_missing_punctuation(self, bcp47=False) -> None:
         """
@@ -943,9 +907,9 @@ class OrthographyInfo:
         :type bcp47: bool
         """
         m = self.get_almost_supported(n)
+        char_s = "character" if n == 1 else "characters"
         print(
-            "Orthographies which can be supported with max. %i additional %s:"
-            % (n, "character" if n == 1 else "characters")
+            f"Orthographies which can be supported with max. {n} additional {char_s}:"
         )
         self.print_report(m, "missing_base", bcp47=bcp47)
 

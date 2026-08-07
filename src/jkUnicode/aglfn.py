@@ -16,11 +16,9 @@ def getUnicodeForGlyphname(name: str) -> int | None:
     :type name: str"""
     ornName = compile("^orn[0-9]{3}$")
     length = len(name)
-    if "_" in name:
+    if "_" in name or "." in name[1:]:
         return None
-    elif "." in name[1:]:
-        return None
-    elif name in nameToUnicode.keys():
+    elif name in nameToUnicode:
         return nameToUnicode[name]
     elif length == 7 and name.startswith("uni"):
         return int(name[3:], 16)
@@ -43,9 +41,9 @@ def getGlyphnameForUnicode(code: int | None) -> str | None:
     :type code: int"""
     if code is None:
         return None
-    elif code in unicodeToName.keys():
+    elif code in unicodeToName:
         return unicodeToName[code]
     elif code < 0xFFFF:
-        return "uni%04X" % code
+        return f"uni{code:04X}"
     else:
-        return "u%05X" % code
+        return f"u{code:05X}"
