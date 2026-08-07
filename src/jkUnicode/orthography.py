@@ -697,8 +697,7 @@ class OrthographyInfo:
 
     def get_supported_orthographies_minimum(self) -> set[Orthography]:
         """
-        Get a set of orthographies with minimal support for the current cmap
-        only.
+        Get a set of orthographies with minimal support for the current cmap only.
         """
         return {o for o in self.orthographies if o.support_minimal}
 
