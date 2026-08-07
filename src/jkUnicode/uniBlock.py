@@ -26,9 +26,9 @@ def get_codepoints_min_max(block_name):
         return None
 
 
-def get_codepoints(block_name):
+def get_codepoints(block_name) -> set[int]:
     try:
         low, high = uniNameToBlock[block_name]
-        return range(low, high + 1)
+        return set(range(low, high + 1))
     except KeyError:
-        return []
+        return set()
