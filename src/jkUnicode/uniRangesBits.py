@@ -228,29 +228,32 @@ unicodeRanges = {
 }
 
 
-def getUnicodesForRangeBit(b):
-    """Get a list of unicodes for the bit b. The meanings of the bits are
-    specified in the OpenType specification for the OS/2 table ulUnicodeRange[1..4] entries.
+def getUnicodesForRangeBit(b: int) -> set[int]:
+    """Get a list of unicodes for the bit b. The meanings of the bits are specified in
+    the OpenType specification for the OS/2 table ulUnicodeRange[1..4] entries.
 
-    :param b: The bit (0-127).
-    :type b: int"""
-    records = unicodeRanges[b]
-    codes = []
-    for i in range(len(records)):
-        start, stop = (records[i][1], records[i][2])
-        for code in range(start, stop + 1):
-            codes.append(code)
+    Args:
+        b (int): The bit (0-127).
+
+    Returns:
+        set[int]: The Unicode codepoints that correspond to the bit.
+    """
+    codes = set()
+    for _, start, stop in unicodeRanges[b]:
+        codes.update(range(start, stop + 1))
     return codes
 
 
-def getNameForRangeBit(b):
-    """Get the name for the bit b. The meanings of the bits are
-    specified in the OpenType specification for the OS/2 table ulUnicodeRange[1..4] entries.
+def getNameForRangeBit(b: int) -> str:
+    """Get the name for the bit b. The meanings of the bits are specified in the
+    OpenType specification for the OS/2 table ulUnicodeRange[1..4] entries.
 
-    :param b: The bit (0-127).
-    :type b: int"""
-    records = unicodeRanges[b]
-    name = ""
-    for i in range(len(records)):
-        name += records[i][0] + ", "
-    return name[:-2]
+    Args:
+        b (int): The bit (0-127).
+
+    Returns:
+        str: The name for the range bit. If there is more than one corresponding name,
+            the names are included in the string separated by comma and space.
+    """
+    names = [name for name, _, _ in unicodeRanges[b]]
+    return ", ".join(names)
