@@ -1,8 +1,12 @@
+import logging
 from pathlib import Path
 from typing import Any
 
 from jkUnicode import UniInfo
 from jkUnicode.tools.jsonhelpers import dict_from_file
+
+
+logger = logging.getLogger(__name__)
 
 
 class Orthography:
@@ -86,7 +90,7 @@ class Orthography:
         try:
             uni_info: dict[str, list] = info_dict["unicodes"]
         except KeyError:
-            print(f"WARNING: No Unicode info found for language {self.name}")
+            logger.warning(f"No Unicode info found for language {self.name}")
             return
 
         # Add the unicode points, and also the cased variants of the unicode
@@ -175,19 +179,19 @@ class Orthography:
         """
         if self.territory != "dflt":
             if self.info is None:
-                print(
-                    f"WARNING: No parent orthography found for {self.code}/{self.script}/{self.territory}"
+                logger.warning(
+                    f"No parent orthography found for {self.code}/{self.script}/{self.territory}"
                 )
                 return
 
-            # print(self.code, self.script, self.territory)
+            # logger.info(self.code, self.script, self.territory)
             parent = self.info.orthography(self.code, self.script)
             if parent is None:
-                print(
-                    f"WARNING: No parent orthography found for {self.code}/{self.script}/{self.territory}"
+                logger.warning(
+                    "No parent orthography found for {self.code}/{self.script}/{self.territory}"
                 )
             else:
-                # print("    Parent:", parent.code, parent.script, parent.territory)
+                # logger.info("    Parent:", parent.code, parent.script, parent.territory)
                 # Set attributes from parent (there may be empty attributes
                 # remaining ...?)
                 for attr in [
@@ -198,7 +202,7 @@ class Orthography:
                     if getattr(self, attr) == set():
                         parent_set = getattr(parent, attr)
                         if parent_set:
-                            # print("    Filled from parent:", attr)
+                            # logger.info("    Filled from parent:", attr)
                             setattr(self, attr, parent_set)
                 # Recalculate the combined sets
                 self.unicodes_base_punctuation = (
@@ -503,11 +507,11 @@ class OrthographyInfo:
         self._index = {}
         i = 0
         for code, script_dict in master.items():
-            # print(code, script_dict)
+            # logger.info(code, script_dict)
             for script, territory_dict in script_dict.items():
-                # print(script, territory_dict)
+                # logger.info(script, territory_dict)
                 for territory, info in territory_dict.items():
-                    # print(territory, info)
+                    # logger.info(territory, info)
                     try:
                         speakers = language_speakers[code]
                     except KeyError:
@@ -753,9 +757,9 @@ class OrthographyInfo:
         # for pair in sorted([sorted(p) for p in possible_pairs]):
         #     try:
         #         L, R = pair
-        #         print(chr(L), chr(R))
+        #         logger.info(chr(L), chr(R))
         #     except ValueError:
-        #         print(chr(next(iter(pair))))
+        #         logger.info(chr(next(iter(pair))))
         return possible_pairs
 
     def __len__(self) -> int:
