@@ -1,0 +1,103 @@
+{
+    "DFLT": {
+        "dflt": {
+            "name": "Sunwar",
+            "unicodes": {
+                "base": [
+                    "0x0905 अ uni0905",
+                    "0x0906 आ uni0906",
+                    "0x0907 इ uni0907",
+                    "0x0909 उ uni0909",
+                    "0x090F ए uni090F",
+                    "0x0913 ओ uni0913",
+                    "0x0915 क uni0915",
+                    "0x0916 ख uni0916",
+                    "0x0917 ग uni0917",
+                    "0x091A च uni091A",
+                    "0x091B छ uni091B",
+                    "0x091C ज uni091C",
+                    "0x091F ट uni091F",
+                    "0x0920 ठ uni0920",
+                    "0x0921 ड uni0921",
+                    "0x0924 त uni0924",
+                    "0x0925 थ uni0925",
+                    "0x0926 द uni0926",
+                    "0x0928 न uni0928",
+                    "0x092A प uni092A",
+                    "0x092B फ uni092B",
+                    "0x092C ब uni092C",
+                    "0x092E म uni092E",
+                    "0x092F य uni092F",
+                    "0x0930 र uni0930",
+                    "0x0932 ल uni0932",
+                    "0x0935 व uni0935",
+                    "0x0936 श uni0936",
+                    "0x0938 स uni0938",
+                    "0x0939 ह uni0939",
+                    "0x094D ् uni094D"
+                ],
+                "punctuation": [
+                    "0x0021 ! exclam",
+                    "0x002C , comma",
+                    "0x003A : colon",
+                    "0x003F ? question",
+                    "0x0964 । uni0964",
+                    "0x201C “ quotedblleft",
+                    "0x201D ” quotedblright"
+                ]
+            }
+        }
+    },
+    "Sunu": {
+        "dflt": {
+            "name": "Sunwar (Sunuwar)",
+            "unicodes": {
+                "base": [
+                    "0x11BC0 𑯀 u11BC0",
+                    "0x11BC1 𑯁 u11BC1",
+                    "0x11BC2 𑯂 u11BC2",
+                    "0x11BC3 𑯃 u11BC3",
+                    "0x11BC4 𑯄 u11BC4",
+                    "0x11BC5 𑯅 u11BC5",
+                    "0x11BC6 𑯆 u11BC6",
+                    "0x11BC7 𑯇 u11BC7",
+                    "0x11BC8 𑯈 u11BC8",
+                    "0x11BC9 𑯉 u11BC9",
+                    "0x11BCA 𑯊 u11BCA",
+                    "0x11BCB 𑯋 u11BCB",
+                    "0x11BCC 𑯌 u11BCC",
+                    "0x11BCD 𑯍 u11BCD",
+                    "0x11BCE 𑯎 u11BCE",
+                    "0x11BCF 𑯏 u11BCF",
+                    "0x11BD0 𑯐 u11BD0",
+                    "0x11BD1 𑯑 u11BD1",
+                    "0x11BD2 𑯒 u11BD2",
+                    "0x11BD3 𑯓 u11BD3",
+                    "0x11BD4 𑯔 u11BD4",
+                    "0x11BD5 𑯕 u11BD5",
+                    "0x11BD6 𑯖 u11BD6",
+                    "0x11BD7 𑯗 u11BD7",
+                    "0x11BD8 𑯘 u11BD8",
+                    "0x11BD9 𑯙 u11BD9",
+                    "0x11BDA 𑯚 u11BDA",
+                    "0x11BDB 𑯛 u11BDB",
+                    "0x11BDC 𑯜 u11BDC",
+                    "0x11BDD 𑯝 u11BDD",
+                    "0x11BDE 𑯞 u11BDE",
+                    "0x11BDF 𑯟 u11BDF",
+                    "0x11BE0 𑯠 u11BE0"
+                ],
+                "punctuation": [
+                    "0x0021 ! exclam",
+                    "0x002C , comma",
+                    "0x002E . period",
+                    "0x003A : colon",
+                    "0x003F ? question",
+                    "0x201C “ quotedblleft",
+                    "0x201D ” quotedblright",
+                    "0x11BE1 𑯡 u11BE1"
+                ]
+            }
+        }
+    }
+}

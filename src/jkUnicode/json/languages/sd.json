@@ -65,18 +65,23 @@
                 ],
                 "punctuation": [
                     "0x0021 ! exclam",
+                    "0x0022 \" quotedbl",
                     "0x0028 ( parenleft",
                     "0x0029 ) parenright",
+                    "0x002D - hyphen",
                     "0x002F / slash",
                     "0x003A : colon",
                     "0x005B [ bracketleft",
                     "0x005D ] bracketright",
-                    "0x007B { braceleft",
-                    "0x007D } braceright",
-                    "0x06D4 ۔ uni06D4",
+                    "0x060C ، uni060C",
+                    "0x061B ؛ uni061B",
+                    "0x061F ؟ uni061F",
+                    "0x066D ٭ uni066D",
+                    "0x2011 ‑ uni2011",
                     "0x2018 ‘ quoteleft",
-                    "0x204F ⁏ uni204F",
-                    "0x2E41 ⹁ uni2E41"
+                    "0x2019 ’ quoteright",
+                    "0x201D ” quotedblright",
+                    "0x2026 … ellipsis"
                 ]
             }
         }

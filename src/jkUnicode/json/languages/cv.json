@@ -82,9 +82,9 @@
                     "0x2013 – endash",
                     "0x2014 — emdash",
                     "0x2018 ‘ quoteleft",
-                    "0x201A ‚ quotesinglbase",
+                    "0x2019 ’ quoteright",
                     "0x201C “ quotedblleft",
-                    "0x201E „ quotedblbase",
+                    "0x201D ” quotedblright",
                     "0x2026 … ellipsis"
                 ]
             }

@@ -68,9 +68,12 @@
                 "punctuation": [
                     "0x0021 ! exclam",
                     "0x0022 \" quotedbl",
+                    "0x0023 # numbersign",
+                    "0x0026 & ampersand",
                     "0x0027 ' quotesingle",
                     "0x0028 ( parenleft",
                     "0x0029 ) parenright",
+                    "0x002A * asterisk",
                     "0x002C , comma",
                     "0x002D - hyphen",
                     "0x002E . period",
