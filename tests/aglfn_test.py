@@ -1,6 +1,6 @@
 import unittest
 
-from jkUnicode.aglfn import getUnicodeForGlyphname
+from jkUnicode.aglfn import getGlyphnameForUnicode, getUnicodeForGlyphname
 
 
 class TestAglfn(unittest.TestCase):
@@ -44,3 +44,6 @@ class TestAglfn(unittest.TestCase):
 
     def test_ligatures(self) -> None:
         self._check_dict({"f_l": None, "uni0162_h": None})
+
+    def test_getGlyphnameForUnicode_5(self) -> None:
+        assert getGlyphnameForUnicode(0x12345) == "u12345"
