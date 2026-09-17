@@ -5,7 +5,7 @@ from pathlib import Path
 from jkUnicode.tools.jsonhelpers import dict_from_file, json_to_file
 
 base_path = Path(__file__).parent.parent
-module_path = base_path / "lib" / "jkUnicode"
+module_path = base_path / "src" / "jkUnicode"
 json_path = module_path / "json"  # Output path for JSON files
 
 print(f"JSON path: {json_path}")
