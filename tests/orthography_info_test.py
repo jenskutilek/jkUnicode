@@ -674,28 +674,183 @@ class TestOrthographyInfo(unittest.TestCase):
     def test_get_missing_minimum(self) -> None:
         o = OrthographyInfo()
         o.cmap = get_cmap()
-        ot = o.orthography("agq")
+        ot = o.orthography("hy")
         assert ot is not None
 
         missing = set(ot.get_missing(minimum=True, punctuation=False))
         assert missing == {
-            390,
-            400,
-            407,
-            461,
-            462,
-            463,
-            464,
-            465,
-            466,
-            467,
-            468,
-            580,
-            596,
-            603,
-            616,
-            649,
-            660,
+            1329,
+            1330,
+            1331,
+            1332,
+            1333,
+            1334,
+            1335,
+            1336,
+            1337,
+            1338,
+            1339,
+            1340,
+            1341,
+            1342,
+            1343,
+            1344,
+            1345,
+            1346,
+            1347,
+            1348,
+            1349,
+            1350,
+            1351,
+            1352,
+            1353,
+            1354,
+            1355,
+            1356,
+            1357,
+            1358,
+            1359,
+            1360,
+            1361,
+            1362,
+            1363,
+            1364,
+            1365,
+            1366,
+            1377,
+            1378,
+            1379,
+            1380,
+            1381,
+            1382,
+            1383,
+            1384,
+            1385,
+            1386,
+            1387,
+            1388,
+            1389,
+            1390,
+            1391,
+            1392,
+            1393,
+            1394,
+            1395,
+            1396,
+            1397,
+            1398,
+            1399,
+            1400,
+            1401,
+            1402,
+            1403,
+            1404,
+            1405,
+            1406,
+            1407,
+            1408,
+            1409,
+            1410,
+            1411,
+            1412,
+            1413,
+            1414,
+        }
+
+    def test_get_missing_minimum_punctuation(self) -> None:
+        o = OrthographyInfo()
+        o.cmap = get_cmap()
+        ot = o.orthography("hy")
+        assert ot is not None
+
+        missing = set(ot.get_missing(minimum=True, punctuation=True))
+        assert missing == {
+            58,
+            171,
+            187,
+            1329,
+            1330,
+            1331,
+            1332,
+            1333,
+            1334,
+            1335,
+            1336,
+            1337,
+            1338,
+            1339,
+            1340,
+            1341,
+            1342,
+            1343,
+            1344,
+            1345,
+            1346,
+            1347,
+            1348,
+            1349,
+            1350,
+            1351,
+            1352,
+            1353,
+            1354,
+            1355,
+            1356,
+            1357,
+            1358,
+            1359,
+            1360,
+            1361,
+            1362,
+            1363,
+            1364,
+            1365,
+            1366,
+            1370,
+            1371,
+            1372,
+            1373,
+            1374,
+            1375,
+            1377,
+            1378,
+            1379,
+            1380,
+            1381,
+            1382,
+            1383,
+            1384,
+            1385,
+            1386,
+            1387,
+            1388,
+            1389,
+            1390,
+            1391,
+            1392,
+            1393,
+            1394,
+            1395,
+            1396,
+            1397,
+            1398,
+            1399,
+            1400,
+            1401,
+            1402,
+            1403,
+            1404,
+            1405,
+            1406,
+            1407,
+            1408,
+            1409,
+            1410,
+            1411,
+            1412,
+            1413,
+            1414,
+            1418,
         }
 
     def test_get_missing_punctuation(self) -> None:
@@ -919,3 +1074,34 @@ class TestOrthographyInfo(unittest.TestCase):
             "yrl",
             "zu",
         }
+
+    def test_speakers_supported_by_unicode(self) -> None:
+        o = OrthographyInfo()
+        o.cmap = get_cmap()
+        assert o.speakers_supported_by_unicode(ord("z")) == 5507898223
+        assert o.speakers_supported_by_unicode(0x2B9F) == 0
+
+    def test_get_orthographies_for_char(self) -> None:
+        o = OrthographyInfo()
+        o.cmap = get_cmap()
+        supported = o.get_orthographies_for_char("ø")
+        orthographies = {f"{ot.name}: {ot.code}" for ot in supported}
+        assert orthographies == {
+            "Danish: da",
+            "Kalaallisut: kl",
+            "International Phonetic Alphabet: ipa",
+            "Faroese: fo",
+            "Sami, Southern (Norway): sma",
+            "Norwegian: no",
+            "Konkani (Latin): kok",
+        }
+
+    def test_get_kern_list(self) -> None:
+        o = OrthographyInfo()
+        o.cmap = get_cmap()
+        assert len(o.get_kern_list()) == 28914
+
+    def test_split_bcp47(self) -> None:
+        o = OrthographyInfo()
+        assert o.split_bcp47("de-Latn-CH") == ("de", "Latn", "CH")
+        assert o.split_bcp47("de-CH") == ("de", "DFLT", "CH")
