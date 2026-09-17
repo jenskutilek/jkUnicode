@@ -39,7 +39,6 @@ woff = ["fonttools[woff] >= 4.63.0"]
 
 [dependency-groups]
 dev = [
-  "flake8 >= 7.3.0",
   "hyperglot >= 0.8.1",
   "mypy >= 2.1.0",
   "ruff >= 0.15.16",
