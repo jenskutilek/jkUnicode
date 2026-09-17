@@ -458,7 +458,7 @@ class Orthography:
     def __eq__(self, other) -> bool:
         return self.name == other.name
 
-    def __hash__(self) -> hash:
+    def __hash__(self) -> int:
         return hash(self.identifier)
 
     def __lt__(self, other) -> bool:
