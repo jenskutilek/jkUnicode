@@ -31,9 +31,9 @@ def transform_small_letter(name) -> str | bool:
                 t_name = " ".join(parts)
                 result += t_name
             else:
-                result += letter_names.get(m.group(2), m.group(2).lower())
+                result += m.group(2).lower()
         else:
-            result += letter_names.get(m.group(2), m.group(2).lower())
+            result += m.group(2).lower()
         if m.group(3) is not None:
             result += f"{m.group(3).lower()}"
         return result
