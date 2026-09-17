@@ -763,7 +763,7 @@ class OrthographyInfo:
     # Very convenient convenience functions
 
     def print_report(
-        self, otlist: list[Orthography], attr: str, bcp47: bool = False
+        self, otlist: set[Orthography], attr: str, bcp47: bool = False
     ) -> None:
         """
         Print a formatted report for a given list of orthographies.
@@ -781,8 +781,7 @@ class OrthographyInfo:
         :param bcp47: Output BCP47 subtags instead of names
         :type bcp47: bool
         """
-        otlist.sort()
-        for ot in otlist:
+        for ot in sorted(otlist):
             name = ot.identifier if bcp47 else ot.name
             print(f"\n{name}")
             for u in sorted(getattr(ot, attr)):
@@ -799,8 +798,7 @@ class OrthographyInfo:
         """
         m = self.get_supported_orthographies_minimum_inclusive()
         print(f"The font has minimal or better support for {len(m)} orthographies:")
-        m.sort()
-        for ot in m:
+        for ot in sorted(m):
             if bcp47:
                 print(ot.identifier)
             else:
@@ -816,8 +814,7 @@ class OrthographyInfo:
         """
         m = self.get_supported_orthographies_minimum()
         print(f"The font has minimal support for {len(m)} orthographies:")
-        m.sort()
-        for ot in m:
+        for ot in sorted(m):
             if bcp47:
                 print(ot.identifier)
             else:
@@ -835,8 +832,7 @@ class OrthographyInfo:
         """
         m = self.get_supported_orthographies(full_only)
         print(f"The font supports {len(m)} orthographies:")
-        m.sort()
-        for ot in m:
+        for ot in sorted(m):
             if bcp47:
                 print(ot.identifier)
             else:
