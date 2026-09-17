@@ -4,11 +4,11 @@ from jkUnicode.aglfn import getUnicodeForGlyphname
 
 
 class TestAglfn(unittest.TestCase):
-    def _check_dict(self, expected_results_dict):
+    def _check_dict(self, expected_results_dict) -> None:
         for key, value in expected_results_dict.items():
             self.assertEqual(getUnicodeForGlyphname(key), value)
 
-    def test_list(self):
+    def test_list(self) -> None:
         self._check_dict(
             {
                 "AEacute": 0x1FC,
@@ -22,10 +22,10 @@ class TestAglfn(unittest.TestCase):
             }
         )
 
-    def test_uni_bmp(self):
+    def test_uni_bmp(self) -> None:
         self._check_dict({"union": 0x222A, "uni0162": 0x162})
 
-    def test_u(self):
+    def test_u(self) -> None:
         self._check_dict(
             {
                 "u": 0x75,
@@ -39,8 +39,8 @@ class TestAglfn(unittest.TestCase):
             }
         )
 
-    def test_ornaments(self):
+    def test_ornaments(self) -> None:
         self._check_dict({"orn000": 0xEA00, "orn999": 0xEA00 + 999})
 
-    def test_ligatures(self):
+    def test_ligatures(self) -> None:
         self._check_dict({"f_l": None, "uni0162_h": None})

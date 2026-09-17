@@ -4,7 +4,7 @@ from jkUnicode import UniInfo
 
 
 class TestUniInfo(unittest.TestCase):
-    def test_caching_block(self):
+    def test_caching_block(self) -> None:
         u = UniInfo(42)
         assert u.block == "Basic Latin"
         u.unicode = 4200
@@ -12,7 +12,7 @@ class TestUniInfo(unittest.TestCase):
         u.unicode = None
         assert u.block is None
 
-    def test_caching_category(self):
+    def test_caching_category(self) -> None:
         u = UniInfo(42)
         assert u.category == "Punctuation, Other"
         u.unicode = 4200
@@ -20,7 +20,7 @@ class TestUniInfo(unittest.TestCase):
         u.unicode = None
         assert u.category == "<undefined>"
 
-    def test_caching_category_short(self):
+    def test_caching_category_short(self) -> None:
         u = UniInfo(42)
         assert u.category_short == "Po"
         u.unicode = 4200
@@ -28,7 +28,7 @@ class TestUniInfo(unittest.TestCase):
         u.unicode = None
         assert u.category_short == "<undefined>"
 
-    def test_caching_glyphname(self):
+    def test_caching_glyphname(self) -> None:
         u = UniInfo(ord("Ä"))
         assert u.glyphname == "Adieresis"
         u.unicode = ord("ẞ")
@@ -36,7 +36,7 @@ class TestUniInfo(unittest.TestCase):
         u.unicode = None
         assert u.glyphname is None
 
-    def test_caching_decomposition_mapping(self):
+    def test_caching_decomposition_mapping(self) -> None:
         u = UniInfo(ord("Ä"))
         assert u.char == "Ä"
         assert u.decomposition_mapping == [0x41, 0x308]
@@ -47,7 +47,7 @@ class TestUniInfo(unittest.TestCase):
         u.unicode = None
         assert u.decomposition_mapping == []
 
-    def test_caching_lc_mapping(self):
+    def test_caching_lc_mapping(self) -> None:
         u = UniInfo(ord("Ä"))
         assert u.lc_mapping == 0xE4
         u.unicode = ord("Ü")
@@ -55,7 +55,7 @@ class TestUniInfo(unittest.TestCase):
         u.unicode = None
         assert u.lc_mapping is None
 
-    def test_caching_name(self):
+    def test_caching_name(self) -> None:
         u = UniInfo(ord("Ä"))
         assert u.name == "LATIN CAPITAL LETTER A WITH DIAERESIS"
         u.unicode = ord("Ü")
@@ -63,7 +63,7 @@ class TestUniInfo(unittest.TestCase):
         u.unicode = None
         assert u.name is None
 
-    def test_caching_nice_name(self):
+    def test_caching_nice_name(self) -> None:
         u = UniInfo(ord("Ä"))
         assert u.nice_name == "Latin capital letter A with diaeresis"
         u.unicode = ord("Ü")
@@ -71,7 +71,7 @@ class TestUniInfo(unittest.TestCase):
         u.unicode = None
         assert u.nice_name is None
 
-    def test_caching_script(self):
+    def test_caching_script(self) -> None:
         u = UniInfo(ord("ä"))
         assert u.script == "Latin"
         u.unicode = ord("π")
@@ -79,7 +79,7 @@ class TestUniInfo(unittest.TestCase):
         u.unicode = None
         assert u.script is None
 
-    def test_caching_uc_mapping(self):
+    def test_caching_uc_mapping(self) -> None:
         u = UniInfo(ord("ä"))
         assert u.uc_mapping == 0xC4
         u.unicode = ord("ü")
@@ -87,7 +87,7 @@ class TestUniInfo(unittest.TestCase):
         u.unicode = None
         assert u.uc_mapping is None
 
-    def test_char(self):
+    def test_char(self) -> None:
         u = UniInfo(ord("Ä"))
         assert u.char == "Ä"
         u.unicode = 0x1E9E
@@ -95,7 +95,7 @@ class TestUniInfo(unittest.TestCase):
         u.unicode = None
         assert u.char is None
 
-    def test_char_setter(self):
+    def test_char_setter(self) -> None:
         u = UniInfo(ord("Ä"))
         assert u.char == "Ä"
         u.char = "ẞ"
@@ -137,7 +137,7 @@ class TestUniInfo(unittest.TestCase):
     #     assert reuse_time < reinstantiate_time
     #     assert name == "PENCIL"
 
-    def test_repr(self):
+    def test_repr(self) -> None:
         u = UniInfo(ord("Ä"))
         assert str(u) == (
             "      Unicode: 0x00C4 (dec. 196)\n"

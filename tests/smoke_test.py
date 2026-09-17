@@ -4,5 +4,6 @@ from jkUnicode import UniInfo
 
 
 class SmokeTest(TestCase):
-    u = UniInfo(42)
-    assert u.block == "Basic Latin"
+    def test_minimal(self) -> None:
+        u = UniInfo(42)
+        assert u.block == "Basic Latin"

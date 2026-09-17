@@ -4,7 +4,7 @@ from jkUnicode.orthography import Orthography
 
 
 class TestOrthography(unittest.TestCase):
-    def test_instantiation_from_dict(self):
+    def test_instantiation_from_dict(self) -> None:
         ot = Orthography(
             info_obj=None,
             code="de",

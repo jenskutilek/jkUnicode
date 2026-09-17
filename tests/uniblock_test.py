@@ -4,13 +4,13 @@ from jkUnicode.uniBlock import get_block, get_codepoints, get_codepoints_min_max
 
 
 class TestUniScript(unittest.TestCase):
-    def test_get_block_0x4ff(self):
+    def test_get_block_0x4ff(self) -> None:
         assert get_block(0x4FF) == "Cyrillic"
 
-    def test_get_block_0x500(self):
+    def test_get_block_0x500(self) -> None:
         assert get_block(0x500) == "Cyrillic Supplement"
 
-    def test_get_codepoints(self):
+    def test_get_codepoints(self) -> None:
         # fmt: off
         assert get_codepoints("Cyrillic Supplement") == {
             1280, 1281, 1282, 1283, 1284, 1285, 1286, 1287, 1288, 1289, 1290, 1291,
@@ -20,5 +20,5 @@ class TestUniScript(unittest.TestCase):
         }
         # fmt: on
 
-    def test_get_codepoints_min_max(self):
+    def test_get_codepoints_min_max(self) -> None:
         assert get_codepoints_min_max("Cyrillic Supplement") == (1280, 1327)

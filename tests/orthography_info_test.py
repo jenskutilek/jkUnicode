@@ -4,18 +4,18 @@ from pathlib import Path
 from jkUnicode.orthography import OrthographyInfo
 
 
-def get_font_path(filename="Empty-Regular.ttf"):
+def get_font_path(filename="Empty-Regular.ttf") -> Path:
     return Path(__file__).parent / "data" / filename
 
 
-def get_cmap():
+def get_cmap() -> dict[int, str] | None:
     from fontTools.ttLib import TTFont
 
     return TTFont(get_font_path()).getBestCmap()
 
 
 class TestOrthographyInfo(unittest.TestCase):
-    def test_known_orthographies(self):
+    def test_known_orthographies(self) -> None:
         o = OrthographyInfo()
         orthographies = {f"{ot.name}: {ot.code}" for ot in o.orthographies}
         assert orthographies == {
@@ -375,7 +375,7 @@ class TestOrthographyInfo(unittest.TestCase):
             "Zulu: zu",
         }
 
-    def test_scan_full(self):
+    def test_scan_full(self) -> None:
         o = OrthographyInfo()
         o.cmap = get_cmap()
         supported = o.get_supported_orthographies(full_only=True)
@@ -443,7 +443,7 @@ class TestOrthographyInfo(unittest.TestCase):
             "Wolof: wo",
         }
 
-    def test_scan_base(self):
+    def test_scan_base(self) -> None:
         o = OrthographyInfo()
         o.cmap = get_cmap()
         supported = o.get_supported_orthographies(full_only=False)
@@ -519,7 +519,7 @@ class TestOrthographyInfo(unittest.TestCase):
             "Zulu: zu",
         }
 
-    def test_scan_minimal(self):
+    def test_scan_minimal(self) -> None:
         o = OrthographyInfo()
         o.cmap = get_cmap()
         supported = o.get_supported_orthographies_minimum()
@@ -575,7 +575,7 @@ class TestOrthographyInfo(unittest.TestCase):
             "Xhosa: xh",
         }
 
-    def test_almost_supported(self):
+    def test_almost_supported(self) -> None:
         # Check which orthographies are missing at most 3 characters
         o = OrthographyInfo()
         o.cmap = get_cmap()
@@ -608,7 +608,7 @@ class TestOrthographyInfo(unittest.TestCase):
             "Uzbek: uz",
         }
 
-    def test_get_missing(self):
+    def test_get_missing(self) -> None:
         o = OrthographyInfo()
         o.cmap = get_cmap()
         ot = o.orthography("de", territory="CH")
@@ -651,7 +651,7 @@ class TestOrthographyInfo(unittest.TestCase):
             8230,
         }
 
-    def test_get_missing_minimum(self):
+    def test_get_missing_minimum(self) -> None:
         o = OrthographyInfo()
         o.cmap = get_cmap()
         ot = o.orthography("agq")
@@ -678,7 +678,7 @@ class TestOrthographyInfo(unittest.TestCase):
             660,
         }
 
-    def test_get_missing_punctuation(self):
+    def test_get_missing_punctuation(self) -> None:
         o = OrthographyInfo()
         o.cmap = get_cmap()
         ot = o.orthography("de", territory="CH")
@@ -715,13 +715,13 @@ class TestOrthographyInfo(unittest.TestCase):
             8230,
         }
 
-    def test_get_missing_unknown(self):
+    def test_get_missing_unknown(self) -> None:
         o = OrthographyInfo()
         o.cmap = get_cmap()
         ot = o.orthography("jens")
         assert ot is None
 
-    def test_single_orthography(self):
+    def test_single_orthography(self) -> None:
         # Info about one orthography
         o = OrthographyInfo()
         ot = o.orthography("en", "DFLT", "ZA")
@@ -782,7 +782,7 @@ class TestOrthographyInfo(unittest.TestCase):
             122,
         }
 
-    def test_reverse(self):
+    def test_reverse(self) -> None:
         """
         Get orthographies that support a given codepoint.
         """

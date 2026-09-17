@@ -4,7 +4,7 @@ from jkUnicode.uniRangesBits import getNameForRangeBit, getUnicodesForRangeBit
 
 
 class TestUniRangesBits(unittest.TestCase):
-    def test_getUnicodesForRangeBit_1(self):
+    def test_getUnicodesForRangeBit_1(self) -> None:
         codes = getUnicodesForRangeBit(1)
         # fmt: off
         assert codes == {
@@ -20,10 +20,10 @@ class TestUniRangesBits(unittest.TestCase):
         }
         # fmt: on
 
-    def test_getNameForRangeBit_1(self):
+    def test_getNameForRangeBit_1(self) -> None:
         assert getNameForRangeBit(1) == "Latin-1 Supplement"
 
-    def test_getNameForRangeBit_5(self):
+    def test_getNameForRangeBit_5(self) -> None:
         assert (
             getNameForRangeBit(5) == "Spacing Modifier Letters, Modifier Tone Letters"
         )
