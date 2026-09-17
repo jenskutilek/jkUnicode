@@ -216,7 +216,7 @@ class UniInfo:
             if 0xE000 <= self._unicode < 0xF8FF:
                 return "<Private Use>"
             if 0xD800 <= self._unicode < 0xDB7F:
-                return f"<Non Private Use High Surrogate #{self._unicode - 0xD8000}>"
+                return f"<Non Private Use High Surrogate #{self._unicode - 0xD800}>"
             if 0xDB80 <= self._unicode < 0xDBFF:
                 return f"<Private Use High Surrogate #{self._unicode - 0xDB80}>"
             if 0xDC00 <= self._unicode < 0xDFFF:

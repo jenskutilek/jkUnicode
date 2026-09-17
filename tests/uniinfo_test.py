@@ -1,6 +1,6 @@
 import unittest
 
-from jkUnicode import UniInfo
+from jkUnicode import UniInfo, get_expanded_glyph_list
 
 
 class TestUniInfo(unittest.TestCase):
@@ -159,3 +159,29 @@ class TestUniInfo(unittest.TestCase):
             "         Name: None\n"
             "     Category: <undefined> (<undefined>)"
         )
+
+    def test_get_expanded_glyph_list_upper(self) -> None:
+        assert get_expanded_glyph_list([ord("A")]) == [(0x41, "A"), (0x61, "a")]
+
+    def test_get_expanded_glyph_list_lower(self) -> None:
+        assert get_expanded_glyph_list([ord("a")]) == [(0x41, "A"), (0x61, "a")]
+
+    def test_name_pua(self) -> None:
+        u = UniInfo(0xE001)
+        assert u.name == "<Private Use>"
+
+    def test_name_non_pua_high_surrogate(self) -> None:
+        u = UniInfo(0xD801)
+        assert u.name == "<Non Private Use High Surrogate #1>"
+
+    def test_name_pua_high_surrogate(self) -> None:
+        u = UniInfo(0xDB81)
+        assert u.name == "<Private Use High Surrogate #1>"
+
+    def test_name_low_surrogate(self) -> None:
+        u = UniInfo(0xDC01)
+        assert u.name == "<Low Surrogate #1>"
+
+    def test_decomposition_mapping(self) -> None:
+        u = UniInfo()
+        assert u.decomposition_mapping == []
