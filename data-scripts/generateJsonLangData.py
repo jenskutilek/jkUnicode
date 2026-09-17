@@ -4,9 +4,10 @@ import copy
 import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
+from typing import NotRequired, TypeAlias
 from zipfile import ZipFile
 
-from typing_extensions import NotRequired, TypeAlias, TypedDict
+from typing_extensions import TypedDict
 
 from jkUnicode.aglfn import getGlyphnameForUnicode
 from jkUnicode.tools.jsonhelpers import (
