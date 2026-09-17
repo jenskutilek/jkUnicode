@@ -63,6 +63,10 @@ build-backend = "uv_build"
 [tool.ruff]
 extend-exclude = ["stubs"]
 
+[tool.ruff.lint]
+future-annotations = false
+ignore = ["N999"]
+
 [tool.ruff.lint.isort]
 known-first-party = ["jkUnicode"]
 
