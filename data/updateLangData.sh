@@ -3,7 +3,7 @@
 # Check the URL if it is still current:
 # http://unicode.org/Public/cldr/
 # There seems to be no stable URL for the current version.
-curl -O https://unicode.org/Public/cldr/47/core.zip
+curl -O https://unicode.org/Public/cldr/48.2/core.zip
 #unzip core.zip -d core/
 
 # BCP 47 language subtags
