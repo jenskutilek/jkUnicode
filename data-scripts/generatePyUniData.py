@@ -177,24 +177,63 @@ def write_scripts() -> None:
     print("Writing Unicode Scripts ...")
     src_file = data_path / "Scripts.txt"
     if src_file.exists():
-        with open(module_path / "uniScriptData.py", "w", encoding="utf-8") as outfile:
-            outfile.write(gen_message)
-            outfile.write("uniScripts = {")
-            with open(src_file, encoding="utf-8") as f:
-                for line in f:
-                    line = line.strip()
-                    if not line or line.startswith("#"):
-                        continue
-                    elements = line.split(";")
-                    rng = elements[0].strip()
-                    script = elements[1].strip().split("#")[0].strip()
-                    if ".." in rng:
-                        start, end = rng.split("..")
+        # Read entries from the Scripts.txt file and parse them into a list
+        entries = []
+        with open(src_file, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                elements = line.split(";")
+                rng = elements[0].strip()
+                script = elements[1].strip().split("#")[0].strip()
+                if ".." in rng:
+                    # 0000..001F
+                    ss, es = rng.split("..")
+                    start = int(ss, 16)
+                    end = int(es, 16)
+                else:
+                    # 0020
+                    start = int(rng, 16)
+                    end = start
+                entries.append((start, end, script))
+        # The file is unsorted, sort the entries by first and last codepoint
+        entries.sort()
+
+        # Join adjacent ranges
+        unique_entries = []
+        cur_start = 0
+        cur_end = 0
+        cur_script = None
+        for start, end, script in entries:
+            if cur_script is None:
+                cur_script = script
+                cur_end = end
+            else:
+                if start == cur_end + 1:
+                    if script == cur_script:
+                        # Keep counting
+                        cur_end = end
                     else:
-                        start = rng
-                        end = rng
-                    outfile.write(f'\n    (0x{start}, 0x{end}): "{script}",')
-            outfile.write("\n}\n")
+                        unique_entries.append((cur_start, cur_end, cur_script))
+                        cur_start = start
+                        cur_end = end
+                        cur_script = script
+                else:
+                    unique_entries.append((cur_start, cur_end, cur_script))
+                    cur_start = start
+                    cur_end = end
+                    cur_script = script
+        assert cur_script is not None
+        unique_entries.append((cur_start, cur_end, cur_script))
+
+        # Build a list of strings and write it to the output file
+        data = [gen_message, "uniScripts = {"]
+        for start, end, script in unique_entries:
+            data.append(f'\n    (0x{start:04X}, 0x{end:04X}): "{script}",')
+        data.append("\n}\n")
+        with open(module_path / "uniScriptData.py", "w", encoding="utf-8") as outfile:
+            outfile.writelines(data)
         print("OK.")
     else:
         print(
