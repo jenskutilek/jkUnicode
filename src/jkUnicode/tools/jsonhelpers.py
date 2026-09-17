@@ -25,7 +25,7 @@ def clean_json_dir(path: Path):
     # orphaned files
     for file_path in path.iterdir():
         name = str(file_path)
-        if not name[0] == "." and name.lower().endswith(".json"):
+        if name[0] != "." and name.lower().endswith(".json"):
             try:
                 (path / name).unlink()
             except FileNotFoundError:
