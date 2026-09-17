@@ -10,10 +10,8 @@ def get_codepoint_from_str(s) -> int:
        0x1E9E
     """
     sl = s.lower()
-    if sl.startswith("0x"):
-        return int(sl[2:], 16)
-    elif sl.startswith("u+"):
-        return int(sl[2:], 16)
+    if sl.startswith(("0x", "u+")):
+        return int(sl[2:], 16)  # noqa: FURB166
     else:
         return int(sl)
 
