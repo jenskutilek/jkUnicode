@@ -75,16 +75,32 @@ def write_category() -> None:
     print("Writing Unicode Categories ...")
     src_file = data_path / "UnicodeData.txt"
     if src_file.exists():
-        cat: str | None = None
-        data = [gen_message, "uniCat = {"]
+        # Read code and category from source file
+        categories: list[tuple[str, str]] = []
         with open(src_file, encoding="utf-8") as f:
             for line in f:
                 elements = line.split(";")
-                code = elements[0]
-                cat = elements[2]
-                data.append(f'\n    0x{code}: "{cat}",')
-        data.append("\n}\n")
-        with open(module_path / "uniCat.py", "w", encoding="utf-8") as outfile:
+                categories.append((elements[0], elements[2]))
+
+        # Prepare the output data
+        data = [gen_message, "uniCat = {\n"]
+        start_code = "0000"
+        prev_code = "0000"
+        prev_cat = None
+        for code, cat in categories:
+            if prev_cat is None:
+                start_code = code
+                prev_cat = cat
+            elif prev_cat != cat:
+                data.append(f'    (0x{start_code}, 0x{prev_code}): "{prev_cat}",\n')
+                start_code = code
+                prev_cat = cat
+            prev_code = code
+        data.append(f'    (0x{start_code}, 0x{prev_code}): "{prev_cat}",\n')
+        data.append("}\n")
+
+        # Write the data to the generated Python file
+        with open(module_path / "uniCatData.py", "w", encoding="utf-8") as outfile:
             outfile.writelines(data)
         print("OK.")
     else:
