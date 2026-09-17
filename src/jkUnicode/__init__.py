@@ -3,7 +3,7 @@ from functools import cached_property
 from jkUnicode.aglfn import getGlyphnameForUnicode
 from jkUnicode.uniBlock import get_block
 from jkUnicode.uniCase import uniLowerCaseMapping, uniUpperCaseMapping
-from jkUnicode.uniCat import get_category
+from jkUnicode.uniCat import uniCat
 from jkUnicode.uniDecomposition import uniDecompositionMapping
 from jkUnicode.uniName import uniName
 from jkUnicode.uniNiceName import get_nice_name
@@ -181,7 +181,7 @@ class UniInfo:
         if self._unicode is None:
             return None
 
-        return get_category(self._unicode)
+        return uniCat.get(self._unicode, "<undefined>")
 
     @property
     def char(self) -> str | None:
