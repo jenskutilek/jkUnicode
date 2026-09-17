@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import codecs
 import copy
 import re
 import xml.etree.ElementTree as ET
@@ -76,7 +75,7 @@ def generate_language_tags(data_path: Path) -> None:
         )
         return
 
-    with codecs.open(str(data_path), "rb", "utf-8") as f:
+    with open(str(data_path), "r", encoding="utf-8") as f:
         _ = f.readline()
         lines = f.readlines()
 

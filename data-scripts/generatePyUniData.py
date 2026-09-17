@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import argparse
-import codecs
 from pathlib import Path
 
 base_path = Path(__file__).parent.parent
@@ -20,12 +19,10 @@ def write_names():
     print("Writing Unicode Character Names ...")
     src_file = data_path / "UnicodeData.txt"
     if src_file.exists():
-        with codecs.open(
-            str(module_path / "uniName.py"), "w", encoding="utf-8"
-        ) as outfile:
+        with open(module_path / "uniName.py", "w", encoding="utf-8") as outfile:
             outfile.write(gen_message)
             outfile.write("uniName = {")
-            with codecs.open(str(src_file), encoding="utf-8") as f:
+            with open(src_file, encoding="utf-8") as f:
                 for line in f:
                     elements = line.split(";")
                     outfile.write(f'\n    0x{elements[0]}: "{elements[1]}",')
@@ -43,14 +40,12 @@ def write_case_mappings():
     print("Writing Unicode Case Mappings ...")
     src_file = data_path / "UnicodeData.txt"
     if src_file.exists():
-        with codecs.open(
-            str(module_path / "uniCase.py"), "w", encoding="utf-8"
-        ) as outfile:
+        with open(module_path / "uniCase.py", "w", encoding="utf-8") as outfile:
             outfile.write(gen_message)
             outfile.write("uniUpperCaseMapping = {")
             uc = []
             lc = []
-            with codecs.open(str(src_file), encoding="utf-8") as f:
+            with open(src_file, encoding="utf-8") as f:
                 for line in f:
                     elements = line.strip().split(";")
 
@@ -82,12 +77,10 @@ def write_category():
     print("Writing Unicode Categories ...")
     src_file = data_path / "UnicodeData.txt"
     if src_file.exists():
-        with codecs.open(
-            str(module_path / "uniCat.py"), "w", encoding="utf-8"
-        ) as outfile:
+        with open(module_path / "uniCat.py", "w", encoding="utf-8") as outfile:
             outfile.write(gen_message)
             outfile.write("uniCat = {")
-            with codecs.open(str(src_file), encoding="utf-8") as f:
+            with open(src_file, encoding="utf-8") as f:
                 for line in f:
                     elements = line.split(";")
                     outfile.write(f'\n    0x{elements[0]}: "{elements[2]}",')
@@ -105,12 +98,10 @@ def write_blocks():
     print("Writing Unicode Blocks ...")
     src_file = data_path / "Blocks.txt"
     if src_file.exists():
-        with codecs.open(
-            str(module_path / "uniBlockData.py"), "w", encoding="utf-8"
-        ) as outfile:
+        with open(module_path / "uniBlockData.py", "w", encoding="utf-8") as outfile:
             outfile.write(gen_message)
             outfile.write("uniBlocks = {")
-            with codecs.open(str(src_file), encoding="utf-8") as f:
+            with open(src_file, encoding="utf-8") as f:
                 for i, line in enumerate(f):
                     if line.startswith("#"):
                         continue
@@ -155,15 +146,15 @@ def write_decomposition():
     print("Writing Unicode Decomposition Mappings ...")
     src_file = data_path / "UnicodeData.txt"
     if src_file.exists():
-        with codecs.open(
-            str(module_path / "uniDecomposition.py"),
+        with open(
+            module_path / "uniDecomposition.py",
             "w",
             encoding="utf-8",
         ) as outfile:
             outfile.write(gen_message)
             outfile.write("uniDecompositionMapping = {")
             dc = []
-            with codecs.open(str(src_file), encoding="utf-8") as f:
+            with open(src_file, encoding="utf-8") as f:
                 for line in f:
                     elements = line.strip().split(";")
 
@@ -193,12 +184,10 @@ def write_scripts():
     print("Writing Unicode Scripts ...")
     src_file = data_path / "Scripts.txt"
     if src_file.exists():
-        with codecs.open(
-            str(module_path / "uniScriptData.py"), "w", encoding="utf-8"
-        ) as outfile:
+        with open(module_path / "uniScriptData.py", "w", encoding="utf-8") as outfile:
             outfile.write(gen_message)
             outfile.write("uniScripts = {")
-            with codecs.open(str(src_file), encoding="utf-8") as f:
+            with open(src_file, encoding="utf-8") as f:
                 for line in f:
                     line = line.strip()
                     if not line or line.startswith("#"):
@@ -227,12 +216,10 @@ def write_aglfn():
     print("Writing AGLFN data ...")
     src_file = data_path / "aglfn.txt"
     if src_file.exists():
-        with codecs.open(
-            str(module_path / "aglfnData.py"), "w", encoding="utf-8"
-        ) as outfile:
+        with open(module_path / "aglfnData.py", "w", encoding="utf-8") as outfile:
             outfile.write(gen_message)
             outfile.write("nameToUnicode = {")
-            with codecs.open(str(src_file), encoding="utf-8") as f:
+            with open(src_file, encoding="utf-8") as f:
                 for i, line in enumerate(f):
                     if line[0] != "#":
                         elements = line.split(";")
