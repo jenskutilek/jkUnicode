@@ -49,19 +49,19 @@ xml_re = re.compile(r"^common/main/.+\.xml$")
 en_path = "common/main/en.xml"
 
 
-def extract_dict(root, key):
+def extract_dict(root, key) -> dict:
     elements = root.findall(key)
     d = {e.attrib["type"]: e.text for e in elements}
     return d
 
 
-def extract_char_dict(root, key):
+def extract_char_dict(root, key) -> dict:
     elements = root.findall(key)
     d = {e.attrib["type"]: e.text for e in elements}
     return d
 
 
-def format_char_list(char_list):
+def format_char_list(char_list) -> list[str]:
     return [
         f"0x{ord(cc):04X} {cc} {getGlyphnameForUnicode(ord(cc))}" for cc in char_list
     ]
@@ -212,7 +212,7 @@ def extract_lang_code(internal_path: str, root) -> str | None:
     return None
 
 
-def extract_script_code(internal_path, root) -> str | None:
+def extract_script_code(internal_path: str, root) -> str | None:
     # Extract script
     script = root.findall("identity/script")
     if len(script) == 0:
@@ -225,7 +225,7 @@ def extract_script_code(internal_path, root) -> str | None:
     return None
 
 
-def extract_territory_code(internal_path, root) -> str | None:
+def extract_territory_code(internal_path: str, root) -> str | None:
     # Extract territory
     territory = root.findall("identity/territory")
     if len(territory) == 0:
@@ -261,7 +261,7 @@ def extract_characters(root) -> CharDict:
 
 
 def parse_lang_char_data(
-    z, language_dict, script_dict, territory_dict
+    z: ZipFile, language_dict, script_dict, territory_dict
 ) -> tuple[LanguageCharsDict, list[str]]:
     language_chars: LanguageCharsDict = {}
     ignored_languages = copy.deepcopy(language_dict)

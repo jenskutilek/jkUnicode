@@ -14,7 +14,7 @@ gen_message = (
 )
 
 
-def write_names():
+def write_names() -> None:
     # Unicode names
     print("Writing Unicode Character Names ...")
     src_file = data_path / "UnicodeData.txt"
@@ -35,7 +35,7 @@ def write_names():
         )
 
 
-def write_case_mappings():
+def write_case_mappings() -> None:
     # Unicode names
     print("Writing Unicode Case Mappings ...")
     src_file = data_path / "UnicodeData.txt"
@@ -70,7 +70,7 @@ def write_case_mappings():
         )
 
 
-def write_category():
+def write_category() -> None:
     # Unicode category names
     print("Writing Unicode Categories ...")
     src_file = data_path / "UnicodeData.txt"
@@ -91,7 +91,7 @@ def write_category():
         )
 
 
-def write_blocks():
+def write_blocks() -> None:
     # Unicode blocks
     print("Writing Unicode Blocks ...")
     src_file = data_path / "Blocks.txt"
@@ -130,7 +130,7 @@ def write_blocks():
         print("WARNING: File Blocks.txt not found, Unicode block data not regenerated.")
 
 
-def write_decomposition():
+def write_decomposition() -> None:
     # Unicode decomposition
     print("Writing Unicode Decomposition Mappings ...")
     src_file = data_path / "UnicodeData.txt"
@@ -169,7 +169,7 @@ def write_decomposition():
         )
 
 
-def write_scripts():
+def write_scripts() -> None:
     # Unicode scripts
     print("Writing Unicode Scripts ...")
     src_file = data_path / "Scripts.txt"
@@ -199,7 +199,7 @@ def write_scripts():
         )
 
 
-def write_aglfn():
+def write_aglfn() -> None:
     # Adobe Glyph List for New Fonts
     print("Writing AGLFN data ...")
     src_file = data_path / "aglfn.txt"

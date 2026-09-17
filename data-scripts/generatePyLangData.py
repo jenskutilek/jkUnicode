@@ -13,7 +13,7 @@ languages_path = json_path / "languages"
 overrides_path = json_path / "overrides"
 
 
-def update_language_dict(language_dict, override_dict):
+def update_language_dict(language_dict, override_dict) -> None:
     for script, territory_dict in override_dict.items():
         if script in language_dict:
             # Check sub dicts
