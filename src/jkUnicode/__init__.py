@@ -6,7 +6,7 @@ from jkUnicode.uniCase import uniLowerCaseMapping, uniUpperCaseMapping
 from jkUnicode.uniCat import uniCat
 from jkUnicode.uniDecomposition import uniDecompositionMapping
 from jkUnicode.uniName import uniName
-from jkUnicode.uniNiceName import nice_name_rules
+from jkUnicode.uniNiceName import get_nice_name
 from jkUnicode.uniScript import get_script
 
 categoryName = {
@@ -230,12 +230,7 @@ class UniInfo:
         if self.name is None:
             return None
 
-        for transform_function in nice_name_rules:
-            result = transform_function(self.name)
-            if result:
-                return result
-
-        return self.name.capitalize()
+        return get_nice_name(self.name)
 
     @cached_property
     def decomposition_mapping(self) -> list[int]:

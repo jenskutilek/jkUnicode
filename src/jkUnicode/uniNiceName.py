@@ -2,14 +2,23 @@ import re
 
 re_small_letter = re.compile(r"^(.+SMALL LETTER )([A-Z\- ]+?)( WITH.+)?$")
 re_capital_letter = re.compile(r"^(.+CAPITAL LETTER )([A-Z\- ]+?)( WITH.+)?$")
-re_allah = re.compile("^(.+?)(ALLAH)(.+)?$")
+re_allah = re.compile(r"^(.+?)\b(ALLAH)(.+)?$")
 
 letter_names = {
     "AE": "AE",
 }
 
 
-def transform_small_letter(name):
+def get_nice_name(name: str) -> str:
+    for transform_function in nice_name_rules:
+        result = transform_function(name)
+        if result:
+            return result
+
+    return name.capitalize()
+
+
+def transform_small_letter(name) -> str | bool:
     # print("transform_small_letter", name)
     m = re_small_letter.match(name)
     if m:
@@ -42,7 +51,7 @@ def transform_capital_letter(name):
         result = m.group(1).capitalize()
         if " " in m.group(2):
             parts = m.group(2).split()
-            if parts[0] in ("SHORT", "STRAIGHT"):
+            if parts[0] in ("LONG", "SHORT", "STRAIGHT"):
                 parts[0] = parts[0].lower()
                 for i in range(1, len(parts)):
                     parts[i] = parts[i].title()
@@ -65,7 +74,6 @@ def transform_allah(name):
         result = f"{m.group(1).capitalize()}{m.group(2).title()}"
         if m.group(3) is not None:
             result += f"{m.group(3).lower()}"
-        # print(result)
         return result
     return False
 
