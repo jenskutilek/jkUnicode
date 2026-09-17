@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # This script loads some data from Hyperglot and stores it in a format compatible to
 # jkUnicode
 
@@ -980,7 +982,7 @@ def reduced_and_sorted(input):
 
 
 def code_points_reduced(str):
-    code_points = set([ord(c) for c in "".join(str.split())])
+    code_points = {ord(c) for c in "".join(str.split())}
     # ^ Hyperglot sometimes contains duplicates, usually combining diacritics.
     # 	Huh? Why are combining diacritics to be found in the base/auxilliary characters?
     # TODO: Tidy this up?

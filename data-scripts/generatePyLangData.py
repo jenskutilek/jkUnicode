@@ -99,8 +99,8 @@ else:
                 print(f"WARNING: Language '{code}' requested, but JSON file not found.")
 
         if language_dict:
-            for script, territory_dict in language_dict.items():
-                for territory, char_dict in territory_dict.items():
+            for territory_dict in language_dict.values():
+                for char_dict in territory_dict.values():
                     # Remove all but codepoint information from the "unicodes"
                     # dict key
                     for cat in ["base", "optional", "punctuation"]:

@@ -58,11 +58,9 @@ def write_case_mappings():
                     lcm = elements[13]
                     if lcm:
                         lc.append((elements[0], lcm))
-            for item in uc:
-                outfile.write("\n    0x%s: 0x%s," % item)
+            outfile.writelines("\n    0x{}: 0x{},".format(*item) for item in uc)
             outfile.write("\n}\n\nuniLowerCaseMapping = {")
-            for item in lc:
-                outfile.write("\n    0x%s: 0x%s," % item)
+            outfile.writelines("\n    0x{}: 0x{},".format(*item) for item in lc)
             outfile.write("\n}\n")
         print("OK.")
     else:
@@ -108,30 +106,21 @@ def write_blocks():
                     if len(line.strip()) > 0:
                         elements = line.split("; ")
                         if len(elements) != 2:
-                            print(
-                                "ERROR in Line %i while splitting line: %s"
-                                % (i, elements)
-                            )
-                            print("      %s" % line)
+                            print(f"ERROR in Line {i} while splitting line: {elements}")
+                            print(f"      {line}")
                         else:
                             c_range, name = elements
                             start_end = c_range.split("..")
                             if len(start_end) != 2:
                                 print(
-                                    "ERROR in Line %i while splitting range: %s"
-                                    % (i, start_end)
+                                    f"ERROR in Line {i} while splitting range: {start_end}"
                                 )
-                                print("      %s" % line)
+                                print(f"      {line}")
                             else:
                                 start = int(start_end[0], 16)
                                 end = int(start_end[1], 16)
                                 outfile.write(
-                                    '\n    (0x%04X, 0x%04X): "%s",'
-                                    % (
-                                        start,
-                                        end,
-                                        name.strip(),
-                                    )
+                                    f'\n    (0x{start:04X}, 0x{end:04X}): "{name.strip()}",'
                                 )
                                 if False:
                                     outfile.write(f"  # {end - start + 1} chars")
@@ -165,11 +154,12 @@ def write_decomposition():
                         if not codes[0].startswith("<"):
                             dc.append((elements[0], codes))
 
-            for code, decomp_sequence in dc:
-                outfile.write(
-                    "\n    0x%s: [%s],"
-                    % (code, ", ".join(["0x%s" % d for d in decomp_sequence]))
+            outfile.writelines(
+                "\n    0x{}: [{}],".format(
+                    code, ", ".join([f"0x{d}" for d in decomp_sequence])
                 )
+                for code, decomp_sequence in dc
+            )
             outfile.write("\n}\n")
         print("OK.")
     else:
@@ -200,9 +190,7 @@ def write_scripts():
                     else:
                         start = rng
                         end = rng
-                    outfile.write(
-                        '\n    (0x{}, 0x{}): "{}",'.format(start, end, script)
-                    )
+                    outfile.write(f'\n    (0x{start}, 0x{end}): "{script}",')
             outfile.write("\n}\n")
         print("OK.")
     else:
@@ -224,15 +212,10 @@ def write_aglfn():
                     if line[0] != "#":
                         elements = line.split(";")
                         if len(elements) != 3:
-                            print("ERROR parsing line %i: %s" % (i, line))
+                            print(f"ERROR parsing line {i}: {line}")
                         else:
                             outfile.write(
-                                '\n    "%s": 0x%s,  # %s'
-                                % (
-                                    elements[1],
-                                    elements[0],
-                                    elements[2].strip(),
-                                )
+                                f'\n    "{elements[1]}": 0x{elements[0]},  # {elements[2].strip()}'
                             )
             outfile.write("\n}\n")
         print("OK.")

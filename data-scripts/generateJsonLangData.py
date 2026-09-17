@@ -63,8 +63,7 @@ def extract_char_dict(root, key):
 
 def format_char_list(char_list):
     return [
-        "0x{:04X} {} {}".format(ord(cc), cc, getGlyphnameForUnicode(ord(cc)))
-        for cc in char_list
+        f"0x{ord(cc):04X} {cc} {getGlyphnameForUnicode(ord(cc))}" for cc in char_list
     ]
 
 
@@ -329,23 +328,15 @@ def parse_lang_char_data(
             # Build name including script or territory
             if script == "DFLT":
                 if territory != "dflt":
-                    tn = (
-                        territory_dict[territory]
-                        if territory in territory_dict
-                        else territory
-                    )
+                    tn = territory_dict.get(territory, territory)
                     name += f" ({tn})"
             else:
                 if territory == "dflt":
-                    sn = script_dict[script] if script in script_dict else script
+                    sn = script_dict.get(script, script)
                     name += f" ({sn})"
                 else:
-                    sn = script_dict[script] if script in script_dict else script
-                    tn = (
-                        territory_dict[territory]
-                        if territory in territory_dict
-                        else territory
-                    )
+                    sn = script_dict.get(script, script)
+                    tn = territory_dict.get(territory, territory)
                     name += f" ({sn}, {tn})"
 
             assert territory is not None
