@@ -22,3 +22,9 @@ class TestUniScript(unittest.TestCase):
 
     def test_get_codepoints_min_max(self) -> None:
         assert get_codepoints_min_max("Cyrillic Supplement") == (1280, 1327)
+
+    def test_get_codepoints_min_max_none(self) -> None:
+        assert get_codepoints_min_max("This block doesn't exist") is None
+
+    def test_get_codepoints_empty(self) -> None:
+        assert get_codepoints("This block doesn't exist") == set()
