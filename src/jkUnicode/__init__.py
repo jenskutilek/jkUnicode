@@ -1,3 +1,4 @@
+import logging
 from functools import cached_property
 from typing import TYPE_CHECKING
 
@@ -12,6 +13,23 @@ from jkUnicode.uniScript import get_script
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
+
+logger = logging.getLogger(__name__)
+
+try:
+    from warnings import deprecated
+except ImportError:
+    # Python 3.11 doesn't have "deprecated"
+    def deprecated(message):
+        def deprecated_decorator(func):
+            def deprecated_func(*args, **kwargs):
+                logger.warning(f"{func.__name__} is deprecated. {message}")
+                result = func(*args, **kwargs)
+                return result
+
+            return deprecated_func
+
+        return deprecated_decorator
 
 
 categoryName = {
@@ -91,6 +109,7 @@ def get_expanded_glyph_list(
     return sorted(glyphs)
 
 
+@deprecated("Use chr(code) directly")
 def getUnicodeChar(code: int) -> str:
     """
     Return the Unicode character for a Unicode codepoint.
