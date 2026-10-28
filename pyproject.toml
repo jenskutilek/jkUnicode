@@ -1,6 +1,6 @@
 [project]
 name = "jkUnicode"
-version = "2.7.0"
+version = "2.7.1"
 description = "Unicode support libraries"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -39,9 +39,9 @@ woff = ["fonttools[woff] >= 4.65.0"]
 
 [dependency-groups]
 dev = [
-  "hyperglot >= 0.8.1",
-  "mypy >= 2.3.1",
-  "ruff >= 0.16.8",
+  "hyperglot >= 0.8.2",
+  "mypy >= 2.4.0",
+  "ruff >= 0.17.3",
 ]
 doc = [
   "sphinx_rtd_theme >= 3.1.0",
@@ -49,15 +49,15 @@ doc = [
 ]
 test = [
   "pytest-cov >= 7.1.0",
-  "pytest >= 9.1.1",
-  "tox-gh >= 1.8.0",
-  "tox-uv >= 1.36.0",
-  "tox >= 4.61.5",
+  "pytest >= 9.2.0",
+  "tox-gh >= 1.9.1",
+  "tox-uv >= 1.37.2",
+  "tox >= 4.67.4",
   { include-group = "dev" },
 ]
 
 [build-system]
-requires = ["uv_build>=0.12.15,<0.14"]
+requires = ["uv_build>=0.13.6,<0.14"]
 build-backend = "uv_build"
 
 [tool.ruff]
