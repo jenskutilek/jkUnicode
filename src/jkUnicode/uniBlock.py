@@ -15,7 +15,10 @@ for k, v in uniBlockToName.items():
 def get_block(codepoint: int | None) -> str | None:
     if codepoint is None:
         return None
-    return uniBlockToName.get(codepoint)
+    try:
+        return uniBlockToName[codepoint]
+    except KeyError:
+        return None
 
 
 def get_codepoints_min_max(block_name: str) -> tuple[int, int] | None:
