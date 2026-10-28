@@ -28,7 +28,7 @@ class Buffer:
             return self._str
 
         group = str(m.groups(0)[0])
-        return getUnicodeChar(int(group, 16))
+        return chr(int(group, 16))
 
     def __repr__(self) -> str:
         return self._str
