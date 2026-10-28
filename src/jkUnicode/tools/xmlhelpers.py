@@ -1,9 +1,7 @@
 # The dirty hacky stuff is outsourced into this file
 
 from re import compile
-from typing import Any, List
-
-from jkUnicode import getUnicodeChar
+from typing import Any
 
 # Regex to match unicode sequences, e.g. \u0302
 unicode_seq = compile("^u([0-9A-F]+)")
@@ -38,7 +36,7 @@ class Buffer:
 
 class FilteredList:
     def __init__(self) -> None:
-        self._value: List[Any] = []
+        self._value: list[Any] = []
 
     def add(self, value: Any) -> None:
         if value:
@@ -119,7 +117,7 @@ def unescape_char_list(xml_char_list: str):
     return filtered.get()
 
 
-def filtered_char_list(xml_char_list: str, debug: bool = False) -> List[str]:
+def filtered_char_list(xml_char_list: str, debug: bool = False) -> list[str]:
     # Filter backslashes and other peculiarities of the XML format from the
     # character list
     if xml_char_list[0] == "[" and xml_char_list[-1] == "]":
