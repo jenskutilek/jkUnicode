@@ -11,7 +11,7 @@ from jkUnicode.uniNiceName import get_nice_name
 from jkUnicode.uniScript import get_script
 
 if TYPE_CHECKING:
-    from collections.abc import Sequence
+    from collections.abc import Iterable
 
 
 categoryName = {
@@ -49,8 +49,8 @@ categoryName = {
 
 
 def get_expanded_glyph_list(
-    unicodes: "Sequence[int]", ui: "UniInfo | None" = None
-) -> list[tuple[int, str | None]]:
+    unicodes: "Iterable[int]", ui: "UniInfo | None" = None
+) -> list[tuple[int, str]]:
     """
     "Expand" or annotate a list of codepoints.
 
@@ -60,26 +60,35 @@ def get_expanded_glyph_list(
     codepoint value.
 
     Args:
-        unicodes (Sequence[int]): A sequence of codepoints.
+        unicodes (Iterable[int]): A sequence of codepoints.
         ui (UniInfo | None, optional): The UniInfo instance to use. If None, one will be
             instantiated. Defaults to None.
 
     Returns:
-        list[tuple[int, str | None]]: The expanded list of codepoints and glyph names.
+        list[tuple[int, str]]: The expanded list of codepoints and glyph names.
     """
-    glyphs = []
+    glyphs: set[tuple[int, str]] = set()
     if ui is None:
         ui = UniInfo(0)
     for ch in unicodes:
         ui.unicode = ch
-        glyphs.append((ch, ui.glyphname))
+        if ui.glyphname is not None:
+            glyphs.add((ch, ui.glyphname))
+        else:
+            logger.error(f"Could not determine glyph name for codepoint {ch:04x}")
         if ui.lc_mapping is not None:
             ui.unicode = ui.lc_mapping
-            glyphs.append((ui.unicode, ui.glyphname))
+            if ui.glyphname is not None:
+                glyphs.add((ui.unicode, ui.glyphname))
+            else:
+                logger.error(f"Could not determine glyph name for codepoint {ch:04x}")
         elif ui.uc_mapping is not None:
             ui.unicode = ui.uc_mapping
-            glyphs.append((ui.unicode, ui.glyphname))
-    return sorted(set(glyphs))
+            if ui.glyphname is not None:
+                glyphs.add((ui.unicode, ui.glyphname))
+            else:
+                logger.error(f"Could not determine glyph name for codepoint {ch:04x}")
+    return sorted(glyphs)
 
 
 def getUnicodeChar(code: int) -> str:
