@@ -334,12 +334,10 @@ class UniInfo:
         if self._unicode is None:
             return None
 
-        return uniUpperCaseMapping.get(self._unicode, None)
+        return uniUpperCaseMapping.get(self._unicode)
 
     @cached_property
     def script(self) -> str | None:
-        if self._unicode is None:
-            return None
         """
         The script property of the current codepoint.
 
