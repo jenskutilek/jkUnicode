@@ -144,7 +144,7 @@ def filtered_char_list(xml_char_list: str, debug: bool = False) -> list[str]:
 
     if debug:
         print(final)
-    return sorted(list(set(final)))
+    return sorted(set(final))
 
 
 if __name__ == "__main__":
