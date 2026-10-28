@@ -1,4 +1,5 @@
 from functools import cached_property
+from typing import TYPE_CHECKING
 
 from jkUnicode.aglfn import getGlyphnameForUnicode
 from jkUnicode.uniBlock import get_block
@@ -8,6 +9,10 @@ from jkUnicode.uniDecomposition import uniDecompositionMapping
 from jkUnicode.uniName import uniName
 from jkUnicode.uniNiceName import get_nice_name
 from jkUnicode.uniScript import get_script
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+
 
 categoryName = {
     "Lu": "Letter, Uppercase",
@@ -44,7 +49,7 @@ categoryName = {
 
 
 def get_expanded_glyph_list(
-    unicodes: list[int], ui: "UniInfo | None" = None
+    unicodes: "Sequence[int]", ui: "UniInfo | None" = None
 ) -> list[tuple[int, str | None]]:
     """ "Expand" or annotate a list of codepoints.
 

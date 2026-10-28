@@ -12,21 +12,17 @@ for k, v in uniBlockToName.items():
         print(f"ERROR: Duplicate block name: {v}")
 
 
-def get_block(codepoint) -> str | None:
-    try:
-        return uniBlockToName[codepoint]
-    except KeyError:
+def get_block(codepoint: int | None) -> str | None:
+    if codepoint is None:
         return None
+    return uniBlockToName.get(codepoint)
 
 
-def get_codepoints_min_max(block_name) -> tuple[int, int] | None:
-    try:
-        return uniNameToBlock[block_name]
-    except KeyError:
-        return None
+def get_codepoints_min_max(block_name: str) -> tuple[int, int] | None:
+    return uniNameToBlock.get(block_name)
 
 
-def get_codepoints(block_name) -> set[int]:
+def get_codepoints(block_name: str) -> set[int]:
     try:
         low, high = uniNameToBlock[block_name]
         return set(range(low, high + 1))
