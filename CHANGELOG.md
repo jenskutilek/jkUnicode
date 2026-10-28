@@ -1,6 +1,6 @@
 # Changelog
 
-## v2.7.1
+## v2.7.0 to v2.7.2
 
 - Update Unicode data to v18 and CLDR data to v48.2
 - Bring back Python 3.11, add Python 3.15
@@ -8,6 +8,7 @@
 - Update dependencies
 - Fix path in data scripts
 - Add more typing and tests
+- Deprecate getUnicodeChar()
 
 ## v2.6.0
 
